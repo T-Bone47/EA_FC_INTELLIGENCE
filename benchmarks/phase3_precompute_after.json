@@ -1,0 +1,57 @@
+{
+ "after_precompute": {
+  "intelligence_cm": [
+   805.9,
+   802.7,
+   778.5,
+   782.0
+  ],
+  "full_pool": [
+   794.6,
+   936.2,
+   838.1,
+   810.1
+  ],
+  "archetype_st": [
+   296.2,
+   301.2,
+   381.6,
+   287.2
+  ]
+ },
+ "before": {
+  "intelligence_cm": [
+   854.4,
+   857.4,
+   863.5
+  ],
+  "full_pool": [
+   880.3,
+   817.9,
+   786.9
+  ]
+ },
+ "card_pool_inmemory": {
+  "note": "in-memory card candidates, entity_scope=ut_card, full intelligence layers; [cold_ms, warm_min, warm_avg]",
+  "1000": [
+   72.1,
+   55.0,
+   56.0
+  ],
+  "5000": [
+   367.0,
+   283.8,
+   301.7
+  ],
+  "10000": [
+   774.2,
+   632.5,
+   668.7
+  ]
+ },
+ "load_cards_db": {
+  "first_ms": 34.3,
+  "cached_ms": 1.42,
+  "rows": 60
+ }
+}

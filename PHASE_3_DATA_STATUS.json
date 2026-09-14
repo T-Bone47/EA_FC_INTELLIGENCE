@@ -1,0 +1,181 @@
+{
+  "phase": "PHASE_3_CARD_INTELLIGENCE",
+  "generated_at": "2026-09-14T14:07:03.151028+00:00",
+  "engine_version": "2.2.0",
+  "overall": "COMPLETE_DATA_READY__PRODUCTION_CARD_DATA_BLOCKED_EXTERNALLY",
+  "game_versions": {
+    "FC26": {
+      "players": {
+        "status": "AVAILABLE",
+        "rows": 16228,
+        "source": "kaggle_justdhia_ea_fc26_player_ratings (CC0, LICENSED, CLEARED)"
+      },
+      "ut_cards": {
+        "status": "NO_DATA",
+        "production_rows": 0,
+        "synthetic_rows_firewalled": 60,
+        "reason": "no legally permitted structured FC26 UT card source found (see sources)"
+      },
+      "card_prices": {
+        "status": "NO_DATA",
+        "production_rows": 0,
+        "note": "budget=BUDGET_UNVERIFIED, value=VALUE_UNAVAILABLE everywhere; history never manufactured"
+      },
+      "card_roles": {
+        "status": "NO_DATA",
+        "rows": 0
+      },
+      "card_evolutions": {
+        "status": "NO_DATA",
+        "rows": 0
+      },
+      "chemistry_rules": {
+        "status": "NO_VERIFIED_RULES",
+        "rows": 0,
+        "chemistry_score": "UNKNOWN",
+        "structural_fit": "AVAILABLE (labelled, not chemistry)"
+      },
+      "meta_signals": {
+        "status": "NO_DATA",
+        "rows": 0,
+        "firewall": "hard (module has no canonical write path)"
+      },
+      "rarity_reference": {
+        "status": "PARTIAL",
+        "note": "card_rarity rows exist for fixture vocabularies; version-aware, unknown rarity stays UNKNOWN"
+      },
+      "playstyle_vocabulary": {
+        "status": "AVAILABLE",
+        "rows": 36
+      },
+      "ingestion_runs": {
+        "status": "AVAILABLE",
+        "production_card_activations": 0
+      }
+    },
+    "FC27": {
+      "status": "NO_DATA_WALL_INTACT",
+      "activation": "one-command ready (scripts/activate_card_dataset.py --game-version FC27) once a permitted dataset exists"
+    }
+  },
+  "sources": {
+    "ea_official_fut_database": {
+      "usage_status": "UNKNOWN",
+      "legal_gate": "REQUIRED",
+      "finding": "discontinued (404)"
+    },
+    "ea_official_ratings": {
+      "usage_status": "OFFICIAL",
+      "note": "base player ratings only, JS-gated; no card feed"
+    },
+    "kaggle_justdhia_ea_fc26_player_ratings": {
+      "usage_status": "LICENSED",
+      "legal_gate": "CLEARED",
+      "adopted_for": "players"
+    },
+    "kaggle_flynn28_eafc26_player_db": {
+      "usage_status": "RESEARCH_ONLY",
+      "license": "GPL-3"
+    },
+    "kaggle_flynn28_fc26_rating_cards_images": {
+      "usage_status": "RESEARCH_ONLY",
+      "note": "artwork images, not structured data; CC BY claim over EA art doubtful"
+    },
+    "futbin": {
+      "usage_status": "NOT_PERMITTED"
+    },
+    "futwiz": {
+      "usage_status": "NOT_PERMITTED"
+    },
+    "futgg": {
+      "usage_status": "NOT_PERMITTED"
+    },
+    "wefut": {
+      "usage_status": "NOT_PERMITTED"
+    },
+    "futdatabase_com": {
+      "usage_status": "UNKNOWN",
+      "legal_gate": "REQUIRED",
+      "note": "paid; ToS/provenance unverified; human decision required"
+    },
+    "futdb_app": {
+      "usage_status": "UNKNOWN",
+      "legal_gate": "REQUIRED"
+    },
+    "ut_market_feed": {
+      "usage_status": "NOT_PERMITTED",
+      "note": "placeholder; no contracted feed exists"
+    },
+    "synthetic_fixtures": {
+      "usage_status": "SYNTHETIC_TEST",
+      "legal_gate": "NOT_REQUIRED",
+      "firewalled": true
+    }
+  },
+  "pipeline_readiness": {
+    "ingestion": "READY (adapter legal gate, normalizer, validator, identity resolver, staging, atomic flush)",
+    "forensics": "READY (backend/ingestion/forensics.py; DATASET_FORENSICS_REPORT.md)",
+    "activation": "READY (scripts/activate_card_dataset.py; verified dry-run 60 staged/3 rejected; refuses non-permitted sources)",
+    "run_tracking": "READY (ingestion_run + ingestion_quarantine)",
+    "meta_pipeline": "READY (schema+adapter first, firewalled)",
+    "onboarding_a_new_source": "registry clearance (human) -> adapter subclass if needed -> activate command; no engine/API/UI changes"
+  },
+  "verification": {
+    "backend_tests": {
+      "passed": 338,
+      "failed": 0,
+      "new_phase3_tests": 76
+    },
+    "frontend_tests": {
+      "passed": 41,
+      "failed": 0,
+      "tsc": "clean"
+    },
+    "goldens": {
+      "runner": "scripts/verify_goldens.py",
+      "result": "S1-S8 + FC27_wall bit-identical"
+    },
+    "post_build_verify": {
+      "passed": 64,
+      "failed": 0
+    },
+    "live_api": {
+      "port": 8000,
+      "mode": "production",
+      "new_endpoints_verified": [
+        "/api/cards",
+        "/api/card-data-status",
+        "/api/cards/{id}/versions|prices|value"
+      ],
+      "legacy_verified": [
+        "/api/recommendations",
+        "/api/compare",
+        "/api/health"
+      ]
+    }
+  },
+  "performance": {
+    "players_10k_intelligence_warm_ms": [
+      779,
+      806
+    ],
+    "players_full_pool_warm_ms": [
+      792,
+      841
+    ],
+    "cards_10k_intelligence_warm_ms": [
+      633,
+      669
+    ],
+    "target_10k_warm_ms": 1000,
+    "target_met": true,
+    "preferred_500ms_met": false,
+    "noise": "+-15% sandbox CPU contention"
+  },
+  "limitations": [
+    "no permitted FC26 card/price/chemistry/evolution/meta data source (external legal blockers)",
+    "commercial API evaluation requires human payment + ToS + provenance decisions",
+    "Docker/nginx/systemd not executable in sandbox (deploy/ artifacts shipped; live uvicorn production-mode verified instead)",
+    "preferred <500ms full-intelligence target unmet on sandbox CPU"
+  ]
+}

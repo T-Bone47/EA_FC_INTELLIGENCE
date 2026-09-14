@@ -1,0 +1,22 @@
+{
+  "retrieved_at": "2026-09-14",
+  "finding": "No genuine structured UT card universe was acquired.",
+  "flynn28_player_database_card_field": {
+    "population": 17873,
+    "nonempty_rows": 17873,
+    "sample": "https://ratings-images-prod.pulse.ea.com/FC26/components/items/209331_en.webp",
+    "interpretation": "An EA rating-card image URL keyed by player ID. It is not a card ID, a variant classification, a price, a release date, or an independently attributable UT-card record.",
+    "decision": "Preserve only as research provenance; do not create cards."
+  },
+  "flynn28_rating_cards_database": {
+    "manifest_observation": "Public paged file listing contains cards/*.webp images, including duplicate-name suffixes.",
+    "structured_data_observed": false,
+    "card_identity": "not established",
+    "card_attributes": "not established",
+    "prices": "not available",
+    "chemistry": "not available",
+    "roles": "not available",
+    "evolutions": "not available",
+    "decision": "No production or synthetic card ingestion; existing optional card architecture remains ready for a future permitted structured source."
+  }
+}

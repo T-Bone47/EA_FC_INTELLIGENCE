@@ -1,0 +1,56 @@
+{
+  "scenarios": {
+    "CM/4-2-3-1/PRESSING/stamina>=85/budget100k": {
+      "evaluated": 10275,
+      "best": "Federico Valverde",
+      "score": 0.95789,
+      "server_timing_ms": 1101.78,
+      "cold_ms": 1133.2,
+      "warm_p50_ms": 581.1,
+      "warm_min_ms": 477.0,
+      "warm_max_ms": 594.2
+    },
+    "ST plain": {
+      "evaluated": 5241,
+      "best": "Kylian Mbapp\u00e9",
+      "score": 0.9486,
+      "server_timing_ms": 233.21,
+      "cold_ms": 236.7,
+      "warm_p50_ms": 264.5,
+      "warm_min_ms": 237.1,
+      "warm_max_ms": 356.2
+    },
+    "GK plain": {
+      "evaluated": 1816,
+      "best": "Alisson",
+      "score": 0.9213,
+      "server_timing_ms": 81.82,
+      "cold_ms": 85.3,
+      "warm_p50_ms": 83.0,
+      "warm_min_ms": 78.5,
+      "warm_max_ms": 172.6
+    },
+    "full pool (no position)": {
+      "evaluated": 16228,
+      "best": "Kylian Mbapp\u00e9",
+      "score": 0.93146,
+      "server_timing_ms": 725.51,
+      "cold_ms": 728.9,
+      "warm_p50_ms": 748.8,
+      "warm_min_ms": 708.9,
+      "warm_max_ms": 814.2
+    }
+  },
+  "rss_before_mb": 557.2,
+  "rss_after_mb": 574.5,
+  "true_cold": {
+    "process_restart_cold_cm_ms": 1256.9,
+    "warm_p50_after_cold_ms": 494.4,
+    "rss_idle_mb": 65.0,
+    "first_hit": {
+      "gk_ms": 78.8,
+      "full_pool_ms": 766.7,
+      "st_ms": 375.6
+    }
+  }
+}

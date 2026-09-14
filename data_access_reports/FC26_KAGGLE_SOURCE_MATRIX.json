@@ -1,0 +1,69 @@
+{
+  "report": "FC26 Kaggle source matrix",
+  "retrieved_at": "2026-09-14",
+  "governance": {
+    "production_rule": "Only cleared data is eligible for the canonical foundation after validation and field-level authority resolution.",
+    "research_rule": "GPL, attribution-restricted, source-restricted, or unclear data may be retained only for isolated forensics, validation, benchmarking, and engineering research.",
+    "never": ["fabricate missing values", "blindly overwrite a canonical field", "represent research evidence as production authority"]
+  },
+  "sources": [
+    {
+      "source_id": "kaggle_flynn28_eafc26_player_db",
+      "dataset": "flynn28/eafc26-player-database",
+      "version": 2,
+      "last_updated": "2026-04-02T18:46:48.093Z",
+      "license": "GPL 3",
+      "usage_status": "RESEARCH_ONLY",
+      "production_eligibility": "NOT_ELIGIBLE_UNTIL_CLEARANCE",
+      "retrieved_files": [
+        {"name": "EAFC26-Men.csv", "rows": 16228, "columns": 59, "unique_ids": 16228},
+        {"name": "EAFC26-Women.csv", "rows": 1645, "columns": 59, "unique_ids": 1645},
+        {"name": "EAFC26.csv", "rows": 17873, "columns": 59, "unique_ids": 17873}
+      ],
+      "engineering_value": ["schema comparison", "cross-validation", "women-universe coverage research", "field-presence analysis", "card-field investigation"],
+      "notes": "Men file is an exact ID-set match to the 16,228-row canonical CC0 raw combined file; it is not a new production authority."
+    },
+    {
+      "source_id": "kaggle_rovnez_fc26_fifa26_player_data",
+      "dataset": "rovnez/fc-26-fifa-26-player-data",
+      "version": 3,
+      "last_updated": "2025-09-22T18:19:44.043Z",
+      "license": "CC BY 4.0",
+      "declared_source_scope": "Curated by web scraping sofifa.com; educational and research purposes stated by dataset author.",
+      "usage_status": "RESEARCH_ONLY",
+      "production_eligibility": "NOT_ELIGIBLE_UNTIL_CLEARANCE",
+      "retrieved_files": [
+        {"name": "FC26_20250921.csv", "rows": 18405, "columns": 110, "unique_ids": 18405}
+      ],
+      "canonical_id_overlap": {"intersection": 16122, "source_only": 2283, "canonical_only": 106},
+      "engineering_value": ["attribute-schema comparison", "alternate-position validation", "identity overlap analysis", "missing-field research"]
+    },
+    {
+      "source_id": "kaggle_justdhia_ea_fc26_player_ratings",
+      "dataset": "justdhia/ea-sports-fc-26-player-ratings",
+      "version": 1,
+      "last_updated": "2026-03-18T06:49:31.843Z",
+      "license": "CC0: Public Domain",
+      "usage_status": "PRODUCTION_DATA",
+      "production_eligibility": "ELIGIBLE_AND_ACTIVE",
+      "retrieved_files": [
+        {"name": "ea_fc26_outfield.csv", "rows": 14412, "role": "detailed outfield attributes"},
+        {"name": "ea_fc26_goalkeepers.csv", "rows": 1816, "role": "GK-specific attributes"},
+        {"name": "ea_fc26_players.csv", "rows": 16228, "role": "combined raw source"}
+      ],
+      "canonical_foundation": "data/fc26_real_foundation; 16,228 players; source hashes retained in MANIFEST.json"
+    },
+    {
+      "source_id": "kaggle_flynn28_complete_fc26_rating_cards",
+      "dataset": "flynn28/complete-ea-fc26-rating-cards-database",
+      "version": 1,
+      "last_updated": "2025-11-25T02:36:02.293Z",
+      "license": "CC BY 4.0",
+      "size_bytes": 593439766,
+      "usage_status": "RESEARCH_ONLY",
+      "production_eligibility": "NOT_ELIGIBLE_UNTIL_CLEARANCE",
+      "observed_content": "Paged public manifest lists cards/*.webp image files; no structured CSV, JSON, price, card ID, PlayStyle, role, chemistry, or market record was observed.",
+      "card_ingestion_decision": "NO_CARD_INGESTION"
+    }
+  ]
+}

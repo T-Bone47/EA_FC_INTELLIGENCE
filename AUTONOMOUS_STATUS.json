@@ -1,0 +1,321 @@
+{
+  "project": "EA FC Player Intelligence",
+  "generated_at": "2026-09-14T14:07:03+00:00",
+  "mode": "autonomous_reconstruction_and_build",
+  "input_artifact": "uploads/EA_FC_Player_Intelligence_PROJECT_HANDOFF_v1.pdf",
+  "overall_status": "COMPLETE_WITH_DOCUMENTED_LIMITATIONS",
+  "phases": {
+    "A_audit": "DONE",
+    "B_production_data_boundary": "DONE",
+    "C_version_aware_engine": "DONE",
+    "D_database_integration": "DONE",
+    "E_fc27_ingestion_readiness": "DONE_ARCHITECTURE_ONLY_NO_DATA",
+    "F_authentication": "DONE",
+    "G_api_security": "DONE",
+    "H_to_M_frontend": "DONE",
+    "N_performance": "DONE",
+    "O_e2e_testing": "DONE_HTTP_LEVEL",
+    "P_Q_production_readiness_deployment": "DONE",
+    "PHASE_3_card_intelligence": "DONE_DATA_READY__PRODUCTION_CARD_DATA_BLOCKED_EXTERNALLY"
+  },
+  "tests": {
+    "backend": {
+      "command": "python3 -m pytest backend/tests/",
+      "passed": 338,
+      "failed": 0,
+      "modules": 24,
+      "duration_seconds": 31.8,
+      "baseline_preserved": "262 pre-phase-3 tests still pass unchanged; goldens S1-S8 bit-identical"
+    },
+    "frontend": {
+      "command": "npm run test && npm run build",
+      "unit_tests_passed": 38,
+      "files": 6,
+      "typecheck": "clean (tsc --noEmit)",
+      "build": "ok (267.0 kB js / 80.2 kB gzip)",
+      "passed": 41
+    },
+    "golden_regression": {
+      "file": "benchmarks/engine_baseline_v2_2026-09-14.json",
+      "scenarios": 8,
+      "result": "ALL IDENTICAL under engine 2.1.0"
+    },
+    "live_smoke": {
+      "checks": [
+        "reference (16 profiles / 17 archetypes / 11 formations / 6 dimensions)",
+        "parse-intent acceptance text",
+        "legacy recommendation",
+        "full-intelligence recommendation",
+        "FC27 404 wall",
+        "feedback analytics",
+        "SPA serving rebuilt dist"
+      ],
+      "result": "7/7 PASS"
+    }
+  },
+  "data": {
+    "fc26": {
+      "status": "ACTIVE",
+      "game_players": 16228,
+      "attributes_rows": 16228,
+      "secondary_positions": 17041,
+      "playstyle_links": 15032,
+      "playstyle_links_base": 14913,
+      "playstyle_links_plus": 119,
+      "clubs": 644,
+      "club_affiliations": 16228,
+      "real_players_linked": 20,
+      "real_players_review_required": 0,
+      "production_ut_cards": 0,
+      "source": "kaggle_justdhia_ea_fc26_player_ratings (CC0 1.0, carrier of EA official ratings page, March 2026 snapshot)"
+    },
+    "fc27": {
+      "status": "NO_DATA",
+      "game_players": 0,
+      "behaviour": "explicit 404 NO_DATA on recommendations; empty search/reference; entities never resolved across versions; ingestion architecture ready"
+    },
+    "synthetic_test_data": {
+      "ut_cards_persisted": 60,
+      "ut_cards_rejected_by_validation": 3,
+      "card_versions": 60,
+      "firewalled_from_production_reads": true
+    },
+    "database": {
+      "engine": "PostgreSQL 17",
+      "tables": 36,
+      "migrations": [
+        "DATABASE_SCHEMA_V1.sql",
+        "002_card_version.sql",
+        "003_auth_sessions.sql",
+        "004_squads_saved.sql"
+      ],
+      "seed": "seed_reference_data.sql (game versions, source registry, rarities)"
+    }
+  },
+  "api": {
+    "framework": "FastAPI (single app factory, no duplicate engines)",
+    "canonical_recommendation_endpoint": "POST /api/recommendations",
+    "component_weights": {
+      "overall_quality": 0.15,
+      "attribute_fit": 0.3,
+      "position_fit": 0.15,
+      "tactical_fit": 0.15,
+      "playstyle_fit": 0.15,
+      "team_fit": 0.1
+    },
+    "deterministic": true,
+    "serves_frontend_spa_same_origin": true
+  },
+  "performance": {
+    "legacy_cm_pressing_10275": {
+      "cold_ms": 640.8,
+      "warm_ms": 666.6
+    },
+    "legacy_st_5241": {
+      "cold_ms": 338.2,
+      "warm_ms": 302.1
+    },
+    "legacy_gk_1816": {
+      "cold_ms": 83.8,
+      "warm_ms": 87.0
+    },
+    "legacy_full_pool_16228": {
+      "cold_ms": 844.5,
+      "warm_ms": 874.0
+    },
+    "intelligence_cm_10275": {
+      "cold_ms": 1308.6,
+      "warm_ms": 1268.6
+    },
+    "intelligence_full_pool_16228": {
+      "cold_ms": 1926.2,
+      "warm_ms": 2030.4
+    },
+    "scaling_warm_ms": {
+      "1000": 54.0,
+      "5000": 329.7,
+      "10000": 624.6,
+      "16228": 1129.2
+    },
+    "per_candidate_warm_microseconds": "54-69",
+    "intent_parse_ms_per_call": 32.6,
+    "peak_rss_mb_full_pool": 210,
+    "file": "benchmarks/engine_v21_perf.json"
+  },
+  "security": {
+    "auth": "JWT (HS256) + bcrypt + server-side revocable sessions",
+    "rate_limits_per_minute": {
+      "auth": 10,
+      "general": 240
+    },
+    "cors": "closed by default (same-origin)",
+    "secrets": "environment-only; production refuses to boot without JWT_SECRET",
+    "error_hygiene": "500s return detail + request_id only",
+    "verified_by": [
+      "backend/tests/test_security.py",
+      "backend/tests/test_auth.py"
+    ]
+  },
+  "frontend": {
+    "stack": "React 18 + TypeScript + Vite (no runtime deps beyond react-router)",
+    "routes": 13,
+    "unknown_rendering_contract": "null never rendered as 0; enforced by unit tests",
+    "dev_preview": "vite dev server :5173 proxying /api -> :8000",
+    "production_serving": "FastAPI static mount with SPA fallback (FRONTEND_DIST)"
+  },
+  "data_honesty_guarantees": [
+    "no fabricated players, cards, ratings, prices, playstyles, roles, chemistry or scores",
+    "missing data surfaced as UNKNOWN / INSUFFICIENT_EVIDENCE / NO_DATA everywhere",
+    "FC26 data never presented as FC27; versions never mixed in any request path",
+    "RealPlayer != GamePlayer != UTCard != CardVersion hierarchy preserved",
+    "synthetic fixtures labeled SYNTHETIC_TEST and invisible to production reads",
+    "community sources (FUTBIN/FUT.GG/FUTWIZ/WeFUT) REFERENCE_ONLY, legal gate enforced",
+    "no scraping of unauthorized/JS-gated/private endpoints performed",
+    "LLM absent from all data paths; intent parser is deterministic rules only"
+  ],
+  "blockers_and_limitations": [
+    "FC27 production data unavailable (JS/private endpoints; acquisition deliberately not pursued)",
+    "no verified market price feed (prices UNKNOWN, budgets BUDGET_UNVERIFIED)",
+    "chemistry rules unverified (link facts real, score INSUFFICIENT_EVIDENCE)",
+    "role data not present in licensed source (role_fit stays UNKNOWN for FC26)",
+    "GK detailed outfield attributes withheld (source mirrors are not real ability)",
+    "rate limiter in-memory (single instance; move to Redis before scaling out)",
+    "no password-reset email infrastructure deployed",
+    "browser-level UI automation not run (no browser in sandbox; covered by HTTP journey + component tests)",
+    "role_fit UNKNOWN for FC26 (no verified EA role data)",
+    "chemistry rules unverified -> team_fit stays INSUFFICIENT_EVIDENCE with link facts only",
+    "no permitted market price feed -> budget is BUDGET_UNVERIFIED, never enforced",
+    "no production UT card data -> entity_scope=ut_card refuses honestly",
+    "full-intelligence mode on 10K+ pools exceeds the sub-second warm target"
+  ],
+  "ml_status": {
+    "phase": "1-CAPTURE / 2-MEASURE",
+    "ml_in_production": false,
+    "labels_have": 21,
+    "min_labels_for_learning": 500,
+    "min_context_coverage": 0.8,
+    "context_coverage": 0.6,
+    "sufficient_for_ml_experiment": false,
+    "deterministic_fallback": "permanent",
+    "roadmap": [
+      "1 capture",
+      "2 measure",
+      "3 label review",
+      "4 offline experiment",
+      "5 shadow",
+      "6 guarded live"
+    ],
+    "endpoint": "GET /api/recommendations/feedback/analytics"
+  },
+  "deliverables": [
+    "AUTONOMOUS_INITIAL_AUDIT.md",
+    "AUTONOMOUS_DEVELOPMENT_FINAL_REPORT.md",
+    "AUTONOMOUS_STATUS.json",
+    "docs/DATASET_FORENSICS_FC26.md",
+    "benchmarks/API_BENCHMARKS.md",
+    "deploy/DEPLOYMENT.md",
+    "deploy/.env.example",
+    "deploy/eafc-api.service",
+    "deploy/nginx.conf.example",
+    "deploy/Dockerfile",
+    "deploy/docker-compose.yml"
+  ],
+  "intelligence_engine_upgrade": {
+    "status": "COMPLETE",
+    "engine_version": "2.1.0",
+    "strategy": "evolved V2 in place \u2014 no v3/new/final engine, no disconnected engine",
+    "backward_compatibility": {
+      "golden_scenarios": "S1-S8 ALL IDENTICAL (winner, score to 1e-9, evaluation count, confidence, weights, ranked order)",
+      "api_changes": "additive only \u2014 no field removed or renamed",
+      "baseline_component_weights": "unchanged (0.15/0.30/0.15/0.15/0.15/0.10)"
+    },
+    "new_modules": [
+      "engine_config.py",
+      "formations.py",
+      "intent.py",
+      "intent_parser.py",
+      "archetypes.py",
+      "attribute_model.py",
+      "playstyle_context.py",
+      "squad_intelligence.py",
+      "counterfactual.py",
+      "confidence_v2.py",
+      "engine_evaluation.py",
+      "engine_experiments.py",
+      "feedback_analytics.py"
+    ],
+    "capabilities_added": [
+      "structured intent with per-field provenance (source/confidence/explicit)",
+      "hard constraints extended: required PlayStyle/league/club/nation with honest cannot-verify exclusions",
+      "16 tactical profiles + 6 tactical dimensions + combination tactics (HIGH_PRESS+FAST_BUILD_UP != HIGH_PRESS+POSSESSION)",
+      "11 formations with slots/duties (incl. new 4-2-2-2); CAM != CM",
+      "17 computed archetypes (no hardcoded player labels) + archetype_fit at 0.10 only when requested",
+      "attribute bands, per-attribute saturation, explainable interactions with all-KNOWN gate",
+      "contextual PlayStyle value (PS+ never an automatic win); position affinity over the real 36-PS vocabulary",
+      "advisory squad structural fit (link density / archetype diversity / complementarity) \u2014 explicitly NOT chemistry",
+      "replacement intelligence UPGRADE/SIDEGRADE/DOWNGRADE with component evidence + OVR honesty note",
+      "interpretable score bands with the MIN_BAND_EVIDENCE honesty gate",
+      "confidence v2 (legacy + freshness + source authority + identity), renormalized over known inputs",
+      "sensitivity analysis, 4 counterfactual families, what-if mode",
+      "Pareto dimensions incl. best_archetype_fit and best_alternative_archetype",
+      "ENGINE-DERIVED gameplay profile (labels capped at 4, remainder disclosed) + versatility",
+      "evidence/provenance/freshness/telemetry blocks on every response",
+      "offline experiment framework persisted to experiment/experiment_result (never touches production config)",
+      "feedback analytics with ML gated at 500 labels + 80% context coverage"
+    ],
+    "mandatory_tests": {
+      "ovr_trap_\u00a750": "PASS \u2014 81-OVR worker beats 90-OVR star on soft fit; real-data inversion verified against the live pool; no reverse bias",
+      "unknown_data_\u00a751": "PASS \u2014 nobody excluded/zeroed for missing data; thin evidence -> INSUFFICIENT_EVIDENCE band + far lower confidence; score vs confidence distinguished",
+      "fc27_zero_data_\u00a761": "PASS \u2014 404 wall, no fabrication, no FC26 substitution",
+      "acceptance_\u00a774": "PASS \u2014 full natural-language 4-2-3-1 high-press fast-build-up complementary CM request through parse -> constraints -> scoring -> explanation -> counterfactuals -> what-if"
+    },
+    "bugs_fixed_during_upgrade": [
+      "counterfactual re-scoring used a different ordering contract than the engine",
+      "intent_parser: PlayStyle mandatory/preferred judged only on first occurrence",
+      "intent_parser: multi-word PlayStyle names consumed by tactical sub-strings ('tiki')",
+      "intent_parser: mandatory marker leaked across clause boundaries",
+      "attribute_model: band lookup rejected AttributeBand dataclasses (TypeError on the API path)",
+      "gameplay_profile emitted up to 7 labels, making them meaningless (capped at 4 + disclosure)",
+      "recommend() had a dead duplicate counterfactuals() call and an undefined local"
+    ],
+    "considered_and_rejected": [
+      "down-ranking candidates with evidence coverage < MIN_BAND_EVIDENCE \u2014 broke an existing pinned test and contradicted the contract that UNKNOWN data never penalizes; honesty moved to the band/confidence layer instead"
+    ],
+    "deliverables": {
+      "docs": [
+        "docs/ENGINE_BASELINE.md",
+        "docs/INTELLIGENCE_ENGINE_ARCHITECTURE.md",
+        "docs/ENGINE_CHANGELOG.md",
+        "docs/ENGINE_EVALUATION.md",
+        "docs/ENGINE_DATA_REQUIREMENTS.md"
+      ],
+      "benchmarks": [
+        "benchmarks/ENGINE_BENCHMARKS.md",
+        "benchmarks/engine_v21_perf.json",
+        "benchmarks/engine_baseline_v2_2026-09-14.json (preserved)"
+      ],
+      "tests": [
+        "backend/tests/test_engine_intelligence.py (50)",
+        "backend/tests/test_engine_scenarios.py (14)",
+        "backend/tests/test_engine_robustness.py (20)",
+        "backend/tests/test_engine_ovr_trap.py (7)",
+        "backend/tests/test_engine_unknown_data.py (10)",
+        "frontend/src/pages/Recommend.results.test.tsx (5)"
+      ],
+      "scripts": [
+        "scripts/run_engine_experiment.py",
+        "scripts/benchmark_engine_v21.py"
+      ],
+      "report": "INTELLIGENCE_ENGINE_UPGRADE_FINAL_REPORT.md"
+    },
+    "known_limitations": [
+      "full-intelligence mode on the unfiltered 10K CM pool is ~1.3 s warm (sub-second target met on legacy paths and pools <= ~10K legacy)",
+      "role_fit remains UNKNOWN for FC26 (no verified role data ingested)",
+      "precomputed feature caching (\u00a756) designed but not yet wired",
+      "no production UT card data \u2014 card-level scope refuses honestly",
+      "NDCG/MRR not computed: requires human labels; no proxy labels invented"
+    ]
+  },
+  "engine_version": "2.2.0",
+  "phase3": "see PHASE_3_CARD_INTELLIGENCE_FINAL_REPORT.md + PHASE_3_DATA_STATUS.json"
+}

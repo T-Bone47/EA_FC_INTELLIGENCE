@@ -1,0 +1,371 @@
+{
+  "engine": "recommendation_engine_v2 (pre-upgrade baseline)",
+  "captured": "2026-09-14T06:49:11Z",
+  "backend_tests": "161 passed",
+  "frontend_tests": "33 passed",
+  "scenarios": {
+    "S1_cm_pressing_constrained": {
+      "request": {
+        "game_version": "FC26",
+        "position": "CM",
+        "formation": "4-2-3-1",
+        "tactical_profile": "PRESSING",
+        "limit": 5,
+        "attribute_preferences": [
+          {
+            "attribute": "stamina",
+            "min_value": 85
+          }
+        ],
+        "budget_coins": 100000
+      },
+      "best": {
+        "name": "Federico Valverde",
+        "entity_id": "5802f386-6d34-5749-9708-39febaaf44b4",
+        "ovr": null
+      },
+      "best_score": 0.95789,
+      "evaluations_total": 10275,
+      "components": {
+        "overall_quality": 0.91892,
+        "position_fit": 1.0,
+        "attribute_fit": 1.0,
+        "tactical_fit": 0.87054,
+        "playstyle_fit": "UNKNOWN",
+        "role_fit": "UNKNOWN",
+        "team_fit": "UNKNOWN"
+      },
+      "confidence": 0.78,
+      "ranked_order": [
+        "Federico Valverde",
+        "Pedri",
+        "Vitinha",
+        "Nicol\u00f2 Barella",
+        "Frenkie de Jong"
+      ],
+      "weights_used": {
+        "overall_quality": 0.15,
+        "attribute_fit": 0.3,
+        "position_fit": 0.15,
+        "tactical_fit": 0.15,
+        "playstyle_fit": 0.15,
+        "team_fit": 0.1
+      },
+      "budget_status": "BUDGET_UNVERIFIED: no candidate has a verified price; budget constraint could not be enforced (prices are UNKNOWN, never assumed affordable)",
+      "timing_ms_server": 1360.43
+    },
+    "S2_gk_diving": {
+      "request": {
+        "game_version": "FC26",
+        "position": "GK",
+        "limit": 3,
+        "attribute_preferences": [
+          {
+            "attribute": "gk_diving",
+            "min_value": 85
+          }
+        ]
+      },
+      "best": {
+        "name": "Alisson",
+        "entity_id": "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "ovr": null
+      },
+      "best_score": 0.97973,
+      "evaluations_total": 1816,
+      "components": {
+        "overall_quality": 0.91892,
+        "position_fit": 1.0,
+        "attribute_fit": 1.0,
+        "tactical_fit": "UNKNOWN",
+        "playstyle_fit": "UNKNOWN",
+        "role_fit": "UNKNOWN",
+        "team_fit": "UNKNOWN"
+      },
+      "confidence": 0.72,
+      "ranked_order": [
+        "Alisson",
+        "Gianluigi Donnarumma",
+        "Thibaut Courtois"
+      ],
+      "weights_used": {
+        "overall_quality": 0.15,
+        "attribute_fit": 0.3,
+        "position_fit": 0.15,
+        "tactical_fit": 0.15,
+        "playstyle_fit": 0.15,
+        "team_fit": 0.1
+      },
+      "budget_status": "NO_BUDGET_CONSTRAINT",
+      "timing_ms_server": 71.95
+    },
+    "S3_st_counter_pace": {
+      "request": {
+        "game_version": "FC26",
+        "position": "ST",
+        "tactical_profile": "COUNTER_ATTACK",
+        "limit": 5,
+        "attribute_preferences": [
+          {
+            "attribute": "pace",
+            "min_value": 90
+          }
+        ]
+      },
+      "best": {
+        "name": "Kylian Mbapp\u00e9",
+        "entity_id": "f45bafe4-89c4-5097-9c6e-e345eef9abfd",
+        "ovr": null
+      },
+      "best_score": 0.97775,
+      "evaluations_total": 5241,
+      "components": {
+        "overall_quality": 0.97297,
+        "position_fit": 1.0,
+        "attribute_fit": 1.0,
+        "tactical_fit": 0.91576,
+        "playstyle_fit": "UNKNOWN",
+        "role_fit": "UNKNOWN",
+        "team_fit": "UNKNOWN"
+      },
+      "confidence": 0.825,
+      "ranked_order": [
+        "Kylian Mbapp\u00e9",
+        "Ousmane Demb\u00e9l\u00e9",
+        "Viktor Gy\u00f6keres",
+        "Victor Osimhen",
+        "Vini Jr."
+      ],
+      "weights_used": {
+        "overall_quality": 0.15,
+        "attribute_fit": 0.3,
+        "position_fit": 0.15,
+        "tactical_fit": 0.15,
+        "playstyle_fit": 0.15,
+        "team_fit": 0.1
+      },
+      "budget_status": "NO_BUDGET_CONSTRAINT",
+      "timing_ms_server": 241.45
+    },
+    "S4_cb_possession_passing": {
+      "request": {
+        "game_version": "FC26",
+        "position": "CB",
+        "tactical_profile": "POSSESSION",
+        "limit": 5,
+        "attribute_preferences": [
+          {
+            "attribute": "short_passing",
+            "min_value": 80
+          }
+        ]
+      },
+      "best": {
+        "name": "Virgil van Dijk",
+        "entity_id": "32ee6696-4b37-5ff3-8b90-390e977fd872",
+        "ovr": null
+      },
+      "best_score": 0.93872,
+      "evaluations_total": 6324,
+      "components": {
+        "overall_quality": 0.94595,
+        "position_fit": 1.0,
+        "attribute_fit": 1.0,
+        "tactical_fit": 0.74768,
+        "playstyle_fit": "UNKNOWN",
+        "role_fit": "UNKNOWN",
+        "team_fit": "UNKNOWN"
+      },
+      "confidence": 0.825,
+      "ranked_order": [
+        "Virgil van Dijk",
+        "Marquinhos",
+        "Alessandro Bastoni",
+        "William Saliba",
+        "Benjamin Pavard"
+      ],
+      "weights_used": {
+        "overall_quality": 0.15,
+        "attribute_fit": 0.3,
+        "position_fit": 0.15,
+        "tactical_fit": 0.15,
+        "playstyle_fit": 0.15,
+        "team_fit": 0.1
+      },
+      "budget_status": "NO_BUDGET_CONSTRAINT",
+      "timing_ms_server": 291.95
+    },
+    "S5_rw_crossing_whipped": {
+      "request": {
+        "game_version": "FC26",
+        "position": "RW",
+        "tactical_profile": "CROSSING",
+        "limit": 5,
+        "desired_playstyles": [
+          "Whipped Pass"
+        ]
+      },
+      "best": {
+        "name": "Mohamed Salah",
+        "entity_id": "e4fac906-090c-5654-b3bc-cd3fae6a2709",
+        "ovr": null
+      },
+      "best_score": 0.91362,
+      "evaluations_total": 7988,
+      "components": {
+        "overall_quality": 0.97297,
+        "position_fit": 0.85,
+        "attribute_fit": 0.89724,
+        "tactical_fit": 0.86427,
+        "playstyle_fit": 1.0,
+        "role_fit": "UNKNOWN",
+        "team_fit": "UNKNOWN"
+      },
+      "confidence": 0.93,
+      "ranked_order": [
+        "Mohamed Salah",
+        "Bukayo Saka",
+        "Savinho",
+        "Michael Olise",
+        "Matteo Politano"
+      ],
+      "weights_used": {
+        "overall_quality": 0.15,
+        "attribute_fit": 0.3,
+        "position_fit": 0.15,
+        "tactical_fit": 0.15,
+        "playstyle_fit": 0.15,
+        "team_fit": 0.1
+      },
+      "budget_status": "NO_BUDGET_CONSTRAINT",
+      "timing_ms_server": 497.22
+    },
+    "S6_full_pool_balanced": {
+      "request": {
+        "game_version": "FC26",
+        "limit": 5
+      },
+      "best": {
+        "name": "Kylian Mbapp\u00e9",
+        "entity_id": "f45bafe4-89c4-5097-9c6e-e345eef9abfd",
+        "ovr": null
+      },
+      "best_score": 0.93146,
+      "evaluations_total": 16228,
+      "components": {
+        "overall_quality": 0.97297,
+        "position_fit": "UNKNOWN",
+        "attribute_fit": 0.91071,
+        "tactical_fit": "UNKNOWN",
+        "playstyle_fit": "UNKNOWN",
+        "role_fit": "UNKNOWN",
+        "team_fit": "UNKNOWN"
+      },
+      "confidence": 0.615,
+      "ranked_order": [
+        "Kylian Mbapp\u00e9",
+        "Virgil van Dijk",
+        "Ousmane Demb\u00e9l\u00e9",
+        "Jude Bellingham",
+        "Erling Haaland"
+      ],
+      "weights_used": {
+        "overall_quality": 0.15,
+        "attribute_fit": 0.3,
+        "position_fit": 0.15,
+        "tactical_fit": 0.15,
+        "playstyle_fit": 0.15,
+        "team_fit": 0.1
+      },
+      "budget_status": "NO_BUDGET_CONSTRAINT",
+      "timing_ms_server": 798.4
+    },
+    "S7_possession_cam": {
+      "request": {
+        "game_version": "FC26",
+        "position": "CAM",
+        "tactical_profile": "POSSESSION",
+        "limit": 5
+      },
+      "best": {
+        "name": "Jude Bellingham",
+        "entity_id": "43b0c808-dfab-5c17-ad3b-83a5b57493b0",
+        "ovr": null
+      },
+      "best_score": 0.92492,
+      "evaluations_total": 10230,
+      "components": {
+        "overall_quality": 0.94595,
+        "position_fit": 1.0,
+        "attribute_fit": 0.89065,
+        "tactical_fit": 0.89737,
+        "playstyle_fit": "UNKNOWN",
+        "role_fit": "UNKNOWN",
+        "team_fit": "UNKNOWN"
+      },
+      "confidence": 0.825,
+      "ranked_order": [
+        "Jude Bellingham",
+        "Florian Wirtz",
+        "Cole Palmer",
+        "Ousmane Demb\u00e9l\u00e9",
+        "Jamal Musiala"
+      ],
+      "weights_used": {
+        "overall_quality": 0.15,
+        "attribute_fit": 0.3,
+        "position_fit": 0.15,
+        "tactical_fit": 0.15,
+        "playstyle_fit": 0.15,
+        "team_fit": 0.1
+      },
+      "budget_status": "NO_BUDGET_CONSTRAINT",
+      "timing_ms_server": 651.72
+    },
+    "S8_lb_balanced": {
+      "request": {
+        "game_version": "FC26",
+        "position": "LB",
+        "limit": 5
+      },
+      "best": {
+        "name": "Nuno Mendes",
+        "entity_id": "be3e0e80-0c04-5321-937c-6d195d861352",
+        "ovr": null
+      },
+      "best_score": 0.88375,
+      "evaluations_total": 8322,
+      "components": {
+        "overall_quality": 0.83784,
+        "position_fit": 1.0,
+        "attribute_fit": 0.84859,
+        "tactical_fit": "UNKNOWN",
+        "playstyle_fit": "UNKNOWN",
+        "role_fit": "UNKNOWN",
+        "team_fit": "UNKNOWN"
+      },
+      "confidence": 0.72,
+      "ranked_order": [
+        "Nuno Mendes",
+        "Theo Hern\u00e1ndez",
+        "Federico Dimarco",
+        "Alphonso Davies",
+        "Jo\u0161ko Gvardiol"
+      ],
+      "weights_used": {
+        "overall_quality": 0.15,
+        "attribute_fit": 0.3,
+        "position_fit": 0.15,
+        "tactical_fit": 0.15,
+        "playstyle_fit": 0.15,
+        "team_fit": 0.1
+      },
+      "budget_status": "NO_BUDGET_CONSTRAINT",
+      "timing_ms_server": 401.02
+    },
+    "FC27_wall": {
+      "status": 404,
+      "detail_prefix": "FC27 has NO ingested production data (status NO_DATA). Zero records were acquire"
+    }
+  }
+}

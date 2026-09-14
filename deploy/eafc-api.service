@@ -1,0 +1,32 @@
+# systemd unit — EA FC Player Intelligence API (+ SPA when FRONTEND_DIST is set)
+# Install: sudo cp deploy/eafc-api.service /etc/systemd/system/
+#          sudo systemctl daemon-reload && sudo systemctl enable --now eafc-api
+[Unit]
+Description=EA FC Player Intelligence API
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=exec
+User=eafc
+Group=eafc
+WorkingDirectory=/opt/eafc/ea_fc_player_intelligence
+EnvironmentFile=/opt/eafc/eafc.env
+ExecStart=/opt/eafc/venv/bin/python -m gunicorn backend.api.main:app \
+    -k uvicorn.workers.UvicornWorker \
+    --bind 127.0.0.1:8000 \
+    --workers 2 --threads 4 \
+    --timeout 60 --graceful-timeout 20 \
+    --access-logfile - --error-logfile -
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/eafc/ea_fc_player_intelligence
+MemoryDenyWriteExecute=false
+LimitNOFILE=8192
+
+[Install]
+WantedBy=multi-user.target

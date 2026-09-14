@@ -1,0 +1,78 @@
+{
+  "entity": "card",
+  "game_version": "FC26",
+  "analyzed_at": "2026-09-14T11:33:16.022457+00:00",
+  "row_count": 63,
+  "column_count": 18,
+  "columns": [
+    "card_id",
+    "data_status",
+    "defending",
+    "dribbling",
+    "game_version",
+    "overall_rating",
+    "pace",
+    "passing",
+    "physicality",
+    "player_name",
+    "playstyles",
+    "playstyles_plus",
+    "position",
+    "price_coins",
+    "rarity",
+    "shooting",
+    "source",
+    "source_card_id"
+  ],
+  "null_rate": {
+    "card_id": 0.0,
+    "data_status": 0.0,
+    "defending": 0.0,
+    "dribbling": 0.0,
+    "game_version": 0.0,
+    "overall_rating": 0.0159,
+    "pace": 0.0,
+    "passing": 0.0,
+    "physicality": 0.0,
+    "player_name": 0.0,
+    "playstyles": 0.0,
+    "playstyles_plus": 0.6667,
+    "position": 0.0,
+    "price_coins": 0.0,
+    "rarity": 0.0,
+    "shooting": 0.0,
+    "source": 0.0,
+    "source_card_id": 0.0
+  },
+  "duplicate_rate": 0.0,
+  "identity_coverage": 1.0,
+  "version_consistency": {
+    "FC26": 63
+  },
+  "range_violations": {},
+  "attribute_completeness": 0.9955,
+  "invalid_positions": {},
+  "unknown_playstyles": {},
+  "playstyle_coverage": 1.0,
+  "multi_plus_rows": 1,
+  "price_coverage": 1.0,
+  "timestamp_coverage": null,
+  "data_statuses": {
+    "SYNTHETIC_TEST": 63
+  },
+  "findings": [
+    {
+      "severity": "REVIEW",
+      "code": "playstyle_plus_cap",
+      "message": "1 rows list more than one PlayStyle+ (cap is version-specific \u2014 verify)",
+      "count": 1
+    },
+    {
+      "severity": "REVIEW",
+      "code": "no_timestamp_column",
+      "message": "dataset carries no observed/retrieved timestamp column \u2014 freshness will be UNKNOWN",
+      "count": 1
+    }
+  ],
+  "verdict": "REVIEW"
+}

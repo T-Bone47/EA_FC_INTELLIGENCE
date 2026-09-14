@@ -1,0 +1,65 @@
+{
+  "audit": "POST-BUILD VERIFICATION — EA FC Player Intelligence",
+  "date": "2026-09-14",
+  "method": "All claims re-checked by executing live checks against running servers (production API :8000 ENVIRONMENT=production, vite dev :5173, PostgreSQL 17, built SPA). No historical results accepted.",
+  "overall": "VERIFIED — all executed suites pass; 5 real product defects found by the audit, all fixed with regression tests; 3 deployment items BLOCKED by sandbox (no docker/nginx/provisioned host)",
+  "totals": {
+    "backend_pytest": "161/161 passed",
+    "frontend_vitest": "33/33 passed (24 original + 9 regression tests added by this audit)",
+    "tsc_noEmit": "clean",
+    "vite_build": "success",
+    "post_build_verify_py": "64/64 PASS",
+    "browser_verify_mjs_prod_8000": "21/21 PASS",
+    "browser_verify_mjs_dev_5173": "21/21 PASS",
+    "db_count_checks": "23/23 PASS"
+  },
+  "failures_found_and_fixed": [
+    {"id": 1, "severity": "MEDIUM", "component": "backend/api/main.py", "defect": "create_app() did not consult effective_jwt_secret(); production fail-fast path not wired", "fix": "wired effective_jwt_secret() into app creation", "regression_test": "backend/tests/test_security.py", "status": "FIXED+VERIFIED"},
+    {"id": 2, "severity": "HIGH", "component": "frontend/src/lib/useApi.ts useAction", "defect": "stale closure — run() used mount-time callback: FC27 switch still POSTed game_version FC26; position/playstyle chips never applied (16,228 full-pool evals observed)", "fix": "fnRef pattern (latest callback every render)", "regression_test": "frontend/src/lib/useApi.test.tsx", "status": "FIXED+VERIFIED (browser re-audit 21/21)"},
+    {"id": 3, "severity": "MEDIUM", "component": "frontend/src/lib/useApi.ts useAction", "defect": "StrictMode effect->cleanup->effect left mounted=false forever on dev builds — actions hung at pending despite HTTP 200", "fix": "effect body re-asserts mounted=true", "regression_test": "useApi.test.tsx StrictMode test", "status": "FIXED+VERIFIED"},
+    {"id": 4, "severity": "MEDIUM", "component": "frontend/src/state/session.tsx refreshUser", "defect": "any /api/auth/me failure (incl. 429 rate-limit, 5xx, network) cleared the stored token — valid sessions silently destroyed", "fix": "token cleared only on definitive 401", "regression_test": "frontend/src/state/session.test.tsx (4 tests)", "status": "FIXED+VERIFIED"},
+    {"id": 5, "severity": "LOW", "component": "frontend/src/styles.css squad pitch", "defect": "decorative pitch lines intercepted pointer events over GK/ST slot buttons — slots unclickable in real browser", "fix": "pointer-events:none on .pitch::before/::after, .midline, .circle", "regression_test": "browser_verify.mjs slot-assignment check", "status": "FIXED+VERIFIED"}
+  ],
+  "audit_script_corrections_not_product_bugs": [
+    "POST /api/squads returns raw row; slots created lazily on GET (repo contract) — script expectation patched",
+    "why_this legitimately has up to ~13 evidence lines incl. 'Not scored (weight redistributed, no penalty)' honesty note — script now requires the note, cap 20",
+    "auth 10/min rate limit applies to /me+logout router-wide; audit scripts back off 62s instead of failing the product",
+    "vite HMR wss:443 forced by SANDBOX_PREVIEW — now opt-in (SANDBOX_PREVIEW_HMR / VITE_HMR_CLIENT_PORT); dev tooling only"
+  ],
+  "sections": {
+    "1_repo_files": {"status": "VERIFIED", "evidence": "exact file map matches report; single engine file recommendation_engine_v2.py; no v3/final/new duplicates"},
+    "2_db_counts": {"status": "VERIFIED", "evidence": "23/23: 16,228 FC26 game_players; 15,032 game_player_playstyle; 36 public tables; 60 ut_cards all is_synthetic; re-checked after setup_database.py idempotent re-run"},
+    "3_tests_live": {"status": "VERIFIED", "evidence": "pytest 161 passed (22.95s); vitest 33 passed; tsc clean; vite build success"},
+    "4_api_endpoints": {"status": "VERIFIED", "evidence": "post_build_verify.py: all GET/POST/PUT/PATCH/DELETE incl. squads/feedback/saved/auth; /api/* unknown route returns JSON 404; health+ready report real counts"},
+    "5_fc26_fc27_version_wall": {"status": "VERIFIED", "evidence": "search/player/recs/compare/reference/squad all NO_DATA/404 for FC27 with honest copy; zero FC26 leakage; browser-verified on both origins"},
+    "6_synthetic_firewall": {"status": "VERIFIED", "evidence": "60 synthetic cards invisible on all production surfaces; blocked from saving; 0 non-game_player entities in top-50; visible only under test entity scope"},
+    "7_auth_lifecycle": {"status": "VERIFIED", "evidence": "signup->me->PATCH prefs->logout-all revocation->401 on revoked token; no user enumeration; cross-user squad/saved reads 404"},
+    "8_security": {"status": "VERIFIED", "evidence": "security headers+HSTS; CORS closed by default; 413 >1MB; safe 500s with request IDs; SQLi inert; auth burst [201x10, 429] with Retry-After; secret scan clean"},
+    "9_engine_scenarios": {"status": "VERIFIED", "evidence": "5 scenarios: Valverde 0.95789 CM/PRESSING (10,275 eval), Alisson 0.97973 GK, Mbappe 0.97775 ST/COUNTER, Van Dijk 0.93872 CB/POSSESSION (6,324 eval, reordering proven), Salah 0.91362 RW/Whipped Pass playstyle_fit 1.0; weights_used exact 0.15/0.30/0.15/0.15/0.15/0.10; pareto withholds best_value/best_chemistry (UNKNOWN, not fabricated); determinism exact; why_this includes 'Not scored (weight redistributed)' honesty lines"},
+    "10_frontend_routes": {"status": "VERIFIED", "evidence": "13 routes + catch-all serve SPA 200 on :8000 and :5173 (curl); Playwright 21/21 on BOTH origins incl. full journeys, 404 page, zero pageerrors, zero unexpected console errors"},
+    "11_performance": {"status": "VERIFIED", "evidence": "true cold (fresh process) constrained CM 1256.9ms; warm p50: CM-constrained 494.4-581.1, ST 264.5, GK 83.0, full pool 748.8; RSS 65.0MB idle -> 186.1MB post-cold -> 574.5MB post-sweep; all winners/scores/counts reproduce baseline exactly; benchmarks/reaudit_2026-09-14.json"},
+    "12_code_quality": {"status": "VERIFIED", "evidence": "zero production imports of backend/tests; zero TODO/FIXME/HACK in prod code; single engine module"},
+    "13_data_source_audit": {"status": "VERIFIED", "evidence": "docs/DATASET_FORENSICS_FC26.md figures reproduce; MANIFEST sha256 all match; source_registry live: CC0 Kaggle carrier PRODUCTION, community DBs (FUTBIN/FUT.GG/FUTWIZ/WeFUT) legal_gate REQUIRED 'Not ingested. No access attempted.', market feed NOT_PERMITTED; no scraping HTTP calls in backend/ or scripts/ (UPSTREAM_URL is provenance metadata only)"},
+    "14_deploy_artifacts": {
+      "status": "PARTIALLY VERIFIED",
+      "verified": "setup_database.py idempotent re-run live (all 'skip (applied)', counts unchanged, DROP only behind --reset); docker-compose.yml parses (services db/api, volume pgdata); Dockerfile reviewed (multi-stage, non-root uid 10001, healthcheck); systemd-analyze verify passes on eafc-api.service (hardening directives present)",
+      "blocked": ["docker build / compose up — docker not installed in sandbox", "nginx -t — nginx binary not installed", "systemctl start eafc-api — unit targets /opt/eafc provisioned host paths"]
+    },
+    "15_secret_scan": {"status": "VERIFIED", "evidence": "no .env tracked (only deploy/.env.example with CHANGE_ME placeholders); no hardcoded-secret grep hits; production refuses boot without JWT_SECRET (fail-fast test in suite)"}
+  },
+  "status_legend": ["VERIFIED", "PARTIALLY VERIFIED", "FAILED", "BLOCKED"],
+  "claims_failed_outstanding": [],
+  "blocked_items": [
+    {"item": "docker image build + compose up", "reason": "no docker in sandbox", "discharge": "run on deploy host: docker compose -f deploy/docker-compose.yml up --build"},
+    {"item": "nginx -t live validation", "reason": "no nginx binary", "discharge": "run on deploy host"},
+    {"item": "systemd service live start", "reason": "/opt/eafc paths not provisioned here (unit is host-targeted; statically verified)", "discharge": "install per deploy/DEPLOYMENT.md on host"},
+    {"item": "FC27 real-data behavior", "reason": "no authorized FC27 source (by decision)", "discharge": "ingest via existing pipeline when authorized source exists; NO_DATA wall flips automatically"}
+  ],
+  "artifacts": {
+    "report": "POST_BUILD_VERIFICATION_REPORT.md",
+    "api_audit_script": "verification/post_build_verify.py (64 checks)",
+    "browser_audit_script": "verification/browser_verify.mjs (21 checks, Playwright)",
+    "benchmark_results": "benchmarks/reaudit_2026-09-14.json + appended section in benchmarks/API_BENCHMARKS.md",
+    "new_regression_tests": ["frontend/src/lib/useApi.test.tsx (5)", "frontend/src/state/session.test.tsx (4)"]
+  }
+}

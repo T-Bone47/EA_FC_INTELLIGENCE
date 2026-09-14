@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-09-14T08:11:02.890393+00:00",
+  "engine_version": "2.1.0",
+  "runs": {
+    "legacy_cm_pressing": {
+      "label": "CM PRESSING (legacy path)",
+      "evaluations": 10275,
+      "cold_ms": 640.8,
+      "warm_ms": 666.6,
+      "all_ms": [
+        640.8,
+        690.0,
+        666.6
+      ],
+      "best": "Federico Valverde"
+    },
+    "legacy_st_counter": {
+      "label": "ST COUNTER_ATTACK (legacy path)",
+      "evaluations": 5241,
+      "cold_ms": 338.2,
+      "warm_ms": 302.1,
+      "all_ms": [
+        338.2,
+        302.1,
+        314.1
+      ],
+      "best": "Kylian Mbapp\u00e9"
+    },
+    "legacy_gk": {
+      "label": "GK LOW_BLOCK (legacy path)",
+      "evaluations": 1816,
+      "cold_ms": 83.8,
+      "warm_ms": 90.4,
+      "all_ms": [
+        83.8,
+        117.6,
+        90.4
+      ],
+      "best": "Alisson"
+    },
+    "legacy_full_pool": {
+      "label": "full pool (legacy path)",
+      "evaluations": 16228,
+      "cold_ms": 894.5,
+      "warm_ms": 874.0,
+      "all_ms": [
+        894.5,
+        874.0
+      ],
+      "best": "Kylian Mbapp\u00e9"
+    },
+    "intelligence_cm": {
+      "label": "CM full intelligence (all layers)",
+      "evaluations": 10275,
+      "cold_ms": 1308.6,
+      "warm_ms": 1316.8,
+      "all_ms": [
+        1308.6,
+        1336.0,
+        1316.8
+      ],
+      "best": "Nicol\u00f2 Barella"
+    },
+    "intelligence_full_pool": {
+      "label": "full pool intelligence",
+      "evaluations": 16228,
+      "cold_ms": 1926.2,
+      "warm_ms": 2030.4,
+      "all_ms": [
+        1926.2,
+        2030.4
+      ],
+      "best": "Achraf Hakimi"
+    },
+    "intelligence_cm_no_cf": {
+      "label": "CM intelligence, counterfactuals off",
+      "evaluations": 10275,
+      "cold_ms": 1339.4,
+      "warm_ms": 1268.6,
+      "all_ms": [
+        1339.4,
+        1268.6,
+        1297.0
+      ],
+      "best": "Nicol\u00f2 Barella"
+    }
+  },
+  "pool_sizes": {
+    "full": 16228,
+    "cm": 10275,
+    "st": 5241,
+    "gk": 1816
+  },
+  "scaling": {
+    "1000": {
+      "label": "scaling 1000",
+      "evaluations": 1000,
+      "cold_ms": 56.1,
+      "warm_ms": 54.0,
+      "all_ms": [
+        56.1,
+        54.0
+      ],
+      "best": "Jude Bellingham"
+    },
+    "5000": {
+      "label": "scaling 5000",
+      "evaluations": 5000,
+      "cold_ms": 297.6,
+      "warm_ms": 329.7,
+      "all_ms": [
+        297.6,
+        329.7
+      ],
+      "best": "Jude Bellingham"
+    },
+    "10000": {
+      "label": "scaling 10000",
+      "evaluations": 10000,
+      "cold_ms": 590.8,
+      "warm_ms": 624.6,
+      "all_ms": [
+        590.8,
+        624.6
+      ],
+      "best": "Jude Bellingham"
+    },
+    "16228": {
+      "label": "scaling 16228",
+      "evaluations": 16228,
+      "cold_ms": 1005.0,
+      "warm_ms": 1129.2,
+      "all_ms": [
+        1005.0,
+        1129.2
+      ],
+      "best": "Jude Bellingham"
+    }
+  },
+  "intent_parse_ms_per_call": 32.645
+}

@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: eafc
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env — never commit}
+      POSTGRES_DB: eafc_intelligence
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eafc -d eafc_intelligence"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql://eafc:${POSTGRES_PASSWORD:?set in .env}@db:5432/eafc_intelligence
+      JWT_SECRET: ${JWT_SECRET:?generate with python3 -c "import secrets;print(secrets.token_hex(32))"}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      FRONTEND_DIST: /app/frontend/dist
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:

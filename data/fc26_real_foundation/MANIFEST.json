@@ -1,0 +1,46 @@
+{
+  "dataset": "FC26 real foundation (canonical)",
+  "game_version": "FC26",
+  "generated_utc": "2026-09-13",
+  "generator": "scripts/build_foundation.py",
+  "source": {
+    "source_id": "kaggle_justdhia_ea_fc26_player_ratings",
+    "carrier": "Kaggle dataset (Tier-3 carrier of Tier-1 official EA field values)",
+    "source_url": "https://www.kaggle.com/datasets/justdhia/ea-sports-fc-26-player-ratings",
+    "upstream_url": "https://www.ea.com/games/ea-sports-fc/ratings",
+    "license": "CC0 1.0 Public Domain",
+    "usage_status": "PRODUCTION_DATA",
+    "scope": "men's ratings universe (source-documented)",
+    "scraped_by_source": "March 2026",
+    "retrieved": "2026-09-14",
+    "raw_file_sha256": {
+      "ea_fc26_goalkeepers.csv": "3e4e0c0d99c38e03a5424e9ae30f7df57686d3f92ba6ccfd275f8a332e8b316b",
+      "ea_fc26_outfield.csv": "a9fc667f72046ede52db745fe3508f1d28455d1f44941d3daf48d81e02b2e92f",
+      "ea_fc26_players.csv": "fba15cea24f8635a1b8ef641e62640e2f2867a5b98647f842e30c3041c78a24f"
+    }
+  },
+  "outputs": {
+    "players.csv": {
+      "sha256": "50d1a3878d93316cfbb10011bb281410a15025843e4f072e68be9f1dbd9a6dd1",
+      "rows": 16228,
+      "columns": 60
+    },
+    "player_playstyles.csv": {
+      "sha256": "a2762f17f3844db4c7b2f8960c9f88a3310b8c10695a436a865d84a7a67c8eaf",
+      "rows": 15032,
+      "unique_players": 7339,
+      "unique_playstyles": 36,
+      "tier_counts": {
+        "base": 14913,
+        "plus": 119
+      }
+    }
+  },
+  "policy_notes": [
+    "GK rows: outfield facades/details NULL (combined-file GK facades are mirrors of GK attributes).",
+    "Outfield rows: retain EA-published GK attributes (real values; unused for outfield fit).",
+    "preferredFoot 1->Right 2->Left (SUPPORTED mapping, verified vs known players).",
+    "Empty source values remain NULL \u2014 never coerced to 0.",
+    "gender='male' is a source-stated scope fact, not an inference per row."
+  ]
+}

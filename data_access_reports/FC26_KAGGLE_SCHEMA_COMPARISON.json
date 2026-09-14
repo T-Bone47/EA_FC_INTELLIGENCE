@@ -1,0 +1,50 @@
+{
+  "canonical_target": "FC26 real player foundation",
+  "field_groups": {
+    "identity": ["player_id", "name", "nation", "club", "league", "age", "height", "weight"],
+    "gameplay": ["overall", "PAC", "SHO", "PAS", "DRI", "DEF", "PHY", "30 detailed outfield attributes", "5 GK attributes"],
+    "context": ["primary position", "alternate positions", "preferred foot", "weak foot", "skill moves", "PlayStyles", "PlayStyle+"],
+    "card": ["card identity", "variant attributes", "availability", "price", "chemistry", "roles", "Evolutions"]
+  },
+  "datasets": {
+    "justdhia_cc0": {
+      "identity": "available",
+      "detailed_outfield": "available in outfield split",
+      "gk": "available in goalkeeper split",
+      "playstyles": "available; base and plus are separate fields",
+      "alternate_positions": "available",
+      "card_fields": "not available",
+      "authority": "ACTIVE_CANONICAL"
+    },
+    "flynn28_gpl": {
+      "identity": "available",
+      "detailed_outfield": "available",
+      "gk": "available",
+      "playstyles": "one combined play style field; tier separation is not demonstrated",
+      "alternate_positions": "available",
+      "card_field": "per-player EA rating-card image URL, not a structured card entity",
+      "authority": "RESEARCH_ONLY"
+    },
+    "rovnez_cc_by": {
+      "identity": "available",
+      "detailed_outfield": "available with Sofifa-style prefixed names",
+      "gk": "available including goalkeeping_speed",
+      "playstyles": "not observed in its CSV header",
+      "alternate_positions": "available as player_positions comma-separated values",
+      "market_economic_fields": "value_eur, wage_eur, release_clause_eur exist but are real-football estimates, never FUT prices",
+      "authority": "RESEARCH_ONLY"
+    },
+    "flynn28_card_images": {
+      "structured_records": "not observed",
+      "content": "webp images addressed by player name",
+      "authority": "RESEARCH_ONLY",
+      "card_ingestion": "NOT_SUPPORTED"
+    }
+  },
+  "normalization_decisions": [
+    "The CC0 split files remain canonical because they prevent GK face-stat mirrors from being misrepresented as outfield ability.",
+    "The source-specific PlayerStyle/PlayStyle+ distinction is preserved only when separately published; a combined field is not promoted to an inferred plus tier.",
+    "Sofifa value_eur, wage_eur, and release_clause_eur are never mapped to FUT price or budget fields.",
+    "Research-only observations may populate comparison evidence but cannot override canonical values."
+  ]
+}

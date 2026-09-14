@@ -1,0 +1,40 @@
+# Reverse proxy example — TLS termination + hardening headers.
+# The API already sets X-Content-Type-Options, X-Frame-Options, Referrer-Policy,
+# Permissions-Policy, X-Request-ID and (in production) HSTS itself; nginx adds
+# TLS and compression only. Do NOT terminate auth here — JWTs are app-level.
+
+server {
+    listen 80;
+    server_name app.example.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name app.example.com;
+
+    ssl_certificate     /etc/letsencrypt/live/app.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.example.com/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+
+    client_max_body_size 1m;          # mirrors MAX_REQUEST_BYTES
+
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+
+    # SPA + API on one origin (FRONTEND_DIST set on the API):
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+    }
+
+    # Long-cache hashed build assets:
+    location /assets/ {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_cache_valid 200 30d;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+}

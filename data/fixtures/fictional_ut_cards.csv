@@ -1,0 +1,64 @@
+card_id,source_card_id,source,game_version,data_status,player_name,position,rarity,overall_rating,pace,shooting,passing,dribbling,defending,physicality,playstyles,playstyles_plus,price_coins
+synth-fc26-invalid-001,SYNTH-0001,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Broken Rating Case,ST,gold,NOT_A_NUMBER,82,81,67,76,69,74,"Incisive Pass,Dead Ball,Pinged Pass",Incisive Pass,5200
+synth-fc26-invalid-002,SYNTH-0002,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Missing Rating Case,LW,gold,,77,89,91,78,88,90,Bruiser,,11000
+synth-fc26-invalid-003,SYNTH-0003,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Too Many Plus Case,RW,gold,77,70,67,69,83,79,83,"Finesse Shot,Power Shot,Technical","Finesse Shot,Power Shot",5200
+synth-fc26-004,SYNTH-0004,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 04,CAM,gold,89,90,87,94,81,89,90,"Jockey,Rapid",,5200
+synth-fc26-005,SYNTH-0005,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 05,CM,gold,89,86,89,81,83,84,81,"Relentless,Jockey",,800
+synth-fc26-006,SYNTH-0006,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 06,CDM,gold,86,91,84,82,83,84,84,Power Shot,Power Shot,58000
+synth-fc26-007,SYNTH-0007,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 07,LM,gold,86,84,91,78,84,78,94,"Acrobatic,Pinged Pass,First Touch",,2400
+synth-fc26-008,SYNTH-0008,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 08,RM,gold,83,82,82,90,82,78,82,"Relentless,Aerial Fortress",Relentless,11000
+synth-fc26-009,SYNTH-0009,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 09,LB,gold,80,79,85,71,85,83,85,Quick Step,Quick Step,24000
+synth-fc26-010,SYNTH-0010,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 10,RB,gold,87,86,91,94,92,77,85,"Slide Tackle,First Touch",,1200
+synth-fc26-011,SYNTH-0011,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 11,CB,gold,87,93,91,89,79,77,84,Aerial Fortress,Aerial Fortress,24000
+synth-fc26-012,SYNTH-0012,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 12,GK,gold,83,78,75,82,87,74,77,"Jockey,Finesse Shot,Incisive Pass",,24000
+synth-fc26-013,SYNTH-0013,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 13,ST,gold,87,83,95,87,94,81,80,Inventive,,1200
+synth-fc26-014,SYNTH-0014,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 14,LW,gold,79,82,77,79,84,85,76,"Relentless,First Touch",Relentless,2400
+synth-fc26-015,SYNTH-0015,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 15,RW,gold,81,87,81,85,81,72,77,"Incisive Pass,Technical",Incisive Pass,1200
+synth-fc26-016,SYNTH-0016,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 16,CAM,gold,80,78,76,79,73,77,73,"First Touch,Inventive,Enforcer",,58000
+synth-fc26-017,SYNTH-0017,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 17,CM,gold,77,83,80,77,81,75,77,"Relentless,Intercept,Bruiser",Relentless,800
+synth-fc26-018,SYNTH-0018,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 18,CDM,gold,81,75,87,82,86,80,82,"Anticipate,Jockey",Anticipate,5200
+synth-fc26-019,SYNTH-0019,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 19,LM,gold,80,87,79,73,73,80,85,"Anticipate,Enforcer",,24000
+synth-fc26-020,SYNTH-0020,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 20,RM,gold,79,81,85,74,84,75,87,"First Touch,Rapid",First Touch,58000
+synth-fc26-021,SYNTH-0021,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 21,LB,gold,83,80,78,90,80,80,91,"Aerial Fortress,Incisive Pass",,5200
+synth-fc26-022,SYNTH-0022,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 22,RB,gold,86,78,91,84,91,80,89,"Relentless,Bruiser,Slide Tackle",,11000
+synth-fc26-023,SYNTH-0023,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 23,CB,gold,83,88,90,79,86,74,91,Slide Tackle,,5200
+synth-fc26-024,SYNTH-0024,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 24,GK,gold,83,77,79,84,78,77,83,"Bruiser,Whipped Pass,Power Shot",,2400
+synth-fc26-025,SYNTH-0025,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 25,ST,gold,84,89,76,79,89,90,91,"Rapid,Finesse Shot",Rapid,24000
+synth-fc26-026,SYNTH-0026,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 26,LW,gold,85,85,91,89,90,90,90,"Whipped Pass,Intercept",,5200
+synth-fc26-027,SYNTH-0027,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 27,RW,gold,89,94,95,82,89,88,82,"Block,Dead Ball",Block,5200
+synth-fc26-028,SYNTH-0028,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 28,CAM,gold,88,80,94,91,94,76,94,"Relentless,Intercept",,800
+synth-fc26-029,SYNTH-0029,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 29,CM,gold,77,78,74,76,71,69,84,"Press Proven,Technical,Enforcer",Press Proven,58000
+synth-fc26-030,SYNTH-0030,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 30,CDM,gold,85,82,79,86,83,82,78,"Pinged Pass,Enforcer,Trickster",Pinged Pass,2400
+synth-fc26-031,SYNTH-0031,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 31,LM,gold,78,83,84,68,72,68,84,"Anticipate,Slide Tackle,Tiki Taka",,800
+synth-fc26-032,SYNTH-0032,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 32,RM,gold,80,88,72,75,84,84,82,"Press Proven,Tiki Taka",Press Proven,1200
+synth-fc26-033,SYNTH-0033,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 33,LB,silver,66,70,62,69,68,57,73,"Quick Step,Press Proven",,58000
+synth-fc26-034,SYNTH-0034,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 34,RB,silver,69,70,76,61,77,62,68,"Anticipate,Block,Intercept",,1200
+synth-fc26-035,SYNTH-0035,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 35,CB,silver,67,69,67,74,74,58,62,Slide Tackle,,11000
+synth-fc26-036,SYNTH-0036,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 36,GK,silver,66,62,58,71,65,61,70,"Finesse Shot,Inventive,Press Proven",,5200
+synth-fc26-037,SYNTH-0037,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 37,ST,silver,72,77,75,63,71,75,80,Incisive Pass,,2400
+synth-fc26-038,SYNTH-0038,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 38,LW,silver,70,74,60,64,71,62,74,"Relentless,Finesse Shot,Slide Tackle",,58000
+synth-fc26-039,SYNTH-0039,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 39,RW,silver,68,62,73,74,72,66,65,Whipped Pass,,1200
+synth-fc26-040,SYNTH-0040,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 40,CAM,silver,70,62,71,71,74,59,71,"Inventive,Technical",,58000
+synth-fc26-041,SYNTH-0041,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 41,CM,silver,74,71,76,74,73,62,73,Finesse Shot,,800
+synth-fc26-042,SYNTH-0042,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 42,CDM,silver,68,66,59,63,71,73,68,"Jockey,Anticipate",,58000
+synth-fc26-043,SYNTH-0043,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 43,LM,silver,65,64,59,67,73,59,67,"Finesse Shot,Acrobatic",,58000
+synth-fc26-044,SYNTH-0044,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 44,RM,silver,67,69,72,69,72,70,63,"Relentless,Anticipate",,2400
+synth-fc26-045,SYNTH-0045,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 45,LB,silver,68,71,67,63,74,68,72,"Dead Ball,Slide Tackle,Block",,24000
+synth-fc26-046,SYNTH-0046,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 46,RB,silver,65,61,61,62,63,54,66,Enforcer,,800
+synth-fc26-047,SYNTH-0047,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 47,CB,silver,74,81,74,78,78,67,77,Tiki Taka,,800
+synth-fc26-048,SYNTH-0048,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 48,GK,silver,71,65,62,67,76,61,75,Bruiser,,24000
+synth-fc26-049,SYNTH-0049,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 49,ST,silver,70,73,63,72,67,76,67,Inventive,,5200
+synth-fc26-050,SYNTH-0050,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 50,LW,silver,72,67,66,69,78,71,77,"Anticipate,Dead Ball,Bruiser",,1200
+synth-fc26-051,SYNTH-0051,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 51,RW,silver,68,75,65,73,73,61,73,"Aerial Fortress,Slide Tackle",,58000
+synth-fc26-052,SYNTH-0052,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 52,CAM,silver,69,73,73,71,71,57,68,"Power Shot,Enforcer",,5200
+synth-fc26-053,SYNTH-0053,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 53,CM,totw,82,89,84,80,90,82,74,"Technical,Pinged Pass",,58000
+synth-fc26-054,SYNTH-0054,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 54,CDM,totw,80,72,71,87,72,77,75,Tiki Taka,Tiki Taka,24000
+synth-fc26-055,SYNTH-0055,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 55,LM,totw,88,90,90,90,84,77,89,"Dead Ball,Whipped Pass",Dead Ball,800
+synth-fc26-056,SYNTH-0056,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 56,RM,totw,89,95,85,89,96,80,87,"Incisive Pass,Whipped Pass,Finesse Shot",Incisive Pass,24000
+synth-fc26-057,SYNTH-0057,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 57,LB,totw,91,89,92,92,90,81,89,Incisive Pass,,11000
+synth-fc26-058,SYNTH-0058,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 58,RB,totw,88,83,86,93,81,89,87,"Jockey,Relentless",Jockey,58000
+synth-fc26-059,SYNTH-0059,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 59,CB,totw,80,77,81,83,87,75,87,"Incisive Pass,Slide Tackle,Jockey",Incisive Pass,5200
+synth-fc26-060,SYNTH-0060,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 60,GK,bronze,63,63,69,63,70,69,59,Block,,1200
+synth-fc26-061,SYNTH-0061,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 61,ST,bronze,61,61,63,65,62,51,67,"Power Shot,Press Proven,Rapid",,1200
+synth-fc26-062,SYNTH-0062,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 62,LW,bronze,59,63,65,66,52,53,56,"Aerial Fortress,Acrobatic",,5200
+synth-fc26-063,SYNTH-0063,SYNTHETIC_TEST,FC26,SYNTHETIC_TEST,Fixture Player 63,RW,bronze,60,66,62,52,56,60,53,Power Shot,,5200

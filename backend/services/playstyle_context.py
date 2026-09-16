@@ -30,7 +30,7 @@ from backend.services.engine_config import (
     PLAYSTYLE_PLUS_CONTEXT_FLOOR, PLAYSTYLE_REDUNDANCY_FACTOR,
 )
 from backend.services.fit_value import FitValue
-from backend.services.scoring_config import TACTICAL_PROFILE_PLAYSTYLES
+from backend.services.scoring_config import TACTICAL_PROFILE_PLAYSTYLES, GK_TACTICAL_PROFILE_PLAYSTYLES
 
 # Positional affinity (engine convention; names validated against the ingested
 # 36-name vocabulary by tests). Deliberately conservative.
@@ -69,10 +69,17 @@ BASE_TIER_ONLY_FACTOR = 0.6    # desired + but only base tier held
 
 def context_value(playstyle: str, profile: Optional[str], position: str) -> tuple[float, str]:
     """How valuable is this PlayStyle in THIS tactical/positional context."""
-    if profile:
+    is_gk = position == "GK"
+    # Use GK-specific tactical PlayStyles for GK
+    if is_gk and profile:
+        valued = GK_TACTICAL_PROFILE_PLAYSTYLES.get(profile.upper(), [])
+    elif profile:
         valued = TACTICAL_PROFILE_PLAYSTYLES.get(profile.upper(), [])
-        if playstyle in valued:
-            return PROFILE_VALUE, f"explicitly valued by {profile.upper()} tactics"
+    else:
+        valued = []
+    
+    if profile and playstyle in valued:
+        return PROFILE_VALUE, f"explicitly valued by {profile.upper()} tactics"
     aff = POSITION_PLAYSTYLE_AFFINITY.get(position.upper(), ())
     if playstyle in aff:
         return POSITION_VALUE, f"generally useful at {position.upper()}"
@@ -126,10 +133,17 @@ def contextual_playstyle_fit(candidate: Candidate, req: UserRequirements) -> Fit
 
     # No explicit desires: score the candidate's kit against the tactical
     # context (only meaningful when the profile values PlayStyles at all).
-    if not profile or not TACTICAL_PROFILE_PLAYSTYLES.get(profile.upper()):
+    is_gk = position == "GK"
+    if is_gk and profile:
+        valued = GK_TACTICAL_PROFILE_PLAYSTYLES.get(profile.upper(), [])
+    elif profile:
+        valued = TACTICAL_PROFILE_PLAYSTYLES.get(profile.upper(), [])
+    else:
+        valued = []
+    
+    if not profile or not valued:
         return FitValue.unknown(
             "no PlayStyle requirements and no profile-valued PlayStyles to score against")
-    valued = TACTICAL_PROFILE_PLAYSTYLES[profile.upper()]
     hits = [p for p in valued if p in have_all]
     plus_hits = [p for p in hits if p in have_plus]
     # redundancy: same PS at base+plus counted once (×factor on the duplicate)
@@ -146,4 +160,6 @@ def contextual_playstyle_fit(candidate: Candidate, req: UserRequirements) -> Fit
     if redundant:
         ev.append(f"redundant base+plus pairs counted once ×{PLAYSTYLE_REDUNDANCY_FACTOR}: "
                   + ", ".join(redundant))
+    if is_gk:
+        ev.append("(GK-specific tactical PlayStyles applied)")
     return FitValue.known(score, evidence=tuple(ev))

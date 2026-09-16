@@ -20,7 +20,7 @@ from __future__ import annotations
 # Engine identity (§60) — scoring semantics are versioned; changes require an
 # ENGINE_CHANGELOG entry.
 # ---------------------------------------------------------------------------
-ENGINE_VERSION = "2.2.0"
+ENGINE_VERSION = "2.3.0"
 
 # ---------------------------------------------------------------------------
 # §11 — qualitative target bands.

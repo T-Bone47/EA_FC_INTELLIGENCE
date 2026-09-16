@@ -152,12 +152,23 @@ def attribute_fit(candidate: Candidate, req: UserRequirements,
 # ------------------------------------------------------------------ tactical_fit
 def tactical_fit(candidate: Candidate, req: UserRequirements,
                  config: ScoringConfig) -> FitValue:
-    weights = config.tactical_attribute_weights(req.tactical_profile, req.custom_tactics)
-    if not weights:
-        if req.tactical_profile == "CUSTOM":
-            return FitValue.unknown("CUSTOM tactical profile given without attribute weights")
-        return FitValue.unknown(
-            f"tactical profile {req.tactical_profile} imposes no specific attribute demand")
+    # Use GK-specific tactical weights for GK candidates
+    is_gk = (candidate.position_primary or "").strip().upper() == "GK"
+    if is_gk:
+        from backend.services.scoring_config import GK_TACTICAL_ATTRIBUTE_WEIGHTS
+        weights = GK_TACTICAL_ATTRIBUTE_WEIGHTS.get(req.tactical_profile.upper(), {})
+        if not weights:
+            if req.tactical_profile == "CUSTOM":
+                return FitValue.unknown("CUSTOM tactical profile given without attribute weights")
+            return FitValue.unknown(
+                f"tactical profile {req.tactical_profile} imposes no specific GK attribute demand")
+    else:
+        weights = config.tactical_attribute_weights(req.tactical_profile, req.custom_tactics)
+        if not weights:
+            if req.tactical_profile == "CUSTOM":
+                return FitValue.unknown("CUSTOM tactical profile given without attribute weights")
+            return FitValue.unknown(
+                f"tactical profile {req.tactical_profile} imposes no specific attribute demand")
 
     scored_w = 0.0
     acc = 0.0
@@ -181,7 +192,16 @@ def tactical_fit(candidate: Candidate, req: UserRequirements,
             f"only {scored_w:.0%} of {req.tactical_profile} attribute weight is "
             f"published (missing: {', '.join(sorted(missing)[:6])})",
             evidence=tuple(detail[:8]))
-    ev = [f"profile {req.tactical_profile}", f"coverage {scored_w:.0%}"] + detail[:8]
+    # Calculate coverage as percentage of total profile weight that is present
+    from backend.services.scoring_config import TACTICAL_ATTRIBUTE_WEIGHTS, GK_TACTICAL_ATTRIBUTE_WEIGHTS
+    if is_gk:
+        total_weight = sum(GK_TACTICAL_ATTRIBUTE_WEIGHTS.get(req.tactical_profile.upper(), {}).values())
+    else:
+        total_weight = sum(config.tactical_attribute_weights(req.tactical_profile, req.custom_tactics).values())
+    coverage_pct = (scored_w / total_weight * 100) if total_weight > 0 else 0
+    ev = [f"profile {req.tactical_profile}", f"coverage {coverage_pct:.0f}%"] + detail[:8]
+    if is_gk:
+        ev.append("(GK-specific tactical weights applied)")
     return FitValue.known(acc / scored_w, evidence=tuple(ev))
 
 

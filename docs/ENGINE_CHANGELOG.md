@@ -1,5 +1,37 @@
 # ENGINE CHANGELOG
 
+## Phase 4 — 2026-09-14 — Intelligence Quality Improvements
+
+### Fixed — GK Intelligence (Critical)
+
+* **GK Tactical Fit**: Added GK-specific tactical attribute weights for all 16 tactical profiles. GKs now receive meaningful `tactical_fit` scores based on `gk_diving`, `gk_handling`, `gk_kicking`, `gk_positioning`, `gk_reflexes` instead of returning UNKNOWN/INSUFFICIENT. Profiles correctly favor different GK archetypes: LOW_BLOCK/MID_BLOCK favor shot-stoppers (positioning/handling/reflexes), BUILD_UP/POSSESSION/FAST_BUILD_UP/SLOW_BUILD_UP favor sweepers (kicking), PRESSING/HIGH_PRESS favor reflex-oriented GKs.
+* **GK PlayStyle Context**: Added GK-specific tactical PlayStyles (`Rush Out`, `Cross Claimer`, `Far Reach`, `Long Throw`, `Far Throw`, `Footwork`, `Block`) to all tactical profiles. Contextual PlayStyle scoring now works correctly for GKs.
+* **GK OVR Trap Protection**: Verified that lower-OVR GKs with superior tactical/attribute fit correctly beat higher-OVR GKs (e.g., 82 OVR shot-stopper beats 90 OVR generic GK for LOW_BLOCK).
+
+### Fixed — Position Intelligence
+
+* **CB Passing Attributes**: Added `short_passing`, `long_passing`, `vision`, `composure` to CB position weights. Modern CBs (especially 3-5-2 middle CB, ball-playing CBs) now correctly valued for passing ability.
+* **Formation Slot Emphasis**: Fixed 4-2-2-2 LAM/RAM slots — changed invalid `crossing` emphasis to valid `short_passing` (CAM position doesn't have crossing in its weights). All formation slot emphasis attributes now exist in their respective position weights.
+
+### Fixed — Tactical Intelligence
+
+* **Tactical Profiles with GK Attributes**: All 16 tactical profiles now include relevant GK attributes alongside outfield attributes. Outfield players unaffected (they don't have GK attributes, so those weights are simply not scored).
+* **Coverage Honesty**: GK tactical fit now shows `(GK-specific tactical weights applied)` in evidence; PlayStyle context shows `(GK-specific tactical PlayStyles applied)`.
+
+### Verification
+
+* All 208 unit tests pass (no DB required)
+* All golden regression scenarios S1–S8 + FC27 wall remain bit-identical
+* Determinism verified: same input → same output across all changes
+* OVR trap tests pass: GK and outfield lower-OVR candidates beat higher-OVR when fit demands it
+* No reverse bias: equal fit → higher OVR still wins (overall_quality = 0.15 weight)
+
+### Fixed — GK Combination Tactics (Critical)
+
+* **GK Secondary Tactical Profile**: Added GK-specific dimension affinities (`GK_DIMENSION_ATTRIBUTE_AFFINITY`) for all 6 tactical dimensions. Combination tactics (e.g., LOW_BLOCK+BUILD_UP) now correctly evaluate GK candidates using GK attributes (`gk_diving`, `gk_handling`, `gk_kicking`, `gk_positioning`, `gk_reflexes`) instead of returning UNKNOWN. Evidence shows `(GK-specific dimension affinities applied)`.
+
+---
+
 ## Phase 4 — 2026-09-14
 
 * Added the required `3-4-2-1` formation to both the API reference layout and

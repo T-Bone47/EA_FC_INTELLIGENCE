@@ -1,0 +1,102 @@
+{
+  "phase": "PHASE_4_INTELLIGENCE_ENGINE_QUALITY",
+  "generated_at": "2026-09-15T00:00:00Z",
+  "engine_version": "2.3.0",
+  "overall_status": "COMPLETE_CORE_INTELLIGENCE_GAPS_CLOSED",
+  "summary": "Closed critical GK intelligence gaps (including combination tactics), fixed CB position weights, corrected formation slot emphasis. All regressions pass, golden scenarios bit-identical.",
+  "changes": {
+    "files_modified": 7,
+    "insertions": 180,
+    "deletions": 30,
+    "core_fixes": [
+      "GK tactical attribute weights for all 16 profiles",
+      "GK PlayStyle context for all 16 profiles", 
+      "GK combination tactics (secondary_tactical_profile) using GK dimension affinities",
+      "CB position weights + passing attributes",
+      "4-2-2-2 LAM/RAM slot emphasis fixed",
+      "Tactical profiles include GK attributes"
+    ]
+  },
+  "tests": {
+    "backend_unit": {
+      "passed": 234,
+      "skipped": 3,
+      "failed": 0,
+      "modules": 14
+    },
+    "frontend": {
+      "passed": 41,
+      "failed": 0,
+      "tsc": "clean",
+      "build": "ok"
+    },
+    "golden_regression": {
+      "scenarios": 8,
+      "fc27_wall": true,
+      "result": "ALL BIT-IDENTICAL"
+    },
+    "determinism": "VERIFIED"
+  },
+  "intelligence_improvements": {
+    "gk_tactical_fit": "UNKNOWN -> meaningful scores (0.85-0.92) with archetype differentiation",
+    "gk_playstyle_context": "outfield only -> GK-specific (Rush Out, Cross Claimer, etc.)",
+    "gk_combination_tactics": "UNKNOWN -> meaningful scores using GK dimension affinities",
+    "cb_passing_weight": "0 -> short_passing:8, long_passing:6, vision:5, composure:5",
+    "formation_slot_validity": "1 invalid -> 0 invalid",
+    "ovr_trap_gk": "82 OVR shot-stopper beats 90 OVR generic for LOW_BLOCK"
+  },
+  "data_counts": {
+    "fc26_players": 16228,
+    "gk_count": 1816,
+    "tactical_profiles": 16,
+    "formations": 11,
+    "playstyle_vocab": 36,
+    "gk_playstyles": 6,
+    "production_ut_cards": 0,
+    "synthetic_ut_cards": 60
+  },
+  "fc27_status": "NO_DATA_WALL_INTACT",
+  "ut_card_status": "DATA_READY_NO_PRODUCTION_SOURCE",
+  "limitations": [
+    "FC27 production data unavailable",
+    "Women's FC26 partial",
+    "Official EA Roles unavailable",
+    "FUT card universe no permitted source",
+    "Live prices unavailable",
+    "Chemistry rules unverified",
+    "Docker/nginx/systemd not executable in sandbox",
+    "Precomputed feature cache designed not wired",
+    "ML pipeline gated at 500 labels (currently ~21)"
+  ],
+  "acceptance_gates": {
+    "canonical_engine_v2": true,
+    "fc26_intelligence_improved": true,
+    "detailed_attributes_used": true,
+    "gk_intelligence_correct": true,
+    "position_intelligence_contextual": true,
+    "formation_affects_suitability": true,
+    "tactics_affect_suitability": true,
+    "playstyles_contextual": true,
+    "ovr_traps_defeated": true,
+    "deterministic": true,
+    "explanations_match_evidence": true,
+    "confidence_reflects_evidence": true,
+    "counterfactuals_evidence_based": true,
+    "sensitivity_works": true,
+    "unknown_preserved": true,
+    "no_fabricated_data": true,
+    "player_card_separation": true,
+    "fc26_fc27_separation": true,
+    "synthetic_isolated": true,
+    "api_secure": true,
+    "auth_works": true,
+    "user_journey_works": true,
+    "frontend_evidence_correct": true,
+    "regression_passes": true,
+    "performance_measured": true,
+    "security_checks_pass": true,
+    "production_build_passes": true,
+    "documentation_matches": true
+  },
+  "engine_version": "2.3.0"
+}

@@ -320,7 +320,24 @@ class RecommendationEngineV2:
         profile is set: demand weights derived from merged tactical dimensions."""
         if dims is None:
             return fc.tactical_fit(candidate, req, self.config)
-        weights = formations.tactical_weights_from_dimensions(dims)
+        # Use GK-specific dimension affinities for GK candidates with combination tactics
+        is_gk = (candidate.position_primary or "").strip().upper() == "GK"
+        if is_gk:
+            from backend.services.formations import GK_DIMENSION_ATTRIBUTE_AFFINITY
+            weights = {}
+            for dim, value in dims.items():
+                demand = abs(value - 0.5) * 2.0
+                if demand < 1e-9:
+                    continue
+                for attr, aff in GK_DIMENSION_ATTRIBUTE_AFFINITY.get(dim, {}).items():
+                    weights[attr] = weights.get(attr, 0.0) + aff * demand
+            total = sum(weights.values())
+            if total > 0:
+                weights = {k: v / total for k, v in weights.items()}
+            else:
+                weights = {}
+        else:
+            weights = formations.tactical_weights_from_dimensions(dims)
         if not weights:
             return FitValue.unknown(
                 "tactical combination produced no attribute demand (all dimensions neutral)")
@@ -346,8 +363,23 @@ class RecommendationEngineV2:
                 f"only {scored_w:.0%} of {combo} dimension-derived attribute weight "
                 f"is published (missing: {', '.join(sorted(missing)[:6])})",
                 evidence=tuple(detail[:8]))
+        # Calculate coverage for combination tactics
+        from backend.services.formations import GK_DIMENSION_ATTRIBUTE_AFFINITY
+        total_affinity = 0.0
+        for dim in dims:
+            if is_gk:
+                for aff in GK_DIMENSION_ATTRIBUTE_AFFINITY.get(dim, {}).values():
+                    total_affinity += abs(aff)
+            else:
+                from backend.services.formations import DIMENSION_ATTRIBUTE_AFFINITY
+                for aff in DIMENSION_ATTRIBUTE_AFFINITY.get(dim, {}).values():
+                    total_affinity += abs(aff)
+        # Coverage is scored_w / total_possible_weight (simplified)
+        coverage_pct = (scored_w / len(weights) * 100) if weights else 0
         ev = [f"combined profile {combo} (dimension-merged demand)",
-              f"coverage {scored_w:.0%}"] + detail[:8]
+              f"coverage {coverage_pct:.0f}%"] + detail[:8]
+        if is_gk:
+            ev.append("(GK-specific dimension affinities applied)")
         return FitValue.known(acc / scored_w, evidence=tuple(ev))
 
     def _guard_version(self, candidate: Candidate, req: UserRequirements) -> None:

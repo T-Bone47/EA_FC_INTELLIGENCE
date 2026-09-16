@@ -87,6 +87,22 @@ DIMENSION_ATTRIBUTE_AFFINITY: dict[str, dict[str, float]] = {
 # remove the placeholder key defensively (documents that no attr is invented)
 DIMENSION_ATTRIBUTE_AFFINITY["build_up_speed"].pop("first_touch_dummy", None)
 
+# GK-specific dimension affinities (for combination tactics with GK candidates)
+GK_DIMENSION_ATTRIBUTE_AFFINITY: dict[str, dict[str, float]] = {
+    "press_intensity": {"gk_reflexes": 0.30, "gk_diving": 0.25, "gk_positioning": 0.20,
+                        "gk_handling": 0.15, "gk_kicking": 0.10},
+    "block_height":    {"gk_positioning": 0.30, "gk_reflexes": 0.20, "gk_diving": 0.20,
+                        "gk_handling": 0.15, "gk_kicking": 0.15},
+    "build_up_speed":  {"gk_kicking": 0.30, "gk_positioning": 0.20, "gk_reflexes": 0.20,
+                        "gk_handling": 0.15, "gk_diving": 0.15},
+    "width":           {"gk_kicking": 0.25, "gk_positioning": 0.20, "gk_reflexes": 0.20,
+                        "gk_handling": 0.15, "gk_diving": 0.20},
+    "directness":      {"gk_kicking": 0.30, "gk_positioning": 0.20, "gk_reflexes": 0.20,
+                        "gk_handling": 0.15, "gk_diving": 0.10},
+    "tempo":           {"gk_reflexes": 0.25, "gk_kicking": 0.20, "gk_positioning": 0.20,
+                        "gk_handling": 0.15, "gk_diving": 0.20},
+}
+
 # dimension value below/above which it does not shift weights (neutral band)
 DIMENSION_NEUTRAL = 0.5
 DIMENSION_MAX_SHIFT = 0.6   # max multiplier applied to affinity at extreme (0 or 1)
@@ -331,8 +347,8 @@ FORMATION_SLOTS: dict[str, list[FormationSlot]] = {
         _s("RB", "RB", "R", "SUPPORT", stamina=1.15, pace=1.10, crossing=1.10),
         _s("LDM", "CDM", "L", "DEFEND", interceptions=1.15, defensive_awareness=1.10),
         _s("RDM", "CDM", "R", "SUPPORT", short_passing=1.10, stamina=1.05),
-        _s("LAM", "CAM", "L", "ATTACK", vision=1.10, dribbling_detail=1.10, crossing=1.05),
-        _s("RAM", "CAM", "R", "ATTACK", vision=1.10, dribbling_detail=1.10, crossing=1.05),
+        _s("LAM", "CAM", "L", "ATTACK", vision=1.10, dribbling_detail=1.10, short_passing=1.05),
+        _s("RAM", "CAM", "R", "ATTACK", vision=1.10, dribbling_detail=1.10, short_passing=1.05),
         _s("LST", "ST", "L", "ATTACK", finishing=1.10, pace=1.05),
         _s("RST", "ST", "R", "ATTACK", finishing=1.05, strength=1.10),
     ],

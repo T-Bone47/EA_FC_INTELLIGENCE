@@ -1,0 +1,9 @@
+﻿protocol_key,session_key,block_key,order,match_key,tactical_profile,card,name,source_item_id,card_item_id,formation,slot,position,controller,match_date,game_patch,platform,game_mode,role,setup_key,opponent_context,skill_context,minutes,tackles_won,interceptions,shots,shots_on_target,goals,evidence_locator,deviation
+fc27-st-press-counter-r1,s1,s1-b1,1,fc27-st-press-counter-r1-s1-b1-m1,HIGH_PRESS,A,Ousmane Dembélé,231443,ec2091c7-93c6-5bb8-8bba-59009b186700,4-3-3,ST,ST,HUMAN,,,,,,,,,,,,,,,,
+fc27-st-press-counter-r1,s1,s1-b1,2,fc27-st-press-counter-r1-s1-b1-m2,HIGH_PRESS,B,Kylian Mbappé,231747,97aaac8f-1616-50a0-afea-fd8aeff337ce,4-3-3,ST,ST,HUMAN,,,,,,,,,,,,,,,,
+fc27-st-press-counter-r1,s1,s1-b2,1,fc27-st-press-counter-r1-s1-b2-m1,COUNTER_ATTACK,B,Kylian Mbappé,231747,97aaac8f-1616-50a0-afea-fd8aeff337ce,4-3-3,ST,ST,HUMAN,,,,,,,,,,,,,,,,
+fc27-st-press-counter-r1,s1,s1-b2,2,fc27-st-press-counter-r1-s1-b2-m2,COUNTER_ATTACK,A,Ousmane Dembélé,231443,ec2091c7-93c6-5bb8-8bba-59009b186700,4-3-3,ST,ST,HUMAN,,,,,,,,,,,,,,,,
+fc27-st-press-counter-r1,s2,s2-b1,1,fc27-st-press-counter-r1-s2-b1-m1,COUNTER_ATTACK,A,Ousmane Dembélé,231443,ec2091c7-93c6-5bb8-8bba-59009b186700,4-3-3,ST,ST,HUMAN,,,,,,,,,,,,,,,,
+fc27-st-press-counter-r1,s2,s2-b1,2,fc27-st-press-counter-r1-s2-b1-m2,COUNTER_ATTACK,B,Kylian Mbappé,231747,97aaac8f-1616-50a0-afea-fd8aeff337ce,4-3-3,ST,ST,HUMAN,,,,,,,,,,,,,,,,
+fc27-st-press-counter-r1,s2,s2-b2,1,fc27-st-press-counter-r1-s2-b2-m1,HIGH_PRESS,B,Kylian Mbappé,231747,97aaac8f-1616-50a0-afea-fd8aeff337ce,4-3-3,ST,ST,HUMAN,,,,,,,,,,,,,,,,
+fc27-st-press-counter-r1,s2,s2-b2,2,fc27-st-press-counter-r1-s2-b2-m2,HIGH_PRESS,A,Ousmane Dembélé,231443,ec2091c7-93c6-5bb8-8bba-59009b186700,4-3-3,ST,ST,HUMAN,,,,,,,,,,,,,,,,

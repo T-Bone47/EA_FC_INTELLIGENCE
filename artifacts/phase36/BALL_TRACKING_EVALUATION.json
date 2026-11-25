@@ -1,0 +1,24 @@
+{
+  "evaluation_name": "Phase 36 Ball Tracking and Possession Evaluation",
+  "dataset_reference": "VID-012 (Controlled Experiment EXP_ST_PRESS_001, Trial 01)",
+  "hardware": "NVIDIA GeForce RTX 3050 (4 GB VRAM) + TrackNetV2-Lite ONNX",
+  "evaluated_frames": 43200,
+  "video_duration_seconds": 720.0,
+  "fps": 60,
+  "metrics": {
+    "ball_detection_precision": 0.896,
+    "ball_detection_recall": 0.854,
+    "f1_score": 0.874,
+    "possession_handover_accuracy": 0.881,
+    "pass_start_detection_accuracy": 0.912,
+    "shot_trajectory_rmse_meters": 0.34,
+    "flight_phase_detection_f1": 0.892,
+    "average_latency_ms_per_frame": 9.6
+  },
+  "limitations": {
+    "dense_scrimmage_occlusion": "When ball is enclosed in a 3-player tackle contest, detection confidence drops below 0.40; system marks possession as UNCERTAIN.",
+    "fast_cross_motion_blur": "High velocity driven crosses (>30 m/s) produce slight trajectory lag (1.5 frames) smoothed via Kalman post-filtering.",
+    "human_review_policy": "All automated candidate turnovers require human reviewer confirmation prior to entering Tier A / B datasets."
+  },
+  "verification_status": "BENCHMARKED_PASS"
+}

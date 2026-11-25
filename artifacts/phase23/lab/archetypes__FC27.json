@@ -1,0 +1,200 @@
+{
+  "CAM": {
+    "pool": 1163,
+    "archetypes": [
+      "CREATIVE_PLAYMAKER",
+      "INVERTED_WINGER",
+      "PRESSING_FORWARD",
+      "FALSE_9"
+    ],
+    "top10_overlap": {
+      "CREATIVE_PLAYMAKER|INVERTED_WINGER": 5,
+      "CREATIVE_PLAYMAKER|PRESSING_FORWARD": 2,
+      "CREATIVE_PLAYMAKER|FALSE_9": 8,
+      "INVERTED_WINGER|PRESSING_FORWARD": 2,
+      "INVERTED_WINGER|FALSE_9": 5,
+      "PRESSING_FORWARD|FALSE_9": 3
+    },
+    "mean_overlap": 4.17
+  },
+  "CB": {
+    "pool": 3595,
+    "archetypes": [
+      "BALL_WINNER",
+      "DEFENSIVE_FULLBACK",
+      "STOPPER",
+      "BALL_PLAYING_DEFENDER"
+    ],
+    "top10_overlap": {
+      "BALL_WINNER|DEFENSIVE_FULLBACK": 7,
+      "BALL_WINNER|STOPPER": 7,
+      "BALL_WINNER|BALL_PLAYING_DEFENDER": 3,
+      "DEFENSIVE_FULLBACK|STOPPER": 7,
+      "DEFENSIVE_FULLBACK|BALL_PLAYING_DEFENDER": 5,
+      "STOPPER|BALL_PLAYING_DEFENDER": 3
+    },
+    "mean_overlap": 5.33
+  },
+  "CDM": {
+    "pool": 1568,
+    "archetypes": [
+      "DEEP_PLAYMAKER",
+      "BALL_WINNER",
+      "BALL_PLAYING_DEFENDER"
+    ],
+    "top10_overlap": {
+      "DEEP_PLAYMAKER|BALL_WINNER": 4,
+      "DEEP_PLAYMAKER|BALL_PLAYING_DEFENDER": 8,
+      "BALL_WINNER|BALL_PLAYING_DEFENDER": 4
+    },
+    "mean_overlap": 5.33
+  },
+  "CM": {
+    "pool": 2376,
+    "archetypes": [
+      "BOX_TO_BOX",
+      "DEEP_PLAYMAKER",
+      "BALL_WINNER",
+      "CREATIVE_PLAYMAKER"
+    ],
+    "top10_overlap": {
+      "BOX_TO_BOX|DEEP_PLAYMAKER": 4,
+      "BOX_TO_BOX|BALL_WINNER": 5,
+      "BOX_TO_BOX|CREATIVE_PLAYMAKER": 3,
+      "DEEP_PLAYMAKER|BALL_WINNER": 2,
+      "DEEP_PLAYMAKER|CREATIVE_PLAYMAKER": 7,
+      "BALL_WINNER|CREATIVE_PLAYMAKER": 0
+    },
+    "mean_overlap": 3.5
+  },
+  "GK": {
+    "pool": 2204,
+    "archetypes": [
+      "SWEEPER_KEEPER",
+      "SHOT_STOPPER"
+    ],
+    "top10_overlap": {
+      "SWEEPER_KEEPER|SHOT_STOPPER": 6
+    },
+    "mean_overlap": 6.0
+  },
+  "LB": {
+    "pool": 1435,
+    "archetypes": [
+      "ATTACKING_FULLBACK",
+      "DEFENSIVE_FULLBACK"
+    ],
+    "top10_overlap": {
+      "ATTACKING_FULLBACK|DEFENSIVE_FULLBACK": 5
+    },
+    "mean_overlap": 5.0
+  },
+  "LM": {
+    "pool": 1149,
+    "archetypes": [
+      "DIRECT_WINGER",
+      "ATTACKING_FULLBACK"
+    ],
+    "top10_overlap": {
+      "DIRECT_WINGER|ATTACKING_FULLBACK": 7
+    },
+    "mean_overlap": 7.0
+  },
+  "LW": {
+    "pool": 489,
+    "archetypes": [
+      "CREATIVE_PLAYMAKER",
+      "INVERTED_WINGER",
+      "DIRECT_WINGER",
+      "INSIDE_FORWARD",
+      "PRESSING_FORWARD"
+    ],
+    "top10_overlap": {
+      "CREATIVE_PLAYMAKER|INVERTED_WINGER": 7,
+      "CREATIVE_PLAYMAKER|DIRECT_WINGER": 7,
+      "CREATIVE_PLAYMAKER|INSIDE_FORWARD": 7,
+      "CREATIVE_PLAYMAKER|PRESSING_FORWARD": 4,
+      "INVERTED_WINGER|DIRECT_WINGER": 8,
+      "INVERTED_WINGER|INSIDE_FORWARD": 10,
+      "INVERTED_WINGER|PRESSING_FORWARD": 5,
+      "DIRECT_WINGER|INSIDE_FORWARD": 8,
+      "DIRECT_WINGER|PRESSING_FORWARD": 4,
+      "INSIDE_FORWARD|PRESSING_FORWARD": 5
+    },
+    "mean_overlap": 6.5
+  },
+  "RB": {
+    "pool": 1531,
+    "archetypes": [
+      "ATTACKING_FULLBACK",
+      "DEFENSIVE_FULLBACK"
+    ],
+    "top10_overlap": {
+      "ATTACKING_FULLBACK|DEFENSIVE_FULLBACK": 4
+    },
+    "mean_overlap": 4.0
+  },
+  "RM": {
+    "pool": 1077,
+    "archetypes": [
+      "DIRECT_WINGER",
+      "ATTACKING_FULLBACK"
+    ],
+    "top10_overlap": {
+      "DIRECT_WINGER|ATTACKING_FULLBACK": 7
+    },
+    "mean_overlap": 7.0
+  },
+  "RW": {
+    "pool": 484,
+    "archetypes": [
+      "CREATIVE_PLAYMAKER",
+      "INVERTED_WINGER",
+      "DIRECT_WINGER",
+      "INSIDE_FORWARD",
+      "PRESSING_FORWARD"
+    ],
+    "top10_overlap": {
+      "CREATIVE_PLAYMAKER|INVERTED_WINGER": 6,
+      "CREATIVE_PLAYMAKER|DIRECT_WINGER": 3,
+      "CREATIVE_PLAYMAKER|INSIDE_FORWARD": 6,
+      "CREATIVE_PLAYMAKER|PRESSING_FORWARD": 4,
+      "INVERTED_WINGER|DIRECT_WINGER": 5,
+      "INVERTED_WINGER|INSIDE_FORWARD": 8,
+      "INVERTED_WINGER|PRESSING_FORWARD": 3,
+      "DIRECT_WINGER|INSIDE_FORWARD": 5,
+      "DIRECT_WINGER|PRESSING_FORWARD": 5,
+      "INSIDE_FORWARD|PRESSING_FORWARD": 5
+    },
+    "mean_overlap": 5.0
+  },
+  "ST": {
+    "pool": 2718,
+    "archetypes": [
+      "INVERTED_WINGER",
+      "INSIDE_FORWARD",
+      "TARGET_MAN",
+      "PRESSING_FORWARD",
+      "POACHER",
+      "FALSE_9"
+    ],
+    "top10_overlap": {
+      "INVERTED_WINGER|INSIDE_FORWARD": 8,
+      "INVERTED_WINGER|TARGET_MAN": 1,
+      "INVERTED_WINGER|PRESSING_FORWARD": 4,
+      "INVERTED_WINGER|POACHER": 6,
+      "INVERTED_WINGER|FALSE_9": 7,
+      "INSIDE_FORWARD|TARGET_MAN": 1,
+      "INSIDE_FORWARD|PRESSING_FORWARD": 4,
+      "INSIDE_FORWARD|POACHER": 7,
+      "INSIDE_FORWARD|FALSE_9": 6,
+      "TARGET_MAN|PRESSING_FORWARD": 4,
+      "TARGET_MAN|POACHER": 4,
+      "TARGET_MAN|FALSE_9": 1,
+      "PRESSING_FORWARD|POACHER": 4,
+      "PRESSING_FORWARD|FALSE_9": 3,
+      "POACHER|FALSE_9": 5
+    },
+    "mean_overlap": 4.33
+  }
+}

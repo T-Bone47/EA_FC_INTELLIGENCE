@@ -1,0 +1,29 @@
+{
+  "test_run": "Phase 36 Gameplay Intelligence Studio Browser E2E Inspection",
+  "timestamp": "2026-11-24T16:17:45.209Z",
+  "browser": "Microsoft Edge (Headless Chromium)",
+  "target_urls": [
+    "http://localhost:5173/research/gameplay-studio"
+  ],
+  "desktop_cockpit": {
+    "http_status": 200,
+    "page_title": "Gameplay Intelligence Studio",
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase36\\screenshots\\phase36_studio_cockpit_desktop.png"
+  },
+  "inspector_focused": {
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase36\\screenshots\\phase36_studio_inspector_focused.png"
+  },
+  "challenges_tab": {
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase36\\screenshots\\phase36_studio_challenges_tab.png"
+  },
+  "quality_tab": {
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase36\\screenshots\\phase36_studio_quality_tab.png"
+  },
+  "mobile": {
+    "horizontal_overflow_detected": false,
+    "scroll_width": 390,
+    "client_width": 390,
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase36\\screenshots\\phase36_studio_mobile.png"
+  },
+  "overall_status": "PASS"
+}

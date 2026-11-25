@@ -1,0 +1,131 @@
+﻿{
+  "environment": {
+    "opencv": "5.1.0",
+    "pyav": "19.0.2",
+    "scipy": "1.18.1",
+    "scikit_learn": "1.9.1",
+    "torch": null,
+    "torchvision": null,
+    "onnxruntime": null,
+    "ultralytics": null,
+    "opencl_available": true,
+    "opencl_device": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "cuda_available": false,
+    "cuda_gpu_name": null,
+    "cuda_vram_mb": null,
+    "models_dir": "<repo>/backend/models",
+    "weights_present": [],
+    "training_ready_for_pytorch_gradient_descent": false,
+    "onnx_inference_ready_via_opencv_dnn": true
+  },
+  "onnx_status": {
+    "weights_present": false,
+    "onnx_path": "<repo>/backend/models/fc_detector.onnx",
+    "status": "NO_TRAINED_WEIGHTS_PRESENT",
+    "active_runtime_fallback": "CV_CLASSICAL_HSV_CONTOUR",
+    "metadata": {}
+  },
+  "training_recipe_summary": {
+    "framework": "YOLOX_APACHE2",
+    "license_name": "Apache-2.0",
+    "commercial_safe": true,
+    "input_size_player": [
+      640,
+      640
+    ],
+    "input_size_small_ball": [
+      960,
+      960
+    ],
+    "batch_size_4gb_vram": 4
+  },
+  "real_uploaded_clips": {
+    "total_files": 24,
+    "processed_ok": [
+      {
+        "file": "c2eb123f-89b8-4706-9530-d35596a66a41_fc27_real_clip_78e44f.mp4",
+        "size_bytes": 70057,
+        "status": "PROCESSED_OK",
+        "resolution": "960x540",
+        "sampled_frames": 12,
+        "active_gameplay_frames": 12,
+        "tracking_coverage_pct": 79.5,
+        "calibration_quality": "GOOD (12/12 active frames calibrated)",
+        "detector_backend": "CV_CLASSICAL_HSV_CONTOUR",
+        "elapsed_ms": 1719.77,
+        "effective_fps": 6.98
+      },
+      {
+        "file": "eda57480-6211-4ab8-973b-5a7e833098b1_fc27_real_clip_f9868b.mp4",
+        "size_bytes": 68222,
+        "status": "PROCESSED_OK",
+        "resolution": "960x540",
+        "sampled_frames": 12,
+        "active_gameplay_frames": 12,
+        "tracking_coverage_pct": 80.3,
+        "calibration_quality": "GOOD (12/12 active frames calibrated)",
+        "detector_backend": "CV_CLASSICAL_HSV_CONTOUR",
+        "elapsed_ms": 841.83,
+        "effective_fps": 14.25
+      }
+    ],
+    "corrupt_stub_count": 22
+  },
+  "synthetic_calibrated_geometry_proxy": {
+    "elapsed_ms": 354.0,
+    "fps": 33.9,
+    "metrics": {
+      "evaluation_scope": "SYNTHETIC_CALIBRATED_GEOMETRY_PROXY",
+      "frames_evaluated": 12,
+      "macro_precision": 0.8287,
+      "macro_recall": 0.775,
+      "map50": 0.7712,
+      "ball_recall": 0.6667,
+      "ball_ap50": 0.6667,
+      "player_ap50": 0.8758,
+      "mota": 0.875,
+      "idf1": 0.9339,
+      "hota": 0.936,
+      "id_switches": 0,
+      "pitch_localization_rmse_m": 0.331,
+      "pitch_localization_median_m": 0.336,
+      "per_class": [
+        {
+          "class_name": "ball",
+          "gt_count": 12,
+          "pred_count": 12,
+          "tp": 8,
+          "fp": 4,
+          "fn": 4,
+          "precision": 0.6667,
+          "recall": 0.6667,
+          "ap50": 0.6667
+        },
+        {
+          "class_name": "player",
+          "gt_count": 120,
+          "pred_count": 107,
+          "tp": 106,
+          "fp": 1,
+          "fn": 14,
+          "precision": 0.9907,
+          "recall": 0.8833,
+          "ap50": 0.8758
+        }
+      ]
+    }
+  },
+  "manifest_and_split_check": {
+    "manifest_valid": true,
+    "leakage_free_verified": true,
+    "train_matches": [
+      "MATCH_2"
+    ],
+    "val_matches": [
+      "MATCH_1"
+    ],
+    "test_matches": [
+      "MATCH_0"
+    ]
+  }
+}

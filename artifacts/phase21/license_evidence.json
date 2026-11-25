@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-09-20",
+  "providers": {
+    "futdb_app": {
+      "overall_status": "PARTIAL",
+      "minimum_production_clearance": false,
+      "evidence_count": 2,
+      "total_dimensions": 9
+    },
+    "fut_db_com": {
+      "overall_status": "BLOCKED",
+      "minimum_production_clearance": false,
+      "evidence_count": 4,
+      "total_dimensions": 9
+    },
+    "futbin": {
+      "overall_status": "BLOCKED",
+      "minimum_production_clearance": false,
+      "evidence_count": 8,
+      "total_dimensions": 9
+    },
+    "futwiz": {
+      "overall_status": "UNVERIFIED",
+      "minimum_production_clearance": false,
+      "evidence_count": 0,
+      "total_dimensions": 9
+    }
+  }
+}

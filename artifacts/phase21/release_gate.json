@@ -1,0 +1,9 @@
+{
+  "status": "BLOCKED",
+  "dataset_id": "fc26-ut-cards-hypothetical",
+  "card_count": 0,
+  "blocking_reasons": [
+    "card_count is 0: no FC26 UT card data has been legitimately acquired. There is nothing to release. See PHASE_20_CARD_DATA_STATUS.md."
+  ],
+  "evaluated_at": "2026-09-21T11:44:02.720710+00:00"
+}

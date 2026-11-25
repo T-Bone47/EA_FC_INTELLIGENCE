@@ -1,0 +1,60 @@
+{
+  "test_run": "Phase 35 Full-Stack Browser E2E Inspection",
+  "timestamp": "2026-11-24T13:36:03.450Z",
+  "browser": "Microsoft Edge (Headless Chromium)",
+  "target_urls": [
+    "http://localhost:5173/cards/squad-lab",
+    "http://localhost:5173/cards/performance"
+  ],
+  "squad_lab_desktop": {
+    "http_status": 200,
+    "page_title": "Ultimate Team Squad Lab",
+    "synergy_dashboard_rendered": true,
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_squad_lab_desktop_full.png"
+  },
+  "squad_lab_mobile": {
+    "horizontal_overflow_detected": false,
+    "scroll_width": 390,
+    "client_width": 390,
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_squad_lab_mobile.png"
+  },
+  "performance_lab_desktop": {
+    "http_status": 200,
+    "rendered": true,
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_performance_lab_desktop.png"
+  },
+  "performance_lab_mobile": {
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_performance_lab_mobile.png"
+  },
+  "inspector_tabs": {
+    "WHOLE_XI": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_tab_whole_xi.png"
+    },
+    "LEFT_FLANK": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_tab_left_flank.png"
+    },
+    "CENTRAL_SPINE": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_tab_central_spine.png"
+    },
+    "RIGHT_FLANK": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_tab_right_flank.png"
+    },
+    "ALERTS": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_tab_alerts.png"
+    },
+    "PARTNERSHIPS": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_tab_partnerships.png"
+    },
+    "STABILITY": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase35\\screenshots\\phase35_tab_stability.png"
+    }
+  },
+  "overall_status": "PASS"
+}

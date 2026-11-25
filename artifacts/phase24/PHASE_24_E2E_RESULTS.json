@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-10-07T09:12:51+00:00",
+  "scope": "jsdom (NOT a real browser): real FastAPI + real Postgres + the real React code in src/intelligence",
+  "frontend_suite": {
+    "files": 16,
+    "tests": 79,
+    "passed": 79,
+    "failed": 0,
+    "skipped": 0
+  },
+  "live_e2e": [
+    {
+      "test": "the ladder shows exactly the backend ranking: order, names, scores and tie notes",
+      "status": "passed",
+      "ms": 4941
+    },
+    {
+      "test": "compare shows the backend pairwise explanations for the same players",
+      "status": "passed",
+      "ms": 4933
+    },
+    {
+      "test": "what-if rows equal the backend what-if for the same variant",
+      "status": "passed",
+      "ms": 11086
+    }
+  ],
+  "verifies": [
+    "ladder order/names/scores/tie notes equal the backend response",
+    "compare shows backend pairwise 'why' text",
+    "what-if rows equal backend what-if"
+  ],
+  "http_transfer_fc26_cm_limit10": {
+    "uncompressed_bytes": 786372,
+    "gzip_bytes": 144622,
+    "ratio": 5.4,
+    "wall_s_uncompressed": 0.885854,
+    "wall_s_gzip": 1.276559,
+    "wall_time_note": "NOT comparable: measured while the full backend test suite was running (single shared CPU), and gzip costs CPU on localhost. Only the byte counts are valid evidence."
+  },
+  "not_covered": [
+    "real-browser rendering / visual layout",
+    "FC27 live path in the UI (research data; not committed to fixtures)",
+    "accessibility audit beyond role/label queries",
+    "mobile layout"
+  ]
+}

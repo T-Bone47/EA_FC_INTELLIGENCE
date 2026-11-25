@@ -1,0 +1,28 @@
+{
+  "test_run": "Phase 37 Gameplay Intelligence Studio & Radar Replay Browser E2E Inspection",
+  "timestamp": "2026-11-24T16:40:44.078Z",
+  "browser": "Microsoft Edge (Headless Chromium)",
+  "target_urls": [
+    "http://localhost:5173/research/gameplay-studio"
+  ],
+  "desktop_cockpit": {
+    "http_status": 200,
+    "page_title": "Gameplay Intelligence Studio",
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase37\\screenshots\\phase37_studio_cockpit.png"
+  },
+  "radar_replay": {
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase37\\screenshots\\phase37_studio_radar_replay.png",
+    "status": "PASS"
+  },
+  "bayesian_calibration": {
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase37\\screenshots\\phase37_studio_bayesian_calibration.png",
+    "status": "PASS"
+  },
+  "mobile_viewport": {
+    "clientWidth": 390,
+    "scrollWidth": 390,
+    "hasHorizontalOverflow": false,
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase37\\screenshots\\phase37_studio_radar_mobile.png"
+  },
+  "overall_status": "PASS"
+}

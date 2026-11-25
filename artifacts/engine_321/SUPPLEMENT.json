@@ -1,0 +1,217 @@
+{
+  "policy": "Cross-check only. Preserve the frozen serving data and source levels.",
+  "comparable_attribute_observations": 240349,
+  "exact_attribute_agreements": 234864,
+  "fields": [
+    {
+      "attribute": "acceleration",
+      "compared": 6868,
+      "exact_agreements": 6868,
+      "items": 6868
+    },
+    {
+      "attribute": "aggression",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "agility",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "balance",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "ball_control",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "composure",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "crossing",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "curve",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "defending",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "defensive_awareness",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "dribbling",
+      "compared": 6867,
+      "exact_agreements": 1382,
+      "items": 6867
+    },
+    {
+      "attribute": "dribbling_detail",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "finishing",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "free_kick_accuracy",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "heading_accuracy",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "interceptions",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "jumping",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "long_passing",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "long_shots",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "pace",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "passing",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "penalties",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "physicality",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "positioning",
+      "compared": 6868,
+      "exact_agreements": 6868,
+      "items": 6868
+    },
+    {
+      "attribute": "reactions",
+      "compared": 6868,
+      "exact_agreements": 6868,
+      "items": 6868
+    },
+    {
+      "attribute": "shooting",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "short_passing",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "shot_power",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "sliding_tackle",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "sprint_speed",
+      "compared": 6868,
+      "exact_agreements": 6868,
+      "items": 6868
+    },
+    {
+      "attribute": "stamina",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "standing_tackle",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "strength",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "vision",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    },
+    {
+      "attribute": "volleys",
+      "compared": 6867,
+      "exact_agreements": 6867,
+      "items": 6867
+    }
+  ]
+}

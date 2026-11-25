@@ -1,0 +1,15 @@
+Feature,Status,Acceptance evidence,Remaining work
+Source catalogue and provenance,INTEGRATED_AND_VERIFIED,Four pinned hashes and immutable staging with commit rollback replay,Review owner-supplied source approvals before product reuse
+Item identity and review queue,RESEARCH_ONLY,7698 cross-source item agreements and 14 direct-ID rating conflicts retained,Provider-backed identity resolution and signed approval
+FC27 contextual player intelligence,RESEARCH_ONLY,Scoped search detail frozen reference V3.2 comparison and what-if,Public player dataset approval
+UT card comparison,INTEGRATED_AND_VERIFIED,Controlled card evidence and release exclusion,Real approved data
+UT card scoring,ENGINEERING_COMPLETE,Separate UT_CARDS reference and real HTTP fixture ranking,Approved production card release reference and sufficient evidence
+Squad slot analysis and replacements,INTEGRATED_AND_VERIFIED,Owned slot-specific scores and applied replacement flow,Full multi-objective optimizer
+Tactical stability,INTEGRATED_AND_VERIFIED,Bounded original-context what-if and tactical compatibility table,Larger benchmark and stable confidence policy
+Personalization and feedback,INTEGRATED_AND_VERIFIED,Stated defaults and signed versioned feedback for ranked players,Longitudinal preference learning with evaluated outcomes
+Official roles,BLOCKED_BY_DATA_RIGHTS,Original third-party strings retained as editorial observations,Verified card-level role eligibility
+Market prices and budget,BLOCKED_BY_DATA_RIGHTS,Explicit unavailable state,Verified and fresh market observations
+Chemistry and Evolutions,BLOCKED_BY_DATA_RIGHTS,Explicit unavailable state,Verified version rules and observations
+FCData feed,BLOCKED_BY_DATA_RIGHTS,Public documentation review and unsent request,Written terms and supported contract
+Full multi-objective squad optimization,NOT_IMPLEMENTED,Exact slot replacements available,Verified objectives and complete optimizer journey
+Production certification,NOT_CERTIFIED,Isolated tests and fail-closed release policy,Approvals calibration and CI certification

@@ -1,0 +1,14 @@
+{
+  "baseline_passed": 90,
+  "baseline_live_skips": 3,
+  "passed": 94,
+  "failed": 0,
+  "skipped": 0,
+  "test_files": 17,
+  "live_api_tests": 3,
+  "command": "Vitest 2.1.9 via startVitest (jsdom)",
+  "build_command": "npm.cmd run build",
+  "production_build": "passed",
+  "build_duration_seconds": 2.71,
+  "new_test": "Visible form field labels and descriptions are associated with their controls."
+}

@@ -1,0 +1,399 @@
+{
+  "runs": [
+    {
+      "started_at": "2026-09-29T12:36:42.934413+00:00",
+      "finished_at": "2026-09-29T12:36:59.699285+00:00",
+      "observation_id": "0ef9d6ea-87cf-4ac5-93a7-b51b858935af",
+      "pipeline": {
+        "players_fetched": 19789,
+        "players_persisted": 19789,
+        "players_rejected": 0,
+        "players_review": 4,
+        "playstyles_attached": 16630,
+        "identity_resolved": 16,
+        "identity_review": 4,
+        "identity_unresolved": 19769
+      },
+      "pipeline_rejections": [],
+      "pipeline_reviews": [
+        {
+          "source_player_id": "158023",
+          "name": "Lionel Messi",
+          "reasons": [
+            "identity_ambiguous: identity resolution flagged REVIEW_REQUIRED",
+            "identity: unique name match but identity facts conflict (nationality/DOB/position) \u2014 routed to review, not merged"
+          ]
+        },
+        {
+          "source_player_id": "192985",
+          "name": "Kevin De Bruyne",
+          "reasons": [
+            "identity_ambiguous: identity resolution flagged REVIEW_REQUIRED",
+            "identity: unique name match but identity facts conflict (nationality/DOB/position) \u2014 routed to review, not merged"
+          ]
+        },
+        {
+          "source_player_id": "237692",
+          "name": "Phil Foden",
+          "reasons": [
+            "identity_ambiguous: identity resolution flagged REVIEW_REQUIRED",
+            "identity: unique name match but identity facts conflict (nationality/DOB/position) \u2014 routed to review, not merged"
+          ]
+        },
+        {
+          "source_player_id": "200104",
+          "name": "Son Heung Min",
+          "reasons": [
+            "identity_ambiguous: identity resolution flagged REVIEW_REQUIRED",
+            "identity: unique name match but identity facts conflict (nationality/DOB/position) \u2014 routed to review, not merged"
+          ]
+        }
+      ],
+      "repository_flush_counts": {
+        "players": 19789,
+        "attributes": 19789,
+        "secondary": 40580,
+        "playstyles": 31662,
+        "clubs": 950,
+        "affiliations": 36017,
+        "cards": 0,
+        "card_versions": 0,
+        "prices": 0
+      },
+      "counts_before": {
+        "game_player_by_version_status": {
+          "FC26:CANONICAL": 16228
+        },
+        "fc27_distinct_ids": 0,
+        "fc27_distinct_source_player_ids": 0,
+        "fc27_by_gender": {},
+        "fc27_gk": 0,
+        "fc27_by_position": {},
+        "fc27_identity_status": {},
+        "fc27_linked_real_player": 0,
+        "fc27_attribute_rows": 0,
+        "fc27_secondary_position_rows": 0,
+        "fc27_playstyle_links": {},
+        "fc27_players_with_playstyles": 0,
+        "playstyle_definition_by_version_status": {
+          "FC26:CANONICAL": 36
+        },
+        "fc27_club_affiliations": 0,
+        "source_observations_for_source": 0,
+        "field_provenance_by_release": {
+          "fc26-foundation-2026-09-r1": 585560
+        },
+        "ut_card_by_status": {
+          "true:SYNTHETIC_TEST": 60
+        },
+        "real_player": 20
+      },
+      "counts_after": {
+        "game_player_by_version_status": {
+          "FC26:CANONICAL": 16228,
+          "FC27:RESEARCH_ONLY": 19789
+        },
+        "fc27_distinct_ids": 19789,
+        "fc27_distinct_source_player_ids": 19789,
+        "fc27_by_gender": {
+          "Men's Football": 17849,
+          "Women's Football": 1940
+        },
+        "fc27_gk": 2204,
+        "fc27_by_position": {
+          "CAM": 1163,
+          "CB": 3595,
+          "CDM": 1568,
+          "CM": 2376,
+          "GK": 2204,
+          "LB": 1435,
+          "LM": 1149,
+          "LW": 489,
+          "RB": 1531,
+          "RM": 1077,
+          "RW": 484,
+          "ST": 2718
+        },
+        "fc27_identity_status": {
+          "RESOLVED": 16,
+          "REVIEW_REQUIRED": 4,
+          "UNRESOLVED": 19769
+        },
+        "fc27_linked_real_player": 16,
+        "fc27_attribute_rows": 19789,
+        "fc27_secondary_position_rows": 23539,
+        "fc27_playstyle_links": {
+          "base": 16446,
+          "plus": 184
+        },
+        "fc27_players_with_playstyles": 8051,
+        "playstyle_definition_by_version_status": {
+          "FC26:CANONICAL": 36,
+          "FC27:RESEARCH_ONLY": 36
+        },
+        "fc27_club_affiliations": 19789,
+        "source_observations_for_source": 1,
+        "field_provenance_by_release": {
+          "fc26-foundation-2026-09-r1": 585560
+        },
+        "ut_card_by_status": {
+          "true:SYNTHETIC_TEST": 60
+        },
+        "real_player": 20
+      },
+      "fc26_fingerprint_before": {
+        "rows": 16228,
+        "md5": "b2c97ee16159d564fefe0c9ef092a7f5"
+      },
+      "fc26_fingerprint_after": {
+        "rows": 16228,
+        "md5": "b2c97ee16159d564fefe0c9ef092a7f5"
+      },
+      "fc26_unchanged": true,
+      "fc27_fingerprint_after": {
+        "rows": 19789,
+        "md5": "e10939421ff10d78f1b5fe3c75378140"
+      },
+      "cross_version_identity": {
+        "same_ea_id_pairs": 12026,
+        "identical_game_player_ids": 0,
+        "pairs_linked_to_same_real_player": 16
+      },
+      "post_write_problems": []
+    },
+    {
+      "started_at": "2026-09-29T12:37:00.957785+00:00",
+      "finished_at": "2026-09-29T12:37:15.173992+00:00",
+      "observation_id": "81f9627d-ffb5-4929-b5d8-15e49d6f7354",
+      "pipeline": {
+        "players_fetched": 19789,
+        "players_persisted": 19789,
+        "players_rejected": 0,
+        "players_review": 4,
+        "playstyles_attached": 16630,
+        "identity_resolved": 16,
+        "identity_review": 4,
+        "identity_unresolved": 19769
+      },
+      "pipeline_rejections": [],
+      "pipeline_reviews": [
+        {
+          "source_player_id": "158023",
+          "name": "Lionel Messi",
+          "reasons": [
+            "identity_ambiguous: identity resolution flagged REVIEW_REQUIRED",
+            "identity: unique name match but identity facts conflict (nationality/DOB/position) \u2014 routed to review, not merged"
+          ]
+        },
+        {
+          "source_player_id": "192985",
+          "name": "Kevin De Bruyne",
+          "reasons": [
+            "identity_ambiguous: identity resolution flagged REVIEW_REQUIRED",
+            "identity: unique name match but identity facts conflict (nationality/DOB/position) \u2014 routed to review, not merged"
+          ]
+        },
+        {
+          "source_player_id": "237692",
+          "name": "Phil Foden",
+          "reasons": [
+            "identity_ambiguous: identity resolution flagged REVIEW_REQUIRED",
+            "identity: unique name match but identity facts conflict (nationality/DOB/position) \u2014 routed to review, not merged"
+          ]
+        },
+        {
+          "source_player_id": "200104",
+          "name": "Son Heung Min",
+          "reasons": [
+            "identity_ambiguous: identity resolution flagged REVIEW_REQUIRED",
+            "identity: unique name match but identity facts conflict (nationality/DOB/position) \u2014 routed to review, not merged"
+          ]
+        }
+      ],
+      "repository_flush_counts": {
+        "players": 19789,
+        "attributes": 19789,
+        "secondary": 40580,
+        "playstyles": 31662,
+        "clubs": 950,
+        "affiliations": 36017,
+        "cards": 0,
+        "card_versions": 0,
+        "prices": 0
+      },
+      "counts_before": {
+        "game_player_by_version_status": {
+          "FC26:CANONICAL": 16228,
+          "FC27:RESEARCH_ONLY": 19789
+        },
+        "fc27_distinct_ids": 19789,
+        "fc27_distinct_source_player_ids": 19789,
+        "fc27_by_gender": {
+          "Men's Football": 17849,
+          "Women's Football": 1940
+        },
+        "fc27_gk": 2204,
+        "fc27_by_position": {
+          "CAM": 1163,
+          "CB": 3595,
+          "CDM": 1568,
+          "CM": 2376,
+          "GK": 2204,
+          "LB": 1435,
+          "LM": 1149,
+          "LW": 489,
+          "RB": 1531,
+          "RM": 1077,
+          "RW": 484,
+          "ST": 2718
+        },
+        "fc27_identity_status": {
+          "RESOLVED": 16,
+          "REVIEW_REQUIRED": 4,
+          "UNRESOLVED": 19769
+        },
+        "fc27_linked_real_player": 16,
+        "fc27_attribute_rows": 19789,
+        "fc27_secondary_position_rows": 23539,
+        "fc27_playstyle_links": {
+          "base": 16446,
+          "plus": 184
+        },
+        "fc27_players_with_playstyles": 8051,
+        "playstyle_definition_by_version_status": {
+          "FC26:CANONICAL": 36,
+          "FC27:RESEARCH_ONLY": 36
+        },
+        "fc27_club_affiliations": 19789,
+        "source_observations_for_source": 1,
+        "field_provenance_by_release": {
+          "fc26-foundation-2026-09-r1": 585560
+        },
+        "ut_card_by_status": {
+          "true:SYNTHETIC_TEST": 60
+        },
+        "real_player": 20
+      },
+      "counts_after": {
+        "game_player_by_version_status": {
+          "FC26:CANONICAL": 16228,
+          "FC27:RESEARCH_ONLY": 19789
+        },
+        "fc27_distinct_ids": 19789,
+        "fc27_distinct_source_player_ids": 19789,
+        "fc27_by_gender": {
+          "Men's Football": 17849,
+          "Women's Football": 1940
+        },
+        "fc27_gk": 2204,
+        "fc27_by_position": {
+          "CAM": 1163,
+          "CB": 3595,
+          "CDM": 1568,
+          "CM": 2376,
+          "GK": 2204,
+          "LB": 1435,
+          "LM": 1149,
+          "LW": 489,
+          "RB": 1531,
+          "RM": 1077,
+          "RW": 484,
+          "ST": 2718
+        },
+        "fc27_identity_status": {
+          "RESOLVED": 16,
+          "REVIEW_REQUIRED": 4,
+          "UNRESOLVED": 19769
+        },
+        "fc27_linked_real_player": 16,
+        "fc27_attribute_rows": 19789,
+        "fc27_secondary_position_rows": 23539,
+        "fc27_playstyle_links": {
+          "base": 16446,
+          "plus": 184
+        },
+        "fc27_players_with_playstyles": 8051,
+        "playstyle_definition_by_version_status": {
+          "FC26:CANONICAL": 36,
+          "FC27:RESEARCH_ONLY": 36
+        },
+        "fc27_club_affiliations": 19789,
+        "source_observations_for_source": 2,
+        "field_provenance_by_release": {
+          "fc26-foundation-2026-09-r1": 585560
+        },
+        "ut_card_by_status": {
+          "true:SYNTHETIC_TEST": 60
+        },
+        "real_player": 20
+      },
+      "fc26_fingerprint_before": {
+        "rows": 16228,
+        "md5": "b2c97ee16159d564fefe0c9ef092a7f5"
+      },
+      "fc26_fingerprint_after": {
+        "rows": 16228,
+        "md5": "b2c97ee16159d564fefe0c9ef092a7f5"
+      },
+      "fc26_unchanged": true,
+      "fc27_fingerprint_after": {
+        "rows": 19789,
+        "md5": "e10939421ff10d78f1b5fe3c75378140"
+      },
+      "cross_version_identity": {
+        "same_ea_id_pairs": 12026,
+        "identical_game_player_ids": 0,
+        "pairs_linked_to_same_real_player": 16
+      },
+      "post_write_problems": []
+    }
+  ],
+  "source_id": "kaggle_fc27_player_ratings",
+  "game_version": "FC27",
+  "data_status": "RESEARCH_ONLY",
+  "dataset_release_id": "fc27-research-2026-09-12-r1",
+  "idempotency": {
+    "first_run_counts": {
+      "fc27_distinct_ids": 19789,
+      "fc27_attribute_rows": 19789,
+      "fc27_secondary_position_rows": 23539,
+      "fc27_players_with_playstyles": 8051,
+      "fc27_club_affiliations": 19789,
+      "game_player_by_version_status": {
+        "FC26:CANONICAL": 16228,
+        "FC27:RESEARCH_ONLY": 19789
+      },
+      "fc27_playstyle_links": {
+        "base": 16446,
+        "plus": 184
+      }
+    },
+    "second_run_counts": {
+      "fc27_distinct_ids": 19789,
+      "fc27_attribute_rows": 19789,
+      "fc27_secondary_position_rows": 23539,
+      "fc27_players_with_playstyles": 8051,
+      "fc27_club_affiliations": 19789,
+      "game_player_by_version_status": {
+        "FC26:CANONICAL": 16228,
+        "FC27:RESEARCH_ONLY": 19789
+      },
+      "fc27_playstyle_links": {
+        "base": 16446,
+        "plus": 184
+      }
+    },
+    "duplicate_delta": {
+      "fc27_distinct_ids": 0,
+      "fc27_attribute_rows": 0,
+      "fc27_secondary_position_rows": 0,
+      "fc27_players_with_playstyles": 0,
+      "fc27_club_affiliations": 0,
+      "game_player_rows": 0,
+      "playstyle_links": 0
+    },
+    "fc27_fingerprint_identical": true,
+    "source_observation_rows_added_by_rerun": 1,
+    "note": "each run records one snapshot observation event; player, attribute, position, PlayStyle and affiliation rows must not grow"
+  }
+}

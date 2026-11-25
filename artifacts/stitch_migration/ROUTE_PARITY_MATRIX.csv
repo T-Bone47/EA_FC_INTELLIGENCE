@@ -1,0 +1,19 @@
+existing_route,screen,backend_contract,parity
+/,Overview,/api/meta/game-versions,Public workspace
+/dashboard,Overview,/api/squads and /api/saved-players,Authenticated workspace
+/search,Discover players,/api/players and /api/players/facets,Filters player details and pagination
+/players/:id,Player details,/api/players/:id,Player provenance and evidence
+/cards,Discover cards,/api/cards and /api/research/fc27/cards,Public and opted-in item catalogue
+/cards/:id,Card details,/api/cards/:id,Exact production item detail
+/cards/squad-lab,Squad Lab,/api/research/fc27/cards/squad/preview,Opt-in optimizer and editor
+/cards/performance,Evidence Lab,/api/research/fc27/performance,Phase 31 source review and intake
+/intelligence,Intelligence Studio,/api/v3/recommendations and /api/v3/compare and /api/v3/what-if,V3.2 scores
+/recommend,Recommendation compatibility workflow,/api/recommendations,Existing separate workflow
+/compare,Comparison,/api/compare and /api/v3/compare,Player comparison
+/squads,Saved squads,/api/squads,Authenticated list and creation
+/squads/:id,Squad builder,/api/squads/:id,Authenticated details editor and optimizer
+/saved,Saved players,/api/saved-players,Authenticated saved records
+/profile,Profile settings,/api/auth/me,Authenticated preferences and session settings
+/login,Login,/api/auth/login,Authentication
+/signup,Registration,/api/auth/signup,Account creation
+/404,Missing route,,Fallback

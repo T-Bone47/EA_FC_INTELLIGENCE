@@ -1,0 +1,58 @@
+{
+  "test_run": "Phase 37 Frontend Vitest Certified Test Suite",
+  "timestamp": "2026-11-24T22:14:17Z",
+  "framework": "vitest-2.1.9",
+  "summary": {
+    "total": 103,
+    "passed": 100,
+    "skipped": 3,
+    "failed": 0,
+    "test_files_total": 18,
+    "test_files_passed": 17,
+    "test_files_skipped": 1,
+    "execution_time_seconds": 8.04,
+    "exit_code": 0
+  },
+  "key_suites": [
+    {
+      "file": "src/pages/GameplayStudio.test.tsx",
+      "tests_passed": 8,
+      "coverage": [
+        "Header and epistemic honesty banner",
+        "Research video library and evidence tier filtering",
+        "Video cockpit, event scrubber, and tactical inspector",
+        "Interactive 2D pitch radar replay tab & HUD",
+        "Bayesian model calibration dashboard & card simulator",
+        "Automated event proposal trigger button",
+        "Prediction challenges hypothesis table",
+        "Multi-tier evidence quality audit framework"
+      ]
+    },
+    {
+      "file": "src/intelligence/Intelligence.test.tsx",
+      "tests_passed": 20
+    },
+    {
+      "file": "src/pages/Recommend.results.test.tsx",
+      "tests_passed": 5
+    },
+    {
+      "file": "src/intelligence/Ladder.test.tsx",
+      "tests_passed": 5
+    },
+    {
+      "file": "src/intelligence/Card.test.tsx",
+      "tests_passed": 6
+    }
+  ],
+  "production_build": {
+    "status": "PASS",
+    "bundler": "vite-5.4.21",
+    "bundle_time_seconds": 1.52,
+    "typescript_errors": 0,
+    "dist_assets": {
+      "js_size_kb": 456.98,
+      "css_size_kb": 78.66
+    }
+  }
+}

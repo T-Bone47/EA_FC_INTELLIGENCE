@@ -1,0 +1,21 @@
+{
+  "frontend": {
+    "build": "passed",
+    "tests_passed": 95,
+    "test_files": 17,
+    "live_api_tests": 3
+  },
+  "backend": {
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "database": "eafc_phase32_tests_1",
+    "command": "python -m pytest backend/tests/test_fc27_availability.py backend/tests/test_phase30_card_lab.py backend/tests/test_phase31_performance.py -q -p no:cacheprovider"
+  },
+  "browser": {
+    "passed": true,
+    "script": "frontend/verification/fc27-availability.mjs",
+    "local": "http://127.0.0.1:38536",
+    "production_test": "http://127.0.0.1:38538"
+  }
+}

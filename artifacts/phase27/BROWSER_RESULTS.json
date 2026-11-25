@@ -1,0 +1,51 @@
+{
+  "mode": "In-app browser over loopback against built frontend, FastAPI and disposable PostgreSQL",
+  "fc27": {
+    "division": "Men's Football",
+    "position": "CM",
+    "tactical_profile": "BALANCED",
+    "ranked_cards": 10,
+    "comparison": true,
+    "high_press_variant_rows": 10,
+    "console_errors": 0
+  },
+  "fc26": {
+    "position": "CM",
+    "tactical_profile": "BALANCED",
+    "ranked_cards": 10
+  },
+  "fc26_layout": [
+    {
+      "width": 1280,
+      "height": 900,
+      "viewport_content_width": 1265,
+      "scroll_width": 1265,
+      "ranked_cards": 10
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "viewport_content_width": 753,
+      "scroll_width": 753,
+      "ranked_cards": 10
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "viewport_content_width": 375,
+      "scroll_width": 375,
+      "ranked_cards": 10
+    }
+  ],
+  "puppeteer_windows": {
+    "status": "BLOCKED",
+    "reason": "Chrome timed out before the first page. Edge GPU child processes failed with access denied during startup.",
+    "node_runner_self_tests_passed": 10
+  },
+  "not_run": [
+    "automated axe suite",
+    "real touch event gate",
+    "automated Tab order gate",
+    "hosted CI"
+  ]
+}

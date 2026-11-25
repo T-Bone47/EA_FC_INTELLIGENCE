@@ -1,0 +1,542 @@
+........................................................................ [ 14%]
+.....................s.................................................F [ 29%]
+.F..F............F.FF.F.FF.............................................. [ 43%]
+........................................................................ [ 58%]
+..........................................x..xFFFF...................... [ 73%]
+.........FFF.FFF..F........F..FFF....................................... [ 87%]
+............................................................             [100%]
+=================================== FAILURES ===================================
+____________ TestOvrTrapsPhase7.test_90_generic_gk_vs_82_specialist ____________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7 object at 0x7f7091b6daf0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706eaad9a0>
+
+    def test_90_generic_gk_vs_82_specialist(self, engine):
+        """Generic 90 GK vs 82 LOW_BLOCK specialist — specialist must win."""
+        gen = make_candidate(name="Generic90", position="GK", ovr=90, attrs=_attrs(
+            gk_diving=82, gk_handling=82, gk_kicking=82, gk_positioning=82, gk_reflexes=82))
+        spec = make_candidate(name="Specialist82", position="GK", ovr=82, attrs=_attrs(
+            gk_diving=90, gk_handling=90, gk_kicking=70, gk_positioning=92, gk_reflexes=91))
+        req = make_req(position="GK", tactical_profile="LOW_BLOCK")
+        res = engine.recommend([gen, spec], req)
+>       assert res.best_evaluation.candidate.name == "Specialist82"
+E       AssertionError: assert 'Generic90' == 'Specialist82'
+E         
+E         - Specialist82
+E         + Generic90
+
+backend/tests/test_engine_adversarial_phase7.py:70: AssertionError
+_________ TestOvrTrapsPhase7.test_shooting_striker_unsuited_possession _________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7 object at 0x7f7091b6d340>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706eabb650>
+
+    def test_shooting_striker_unsuited_possession(self, engine):
+        """High-shooting 89 ST with poor link play loses to 83 false-9 type for POSSESSION."""
+        shooter = make_candidate(name="Shooter89", position="ST", ovr=89, attrs=_attrs(
+            finishing=93, shot_power=92, positioning=80, short_passing=62,
+            vision=60, ball_control=70, composure=75, dribbling_detail=68))
+        linker = make_candidate(name="Linker83", position="ST", ovr=83, attrs=_attrs(
+            finishing=80, shot_power=78, positioning=82, short_passing=84,
+            vision=84, ball_control=86, composure=84, dribbling_detail=84))
+        req = make_req(position="ST", tactical_profile="POSSESSION")
+        res = engine.recommend([shooter, linker], req)
+>       assert res.best_evaluation.candidate.name == "Linker83"
+E       AssertionError: assert 'Shooter89' == 'Linker83'
+E         
+E         - Linker83
+E         + Shooter89
+
+backend/tests/test_engine_adversarial_phase7.py:94: AssertionError
+__________ TestOvrTrapsPhase7.test_high_ovr_winger_unsuited_defensive __________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7 object at 0x7f7091b89c10>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706eab8950>
+
+    def test_high_ovr_winger_unsuited_defensive(self, engine):
+        """87 attacking winger loses to 82 defensive winger for LOW_BLOCK RM."""
+        attacker = make_candidate(name="Attacker87", position="RM", ovr=87, attrs=_attrs(
+            pace=90, dribbling_detail=90, finishing=85, crossing=84,
+            defending=40, interceptions=38, standing_tackle=35, stamina=70))
+        worker = make_candidate(name="Worker82", position="RM", ovr=82, attrs=_attrs(
+            pace=78, dribbling_detail=75, finishing=70, crossing=76,
+            defending=75, interceptions=74, standing_tackle=72, stamina=88))
+        req = make_req(position="RM", tactical_profile="LOW_BLOCK")
+        res = engine.recommend([attacker, worker], req)
+>       assert res.best_evaluation.candidate.name == "Worker82"
+E       AssertionError: assert 'Attacker87' == 'Worker82'
+E         
+E         - Worker82
+E         + Attacker87
+
+backend/tests/test_engine_adversarial_phase7.py:132: AssertionError
+_____________ TestTacticalPhase7.test_pressing_vs_possession_flip ______________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f7091b89f70>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706eabb8f0>
+
+    def test_pressing_vs_possession_flip(self, engine):
+        press, poss = self._cm_pair()
+        r_press = engine.recommend([press, poss], make_req(position="CM", tactical_profile="PRESSING"))
+        r_poss = engine.recommend([press, poss], make_req(position="CM", tactical_profile="POSSESSION"))
+>       assert r_press.best_evaluation.candidate.name == "Press"
+E       AssertionError: assert 'Poss' == 'Press'
+E         
+E         - Press
+E         + Poss
+
+backend/tests/test_engine_adversarial_phase7.py:256: AssertionError
+____________ TestTacticalPhase7.test_crossing_vs_possession_winger _____________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f7091b8b260>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706eab8fb0>
+
+    def test_crossing_vs_possession_winger(self, engine):
+        crosser = make_candidate(name="Crosser", position="RW", ovr=84, attrs=_attrs(
+            crossing=90, curve=86, pace=84, dribbling_detail=80, short_passing=74))
+        technician = make_candidate(name="Technician", position="RW", ovr=84, attrs=_attrs(
+            crossing=70, curve=72, pace=78, dribbling_detail=90, short_passing=88))
+        r_cross = engine.recommend([crosser, technician], make_req(position="RW", tactical_profile="CROSSING"))
+        r_poss = engine.recommend([crosser, technician], make_req(position="RW", tactical_profile="POSSESSION"))
+        assert r_cross.best_evaluation.candidate.name == "Crosser"
+>       assert r_poss.best_evaluation.candidate.name == "Technician"
+E       AssertionError: assert 'Crosser' == 'Technician'
+E         
+E         - Technician
+E         + Crosser
+
+backend/tests/test_engine_adversarial_phase7.py:275: AssertionError
+_________________ TestTacticalPhase7.test_buildup_vs_direct_cb _________________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f7091b8b590>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706eaae1e0>
+
+    def test_buildup_vs_direct_cb(self, engine):
+        passer = make_candidate(name="Passer", position="CB", ovr=84, attrs=_attrs(
+            short_passing=88, long_passing=86, vision=82, composure=84, defending=82))
+        direct = make_candidate(name="Direct", position="CB", ovr=84, attrs=_attrs(
+            short_passing=68, long_passing=88, strength=90, heading_accuracy=88, defending=85))
+        r_build = engine.recommend([passer, direct], make_req(position="CB", tactical_profile="SLOW_BUILD_UP"))
+>       assert r_build.best_evaluation.candidate.name == "Passer"
+E       AssertionError: assert 'Direct' == 'Passer'
+E         
+E         - Passer
+E         + Direct
+
+backend/tests/test_engine_adversarial_phase7.py:283: AssertionError
+___________________ TestTacticalPhase7.test_352_cb_vs_442_cb ___________________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f7091b8bbf0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f7080547b90>
+
+    def test_352_cb_vs_442_cb(self, engine):
+        passer = make_candidate(name="Passer", position="CB", ovr=83, attrs=_attrs(
+            defending=83, short_passing=88, long_passing=85, vision=82, composure=84))
+        stopper = make_candidate(name="Stopper", position="CB", ovr=85, attrs=_attrs(
+            defending=90, short_passing=62, long_passing=60, vision=55, composure=65))
+        r_352 = engine.recommend([passer, stopper],
+                                 make_req(position="CB", formation="3-5-2", slot="CB",
+                                          tactical_profile="SLOW_BUILD_UP"))
+>       assert r_352.best_evaluation.candidate.name == "Passer"
+E       AssertionError: assert 'Stopper' == 'Passer'
+E         
+E         - Passer
+E         + Stopper
+
+backend/tests/test_engine_adversarial_phase7.py:303: AssertionError
+____________ TestTacticalPhase7.test_tactical_evidence_names_attrs _____________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f7091bb4290>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f709043a9f0>
+
+    def test_tactical_evidence_names_attrs(self, engine):
+        a = make_candidate(name="A", position="CM", ovr=84, attrs=_attrs(
+            stamina=88, aggression=80, interceptions=78))
+        ev = engine.evaluate(a, make_req(position="CM", tactical_profile="PRESSING"))
+>       assert ev.components["tactical_fit"].status.value == "KNOWN"
+E       AssertionError: assert 'INSUFFICIENT_EVIDENCE' == 'KNOWN'
+E         
+E         - KNOWN
+E         + INSUFFICIENT_EVIDENCE
+
+backend/tests/test_engine_adversarial_phase7.py:314: AssertionError
+________________ TestTacticalPhase7.test_strict_floor_excludes _________________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f7091bb45c0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706eada690>
+
+    def test_strict_floor_excludes(self, engine):
+        weak = make_candidate(name="Weak", position="CM", ovr=84, attrs=_attrs(
+            stamina=55, aggression=45, interceptions=40, defensive_awareness=45,
+            short_passing=85, vision=86))
+        strong = make_candidate(name="Strong", position="CM", ovr=82, attrs=_attrs(
+            stamina=90, aggression=85, interceptions=86, defensive_awareness=85,
+            short_passing=78, vision=74))
+        req = make_req(position="CM", tactical_profile="PRESSING", strict_tactics=True)
+        res = engine.recommend([weak, strong], req)
+>       assert res.best_evaluation.candidate.name == "Strong"
+E       AssertionError: assert 'Weak' == 'Strong'
+E         
+E         - Strong
+E         + Weak
+
+backend/tests/test_engine_adversarial_phase7.py:326: AssertionError
+__________ TestRD3OvrCorrelationBand.test_rho_within_band[CB-cb_pool] __________
+
+self = <backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand object at 0x7f7090fe0e30>
+request = <FixtureRequest for <Function test_rho_within_band[CB-cb_pool]>>
+position = 'CB', pool_fixture = 'cb_pool'
+reference = ReferenceDistribution(version='fc26-players-2026-09-r1', game_version='FC26', universe='RATINGS_SITE_PLAYERS', generat...Quantiles(n=6079, p10=53.0, p50=64.0, p90=75.0), 'volleys': AttributeQuantiles(n=6079, p10=36.0, p50=51.0, p90=66.0)}})
+
+    @pytest.mark.parametrize("position,pool_fixture", [("CB", "cb_pool"), ("ST", "st_pool"), ("CM", "cm_pool")])
+    def test_rho_within_band(self, request, position, pool_fixture, reference):
+        pool = request.getfixturevalue(pool_fixture)
+        _, _, rhos = _top10_overlap_and_rho(pool, position, reference)
+        for rho in rhos:
+>           assert 0.35 <= rho <= 0.85, f"{position}: rho(R,OVR)={rho:.3f} outside [0.35, 0.85]"
+E           AssertionError: CB: rho(R,OVR)=0.891 outside [0.35, 0.85]
+E           assert 0.8905476740671366 <= 0.85
+
+backend/tests/test_engine_v3_real_data.py:149: AssertionError
+__________ TestRD3OvrCorrelationBand.test_rho_within_band[ST-st_pool] __________
+
+self = <backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand object at 0x7f7090fe13a0>
+request = <FixtureRequest for <Function test_rho_within_band[ST-st_pool]>>
+position = 'ST', pool_fixture = 'st_pool'
+reference = ReferenceDistribution(version='fc26-players-2026-09-r1', game_version='FC26', universe='RATINGS_SITE_PLAYERS', generat...Quantiles(n=6079, p10=53.0, p50=64.0, p90=75.0), 'volleys': AttributeQuantiles(n=6079, p10=36.0, p50=51.0, p90=66.0)}})
+
+    @pytest.mark.parametrize("position,pool_fixture", [("CB", "cb_pool"), ("ST", "st_pool"), ("CM", "cm_pool")])
+    def test_rho_within_band(self, request, position, pool_fixture, reference):
+        pool = request.getfixturevalue(pool_fixture)
+        _, _, rhos = _top10_overlap_and_rho(pool, position, reference)
+        for rho in rhos:
+>           assert 0.35 <= rho <= 0.85, f"{position}: rho(R,OVR)={rho:.3f} outside [0.35, 0.85]"
+E           AssertionError: ST: rho(R,OVR)=0.871 outside [0.35, 0.85]
+E           assert 0.8714787181431738 <= 0.85
+
+backend/tests/test_engine_v3_real_data.py:149: AssertionError
+__________ TestRD3OvrCorrelationBand.test_rho_within_band[CM-cm_pool] __________
+
+self = <backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand object at 0x7f7090fe19a0>
+request = <FixtureRequest for <Function test_rho_within_band[CM-cm_pool]>>
+position = 'CM', pool_fixture = 'cm_pool'
+reference = ReferenceDistribution(version='fc26-players-2026-09-r1', game_version='FC26', universe='RATINGS_SITE_PLAYERS', generat...Quantiles(n=6079, p10=53.0, p50=64.0, p90=75.0), 'volleys': AttributeQuantiles(n=6079, p10=36.0, p50=51.0, p90=66.0)}})
+
+    @pytest.mark.parametrize("position,pool_fixture", [("CB", "cb_pool"), ("ST", "st_pool"), ("CM", "cm_pool")])
+    def test_rho_within_band(self, request, position, pool_fixture, reference):
+        pool = request.getfixturevalue(pool_fixture)
+        _, _, rhos = _top10_overlap_and_rho(pool, position, reference)
+        for rho in rhos:
+>           assert 0.35 <= rho <= 0.85, f"{position}: rho(R,OVR)={rho:.3f} outside [0.35, 0.85]"
+E           AssertionError: CM: rho(R,OVR)=0.850 outside [0.35, 0.85]
+E           assert 0.8500099718769917 <= 0.85
+
+backend/tests/test_engine_v3_real_data.py:149: AssertionError
+_____ TestRD4TacticalResponsiveness.test_spread_clears_target[CB-cb_pool] ______
+
+self = <backend.tests.test_engine_v3_real_data.TestRD4TacticalResponsiveness object at 0x7f7090fb5b20>
+request = <FixtureRequest for <Function test_spread_clears_target[CB-cb_pool]>>
+position = 'CB', pool_fixture = 'cb_pool'
+reference = ReferenceDistribution(version='fc26-players-2026-09-r1', game_version='FC26', universe='RATINGS_SITE_PLAYERS', generat...Quantiles(n=6079, p10=53.0, p50=64.0, p90=75.0), 'volleys': AttributeQuantiles(n=6079, p10=36.0, p50=51.0, p90=66.0)}})
+
+    @pytest.mark.parametrize("position,pool_fixture", [("CB", "cb_pool"), ("ST", "st_pool")])
+    def test_spread_clears_target(self, request, position, pool_fixture, reference):
+        pool = request.getfixturevalue(pool_fixture)
+        _, _, rhos = _top10_overlap_and_rho(pool, position, reference)
+        spread = max(rhos) - min(rhos)
+>       assert spread >= 0.10, f"{position}: rho spread = {spread:.3f} across profiles (v2 was <0.05)"
+E       AssertionError: CB: rho spread = 0.076 across profiles (v2 was <0.05)
+E       assert 0.07572103973151179 >= 0.1
+
+backend/tests/test_engine_v3_real_data.py:162: AssertionError
+___________ TestExplanationConsistency.test_why_this_matches_scoring ___________
+
+self = <backend.tests.test_integration_production.TestExplanationConsistency object at 0x7f7090e512e0>
+repo = <backend.data_access.candidate_repository.CandidateRepository object at 0x7f706c9a42f0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706c9a57f0>
+
+    def test_why_this_matches_scoring(self, repo, engine):
+        """Explanation 'why_this' must reference actual scored components."""
+        pool = repo.load_for_position("FC26", "CM", include_adjacent=True)
+        req = UserRequirements(game_version="FC26", position="CM",
+                               tactical_profile="PRESSING", limit=5)
+        result = engine.recommend(pool, req)
+    
+        assert result.best_evaluation is not None
+>       explanations = result.explanations
+                       ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'RecommendationResult' object has no attribute 'explanations'
+
+backend/tests/test_integration_production.py:331: AttributeError
+______ TestExplanationConsistency.test_why_not_alternatives_differentials ______
+
+self = <backend.tests.test_integration_production.TestExplanationConsistency object at 0x7f7090e50ad0>
+repo = <backend.data_access.candidate_repository.CandidateRepository object at 0x7f706c9a42f0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706c9a57f0>
+
+    def test_why_not_alternatives_differentials(self, repo, engine):
+        """Why_not_alternatives should show actual component differentials."""
+        pool = repo.load_for_position("FC26", "CM", include_adjacent=True)
+        req = UserRequirements(game_version="FC26", position="CM",
+                               tactical_profile="PRESSING", limit=5)
+        result = engine.recommend(pool, req)
+    
+        assert result.best_evaluation is not None
+>       explanations = result.explanations
+                       ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'RecommendationResult' object has no attribute 'explanations'
+
+backend/tests/test_integration_production.py:353: AttributeError
+____________ TestExplanationConsistency.test_confidence_v2_additive ____________
+
+self = <backend.tests.test_integration_production.TestExplanationConsistency object at 0x7f7090e504d0>
+repo = <backend.data_access.candidate_repository.CandidateRepository object at 0x7f706c9a42f0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f706c9a57f0>
+
+    def test_confidence_v2_additive(self, repo, engine):
+        """Confidence v2 should be present with additive breakdown."""
+        pool = repo.load_for_position("FC26", "CM", include_adjacent=True)
+        req = UserRequirements(game_version="FC26", position="CM",
+                               tactical_profile="PRESSING", limit=5)
+        result = engine.recommend(pool, req)
+    
+        # confidence_v2 is added by RecommendationService, not directly by engine
+        # Just verify engine confidence has the right structure
+        assert result.confidence is not None
+        assert hasattr(result.confidence, "score")
+>       assert hasattr(result.confidence, "level")
+E       AssertionError: assert False
+E        +  where False = hasattr(RecommendationConfidence(score=0.825, evidence_coverage=0.75, known_components=['overall_quality', 'position_fit', 'at...t_components=[], notes=['no requirement/data for: playstyle_fit, team_fit — weight redistributed, no penalty applied']), 'level')
+E        +    where RecommendationConfidence(score=0.825, evidence_coverage=0.75, known_components=['overall_quality', 'position_fit', 'at...t_components=[], notes=['no requirement/data for: playstyle_fit, team_fit — weight redistributed, no penalty applied']) = RecommendationResult(request_id='a597e642-f314-4510-9f9f-fbc9c10d15c8', game_version='FC26', best=Candidate(entity_typ...st', 'position: primary position CM matches target'], 'failed': [], 'unknown': []}, telemetry=None, confidence_v2=None).confidence
+
+backend/tests/test_integration_production.py:374: AssertionError
+_________________ TestFormationIntegration.test_433_formation __________________
+
+self = <backend.tests.test_integration_production.TestFormationIntegration object at 0x7f7090e51ac0>
+repo = <backend.data_access.candidate_repository.CandidateRepository object at 0x7f706dcffb30>
+
+    def test_433_formation(self, repo):
+        """4-3-3 formation loads correct slots."""
+        from backend.services.formations import slots_for
+        slots = slots_for("4-3-3")
+        assert len(slots) == 11
+        positions = [s.position for s in slots]
+>       assert positions == ["GK", "LB", "LCB", "RCB", "RB", "LCM", "CDM", "RCM", "LW", "ST", "RW"]
+E       AssertionError: assert ['GK', 'LB', ...B', 'CM', ...] == ['GK', 'LB', ...', 'LCM', ...]
+E         
+E         At index 2 diff: 'CB' != 'LCB'
+E         Use -v to get more diff
+
+backend/tests/test_integration_production.py:424: AssertionError
+_________________ TestFormationIntegration.test_4231_formation _________________
+
+self = <backend.tests.test_integration_production.TestFormationIntegration object at 0x7f7090e51df0>
+repo = <backend.data_access.candidate_repository.CandidateRepository object at 0x7f706dcffb30>
+
+    def test_4231_formation(self, repo):
+        """4-2-3-1 formation loads correct slots."""
+        from backend.services.formations import slots_for
+        slots = slots_for("4-2-3-1")
+        assert len(slots) == 11
+        positions = [s.position for s in slots]
+>       assert positions == ["GK", "LB", "LCB", "RCB", "RB", "LDM", "RDM", "LAM", "CAM", "RAM", "ST"]
+E       AssertionError: assert ['GK', 'LB', ...', 'CDM', ...] == ['GK', 'LB', ...', 'LDM', ...]
+E         
+E         At index 2 diff: 'CB' != 'LCB'
+E         Use -v to get more diff
+
+backend/tests/test_integration_production.py:432: AssertionError
+_________________ TestFormationIntegration.test_3421_formation _________________
+
+self = <backend.tests.test_integration_production.TestFormationIntegration object at 0x7f7090e52120>
+repo = <backend.data_access.candidate_repository.CandidateRepository object at 0x7f706dcffb30>
+
+    def test_3421_formation(self, repo):
+        """3-4-2-1 formation (Phase 4 requirement)."""
+        from backend.services.formations import slots_for
+        slots = slots_for("3-4-2-1")
+        assert len(slots) == 11
+        positions = [s.position for s in slots]
+>       assert positions == ["GK", "LCB", "CB", "RCB", "LM", "LCM", "RCM", "RM", "LAM", "RAM", "ST"]
+E       AssertionError: assert ['GK', 'CB', ...M', 'CM', ...] == ['GK', 'LCB',...', 'LCM', ...]
+E         
+E         At index 1 diff: 'CB' != 'LCB'
+E         Use -v to get more diff
+
+backend/tests/test_integration_production.py:440: AssertionError
+_ TestTacticalCombinationIntegration.test_outfield_combo_pressing_fast_build_up _
+
+self = <backend.tests.test_integration_production.TestTacticalCombinationIntegration object at 0x7f7090e52b70>
+repo = <backend.data_access.candidate_repository.CandidateRepository object at 0x7f706dcfc200>
+
+    def test_outfield_combo_pressing_fast_build_up(self, repo):
+        """Outfield PRESSING + FAST_BUILD_UP uses outfield dimension affinities."""
+        from backend.services.recommendation_engine_v2 import RecommendationEngineV2
+        from backend.domain.user_model import UserRequirements
+        from backend.services.engine_evaluation import attrs, cand
+    
+        engine = RecommendationEngineV2()
+        pool = repo.load_for_position("FC26", "CM", include_adjacent=True)
+    
+        cm_box = cand('Box to Box', 'CM', 84, attrs(
+            stamina=93, short_passing=83, vision=78, defensive_awareness=83,
+            interceptions=82, standing_tackle=78, composure=80))
+        cm_pass = cand('Passing', 'CM', 83, attrs(
+            stamina=70, short_passing=90, vision=92, defensive_awareness=60,
+            interceptions=55, standing_tackle=50, composure=88))
+    
+        req = UserRequirements(game_version="FC26", position="CM",
+                               tactical_profile="PRESSING",
+                               secondary_tactical_profile="FAST_BUILD_UP",
+                               limit=5)
+        result = engine.recommend([cm_box, cm_pass], req)
+    
+        tf = result.best_evaluation.components["tactical_fit"]
+>       assert tf.status.value == "KNOWN"
+E       AssertionError: assert 'INSUFFICIENT_EVIDENCE' == 'KNOWN'
+E         
+E         - KNOWN
+E         + INSUFFICIENT_EVIDENCE
+
+backend/tests/test_integration_production.py:526: AssertionError
+___________ TestAdversarialProduction.test_version_mismatch_rejected ___________
+
+self = <backend.tests.test_integration_production.TestAdversarialProduction object at 0x7f7090e51970>
+
+    def test_version_mismatch_rejected(self):
+        """Candidate with wrong game_version is rejected."""
+        from backend.services.recommendation_engine_v2 import RecommendationEngineV2
+        from backend.domain.user_model import UserRequirements
+        from backend.services.engine_evaluation import attrs, cand
+    
+        engine = RecommendationEngineV2()
+    
+        # FC26 candidate in FC27 request
+>       c = cand('Test', 'CM', 85, attrs(short_passing=85), game_version="FC26")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: cand() got an unexpected keyword argument 'game_version'
+
+backend/tests/test_integration_production.py:730: TypeError
+________ TestAdversarialProduction.test_budget_unverified_not_enforced _________
+
+self = <backend.tests.test_integration_production.TestAdversarialProduction object at 0x7f7090e53620>
+
+    def test_budget_unverified_not_enforced(self):
+        """Budget without verified prices is not enforced."""
+        from backend.services.recommendation_engine_v2 import RecommendationEngineV2
+        from backend.domain.user_model import UserRequirements
+        from backend.services.engine_evaluation import attrs, cand
+    
+        engine = RecommendationEngineV2()
+    
+        c1 = cand('Any', 'CM', 85, attrs(short_passing=85), price=1_000_000)
+    
+        req = UserRequirements(game_version="FC26", position="CM", budget_coins=100_000, limit=5)
+        result = engine.recommend([c1], req)
+    
+        # Budget decision should be None (UNKNOWN), not False
+>       assert result.best_evaluation.budget_decision is None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'budget_decision'
+
+backend/tests/test_integration_production.py:792: AttributeError
+____________________ TestSecurity.test_sql_injection_inert _____________________
+
+self = <backend.tests.test_integration_production.TestSecurity object at 0x7f7090e53980>
+
+    def test_sql_injection_inert(self):
+        """SQL injection attempts are inert."""
+        from fastapi.testclient import TestClient
+        from backend.api.main import create_app
+    
+        app = create_app()
+        with TestClient(app) as client:
+            # Attempt SQL injection in search
+            r = client.get("/api/players", params={"q": "'; DROP TABLE game_player; --"})
+>           assert r.status_code in (422, 400)  # Should be rejected, not executed
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           assert 200 in (422, 400)
+E            +  where 200 = <Response [200 OK]>.status_code
+
+backend/tests/test_integration_production.py:809: AssertionError
+_______________________ TestSecurity.test_rate_limiting ________________________
+
+self = <backend.tests.test_integration_production.TestSecurity object at 0x7f7090e53c80>
+
+    def test_rate_limiting(self):
+        """Rate limits are enforced."""
+        from fastapi.testclient import TestClient
+        from backend.api.main import create_app
+    
+        app = create_app()
+        with TestClient(app) as client:
+            # Make rapid requests to auth endpoint
+            for _ in range(15):
+                r = client.post("/api/auth/login", json={"email": "test@test.com", "password": "wrong"})
+                if r.status_code == 429:
+                    break
+>           assert r.status_code == 429
+E           assert 401 == 429
+E            +  where 401 = <Response [401 Unauthorized]>.status_code
+
+backend/tests/test_integration_production.py:823: AssertionError
+=============================== warnings summary ===============================
+backend/core/db.py:23
+  /home/claude/repo/EA_FC_INTELLIGENCE-main/backend/core/db.py:23: UserWarning: JWT_SECRET not set — using an ephemeral development secret. Set JWT_SECRET in any deployed environment.
+    conninfo=get_settings().database_url,
+
+backend/tests/test_api.py::test_health
+  /usr/local/lib/python3.12/dist-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+backend/tests/test_api.py::test_health
+  /usr/local/lib/python3.12/dist-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+backend/tests/test_integration_production.py::TestRealRecommendationScenarios::test_gk_low_block
+backend/tests/test_integration_production.py::TestRealRecommendationScenarios::test_gk_low_block
+backend/tests/test_integration_production.py::TestSquadIntegration::test_squad_structural_fit
+backend/tests/test_integration_production.py::TestExplanationConsistency::test_why_this_matches_scoring
+backend/tests/test_integration_production.py::TestExplanationConsistency::test_why_this_matches_scoring
+backend/tests/test_integration_production.py::TestFormationIntegration::test_433_formation
+backend/tests/test_integration_production.py::TestTacticalCombinationIntegration::test_gk_low_block_build_up
+backend/tests/test_integration_production.py::TestPlayStylePipeline::test_playstyle_published_flag
+backend/tests/test_integration_production.py::TestPerformance::test_candidate_loading_performance
+  /usr/local/lib/python3.12/dist-packages/_pytest/fixtures.py:1313: PytestRemovedIn10Warning: Class-scoped fixture defined as instance method is deprecated.
+  Instance attributes set in this fixture will NOT be visible to test methods,
+  as each test gets a new instance while the fixture runs only once per class.
+  Use @classmethod decorator and set attributes on cls instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#class-scoped-fixture-as-instance-method
+    fixturefunc = resolve_fixture_function(fixturedef, request)
+
+backend/tests/test_security.py::test_method_not_allowed_and_bad_uuid
+  /home/claude/repo/EA_FC_INTELLIGENCE-main/backend/tests/conftest.py:33: UserWarning: JWT_SECRET not set — using an ephemeral development secret. Set JWT_SECRET in any deployed environment.
+    s = get_settings()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_90_generic_gk_vs_82_specialist
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_shooting_striker_unsuited_possession
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_high_ovr_winger_unsuited_defensive
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_pressing_vs_possession_flip
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_crossing_vs_possession_winger
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_buildup_vs_direct_cb
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_352_cb_vs_442_cb
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_tactical_evidence_names_attrs
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_strict_floor_excludes
+FAILED backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[CB-cb_pool]
+FAILED backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[ST-st_pool]
+FAILED backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[CM-cm_pool]
+FAILED backend/tests/test_engine_v3_real_data.py::TestRD4TacticalResponsiveness::test_spread_clears_target[CB-cb_pool]
+FAILED backend/tests/test_integration_production.py::TestExplanationConsistency::test_why_this_matches_scoring
+FAILED backend/tests/test_integration_production.py::TestExplanationConsistency::test_why_not_alternatives_differentials
+FAILED backend/tests/test_integration_production.py::TestExplanationConsistency::test_confidence_v2_additive
+FAILED backend/tests/test_integration_production.py::TestFormationIntegration::test_433_formation
+FAILED backend/tests/test_integration_production.py::TestFormationIntegration::test_4231_formation
+FAILED backend/tests/test_integration_production.py::TestFormationIntegration::test_3421_formation
+FAILED backend/tests/test_integration_production.py::TestTacticalCombinationIntegration::test_outfield_combo_pressing_fast_build_up
+FAILED backend/tests/test_integration_production.py::TestAdversarialProduction::test_version_mismatch_rejected
+FAILED backend/tests/test_integration_production.py::TestAdversarialProduction::test_budget_unverified_not_enforced
+FAILED backend/tests/test_integration_production.py::TestSecurity::test_sql_injection_inert
+FAILED backend/tests/test_integration_production.py::TestSecurity::test_rate_limiting
+24 failed, 465 passed, 1 skipped, 2 xfailed, 13 warnings in 83.82s (0:01:23)

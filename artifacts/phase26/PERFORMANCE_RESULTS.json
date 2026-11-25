@@ -1,0 +1,47 @@
+{
+  "scope": "local offline FC26 V3.2 player scoring",
+  "hardware": {
+    "python": "3.15.1",
+    "os": "Windows-11-10.0.26220-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "logical_cpus": 12
+  },
+  "sla": "owner decision pending",
+  "csv_load_ms": 1383.7376000010408,
+  "request_concurrency": 1,
+  "reference": "preloaded",
+  "engine_24_candidate_ms": {
+    "n": 192,
+    "p50_ms": 2.435300004435703,
+    "p95_ms": 3.6256000166758895,
+    "p99_ms": 5.576899973675609,
+    "max_ms": 6.601499975658953
+  },
+  "explain_top_10_ms": {
+    "n": 192,
+    "p50_ms": 0.3100000321865082,
+    "p95_ms": 0.41229999624192715,
+    "p99_ms": 0.5438000080175698,
+    "max_ms": 2.613100048620254
+  },
+  "engine_16228_candidate_ms": {
+    "n": 3,
+    "p50_ms": 828.8331999792717,
+    "p95_ms": null,
+    "p99_ms": null,
+    "max_ms": 933.6154999909922
+  },
+  "large_counts": {
+    "ranked": 10,
+    "excluded": 9809,
+    "not_evaluable": 0
+  },
+  "notes": "192 distinct tactical workloads; percentiles across workloads. Full-pool p95/p99 withheld for n=3. No compression or network in this check.",
+  "blocked_stages": [
+    "HTTP",
+    "database",
+    "API response serialization/compression",
+    "browser render",
+    "transfer"
+  ]
+}

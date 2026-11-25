@@ -1,0 +1,4 @@
+FAILED backend/tests/test_integration_production.py::TestAdversarialProduction::test_budget_unverified_not_enforced
+FAILED backend/tests/test_integration_production.py::TestSecurity::test_sql_injection_inert
+FAILED backend/tests/test_integration_production.py::TestSecurity::test_rate_limiting
+24 failed, 575 passed, 1 skipped, 13 warnings in 92.30s (0:01:32)

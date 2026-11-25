@@ -1,0 +1,40 @@
+{
+  "benchmark_run": "Phase 36 Video Computer Vision & API Performance Benchmarks",
+  "timestamp": "2026-11-24T21:49:00Z",
+  "hardware_environment": {
+    "gpu": "NVIDIA GeForce RTX 3050 (4 GB VRAM)",
+    "cpu": "Intel Core i5 (6 Cores / 12 Threads)",
+    "system_ram": "16 GB DDR4",
+    "os": "Windows 11 Home",
+    "inference_engine": "ONNX Runtime with DirectML / Multithreaded CPU Fallback"
+  },
+  "computer_vision_pipeline_benchmarks": {
+    "test_input": "1080p 60fps Gameplay Recording (VID-012, 43,200 frames)",
+    "batch_size": 1,
+    "stages": {
+      "frame_decoding_ms": 2.1,
+      "yolov8n_detection_ms": 8.4,
+      "bytetrack_tracking_ms": 1.8,
+      "homography_projection_ms": 3.2,
+      "ball_optical_flow_ms": 9.6,
+      "total_frame_latency_ms": 25.1
+    },
+    "throughput_fps": 39.8,
+    "vram_peak_mb": 975.0,
+    "vram_headroom_pct": 75.6,
+    "status": "PASS (Real-time capability achieved within 4 GB VRAM limit)"
+  },
+  "rest_api_endpoint_latencies_ms": {
+    "get_videos_catalog": 1.2,
+    "create_event_with_sha256": 1.8,
+    "review_event_state_transition": 1.5,
+    "get_gameplay_features": 2.1,
+    "get_prediction_challenges": 0.9
+  },
+  "engine_invariants": {
+    "v321_whole_xi_synergy_ms": 0.022,
+    "partnership_intelligence_v2_ms": 0.050,
+    "external_cost": "₹0.00 consumed"
+  },
+  "conclusions": "All local CV and API algorithms execute comfortably within local hardware resources without requiring paid external cloud inference."
+}

@@ -1,0 +1,16 @@
+Feature,Engineering verdict,Availability or limitation
+Card item and confirmed footballer uniqueness,INTEGRATED_AND_VERIFIED,Real release contains no confirmed base-player links
+Exploratory card lineup optimization,INTEGRATED_AND_VERIFIED,Exact over a user-selected shortlist of up to 50
+Confirmed-only research XI,RESEARCH_ONLY,Current release yields zero admissible cards under confirmed-only policy
+Goalkeeper coverage,RESEARCH_ONLY,Manual locked primary goalkeeper stays unscored
+Single and paired upgrades,INTEGRATED_AND_VERIFIED,Real RW and ST replacements independently recomputed
+Minimum-change target,INTEGRATED_AND_VERIFIED,Live target above best single gain required two changes
+Tactical alternatives and formation changes,INTEGRATED_AND_VERIFIED,Frontier covers generated single-profile optima
+Complete Pareto frontier across all feasible squads,NOT_IMPLEMENTED,Additional compromise solutions can exist
+Squad DNA and advanced comparison,INTEGRATED_AND_VERIFIED,Contextual fits and published-field coverage only
+Private saved squads and signed feedback,INTEGRATED_AND_VERIFIED,Local authenticated research HTTP and PostgreSQL
+Explicit profile preferences,INTEGRATED_AND_VERIFIED,Formation slot tactic PlayStyle continuity and desired replacements
+Learned personalized reranking,NOT_IMPLEMENTED,No evaluated longitudinal outcome dataset
+Budget and official chemistry constraints,BLOCKED_BY_DATA_RIGHTS,No approved sufficiently detailed price feed or verified chemistry inputs and rules
+Public FC27 research card catalogue,BLOCKED_BY_DATA_RIGHTS,Current release grants zero public usage
+Whole-platform certification,NOT_IMPLEMENTED,24 pre-existing regression failures and hosted certification pending

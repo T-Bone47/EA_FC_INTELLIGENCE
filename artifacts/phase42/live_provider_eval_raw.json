@@ -1,0 +1,196 @@
+{
+  "benchmark_version": "FC_COACH_BENCH_V2",
+  "configured_free_providers": {
+    "gemini_configured": true,
+    "gemini_model": "gemini-4-hydrogen",
+    "openrouter_configured": true,
+    "openrouter_model": "openrouter/free"
+  },
+  "runs": [
+    {
+      "requested_mode": "DETERMINISTIC",
+      "case_id": "BENCH-CTX-SCOUT",
+      "http_status": 200,
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "fallback_used": false,
+      "wall_ms": 1417.4,
+      "backend_latency_ms": 1399.02,
+      "ttft_ms": 0.0,
+      "tools_sent_count": 0,
+      "tool_calls_executed": 7,
+      "answer_chars": 248,
+      "player_cards_count": 7,
+      "provider_notes": []
+    },
+    {
+      "requested_mode": "DETERMINISTIC",
+      "case_id": "BENCH-DNA-WEAKNESS",
+      "http_status": 200,
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "fallback_used": false,
+      "wall_ms": 29.03,
+      "backend_latency_ms": 17.53,
+      "ttft_ms": 0.0,
+      "tools_sent_count": 0,
+      "tool_calls_executed": 3,
+      "answer_chars": 243,
+      "player_cards_count": 0,
+      "provider_notes": []
+    },
+    {
+      "requested_mode": "DETERMINISTIC",
+      "case_id": "BENCH-FCIQ-KB",
+      "http_status": 200,
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "fallback_used": false,
+      "wall_ms": 54.08,
+      "backend_latency_ms": 33.82,
+      "ttft_ms": 0.0,
+      "tools_sent_count": 0,
+      "tool_calls_executed": 3,
+      "answer_chars": 243,
+      "player_cards_count": 0,
+      "provider_notes": []
+    },
+    {
+      "requested_mode": "GEMINI",
+      "case_id": "BENCH-CTX-SCOUT",
+      "http_status": 200,
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "fallback_used": true,
+      "wall_ms": 29951.59,
+      "backend_latency_ms": 29931.72,
+      "ttft_ms": 0.0,
+      "tools_sent_count": 0,
+      "tool_calls_executed": 10,
+      "answer_chars": 248,
+      "player_cards_count": 7,
+      "provider_notes": [
+        "gemini/gemini-4-hydrogen: Gemini transient server error HTTP 503: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again ",
+        "gemini/gemini-4-hydrogen: Gemini request timed out (gemini-4-hydrogen).",
+        "gemini/gemini-4-hydrogen: circuit open (116.7s remaining); skipped without wasting budget.",
+        "Per-turn provider request cap (4) reached."
+      ]
+    },
+    {
+      "requested_mode": "GEMINI",
+      "case_id": "BENCH-DNA-WEAKNESS",
+      "http_status": 200,
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "fallback_used": true,
+      "wall_ms": 17904.09,
+      "backend_latency_ms": 17884.09,
+      "ttft_ms": 0.0,
+      "tools_sent_count": 0,
+      "tool_calls_executed": 4,
+      "answer_chars": 243,
+      "player_cards_count": 0,
+      "provider_notes": [
+        "gemini/gemini-4-hydrogen: circuit open (116.6s remaining); skipped without wasting budget.",
+        "gemini/gemini-3.8-flash: Gemini transient server error HTTP 503: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again ",
+        "gemini/gemini-4-hydrogen: circuit open (111.5s remaining); skipped without wasting budget.",
+        "gemini/gemini-3.8-flash: Gemini request timed out (gemini-3.8-flash).",
+        "Per-user coach RPM limit (8/min) reached."
+      ]
+    },
+    {
+      "requested_mode": "GEMINI",
+      "case_id": "BENCH-FCIQ-KB",
+      "http_status": 200,
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "fallback_used": true,
+      "wall_ms": 34.02,
+      "backend_latency_ms": 22.99,
+      "ttft_ms": 0.0,
+      "tools_sent_count": 0,
+      "tool_calls_executed": 3,
+      "answer_chars": 243,
+      "player_cards_count": 0,
+      "provider_notes": [
+        "gemini/gemini-4-hydrogen: circuit open (98.7s remaining); skipped without wasting budget.",
+        "Per-user coach RPM limit (8/min) reached."
+      ]
+    },
+    {
+      "requested_mode": "OPENROUTER_FREE",
+      "case_id": "BENCH-CTX-SCOUT",
+      "http_status": 200,
+      "actual_provider": "openrouter",
+      "actual_model": "nvidia/nemotron-3.5-lightning:free",
+      "response_mode": "OPENROUTER_FREE",
+      "fallback_used": false,
+      "wall_ms": 17196.5,
+      "backend_latency_ms": 17183.89,
+      "ttft_ms": 9359.2,
+      "tools_sent_count": 5,
+      "tool_calls_executed": 11,
+      "answer_chars": 3008,
+      "player_cards_count": 9,
+      "provider_notes": [
+        "openrouter/openrouter/free: OpenRouter rate limit (429) on openrouter/free: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please retry shortl"
+      ]
+    },
+    {
+      "requested_mode": "OPENROUTER_FREE",
+      "case_id": "BENCH-DNA-WEAKNESS",
+      "http_status": 200,
+      "actual_provider": "openrouter",
+      "actual_model": "nvidia/nemotron-3.5-lightning:free",
+      "response_mode": "OPENROUTER_FREE",
+      "fallback_used": false,
+      "wall_ms": 11771.64,
+      "backend_latency_ms": 11759.82,
+      "ttft_ms": 8287.55,
+      "tools_sent_count": 4,
+      "tool_calls_executed": 4,
+      "answer_chars": 2761,
+      "player_cards_count": 0,
+      "provider_notes": [
+        "openrouter:openrouter/free is in cooldown for 50.6s after rate limiting.",
+        "openrouter:openrouter/free is in cooldown for 47.2s after rate limiting."
+      ]
+    },
+    {
+      "requested_mode": "OPENROUTER_FREE",
+      "case_id": "BENCH-FCIQ-KB",
+      "http_status": 200,
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "fallback_used": true,
+      "wall_ms": 10612.17,
+      "backend_latency_ms": 10601.59,
+      "ttft_ms": 0.0,
+      "tools_sent_count": 0,
+      "tool_calls_executed": 5,
+      "answer_chars": 243,
+      "player_cards_count": 0,
+      "provider_notes": [
+        "openrouter:openrouter/free is in cooldown for 38.8s after rate limiting.",
+        "openrouter:openrouter/free is in cooldown for 32.2s after rate limiting.",
+        "openrouter:openrouter/free is in cooldown for 28.2s after rate limiting.",
+        "Per-user coach RPM limit (8/min) reached."
+      ]
+    }
+  ],
+  "privacy_redaction_gate_check": {
+    "unconfirmed_blocked_notices": [
+      "IMAGE_TRANSMISSION_BLOCKED_REDACTION_AND_CONSENT_REQUIRED"
+    ],
+    "confirmed_candidate_notes": [
+      "CANDIDATE_MULTIMODAL_OBSERVATION_UNVERIFIED (FORMATION_SCREENSHOT; local_redaction_confirmed=True): External screenshot interpretation is provisional until verified against database records or match telemetry."
+    ]
+  }
+}

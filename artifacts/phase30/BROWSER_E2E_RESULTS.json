@@ -1,0 +1,24 @@
+{
+  "checks": [
+    "Two same-OVR versions, item-only attributes, PlayStyle preference, why-not explanation",
+    "Formation slot ranking, stale-result invalidation and tactical scenario",
+    "Mobile layout and missing goalkeeper evidence",
+    "Six-profile card comparison and signed, owner-bound item feedback",
+    {
+      "mobile_squad_lab_accessibility": {
+        "passes": 26,
+        "violations": []
+      }
+    },
+    "Formation transformation moves the outfield item and retains the locked goalkeeper",
+    "Mobile card shortlist, locked unscored keeper, exact single upgrade, apply and undo, tactical alternatives, DNA, save and reload",
+    {
+      "preview_to_visible_dna_ms": 52,
+      "viewport_width": 390
+    },
+    "Saved profile preferences drive new research squads",
+    "In-flight real API response discarded after changing tactics",
+    "Owned FC27 squad, price-free exact catalogue XI, atomic save and reopened copy"
+  ],
+  "uncaught_browser_errors": []
+}

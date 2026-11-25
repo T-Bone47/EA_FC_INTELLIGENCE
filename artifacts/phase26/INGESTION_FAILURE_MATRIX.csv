@@ -1,0 +1,9 @@
+case,evidence,status
+Missing approved permission,CLI refusal and unittest,PASS
+Missing required file,unittest,PASS
+Tampered canonical bytes,unittest,PASS
+Wrong canonical row count or snapshot,unittest,PASS
+Malformed CSV,unittest,PASS
+Wrong second duplicate URL,source inspection,BLOCKED
+Approved dry-run and rollback,no disposable DB or approved package,BLOCKED
+Identical rerun and historical preservation,no disposable DB or approved package,BLOCKED

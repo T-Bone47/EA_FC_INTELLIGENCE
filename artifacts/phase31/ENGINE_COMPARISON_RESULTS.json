@@ -1,0 +1,595 @@
+{
+  "release": "fc27-card-items-local-r1",
+  "cohort_digest": "2e35cec585bf2b896660f65213090128a5ca044374d059ba0cab6c41d46b7d63",
+  "reviewed_match_count": 0,
+  "formation_slots_enumerated": 3776,
+  "gameplay_holdout": null,
+  "api_timing": {
+    "n": 25,
+    "cold_ms": 3091.62,
+    "warm_p50_ms": 17.0,
+    "warm_p95_ms": 28.59
+  },
+  "profiles": {
+    "BALANCED": {
+      "predictions": {
+        "97aaac8f-1616-50a0-afea-fd8aeff337ce": {
+          "score": 0.8916148546,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8916148546,
+            "high": 0.8916148546,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "finishing",
+              "value": 95,
+              "weight": 0.162662,
+              "contribution": 0.148614
+            },
+            {
+              "attribute": "positioning",
+              "value": 91,
+              "weight": 0.116451,
+              "contribution": 0.104747
+            },
+            {
+              "attribute": "pace",
+              "value": 96,
+              "weight": 0.101664,
+              "contribution": 0.094578
+            }
+          ]
+        },
+        "c51329b0-1785-5957-b1af-e5a09e1e95e1": {
+          "score": 0.8715481992,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8715481992,
+            "high": 0.8715481992,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "finishing",
+              "value": 96,
+              "weight": 0.162662,
+              "contribution": 0.149189
+            },
+            {
+              "attribute": "positioning",
+              "value": 95,
+              "weight": 0.116451,
+              "contribution": 0.106394
+            },
+            {
+              "attribute": "pace",
+              "value": 87,
+              "weight": 0.101664,
+              "contribution": 0.089341
+            }
+          ]
+        }
+      },
+      "model_scope": "POSITION_SLOT_AND_TACTIC",
+      "model_dataset": {
+        "game_version": "FC27",
+        "data_status": "RESEARCH_ONLY",
+        "research_only": true,
+        "reference_distribution": {
+          "version": "fc27-card-items-local-r1",
+          "universe": "UT_CARDS",
+          "content_hash": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff"
+        },
+        "notice": "RESEARCH_ONLY: non-commercial research snapshot; not production data"
+      },
+      "model_request": {
+        "game_version": "FC27",
+        "position": "ST",
+        "formation": "4-3-3",
+        "slot": "ST",
+        "tactical_profile": "BALANCED",
+        "secondary_tactical_profile": null,
+        "limit": 10,
+        "lam": null,
+        "division": null,
+        "include_research_data": true
+      },
+      "model_pairwise": [
+        {
+          "higher": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+          "lower": "c51329b0-1785-5957-b1af-e5a09e1e95e1",
+          "score_gap": 0.020067,
+          "within_noise_threshold": false,
+          "intervals_overlap": false,
+          "why": [
+            "Kylian Mbapp\u00e9 is ahead on agility by 0.013 of R",
+            "Kylian Mbapp\u00e9 is behind on strength by 0.007 of R",
+            "Kylian Mbapp\u00e9 is ahead on acceleration by 0.006 of R",
+            "Kylian Mbapp\u00e9 is ahead on pace by 0.005 of R"
+          ]
+        }
+      ],
+      "observed": {
+        "complete_pairs": 0,
+        "first_card_first": 0,
+        "second_card_first": 0,
+        "disputed_match_reports": 0,
+        "independent_sessions": 0,
+        "metric": "goals",
+        "matching_strata": 0,
+        "observed_per_90": null,
+        "paired_difference_per_90": null,
+        "status": "INSUFFICIENT_GAMEPLAY_EVIDENCE"
+      },
+      "direction_agreement": null,
+      "holdout_status": "UNEVALUATED_NO_FROZEN_HOLDOUT",
+      "research_only": true
+    },
+    "HIGH_PRESS": {
+      "predictions": {
+        "97aaac8f-1616-50a0-afea-fd8aeff337ce": {
+          "score": 0.8319367674,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8319367674,
+            "high": 0.8319367674,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "acceleration",
+              "value": 97,
+              "weight": 0.138976,
+              "contribution": 0.129781
+            },
+            {
+              "attribute": "reactions",
+              "value": 92,
+              "weight": 0.125884,
+              "contribution": 0.113677
+            },
+            {
+              "attribute": "pace",
+              "value": 96,
+              "weight": 0.093871,
+              "contribution": 0.087329
+            }
+          ]
+        },
+        "c51329b0-1785-5957-b1af-e5a09e1e95e1": {
+          "score": 0.8216568602,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8216568602,
+            "high": 0.8216568602,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "reactions",
+              "value": 94,
+              "weight": 0.125884,
+              "contribution": 0.114567
+            },
+            {
+              "attribute": "acceleration",
+              "value": 81,
+              "weight": 0.138976,
+              "contribution": 0.113707
+            },
+            {
+              "attribute": "pace",
+              "value": 87,
+              "weight": 0.093871,
+              "contribution": 0.082493
+            }
+          ]
+        }
+      },
+      "model_scope": "POSITION_SLOT_AND_TACTIC",
+      "model_dataset": {
+        "game_version": "FC27",
+        "data_status": "RESEARCH_ONLY",
+        "research_only": true,
+        "reference_distribution": {
+          "version": "fc27-card-items-local-r1",
+          "universe": "UT_CARDS",
+          "content_hash": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff"
+        },
+        "notice": "RESEARCH_ONLY: non-commercial research snapshot; not production data"
+      },
+      "model_request": {
+        "game_version": "FC27",
+        "position": "ST",
+        "formation": "4-3-3",
+        "slot": "ST",
+        "tactical_profile": "HIGH_PRESS",
+        "secondary_tactical_profile": null,
+        "limit": 10,
+        "lam": null,
+        "division": null,
+        "include_research_data": true
+      },
+      "model_pairwise": [
+        {
+          "higher": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+          "lower": "c51329b0-1785-5957-b1af-e5a09e1e95e1",
+          "score_gap": 0.01028,
+          "within_noise_threshold": false,
+          "intervals_overlap": false,
+          "why": [
+            "Kylian Mbapp\u00e9 is ahead on acceleration by 0.016 of R",
+            "Kylian Mbapp\u00e9 is behind on interceptions by 0.013 of R",
+            "Kylian Mbapp\u00e9 is ahead on agility by 0.013 of R",
+            "Kylian Mbapp\u00e9 is behind on aggression by 0.012 of R"
+          ]
+        }
+      ],
+      "observed": {
+        "complete_pairs": 0,
+        "first_card_first": 0,
+        "second_card_first": 0,
+        "disputed_match_reports": 0,
+        "independent_sessions": 0,
+        "metric": "goals",
+        "matching_strata": 0,
+        "observed_per_90": null,
+        "paired_difference_per_90": null,
+        "status": "INSUFFICIENT_GAMEPLAY_EVIDENCE"
+      },
+      "direction_agreement": null,
+      "holdout_status": "UNEVALUATED_NO_FROZEN_HOLDOUT",
+      "research_only": true
+    },
+    "POSSESSION": {
+      "predictions": {
+        "97aaac8f-1616-50a0-afea-fd8aeff337ce": {
+          "score": 0.8639605688,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8639605688,
+            "high": 0.8639605688,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "short_passing",
+              "value": 87,
+              "weight": 0.123013,
+              "contribution": 0.108102
+            },
+            {
+              "attribute": "composure",
+              "value": 88,
+              "weight": 0.11895,
+              "contribution": 0.105733
+            },
+            {
+              "attribute": "vision",
+              "value": 83,
+              "weight": 0.115777,
+              "contribution": 0.097066
+            }
+          ]
+        },
+        "c51329b0-1785-5957-b1af-e5a09e1e95e1": {
+          "score": 0.8198583174,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8198583174,
+            "high": 0.8198583174,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "composure",
+              "value": 86,
+              "weight": 0.11895,
+              "contribution": 0.10333
+            },
+            {
+              "attribute": "short_passing",
+              "value": 78,
+              "weight": 0.123013,
+              "contribution": 0.096919
+            },
+            {
+              "attribute": "vision",
+              "value": 75,
+              "weight": 0.115777,
+              "contribution": 0.08771
+            }
+          ]
+        }
+      },
+      "model_scope": "POSITION_SLOT_AND_TACTIC",
+      "model_dataset": {
+        "game_version": "FC27",
+        "data_status": "RESEARCH_ONLY",
+        "research_only": true,
+        "reference_distribution": {
+          "version": "fc27-card-items-local-r1",
+          "universe": "UT_CARDS",
+          "content_hash": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff"
+        },
+        "notice": "RESEARCH_ONLY: non-commercial research snapshot; not production data"
+      },
+      "model_request": {
+        "game_version": "FC27",
+        "position": "ST",
+        "formation": "4-3-3",
+        "slot": "ST",
+        "tactical_profile": "POSSESSION",
+        "secondary_tactical_profile": null,
+        "limit": 10,
+        "lam": null,
+        "division": null,
+        "include_research_data": true
+      },
+      "model_pairwise": [
+        {
+          "higher": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+          "lower": "c51329b0-1785-5957-b1af-e5a09e1e95e1",
+          "score_gap": 0.044102,
+          "within_noise_threshold": false,
+          "intervals_overlap": false,
+          "why": [
+            "Kylian Mbapp\u00e9 is ahead on short passing by 0.011 of R",
+            "Kylian Mbapp\u00e9 is ahead on vision by 0.009 of R",
+            "Kylian Mbapp\u00e9 is ahead on ball control by 0.006 of R",
+            "Kylian Mbapp\u00e9 is ahead on dribbling detail by 0.006 of R"
+          ]
+        }
+      ],
+      "observed": {
+        "complete_pairs": 0,
+        "first_card_first": 0,
+        "second_card_first": 0,
+        "disputed_match_reports": 0,
+        "independent_sessions": 0,
+        "metric": "goals",
+        "matching_strata": 0,
+        "observed_per_90": null,
+        "paired_difference_per_90": null,
+        "status": "INSUFFICIENT_GAMEPLAY_EVIDENCE"
+      },
+      "direction_agreement": null,
+      "holdout_status": "UNEVALUATED_NO_FROZEN_HOLDOUT",
+      "research_only": true
+    },
+    "COUNTER_ATTACK": {
+      "predictions": {
+        "97aaac8f-1616-50a0-afea-fd8aeff337ce": {
+          "score": 0.8731691722,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8731691722,
+            "high": 0.8731691722,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "acceleration",
+              "value": 97,
+              "weight": 0.142759,
+              "contribution": 0.133314
+            },
+            {
+              "attribute": "reactions",
+              "value": 92,
+              "weight": 0.111788,
+              "contribution": 0.100948
+            },
+            {
+              "attribute": "sprint_speed",
+              "value": 96,
+              "weight": 0.079505,
+              "contribution": 0.073964
+            }
+          ]
+        },
+        "c51329b0-1785-5957-b1af-e5a09e1e95e1": {
+          "score": 0.8432751794,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8432751794,
+            "high": 0.8432751794,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "acceleration",
+              "value": 81,
+              "weight": 0.142759,
+              "contribution": 0.116803
+            },
+            {
+              "attribute": "reactions",
+              "value": 94,
+              "weight": 0.111788,
+              "contribution": 0.101739
+            },
+            {
+              "attribute": "sprint_speed",
+              "value": 92,
+              "weight": 0.079505,
+              "contribution": 0.072839
+            }
+          ]
+        }
+      },
+      "model_scope": "POSITION_SLOT_AND_TACTIC",
+      "model_dataset": {
+        "game_version": "FC27",
+        "data_status": "RESEARCH_ONLY",
+        "research_only": true,
+        "reference_distribution": {
+          "version": "fc27-card-items-local-r1",
+          "universe": "UT_CARDS",
+          "content_hash": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff"
+        },
+        "notice": "RESEARCH_ONLY: non-commercial research snapshot; not production data"
+      },
+      "model_request": {
+        "game_version": "FC27",
+        "position": "ST",
+        "formation": "4-3-3",
+        "slot": "ST",
+        "tactical_profile": "COUNTER_ATTACK",
+        "secondary_tactical_profile": null,
+        "limit": 10,
+        "lam": null,
+        "division": null,
+        "include_research_data": true
+      },
+      "model_pairwise": [
+        {
+          "higher": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+          "lower": "c51329b0-1785-5957-b1af-e5a09e1e95e1",
+          "score_gap": 0.029894,
+          "within_noise_threshold": false,
+          "intervals_overlap": false,
+          "why": [
+            "Kylian Mbapp\u00e9 is ahead on agility by 0.018 of R",
+            "Kylian Mbapp\u00e9 is ahead on acceleration by 0.017 of R",
+            "Kylian Mbapp\u00e9 is behind on strength by 0.008 of R",
+            "Kylian Mbapp\u00e9 is behind on heading accuracy by 0.004 of R"
+          ]
+        }
+      ],
+      "observed": {
+        "complete_pairs": 0,
+        "first_card_first": 0,
+        "second_card_first": 0,
+        "disputed_match_reports": 0,
+        "independent_sessions": 0,
+        "metric": "goals",
+        "matching_strata": 0,
+        "observed_per_90": null,
+        "paired_difference_per_90": null,
+        "status": "INSUFFICIENT_GAMEPLAY_EVIDENCE"
+      },
+      "direction_agreement": null,
+      "holdout_status": "UNEVALUATED_NO_FROZEN_HOLDOUT",
+      "research_only": true
+    },
+    "DIRECT_PLAY": {
+      "predictions": {
+        "97aaac8f-1616-50a0-afea-fd8aeff337ce": {
+          "score": 0.8645190472,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8645190472,
+            "high": 0.8645190472,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "acceleration",
+              "value": 97,
+              "weight": 0.094173,
+              "contribution": 0.087942
+            },
+            {
+              "attribute": "long_shots",
+              "value": 86,
+              "weight": 0.09136,
+              "contribution": 0.079363
+            },
+            {
+              "attribute": "shot_power",
+              "value": 91,
+              "weight": 0.087151,
+              "contribution": 0.078392
+            }
+          ]
+        },
+        "c51329b0-1785-5957-b1af-e5a09e1e95e1": {
+          "score": 0.8463218661,
+          "coverage": 1.0,
+          "interval": {
+            "low": 0.8463218661,
+            "high": 0.8463218661,
+            "ranked_on": "low (C_lo x modifier)"
+          },
+          "strengths": [
+            {
+              "attribute": "shot_power",
+              "value": 94,
+              "weight": 0.087151,
+              "contribution": 0.079316
+            },
+            {
+              "attribute": "acceleration",
+              "value": 81,
+              "weight": 0.094173,
+              "contribution": 0.07705
+            },
+            {
+              "attribute": "long_shots",
+              "value": 83,
+              "weight": 0.09136,
+              "contribution": 0.076595
+            }
+          ]
+        }
+      },
+      "model_scope": "POSITION_SLOT_AND_TACTIC",
+      "model_dataset": {
+        "game_version": "FC27",
+        "data_status": "RESEARCH_ONLY",
+        "research_only": true,
+        "reference_distribution": {
+          "version": "fc27-card-items-local-r1",
+          "universe": "UT_CARDS",
+          "content_hash": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff"
+        },
+        "notice": "RESEARCH_ONLY: non-commercial research snapshot; not production data"
+      },
+      "model_request": {
+        "game_version": "FC27",
+        "position": "ST",
+        "formation": "4-3-3",
+        "slot": "ST",
+        "tactical_profile": "DIRECT_PLAY",
+        "secondary_tactical_profile": null,
+        "limit": 10,
+        "lam": null,
+        "division": null,
+        "include_research_data": true
+      },
+      "model_pairwise": [
+        {
+          "higher": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+          "lower": "c51329b0-1785-5957-b1af-e5a09e1e95e1",
+          "score_gap": 0.018197,
+          "within_noise_threshold": false,
+          "intervals_overlap": false,
+          "why": [
+            "Kylian Mbapp\u00e9 is ahead on agility by 0.013 of R",
+            "Kylian Mbapp\u00e9 is ahead on acceleration by 0.011 of R",
+            "Kylian Mbapp\u00e9 is behind on strength by 0.010 of R",
+            "Kylian Mbapp\u00e9 is behind on heading accuracy by 0.006 of R"
+          ]
+        }
+      ],
+      "observed": {
+        "complete_pairs": 0,
+        "first_card_first": 0,
+        "second_card_first": 0,
+        "disputed_match_reports": 0,
+        "independent_sessions": 0,
+        "metric": "goals",
+        "matching_strata": 0,
+        "observed_per_90": null,
+        "paired_difference_per_90": null,
+        "status": "INSUFFICIENT_GAMEPLAY_EVIDENCE"
+      },
+      "direction_agreement": null,
+      "holdout_status": "UNEVALUATED_NO_FROZEN_HOLDOUT",
+      "research_only": true
+    }
+  }
+}

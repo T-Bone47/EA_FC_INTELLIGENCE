@@ -1,0 +1,82 @@
+......FFFF....                                                           [100%]
+=================================== FAILURES ===================================
+__________ TestRD3OvrCorrelationBand.test_rho_within_band[CB-cb_pool] __________
+
+self = <backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand object at 0x7fe2d1996120>
+request = <FixtureRequest for <Function test_rho_within_band[CB-cb_pool]>>
+position = 'CB', pool_fixture = 'cb_pool'
+reference = ReferenceDistribution(version='fc26-players-2026-09-r1', game_version='FC26', universe='RATINGS_SITE_PLAYERS', generat...0, p90=75.0), 'volleys': AttributeQuantiles(n=6079, p10=36.0, p50=51.0, p90=66.0)}}, data_status=None, provenance=None)
+
+    @pytest.mark.parametrize("position,pool_fixture", [("CB", "cb_pool"), ("ST", "st_pool"), ("CM", "cm_pool")])
+    def test_rho_within_band(self, request, position, pool_fixture, reference):
+        pool = request.getfixturevalue(pool_fixture)
+        _, _, rhos = _top10_overlap_and_rho(pool, position, reference)
+        for rho in rhos:
+>           assert 0.35 <= rho <= 0.85, f"{position}: rho(R,OVR)={rho:.3f} outside [0.35, 0.85]"
+E           AssertionError: CB: rho(R,OVR)=0.911 outside [0.35, 0.85]
+E           assert 0.911112045697602 <= 0.85
+
+backend/tests/test_engine_v3_real_data.py:177: AssertionError
+__________ TestRD3OvrCorrelationBand.test_rho_within_band[ST-st_pool] __________
+
+self = <backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand object at 0x7fe2d1996270>
+request = <FixtureRequest for <Function test_rho_within_band[ST-st_pool]>>
+position = 'ST', pool_fixture = 'st_pool'
+reference = ReferenceDistribution(version='fc26-players-2026-09-r1', game_version='FC26', universe='RATINGS_SITE_PLAYERS', generat...0, p90=75.0), 'volleys': AttributeQuantiles(n=6079, p10=36.0, p50=51.0, p90=66.0)}}, data_status=None, provenance=None)
+
+    @pytest.mark.parametrize("position,pool_fixture", [("CB", "cb_pool"), ("ST", "st_pool"), ("CM", "cm_pool")])
+    def test_rho_within_band(self, request, position, pool_fixture, reference):
+        pool = request.getfixturevalue(pool_fixture)
+        _, _, rhos = _top10_overlap_and_rho(pool, position, reference)
+        for rho in rhos:
+>           assert 0.35 <= rho <= 0.85, f"{position}: rho(R,OVR)={rho:.3f} outside [0.35, 0.85]"
+E           AssertionError: ST: rho(R,OVR)=0.877 outside [0.35, 0.85]
+E           assert 0.8770950640436302 <= 0.85
+
+backend/tests/test_engine_v3_real_data.py:177: AssertionError
+__________ TestRD3OvrCorrelationBand.test_rho_within_band[CM-cm_pool] __________
+
+self = <backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand object at 0x7fe2d19963f0>
+request = <FixtureRequest for <Function test_rho_within_band[CM-cm_pool]>>
+position = 'CM', pool_fixture = 'cm_pool'
+reference = ReferenceDistribution(version='fc26-players-2026-09-r1', game_version='FC26', universe='RATINGS_SITE_PLAYERS', generat...0, p90=75.0), 'volleys': AttributeQuantiles(n=6079, p10=36.0, p50=51.0, p90=66.0)}}, data_status=None, provenance=None)
+
+    @pytest.mark.parametrize("position,pool_fixture", [("CB", "cb_pool"), ("ST", "st_pool"), ("CM", "cm_pool")])
+    def test_rho_within_band(self, request, position, pool_fixture, reference):
+        pool = request.getfixturevalue(pool_fixture)
+        _, _, rhos = _top10_overlap_and_rho(pool, position, reference)
+        for rho in rhos:
+>           assert 0.35 <= rho <= 0.85, f"{position}: rho(R,OVR)={rho:.3f} outside [0.35, 0.85]"
+E           AssertionError: CM: rho(R,OVR)=0.863 outside [0.35, 0.85]
+E           assert 0.8633490985773343 <= 0.85
+
+backend/tests/test_engine_v3_real_data.py:177: AssertionError
+_____ TestRD4TacticalResponsiveness.test_spread_clears_target[CB-cb_pool] ______
+
+self = <backend.tests.test_engine_v3_real_data.TestRD4TacticalResponsiveness object at 0x7fe2d19967b0>
+request = <FixtureRequest for <Function test_spread_clears_target[CB-cb_pool]>>
+position = 'CB', pool_fixture = 'cb_pool'
+reference = ReferenceDistribution(version='fc26-players-2026-09-r1', game_version='FC26', universe='RATINGS_SITE_PLAYERS', generat...0, p90=75.0), 'volleys': AttributeQuantiles(n=6079, p10=36.0, p50=51.0, p90=66.0)}}, data_status=None, provenance=None)
+
+    @pytest.mark.parametrize("position,pool_fixture", [("CB", "cb_pool"), ("ST", "st_pool")])
+    def test_spread_clears_target(self, request, position, pool_fixture, reference):
+        pool = request.getfixturevalue(pool_fixture)
+        _, _, rhos = _top10_overlap_and_rho(pool, position, reference)
+        spread = max(rhos) - min(rhos)
+>       assert spread >= 0.10, f"{position}: rho spread = {spread:.3f} across profiles (v2 was <0.05)"
+E       AssertionError: CB: rho spread = 0.094 across profiles (v2 was <0.05)
+E       assert 0.09376062909708549 >= 0.1
+
+backend/tests/test_engine_v3_real_data.py:190: AssertionError
+=============================== warnings summary ===============================
+backend/core/db.py:23
+  /home/claude/work/EA_FC_INTELLIGENCE_full_project/EA_FC_INTELLIGENCE-main/backend/core/db.py:23: UserWarning: JWT_SECRET not set — using an ephemeral development secret. Set JWT_SECRET in any deployed environment.
+    conninfo=get_settings().database_url,
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[CB-cb_pool]
+FAILED backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[ST-st_pool]
+FAILED backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[CM-cm_pool]
+FAILED backend/tests/test_engine_v3_real_data.py::TestRD4TacticalResponsiveness::test_spread_clears_target[CB-cb_pool]
+4 failed, 10 passed, 1 warning in 26.35s

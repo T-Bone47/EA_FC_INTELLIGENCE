@@ -289,3 +289,47 @@ coverage gate, position ladder 1.0/0.85/adjacency/0.05, playstyle base ×1.0 /
 plus ×1.5 / base-only 0.75, confidence 0.7×coverage + 0.3×entity,
 strict-tactics floor 0.35, FC26 PS+ cap 1, FC27 NO_DATA 404 wall.
 161 backend / 33 frontend tests.
+
+## Phase 24 — 2026-09-30 — V3.2: missing-data invariant fix
+
+**Change (one calibrated value):** `missing_value_charge` `P10` → `ZERO`. Engine `3.0.0` → `3.2.0`;
+config `v3-2026-09-17-r1` (V3.1, **frozen historical**) → `v3.2-2026-09-30-r1` (V3.2, default).
+
+**Why:** Phase 23 finding F-1. Under P10, hiding a published attribute *below* P10 could **raise** C_lo,
+violating the missing-data invariant (omission must never help). Under ZERO an unpublished demanded
+attribute earns nothing, so omission can never raise C_lo. Nothing else in the config changed
+(`tests/test_v3_2_config.py` asserts the two configs differ in exactly `missing_value_charge` and
+`config_version`).
+
+**Versioned configuration:** every `V3Config` now carries its own `config_version`; the engine stamps the
+version of the config it *ran* (previously a module constant, which would have mislabeled V3.1 replays).
+Registry: `v3_config.CONFIGS` / `get_config(version)`. `V3_1_CONFIG` is reconstructed explicitly and stays
+reproducible (see below).
+
+**Real-data effect:** none on current data — FC26 and FC27 rankings are identical under V3.1 and V3.2 (κ = 1.0
+on all real players, so no demanded attribute is unpublished). Covered by `test_v3_2_missing_data.py`
+(FC26: 4 positions × 3 profiles; FC27: CM × 2 profiles, top-50, exact scores).
+
+**Golden fixtures — deliberate change, 7 named fixtures / 8 fingerprints (not "six"):**
+`no_playstyle_evidence`, `playstyle_relevance`, `position_mismatch`, `same_attributes_different_ovr`,
+`same_ovr_different_attributes`, `thin_evidence` (the six guarded by `test_golden_fixtures.py`) **and**
+`same_player_two_tactics` (2 fingerprints: `high_press`, `low_block`), which exists in the golden file but was
+never asserted by the V3.1 test. Cause in every case: a synthetic candidate with partial evidence (κ < 1) whose
+unpublished demanded attributes now contribute 0 instead of the P10 charge. No fixture changed its ranking
+order; fully-covered candidates are bit-identical; C_lo only fell. The generator *asserts* these properties.
+Files: `artifacts/v3_2/calibration/golden_fixtures.json`, `golden_diff_v3_1_to_v3_2.json`.
+
+**V3.1 reproducibility:** `artifacts/v3_1/calibration/golden_fixtures.json` is NOT regenerated.
+`build_fixtures()` defaults to the pinned `V3_1_CONFIG`, so the *unmodified* `test_golden_fixtures.py` still passes
+and proves V3.1 is intact; `test_golden_fixtures_v3_2.py` also checks this and pins the exact changed set.
+
+**Lab:** `BASELINE` ("V3.1-baseline") is pinned to `V3_1_CONFIG`; new `V3.2-default` variant; Phase-23 candidate
+variants stay pinned to V3.1 so their results reproduce. `run_intelligence_lab.py` now writes to
+`artifacts/phase24/lab` by default and only touches `artifacts/phase23/lab` with an explicit `--out-dir`.
+
+**Not changed (by decision):** GK signed-pole experiment (stays lab-only; `test_no_production_module_imports_the_experiment_lab`
+guards the boundary), complementarity interaction (disabled; asserted), PlayStyle Model A, confidence reporting-only,
+OVR independence, FC26/FC27 version wall, UT-card scope (disabled).
+
+**Disclosed test edit:** `test_recommendations_v3_api.py` asserted the literal `engine_version == "3.0.0"`; changed to
+`"3.2.0"` for the deliberate version bump, plus a new `config_version` assertion. No other existing test was modified.

@@ -1,0 +1,1407 @@
+--- /dev/null
++++ b/.github/workflows/phase26.yml
+@@ -0,0 +1,54 @@
++name: Phase 26 browser QA
++on: [push, pull_request, workflow_dispatch]
++jobs:
++  intelligence:
++    runs-on: ubuntu-latest
++    timeout-minutes: 40
++    services:
++      postgres:
++        image: postgres:16
++        env:
++          POSTGRES_USER: eafc
++          POSTGRES_PASSWORD: ci_only
++          POSTGRES_DB: eafc_ci
++        ports: ['5432:5432']
++        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 12
++    env:
++      DATABASE_URL: postgresql://eafc:ci_only@127.0.0.1:5432/eafc_ci
++      ENVIRONMENT: test
++      QA_OUT: qa-results/results.json
++      QA_SHOTS: qa-results
++      QA_CHROME: /usr/bin/google-chrome
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with:
++          node-version: '22'
++      - uses: actions/setup-python@v5
++        with:
++          python-version: '3.12'
++      - run: node --test scripts/browser_qa/qa.test.mjs
++      - run: pip install -r backend/requirements.txt
++      - run: python scripts/setup_database.py
++      - run: python scripts/setup_database.py
++      - run: python scripts/ingest_fc26_foundation.py
++      - run: python -m unittest backend.tests.test_phase26_policy backend.tests.test_phase26_contract
++      - run: python -m pytest -q backend/tests/test_phase26_database.py backend/tests/test_fc27_card_identity_research.py
++      - run: npm --prefix frontend ci
++      - run: npm --prefix frontend test
++      - run: npm --prefix frontend run build
++      - run: npm install --prefix scripts/browser_qa --no-save puppeteer-core@24 axe-core@4
++      - name: Run real browser against disposable API and PostgreSQL
++        run: |
++          python -m uvicorn backend.api.main:app --port 8011 > api.log 2>&1 &
++          node scripts/browser_qa/serve.mjs > web.log 2>&1 &
++          curl --retry 15 --retry-connrefused --retry-delay 2 --fail http://127.0.0.1:8011/api
++          node scripts/browser_qa/qa.mjs
++      - uses: actions/upload-artifact@v4
++        if: always()
++        with:
++          name: browser-evidence
++          path: |
++            qa-results
++            api.log
++            web.log
+--- a/backend/api/deps.py
++++ b/backend/api/deps.py
+@@ -149,3 +149,9 @@
+                     f"{s.supported_versions()}. Versions are never mixed or "
+                     "silently defaulted."))
+     return up
++
++def require_legacy_research_environment() -> None:
++    """The frozen V2 ranking and comparison services are for local research."""
++    from backend.services.recommendation_service_v3 import Environment, environment_from_settings
++    if environment_from_settings(get_settings().environment) == Environment.PRODUCTION:
++        raise HTTPException(410, "Legacy intelligence is disabled here. Use the V3 player intelligence endpoints.")
+--- a/backend/api/main.py
++++ b/backend/api/main.py
+@@ -94,6 +94,8 @@
+                    compare, squads, feedback):
+         app.include_router(module.router)
+ 
++    from backend.services.recommendation_service_v3 import Environment, environment_from_settings
++
+     @app.get("/api")
+     def api_root() -> dict:
+         return {
+@@ -101,9 +103,12 @@
+             "version": "2.0.0",
+             "docs": "/api/docs",
+             "canonical_endpoints": [
+-                "POST /api/recommendations",
++                *([] if environment_from_settings(settings.environment) == Environment.PRODUCTION
++                  else ["POST /api/recommendations", "POST /api/compare"]),
++                "POST /api/v3/recommendations",
+                 "POST /api/recommendations/parse-intent",
+-                "POST /api/compare",
++                "POST /api/v3/compare",
++                "POST /api/v3/what-if",
+                 "GET  /api/players",
+                 "GET  /api/players/{id}",
+                 "GET  /api/cards/{id}",
+@@ -126,7 +131,9 @@
+         def spa(full_path: str):
+             if full_path.startswith("api/"):
+                 return JSONResponse(status_code=404, content={"detail": "Not found."})
+-            candidate = Path(dist) / full_path
++            candidate = (Path(dist) / full_path).resolve()
++            if not candidate.is_relative_to(Path(dist).resolve()):
++                return JSONResponse(status_code=404, content={"detail": "Not found."})
+             if full_path and candidate.is_file():
+                 return FileResponse(candidate)
+             return FileResponse(Path(dist) / "index.html")
+--- a/backend/api/routes/compare.py
++++ b/backend/api/routes/compare.py
+@@ -3,7 +3,7 @@
+ 
+ from fastapi import APIRouter, Depends, HTTPException
+ 
+-from backend.api.deps import rate_limit_default, validate_game_version
++from backend.api.deps import rate_limit_default, require_legacy_research_environment, validate_game_version
+ from backend.api.schemas import CompareRequest
+ from backend.services.comparison_service import ComparisonService
+ 
+@@ -13,7 +13,7 @@
+ _service = ComparisonService()
+ 
+ 
+-@router.post("/compare")
++@router.post("/compare", dependencies=[Depends(require_legacy_research_environment)])
+ def compare(body: CompareRequest) -> dict:
+     gv = validate_game_version(body.game_version)
+     req = None
+--- a/backend/api/routes/recommendations.py
++++ b/backend/api/routes/recommendations.py
+@@ -18,7 +18,7 @@
+ from fastapi import APIRouter, Depends, HTTPException, Query
+ 
+ from backend.api.deps import (
+-    CurrentUser, current_user_optional, rate_limit_default, validate_game_version,
++    CurrentUser, current_user_optional, rate_limit_default, require_legacy_research_environment, validate_game_version,
+ )
+ from backend.api.schemas import (
+     NaturalLanguageRequest, RecommendationRequest,
+@@ -51,7 +51,7 @@
+     return _service
+ 
+ 
+-@router.post("/recommendations")
++@router.post("/recommendations", dependencies=[Depends(require_legacy_research_environment)])
+ def recommendations(body: RecommendationRequest,
+                     user: Optional[CurrentUser] = Depends(current_user_optional)) -> dict:
+     gv = validate_game_version(body.game_version)
+--- a/backend/api/schemas_v3.py
++++ b/backend/api/schemas_v3.py
+@@ -28,7 +28,7 @@
+     required_league: Optional[str] = Field(default=None, max_length=120)
+     required_club: Optional[str] = Field(default=None, max_length=120)
+     required_nation: Optional[str] = Field(default=None, max_length=120)
+-    squad_id: Optional[uuid.UUID] = None
++    squad_id: None = Field(default=None, description="Squad context is unsupported in V3.")
+     entity_scope: Literal["game_player"] = "game_player"
+     limit: int = Field(default=10, ge=1, le=50)
+     lam: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+@@ -68,6 +68,14 @@
+     entity_ids: list[uuid.UUID] = Field(min_length=2, max_length=5)
+ 
+ 
++    @field_validator("entity_ids")
++    @classmethod
++    def distinct_players(cls, ids):
++        if len(ids) != len(set(ids)):
++            raise ValueError("Choose distinct players to compare")
++        return ids
++
++
+ class WhatIfChange(BaseModel):
+     model_config = ConfigDict(extra="forbid")
+     label: str = Field(min_length=1, max_length=60)
+--- a/backend/data_access/candidate_repository.py
++++ b/backend/data_access/candidate_repository.py
+@@ -281,11 +281,8 @@
+ 
+     def _watermark(self, game_version: str) -> str:
+         with get_conn() as conn:
+-            row = conn.execute(
+-                """SELECT count(*) AS n, coalesce(max(updated_at), 'epoch') AS wm
+-                   FROM game_player gp JOIN game_version gv ON gv.id = gp.game_version_id
+-                   WHERE gv.code = %s""", (game_version,)).fetchone()
+-        return f"{row['n']}@{row['wm']}"
++            row = conn.execute("SELECT generation FROM candidate_cache_generation WHERE singleton").fetchone()
++        return f"{game_version}@{row['generation']}"
+ 
+     def _load_all(self, gv: GameVersionCode, include_synthetic: bool,
+                   include_research_only: bool = False) -> list[Candidate]:
+@@ -309,7 +306,7 @@
+                        coalesce(ps.base_names, '{{}}')  AS ps_base,
+                        coalesce(ps.plus_names, '{{}}')  AS ps_plus,
+                        coalesce(sp.sec_positions, '{{}}') AS sec_positions,
+-                       (ps.published IS NOT NULL) AS ps_published
++                       ps.published AS ps_published
+                 FROM game_player gp
+                 JOIN game_version gvv ON gvv.id = gp.game_version_id AND gvv.code = %(code)s
+                 LEFT JOIN game_player_attributes a ON a.game_player_id = gp.id
+@@ -319,9 +316,12 @@
+                 LEFT JOIN LATERAL (
+                     SELECT array_agg(pd.playstyle_name) FILTER (WHERE gpp.tier='base') AS base_names,
+                            array_agg(pd.playstyle_name) FILTER (WHERE gpp.tier='plus') AS plus_names,
+-                           TRUE AS published
++                           count(*) > 0 AS published
+                     FROM game_player_playstyle gpp
+                     JOIN playstyle_definition pd ON pd.id = gpp.playstyle_definition_id
++                         AND pd.game_version_id = gp.game_version_id
++                         AND (pd.data_status = 'CANONICAL'
++                              OR (%(research)s AND pd.data_status = 'RESEARCH_ONLY'))
+                     WHERE gpp.game_player_id = gp.id
+                 ) ps ON TRUE
+                 LEFT JOIN LATERAL (
+@@ -331,7 +331,7 @@
+                 ) sp ON TRUE
+                 WHERE TRUE {status_filter}
+                 ORDER BY gp.overall_rating DESC, gp.display_name""",
+-                {"code": gv.value}).fetchall()
++                {"code": gv.value, "research": include_research_only}).fetchall()
+ 
+         candidates: list[Candidate] = []
+         for r in rows:
+--- a/backend/services/recommendation_engine_v3.py
++++ b/backend/services/recommendation_engine_v3.py
+@@ -42,7 +42,7 @@
+ from enum import Enum
+ from typing import Optional
+ 
+-from backend.domain.card_model import Candidate
++from backend.domain.card_model import Candidate, DataStatus
+ from backend.domain.user_model import UserRequirements
+ from backend.services import playstyle_context
+ from backend.services.capability_model import compute_capability
+@@ -151,9 +151,9 @@
+ 
+     def recommend(self, pool: list[Candidate], req: UserRequirements,
+                    request_id: Optional[uuid.UUID] = None) -> RecommendationResultV3:
+-        if req.entity_scope == "ut_card":
++        if req.entity_scope not in ("auto", SUPPORTED_ENTITY_SCOPE):
+             raise UnsupportedEntityScopeError(
+-                "ut_card scope is not supported in v3.0: no permitted source of FC26 "
++                f"{req.entity_scope} scope is not supported in V3: no permitted source of FC26 "
+                 "UT card evidence exists (FC26_DATA_BUILD_DECISION.md, "
+                 "CAN_REAL_FC26_UT_DATA_BE_INGESTED = NO). Use entity_scope='game_player'."
+             )
+@@ -186,7 +186,14 @@
+         excluded: list[ExclusionRecord] = []
+         not_evaluable: list[ExclusionRecord] = []
+ 
++        permitted = {DataStatus.CANONICAL, DataStatus.SYNTHETIC_TEST}  # synthetic is excluded by G2
++        if self.reference and self.reference.data_status == "RESEARCH_ONLY":
++            permitted.add(DataStatus.RESEARCH_ONLY)
+         for c in pool:
++            if c.entity_type != SUPPORTED_ENTITY_SCOPE or c.data_status not in permitted:
++                excluded.append(ExclusionRecord(c.entity_id, c.name, "G2_data_scope", ExclusionClass.FAILED,
++                                                "Candidate scope or data status is outside the requested population"))
++                continue
+             elig = check_eligibility(
+                 game_version=c.game_version.value if hasattr(c.game_version, "value") else str(c.game_version),
+                 request_game_version=req.game_version,
+@@ -195,7 +202,7 @@
+                 primary_position=c.position_primary,
+                 secondary_positions=tuple(c.secondary_positions or ()),
+                 target_position=target_position,
+-                is_synthetic=c.is_synthetic,
++                is_synthetic=c.is_synthetic or c.data_status == DataStatus.SYNTHETIC_TEST,
+                 theta_pos=self.config.theta_pos.value,
+             )
+             if not elig.eligible:
+@@ -286,7 +293,7 @@
+             # status. It is attached to the context AFTER r/r_hi are fixed
+             # and is never read back into either -- see V3_1_CALIBRATION_REPORT.md
+             # Phase 11 and the accompanying independence test.
+-            _identity = getattr(c, "identity_status", None)
++            _identity = getattr(c, "identity_status", None) or c.extra.get("identity_status")
+             confidence = compute_confidence_v2(
+                 legacy_score=capability.kappa,
+                 identity_status=(_identity.value if hasattr(_identity, "value") else _identity),
+--- a/backend/services/recommendation_service_v3.py
++++ b/backend/services/recommendation_service_v3.py
+@@ -31,7 +31,7 @@
+     DataLicenseGateFailure,
+     Environment,
+     ProductionOverrideForbidden,
+-    gate_or_raise,
++
+ )
+ from backend.services.explanation_service_v3 import explain, why_not
+ from backend.services.v3_response_blocks import (
+@@ -46,9 +46,7 @@
+     POSITION_GROUPS,
+     ReferenceDistributionMismatch,
+     ReferenceDistributionUnavailable,
+-    check_reference_compatible,
+-    load_reference_distribution,
+-    load_reference_for,
++    resolve_serving_reference,
+     position_group_for,
+ )
+ from backend.services.v3_config import (
+@@ -131,48 +129,28 @@
+         self.repository = repository or CandidateRepository()
+         # Explicit override (tooling/tests). None = resolve per request.
+         self.reference_version = reference_version
+-        if environment is None:
+-            from backend.core.config import get_settings
+-            environment = environment_from_settings(get_settings().environment)
+-        self.environment = environment
+-
+-    # ------------------------------------------------------------------ setup
++        from backend.core.config import get_settings
++        deployment = environment_from_settings(get_settings().environment)
++        self.environment = deployment if deployment == Environment.PRODUCTION else (environment or deployment)
++
+     def _resolve(self, body: RecommendationRequestV3):
+-        """-> (reference, research_mode). Raises ServiceRefusal."""
+-        research = bool(getattr(body, "include_research_data", False))
+-        if self.reference_version is not None:
+-            try:
+-                ref = load_reference_distribution(self.reference_version)
+-                check_reference_compatible(ref, game_version=body.game_version,
+-                                           entity_type="game_player")
+-            except ReferenceDistributionMismatch as exc:
+-                raise ServiceRefusal("REFERENCE_DISTRIBUTION_MISMATCH", str(exc))
+-            except ReferenceDistributionUnavailable as exc:
+-                raise ServiceRefusal("REFERENCE_DISTRIBUTION_UNAVAILABLE", str(exc))
+-            return ref, False
++        research = body.include_research_data
+         try:
+-            ref = load_reference_for(body.game_version, entity_type="game_player",
+-                                     allow_research_only=research)
++            ref, research_pool = resolve_serving_reference(
++                body.game_version, body.entity_scope, research, self.environment, self.reference_version)
+         except ReferenceDistributionMismatch as exc:
+-            raise ServiceRefusal("REFERENCE_DISTRIBUTION_MISMATCH", str(exc))
++            raise ServiceRefusal("REFERENCE_DISTRIBUTION_MISMATCH", str(exc)) from exc
+         except ReferenceDistributionUnavailable as exc:
+-            hint = (f" {body.game_version} data is RESEARCH_ONLY: set include_research_data="
+-                    "true in a non-production deployment to use it. It is never substituted "
+-                    "with another version's data.") if not research else ""
+-            refusal = ServiceRefusal("REFERENCE_DISTRIBUTION_UNAVAILABLE", f"{exc}.{hint}")
+-            if hint:
++            refusal = ServiceRefusal("REFERENCE_DISTRIBUTION_UNAVAILABLE", str(exc))
++            if not research and body.game_version == "FC27":
+                 refusal.requires = "include_research_data"
+-            raise refusal
+-        if ref.data_status == "RESEARCH_ONLY":
+-            try:
+-                gate_or_raise(ref.version, environment=self.environment,
+-                              allow_research_only=True, game_version=body.game_version,
+-                              entity_scope="game_player")
+-            except ProductionOverrideForbidden as exc:
+-                raise ServiceRefusal("RESEARCH_DATA_REFUSED_IN_PRODUCTION", str(exc))
+-            except DataLicenseGateFailure as exc:
+-                raise ServiceRefusal("DATA_LICENSE_GATE_FAILED", str(exc))
+-        return ref, ref.data_status == "RESEARCH_ONLY"
++                refusal.detail += ". Set include_research_data=true in a non-production deployment."
++            raise refusal from exc
++        except ProductionOverrideForbidden as exc:
++            raise ServiceRefusal("RESEARCH_DATA_REFUSED_IN_PRODUCTION", str(exc)) from exc
++        except DataLicenseGateFailure as exc:
++            raise ServiceRefusal("DATA_LICENSE_GATE_FAILED", str(exc)) from exc
++        return ref, research_pool
+ 
+     def _engine(self, body: RecommendationRequestV3, reference) -> RecommendationEngineV3:
+         cfg = DEFAULT_V3_CONFIG
+@@ -206,16 +184,7 @@
+         request_id = request_id or uuid.uuid4()
+         started = time.monotonic()
+         try:
+-            check_division(body)
+-            ref, research = self._resolve(body)
+-            # Player scope only: this service never calls the ut_card loader.
+-            group = position_group_for(body.position)
+-            family = POSITION_GROUPS.get(group, {body.position}) if group else {body.position}
+-            pool = _division_filter(
+-                self.repository.load_candidates(body.game_version, positions=family,
+-                                                include_research_only=research), body)
+-            result = self._engine(body, ref).recommend(
+-                pool, _to_user_requirements(body), request_id=request_id)
++            result, pool, ref, research = self.run(body, request_id=request_id)
+         except ServiceRefusal as exc:
+             self._emit_telemetry(request_id, body, started, failure_reason=exc.code)
+             out = {"error": exc.code, "detail": exc.detail, "entity_scope": "game_player",
+@@ -296,8 +265,9 @@
+         """Recompute the engine for each variant request and report rank /
+         score deltas of the base top-N. Every number is a fresh engine run --
+         nothing is adjusted by hand."""
++        request_id = request_id or uuid.uuid4()
+         try:
+-            base_result, _, ref, research = self.run(base.model_copy(update={"limit": WHAT_IF_DEPTH}))
++            base_result, base_pool, ref, research = self.run(base.model_copy(update={"limit": WHAT_IF_DEPTH}), request_id=request_id)
+         except ServiceRefusal as exc:
+             return {"error": exc.code, "detail": exc.detail}
+         except ValueError as exc:
+@@ -307,14 +277,16 @@
+         out_variants = []
+         for label, changes in variants:
+             vbody = base.model_copy(update={**changes, "limit": WHAT_IF_DEPTH})
++            child_id = uuid.uuid4()
++            ids = {"parent_request_id": str(request_id), "request_id": str(child_id)}
+             try:
+-                vres, _, _, _ = self.run(vbody)
++                vres, variant_pool, _, _ = self.run(vbody, request_id=child_id)
+             except ServiceRefusal as exc:
+-                out_variants.append({"label": label, "changes": changes, "error": exc.code,
++                out_variants.append({**ids, "label": label, "changes": changes, "error": exc.code,
+                                      "detail": exc.detail})
+                 continue
+             except ValueError as exc:
+-                out_variants.append({"label": label, "changes": changes,
++                out_variants.append({**ids, "label": label, "changes": changes,
+                                      "error": "INVALID_REQUEST", "detail": str(exc)})
+                 continue
+             full = {str(rc.context.candidate_entity_id): (rc.rank, rc.context)
+@@ -331,7 +303,8 @@
+                     "score_delta": round(new[1].r - c.r, 6) if new else None,
+                 })
+             out_variants.append({
+-                "label": label, "changes": changes,
++                **ids, "label": label, "changes": changes,
++                "candidate_count": len(variant_pool),
+                 "top": [{"rank": rc.rank, "entity_id": str(rc.context.candidate_entity_id),
+                          "name": rc.context.candidate_name, "score": rc.context.r}
+                         for rc in vres.ranked[:track_top]],
+@@ -340,7 +313,7 @@
+                 "tracked_from_base": tracked,
+                 "demand_shift": _demand_shift(base_result.demand.vector, vres.demand.vector),
+             })
+-        return {"request_id": str(request_id or uuid.uuid4()),
++        return {"request_id": str(request_id), "candidate_count": len(base_pool),
+                 "request": _request_echo(base), "dataset": _dataset_block(ref, research),
+                 "base_top": [{"rank": i + 1, "entity_id": str(c.candidate_entity_id),
+                               "name": c.candidate_name, "score": c.r}
+--- a/backend/services/reference_distribution.py
++++ b/backend/services/reference_distribution.py
+@@ -264,9 +264,25 @@
+             "RESEARCH_ONLY data and is not available to the production path")
+     directory = research_artifact_path() if entry["research_only"] else default_artifact_path()
+     dist = load_reference_distribution(entry["version"], artifact_dir=directory)
++    if dist.version != entry["version"]:
++        raise ReferenceDistributionMismatch("Frozen reference version disagrees with registry")
+     check_reference_compatible(dist, game_version=gv, entity_type=entity_type, universe=universe)
+     if entry["research_only"] and dist.data_status != "RESEARCH_ONLY":
+         raise ReferenceDistributionMismatch(
+             f"{entry['version']} is registered research-only but the artifact says "
+             f"data_status={dist.data_status!r}")
+     return dist
++
++def resolve_serving_reference(game_version, scope, research, environment, override=None):
++    """Resolve only registered snapshots and authorize the result on every request, including cache hits."""
++    from backend.services.data_license_gate import DataLicenseGateFailure, Environment, gate_or_raise
++    ref = load_reference_for(game_version, entity_type=scope, allow_research_only=research)
++    if override is not None and override != ref.version:
++        raise ReferenceDistributionMismatch(f"{override!r} is not the registered reference for {game_version}")
++    restricted = ref.data_status == "RESEARCH_ONLY"
++    if restricted and not research:
++        raise DataLicenseGateFailure("Research reference requires explicit opt-in")
++    gate_or_raise(ref.version, environment=environment, game_version=game_version, entity_scope=scope,
++                  allow_unverified=not restricted and environment in (Environment.LOCAL, Environment.RESEARCH),
++                  allow_research_only=restricted and research)
++    return ref, restricted
+--- /dev/null
++++ b/backend/tests/test_phase26_contract.py
+@@ -0,0 +1,50 @@
++"""API contract and service-path regressions. Run with backend requirements installed."""
++import unittest
++import uuid
++from types import SimpleNamespace
++from unittest.mock import patch
++
++from fastapi.testclient import TestClient
++
++from backend.api.main import app
++from backend.api.schemas_v3 import RecommendationRequestV3
++from backend.services.data_license_gate import Environment
++from backend.services.recommendation_service_v3 import RecommendationServiceV3
++from backend.tests.helpers import make_candidate
++
++
++class TestPhase26Contract(unittest.TestCase):
++    def test_v3_rejects_nonnull_squad_and_duplicate_compare_ids(self):
++        client = TestClient(app)
++        request = {"game_version": "FC26", "position": "CM"}
++        player = str(uuid.uuid4())
++        self.assertEqual(client.post("/api/v3/recommendations", json=dict(request, squad_id=player)).status_code, 422)
++        self.assertEqual(client.post("/api/v3/compare", json={"request": request, "entity_ids": [player, player]}).status_code, 422)
++        self.assertIsNone(RecommendationRequestV3(**request, squad_id=None).squad_id)
++
++    def test_production_refuses_legacy_and_cannot_downgrade_licence_environment(self):
++        with patch("backend.api.deps.get_settings") as deps_settings, patch(
++            "backend.core.config.get_settings", return_value=SimpleNamespace(environment="production")
++        ):
++            from backend.core.config import Settings
++            deps_settings.return_value = Settings(environment="production")
++            client = TestClient(app)
++            self.assertEqual(client.post("/api/recommendations", json={"game_version": "FC26", "position": "CM"}).status_code, 410)
++            self.assertEqual(client.post("/api/compare", json={"game_version": "FC26", "entity_ids": [str(uuid.uuid4()), str(uuid.uuid4())]}).status_code, 410)
++            for game in ("FC26", "FC27"):
++                service = RecommendationServiceV3(
++                    environment=Environment.LOCAL, reference_version=game.lower() + "-players-2026-09-r1")
++                result = service.recommend(RecommendationRequestV3(game_version=game, position="CM", include_research_data=True))
++                self.assertEqual(result["error"], "RESEARCH_DATA_REFUSED_IN_PRODUCTION" if game == "FC27" else "DATA_LICENSE_GATE_FAILED")
++
++    def test_what_if_correlation_and_pool_counts(self):
++        candidates = [make_candidate(position="CM")]
++        repository = SimpleNamespace(load_candidates=lambda *_args, **_kwargs: candidates)
++        with patch("backend.core.config.get_settings", return_value=SimpleNamespace(environment="test")):
++            response = RecommendationServiceV3(repository=repository).what_if(
++                RecommendationRequestV3(game_version="FC26", position="CM"), [("press", {"tactical_profile": "HIGH_PRESS"})])
++        variant = response["variants"][0]
++        self.assertEqual(response["candidate_count"], 1)
++        self.assertEqual(variant["candidate_count"], 1)
++        self.assertEqual(response["request_id"], variant["parent_request_id"])
++        self.assertNotEqual(response["request_id"], variant["request_id"])
+--- /dev/null
++++ b/backend/tests/test_phase26_database.py
+@@ -0,0 +1,36 @@
++"""Committed generation visibility and rollback in the dedicated CI database."""
++import os
++from urllib.parse import urlparse
++
++import pytest
++
++URL = os.environ.get("DATABASE_URL", "")
++pytestmark = pytest.mark.skipif(
++    urlparse(URL).path != "/eafc_ci", reason="requires the disposable eafc_ci database")
++
++
++def test_committed_child_update_invalidates_both_candidate_caches():
++    import psycopg
++    from backend.data_access.candidate_repository import CandidateRepository
++
++    first = CandidateRepository()
++    second = CandidateRepository()
++    first.load_candidates("FC26")
++    second.load_candidates("FC26")
++    before = first.last_load_stats["data_version"]
++    assert before == second.last_load_stats["data_version"]
++    with psycopg.connect(URL) as database:
++        sql = """UPDATE game_player_attributes SET short_passing = short_passing
++                 WHERE game_player_id = (SELECT game_player_id FROM game_player_attributes LIMIT 1)"""
++        assert database.execute(sql).rowcount == 1
++        assert first._watermark("FC26") == before
++        database.rollback()
++        assert second._watermark("FC26") == before
++        assert database.execute(sql).rowcount == 1
++        database.commit()
++    for repository in (first, second):
++        repository.load_candidates("FC26")
++        assert not repository.last_load_stats["cache_hit"]
++        assert repository.last_load_stats["data_version"] != before
++        repository.load_candidates("FC26")
++        assert repository.last_load_stats["cache_hit"]
+--- /dev/null
++++ b/backend/tests/test_phase26_policy.py
+@@ -0,0 +1,90 @@
++"""Dependency-free policy and integrity regressions, also collected by pytest."""
++import hashlib
++import json
++import tempfile
++import unittest
++from pathlib import Path
++from unittest.mock import patch
++
++from backend.services import data_license_gate as gate
++from backend.services.reference_distribution import (
++    ReferenceDistributionMismatch, ReferenceDistributionUnavailable, resolve_serving_reference,
++)
++from scripts import ingest_fc27_card_identity as ingest
++
++
++class PolicyTests(unittest.TestCase):
++    def test_registered_reference_matrix(self):
++        for game in ('FC26', 'FC27'):
++            version = game.lower() + '-players-2026-09-r1'
++            for env in gate.Environment:
++                for research in (False, True):
++                    for override in (None, version):
++                        with self.subTest(game=game, env=env, research=research, override=override):
++                            args = (game, 'game_player', research, env, override)
++                            if game == 'FC27' and not research:
++                                with self.assertRaises(ReferenceDistributionUnavailable):
++                                    resolve_serving_reference(*args)
++                            elif env == gate.Environment.PRODUCTION:
++                                with self.assertRaises((gate.DataLicenseGateFailure, gate.ProductionOverrideForbidden)):
++                                    resolve_serving_reference(*args)
++                            else:
++                                ref, restricted = resolve_serving_reference(*args)
++                                self.assertEqual((ref.version, restricted), (version, game == 'FC27'))
++
++    def test_wrong_scope_or_reference(self):
++        with self.assertRaises(ReferenceDistributionMismatch):
++            resolve_serving_reference('FC26', 'ut_card', True, gate.Environment.LOCAL)
++        with self.assertRaises(ReferenceDistributionMismatch):
++            resolve_serving_reference('FC26', 'game_player', True, gate.Environment.LOCAL, 'fc27-players-2026-09-r1')
++
++    def test_warm_reference_still_requires_current_licence_entry(self):
++        args = ('FC26', 'game_player', True, gate.Environment.LOCAL)
++        ref, _ = resolve_serving_reference(*args)
++        with patch.dict(gate._DATASET_LICENSE_REGISTRY, clear=True):
++            with self.assertRaises(gate.DataLicenseGateFailure):
++                resolve_serving_reference(*args, override=ref.version)
++
++
++class IngestionTests(unittest.TestCase):
++    def test_permission_required_before_database_access(self):
++        with tempfile.TemporaryDirectory() as tmp, patch.object(ingest, 'APPROVAL', Path(tmp) / 'absent'):
++            with self.assertRaises(SystemExit):
++                ingest.check_approval()
++
++    def test_approved_bytes_count_and_snapshot_are_all_required(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            pkg = Path(tmp)
++            inventory = {}
++            for name in sorted(ingest.REQUIRED | {'raw/source.xml'}):
++                p = pkg / name
++                p.parent.mkdir(parents=True, exist_ok=True)
++                data = ('snapshot_id,value\nsynthetic-id,test\n' if name.endswith('.csv')
++                        else json.dumps({'dataset_name': 'synthetic', 'dataset_version': '0.1.0-research',
++                                         'snapshot_id': 'synthetic-id'}))
++                p.write_bytes(data.encode())
++                inventory[name] = {'sha256': hashlib.sha256(p.read_bytes()).hexdigest(), 'rows': 1}
++            record = {'files': inventory, 'snapshot_id': 'synthetic-id'}
++            self.assertEqual(ingest.verify_inventory(pkg, record)['dataset_name'], 'synthetic')
++            with self.assertRaises(SystemExit):
++                ingest.verify_inventory(pkg, dict(record, snapshot_id='other'))
++            name = 'canonical/fc27_game_players.csv'
++            inventory[name]['rows'] = 2
++            with self.assertRaises(SystemExit):
++                ingest.verify_inventory(pkg, record)
++            inventory[name]['rows'] = 1
++            (pkg / name).write_bytes(b'changed')
++            with self.assertRaises(SystemExit):
++                ingest.verify_inventory(pkg, record)
++            (pkg / name).unlink()
++            with self.assertRaises(SystemExit):
++                ingest.verify_inventory(pkg, record)
++
++    def test_csv_structure(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            p = Path(tmp) / 'bad.csv'
++            for data in ('a,a\n1,2', 'a,b\n1', 'a,b\n1,2,3'):
++                p.write_text(data)
++                with self.assertRaises(SystemExit):
++                    ingest.rd(p)
++
+--- /dev/null
++++ b/db/migrations/010_candidate_generation_and_identity_view.sql
+@@ -0,0 +1,28 @@
++BEGIN;
++-- Statement triggers version every joined input. The counter advances only on commit.
++CREATE TABLE candidate_cache_generation (
++    singleton boolean PRIMARY KEY CHECK (singleton), generation bigint NOT NULL DEFAULT 0
++);
++INSERT INTO candidate_cache_generation(singleton) VALUES (true);
++CREATE FUNCTION advance_candidate_generation() RETURNS trigger LANGUAGE plpgsql AS $$
++BEGIN
++    UPDATE candidate_cache_generation SET generation = generation + 1 WHERE singleton;
++    RETURN NULL;
++END $$;
++DO $$ DECLARE t text; BEGIN
++    FOREACH t IN ARRAY ARRAY['game_player','game_player_attributes','game_player_playstyle',
++        'playstyle_definition','game_player_position_secondary','club_affiliation','club','game_version'] LOOP
++        EXECUTE format('CREATE TRIGGER candidate_input_change AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE ON %I FOR EACH STATEMENT EXECUTE FUNCTION advance_candidate_generation()', t);
++    END LOOP;
++END $$;
++
++ALTER TABLE card_source_snapshot ADD COLUMN inventory_sha256 text;
++
++CREATE OR REPLACE VIEW fc27_card_player_spine AS
++SELECT i.game_version_id, i.source_player_id, min(i.player_slug) AS player_slug,
++       count(*) AS fc27_card_count, bool_or(i.is_base_style) AS has_base_style_card,
++       (array_agg(i.card_url ORDER BY i.source_card_id::bigint))[1] AS first_card_url_by_lowest_card_id,
++       CASE WHEN count(DISTINCT i.game_player_id) = 1 THEN min(i.game_player_id::text)::uuid END AS game_player_id,
++       count(DISTINCT i.game_player_id) > 1 AS conflicting_player_links
++FROM fc27_card_identity i GROUP BY i.game_version_id, i.source_player_id;
++COMMIT;
+--- a/docs/API_V3.md
++++ b/docs/API_V3.md
+@@ -18,6 +18,7 @@
+ |---|---|---|
+ | `DIVISION_NOT_APPLICABLE` | 422 | `division` sent for a game version that has none |
+ | research opt-in missing | 503 | FC27 without `include_research_data` (`detail.requires`) |
++| `DATA_LICENSE_GATE_FAILED`, `RESEARCH_DATA_REFUSED_IN_PRODUCTION` | 403 | reference licence policy refused the request |
+ | validation | 422 | bad field, unknown field, `limit` > 50, malformed JSON |
+ | body too large | 413 | |
+ The full code→status map is `_V3_ERROR_STATUS` in `backend/api/routes/recommendations.py`. Error bodies never contain internals.
+@@ -49,12 +50,12 @@
+ ## Compare — `{"request": <recommendation request>, "entity_ids": [2..5 ids]}`
+ `request_id`, `request`, `dataset`, `players` (same entry shape, each with `near_tie_with_next` when applicable), `pairwise`
+ (`higher`, `lower`, `score_gap`, `within_noise_threshold`, `intervals_overlap`, `why`), `excluded`, `not_found`, `note`.
+-All players are scored in the same request context; ids outside the position family are reported, never scored.
++Compare requires distinct player IDs. All players are scored in the same request context. IDs outside the position family are reported and do not receive scores.
+ 
+ ## What-if — `{"base": <request>, "variants": [{"label", "position", "tactical_profile", "secondary_tactical_profile", "lam", "division"}], "track_top"}`
+ Every variant is a fresh engine run at depth 50 (`ranking_depth`), so tracked players get a real rank; `new_rank` is null only when a player is excluded
+ by a gate or ranked beyond depth 50. Response: `request_id`, `request`, `dataset`, `base_top`, `variants` (`top`, `entered_top`, `tracked_from_base`,
+-`demand_shift`, or `error`/`detail`), `ranking_depth`, `note`. A variant's `top` equals `/recommendations` for the same changed request.
++`demand_shift`, or `error`/`detail`), `ranking_depth`, `note`. The base and each successful variant include `candidate_count`. Each variant includes a unique `request_id` and the base `parent_request_id`. Changing position or division can change the candidate pool. A variant's `top` equals `/recommendations` for the same changed request.
+ 
+ ## Determinism
+ Same request, same data => identical ranking and scores. Only `request_id` and `latency_ms` differ between calls.
+--- a/frontend/src/intelligence/Intelligence.test.tsx
++++ b/frontend/src/intelligence/Intelligence.test.tsx
+@@ -1,4 +1,4 @@
+-import { render, screen } from '@testing-library/react'
++import { act, render, screen } from '@testing-library/react'
+ import userEvent from '@testing-library/user-event'
+ import { beforeEach, describe, expect, it, vi } from 'vitest'
+ import { ApiError } from '../api/client'
+@@ -105,6 +105,21 @@
+     expect(await screen.findByLabelText('Comparison')).toBeInTheDocument()
+   })
+ 
++  it('ignores a comparison response from before a new search', async () => {
++    const u = userEvent.setup(); render(<Intelligence />)
++    await u.click(screen.getByLabelText('FC26')); await u.click(find())
++    const boxes = await screen.findAllByRole('checkbox', { name: /^Compare / })
++    await u.click(boxes[0]); await u.click(boxes[1])
++    let finish!: (value: unknown) => void
++    h.cmpImpl = () => new Promise(resolve => { finish = resolve })
++    await u.click(screen.getByRole('button', { name: /compare 2 players/i }))
++    await u.selectOptions(screen.getByLabelText('Tactical style'), 'HIGH_PRESS')
++    await u.click(find())
++    await screen.findAllByRole('checkbox', { name: /^Compare / })
++    await act(async () => { finish(cmpFx) })
++    expect(screen.queryByLabelText('Comparison')).toBeNull()
++  })
++
+   it('what-if runs against the request the shown results came from, not the live form', async () => {
+     const u = userEvent.setup(); render(<Intelligence />)
+     await u.click(screen.getByLabelText('FC26')); await u.click(find())
+--- a/frontend/src/intelligence/Intelligence.tsx
++++ b/frontend/src/intelligence/Intelligence.tsx
+@@ -1,4 +1,4 @@
+-import { useState } from 'react'
++import { useRef, useState } from 'react'
+ import type { ApiError } from '../api/client'
+ import { ErrorBox, Field, Loading } from '../components/common'
+ import { compare, recommend, toApiError } from './api'
+@@ -56,8 +56,12 @@
+   const set = (p: Partial<FormState>) => setS(prev => ({ ...prev, ...p }))
+   const req = buildRequest(s)
+ 
++  const compareGeneration = useRef(0)
++
+   async function submit() {
+     if (!req) return
++    compareGeneration.current++
++    setResult(null); setLastReq(null)
+     setBusy(true); setError(null); setCmp(null); setCmpErr(null); setSelected([])
+     try {
+       const res = await recommend(req)
+@@ -66,12 +70,22 @@
+     } catch (e) { setResult(null); setError(toApiError(e)) } finally { setBusy(false) }
+   }
+ 
+-  const toggle = (e: Entry) => setSelected(sel => sel.includes(e.entity_id)
+-    ? sel.filter(x => x !== e.entity_id) : sel.length < MAX_COMPARE ? [...sel, e.entity_id] : sel)
++  function toggle(e: Entry) {
++    compareGeneration.current++
++    setCmp(null); setCmpErr(null)
++    setSelected(sel => sel.includes(e.entity_id)
++      ? sel.filter(x => x !== e.entity_id) : sel.length < MAX_COMPARE ? [...sel, e.entity_id] : sel)
++  }
+   async function runCompare() {
+     if (!lastReq) return
++    const generation = ++compareGeneration.current
+     setCmpErr(null)
+-    try { setCmp(await compare(lastReq, selected)) } catch (e) { setCmp(null); setCmpErr(toApiError(e)) }
++    try {
++      const response = await compare(lastReq, selected)
++      if (generation === compareGeneration.current) setCmp(response)
++    } catch (e) {
++      if (generation === compareGeneration.current) { setCmp(null); setCmpErr(toApiError(e)) }
++    }
+   }
+ 
+   return (
+--- a/frontend/src/intelligence/types.ts
++++ b/frontend/src/intelligence/types.ts
+@@ -79,12 +79,14 @@
+   new_rank: number | null; new_score: number | null; score_delta: number | null
+ }
+ export interface WhatIfVariantResult {
++  candidate_count?: number; parent_request_id?: string; request_id?: string
+   label: string; changes: Record<string, unknown>
+   demand_shift?: { attribute: string; weight_delta: number }[]
+   entered_top?: string[]; top?: RankRow[]; tracked_from_base?: TrackedRow[]
+   error?: string; detail?: string
+ }
+ export interface WhatIfResponse {
++  candidate_count?: number
+   request_id: string; request: Record<string, unknown>; dataset: Record<string, unknown>
+   base_top: RankRow[]; variants: WhatIfVariantResult[]; ranking_depth: number; note: string
+ }
+--- a/frontend/src/intelligence/WhatIfPanel.tsx
++++ b/frontend/src/intelligence/WhatIfPanel.tsx
+@@ -33,7 +33,7 @@
+   return (
+     <section className="ix-whatif" aria-label="What if">
+       <h2>What if…</h2>
+-      <p className="ix-note">Each preset reruns the same engine on the same pool; every number below comes from the backend.</p>
++      <p className="ix-note">Each preset reruns the engine. Changing position or division can change which players qualify.</p>
+       <div className="ix-row">
+         {presetsFor(request).map(p => <button key={p.label} className="btn sm" disabled={busy} onClick={() => run(p)}>{p.label}</button>)}
+       </div>
+@@ -43,6 +43,8 @@
+       {v && !v.error && (
+         <>
+           <h3>{v.label}</h3>
++          {res?.candidate_count !== undefined && v.candidate_count !== undefined &&
++            <p>Candidate pool: {res.candidate_count} before, {v.candidate_count} after.</p>}
+           <ul>
+             {v.tracked_from_base?.map(t => (
+               <li key={t.entity_id}>
+--- a/scripts/browser_qa/qa.mjs
++++ b/scripts/browser_qa/qa.mjs
+@@ -1,91 +1,71 @@
+ import fs from 'node:fs'
+-import chromium from '@sparticuz/chromium'
+-import puppeteer from 'puppeteer-core'
+-const BASE = process.env.QA_BASE ?? 'http://127.0.0.1:4173', OUT = process.env.QA_OUT ?? 'results.json', SHOTS = process.env.QA_SHOTS ?? '.'
+-const AXE = fs.readFileSync(new URL('./node_modules/axe-core/axe.min.js', import.meta.url), 'utf8')
+-const R = { base: BASE, browser: '', checks: [], layout: [], axe: [], focus: [], touch: [], console: [] }
+-const check = (name, ok, detail = '') => { R.checks.push({ name, ok: !!ok, detail: String(detail).slice(0, 220) }); console.log(ok ? 'PASS' : 'FAIL', name, String(detail).slice(0, 120)) }
+-const guard = async (name, fn) => { try { await fn() } catch (e) { check(name, false, 'THREW ' + String(e.message).slice(0, 150)) } }
+-const browser = await puppeteer.launch({ args: chromium.args, executablePath: await chromium.executablePath(), headless: 'shell' }); R.browser = await browser.version()
+-const VIEW = { desktop: { width: 1280, height: 900 }, tablet: { width: 768, height: 1024 }, mobile: { width: 390, height: 844, isMobile: true, hasTouch: true } }
+-async function open(vp, intercept) {
+-  const page = await browser.newPage(); await page.setViewport(vp); const errs = []
+-  page.on('pageerror', e => errs.push('pageerror: ' + e.message)); page.on('console', m => { if (m.type() === 'error') errs.push('console: ' + m.text()) })
+-  if (intercept) { await page.setRequestInterception(true); page.on('request', r => { if (!intercept(r)) r.continue() }) }
+-  await page.goto(BASE + '/intelligence', { waitUntil: 'networkidle0' }); return { page, errs }
++import path from 'node:path'
++import { randomUUID } from 'node:crypto'
++import { pathToFileURL } from 'node:url'
++import { scenarios } from './scenarios.mjs'
++
++const required = [
++  'A initial state + keyboard', 'flow desktop', 'flow tablet', 'flow mobile',
++  'C2 desktop stress', 'C2 tablet stress', 'C2 mobile stress', 'F focus-visibility probe',
++  ...['503 object detail shows the server message', '500 plain error is surfaced, not swallowed',
++      'malformed 200 (ranked: null)', 'empty ranked list says so', 'slow response shows a loading indicator',
++      'network failure is surfaced'].map(name => 'G ' + name),
++]
++const requiredShots = ['results_desktop', 'results_tablet', 'results_mobile', 'compare_desktop', 'compare_mobile']
++
++export async function runQA({ base, out, shots, launch, run, requiredSuites = required, screenshots = requiredShots }) {
++  const id = randomUUID()
++  const dir = path.join(shots, id)
++  const R = { id, timestamp: new Date().toISOString(), base, build: process.env.QA_BUILD || process.env.GITHUB_SHA || 'unversioned export',
++    environment: process.platform, node: process.version, browser: null, checks: [], suites: [], screenshots: [],
++    layout: [], axe: [], focus: [], touch: [], console: [] }
++  let browser, scenario = 'startup'
++  const check = (name, ok, detail = '', severity = ok ? 'INFO' : 'FAIL') =>
++    R.checks.push({ scenario, name, ok: Boolean(ok), severity, detail: String(detail) })
++  const guard = async (name, fn) => {
++    scenario = name
++    const before = R.checks.length
++    try {
++      await fn()
++      if (R.checks.length === before) throw Error('Required suite produced no assertions')
++      R.suites.push(name)
++    } catch (error) { check(name, false, error.stack, 'BLOCKER') }
++  }
++  try {
++    if (!['http:', 'https:'].includes(new URL(base).protocol)) throw Error('Invalid QA_BASE')
++    fs.mkdirSync(dir, { recursive: true })
++    browser = await launch()
++    R.browser = await browser.version()
++    await run({ browser, R, BASE: base, SHOTS: dir, check, guard })
++    for (const name of requiredSuites) {
++      if (!R.suites.includes(name)) check(name, false, 'Missing completed suite', 'BLOCKER')
++    }
++    if (!R.checks.some(c => c.ok)) check('assertions', false, 'No passing assertions')
++    for (const name of screenshots) {
++      const file = path.join(dir, 'shot_' + name + '.png')
++      if (fs.statSync(file).size === 0) throw Error('Empty screenshot ' + file)
++      R.screenshots.push(file)
++    }
++  } catch (error) { check('infrastructure', false, error.stack, 'BLOCKER') }
++  finally {
++    try { await browser?.close() } catch (error) { check('browser cleanup', false, error.stack, 'BLOCKER') }
++    R.exitCode = Number(R.checks.some(c => !c.ok && ['FAIL', 'BLOCKER'].includes(c.severity)))
++    R.status = R.exitCode ? 'FAIL' : 'PASS'
++    fs.mkdirSync(path.dirname(out), { recursive: true })
++    fs.writeFileSync(out, JSON.stringify(R, null, 2))
++  }
++  return R.exitCode
+ }
+-// Compare against the CONFIGURED viewport width, not innerWidth: a phone widens innerWidth to fit overflowing content.
+-const overflow = async page => { const W = page.viewport().width; return page.evaluate(W => { const off = []; for (const e of document.querySelectorAll('body *')) { const r = e.getBoundingClientRect(); if (r.width && r.right > W + 1) off.push(e.tagName + '.' + String(e.className).slice(0, 30)) } return { page_scrollW: document.documentElement.scrollWidth, innerW: W, layoutW: innerWidth, offenders: [...new Set(off)].slice(0, 6) } }, W) }
+-const find = page => page.$$eval('button', bs => bs.find(b => /find players/i.test(b.textContent))?.disabled)
+-const clickText = (page, sel, re) => page.evaluate((s, r) => { const e = [...document.querySelectorAll(s)].find(x => new RegExp(r, 'i').test(x.textContent)); e?.click(); return !!e }, sel, re)
+-async function axe(page, name) {
+-  await page.evaluate(AXE)
+-  const v = await page.evaluate(async () => { const r = await axe.run(document, { runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'] })
+-    return r.violations.map(x => ({ id: x.id, impact: x.impact, help: x.help, nodes: x.nodes.length, samples: x.nodes.slice(0, 3).map(n => ({ target: n.target.join(' ').slice(0, 70), html: n.html.slice(0, 60), data: n.any[0]?.data ? { fg: n.any[0].data.fgColor, bg: n.any[0].data.bgColor, ratio: n.any[0].data.contrastRatio, size: n.any[0].data.fontSize } : null })) })) })
+-  R.axe.push({ state: name, violations: v }); console.log('AXE', name, v.map(x => `${x.id}(${x.impact},${x.nodes})`).join(' ') || 'none')
+-  for (const x of v) console.log('   ', x.id, JSON.stringify(x.samples).slice(0, 330))
++
++if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
++  process.exitCode = await runQA({ base: process.env.QA_BASE ?? 'http://127.0.0.1:4173',
++    out: process.env.QA_OUT ?? 'results.json', shots: process.env.QA_SHOTS ?? '.',
++    launch: async () => {
++      const { default: puppeteer } = await import('puppeteer-core')
++      if (process.env.QA_CHROME) return puppeteer.launch({ executablePath: process.env.QA_CHROME, headless: true })
++      const { default: chromium } = await import('@sparticuz/chromium')
++      return puppeteer.launch({ args: chromium.args, executablePath: await chromium.executablePath(), headless: 'shell' })
++    },
++    run: async ctx => scenarios({ ...ctx, AXE: fs.readFileSync(new URL(import.meta.resolve('axe-core/axe.min.js')), 'utf8') })
++  })
+ }
+-const diag = page => page.evaluate(() => { const bs = [...document.querySelectorAll('input[type=checkbox][aria-label^="Compare "]')].slice(0, 3).map(b => ({ checked: b.checked, w: Math.round(b.getBoundingClientRect().width) })); const btn = [...document.querySelectorAll('button')].find(b => /compare \d players/i.test(b.textContent)); return { boxes: bs, compareBtn: btn ? { text: btn.textContent, disabled: btn.disabled } : null, err: document.querySelector('.error-box')?.innerText?.slice(0, 80) ?? null } })
+-async function search(page) { await page.click('input[name=gv][type=radio]:not(:checked)'); await clickText(page, 'button', 'find players'); await page.waitForSelector('[data-testid=ix-card]', { timeout: 40000 }) }
+-async function tap(page, h) { await h.evaluate(e => e.scrollIntoView({ block: 'center' })); const bb = await h.boundingBox(); await page.touchscreen.tap(bb.x + bb.width / 2, bb.y + bb.height / 2) }
+-
+-await guard('A initial state + keyboard', async () => {
+-  const { page, errs } = await open(VIEW.desktop)
+-  check('A1 page renders h1', await page.$eval('h1', e => /player intelligence/i.test(e.textContent)))
+-  check('A2 FC27 default + Find players disabled until division chosen', (await find(page)) === true)
+-  await page.focus('input[name=division]'); await page.keyboard.press('Space')
+-  check('A3 keyboard Space selects a division and enables the button', (await find(page)) === false)
+-  await page.keyboard.press('ArrowDown'); check('A4 arrow key moves the radio selection', await page.$$eval('input[name=division]', rs => rs.filter(r => r.checked).length === 1))
+-  R.layout.push({ state: 'initial', viewport: 'desktop', ...(await overflow(page)) }); await axe(page, 'initial-desktop'); R.console.push({ state: 'initial', errors: errs }); await page.close()
+-})
+-
+-for (const [vn, vp] of Object.entries(VIEW)) await guard(`flow ${vn}`, async () => {
+-  const { page, errs } = await open(vp); const t0 = Date.now(); await search(page); const ms = Date.now() - t0
+-  const n = await page.$$eval('[data-testid=ix-card]', c => c.length), brackets = await page.$$eval('[aria-label="Effectively tied"]', c => c.length)
+-  check(`B ${vn}: results render (${n} cards, ${brackets} tie brackets, ${ms} ms click->cards)`, n > 0)
+-  const ov = await overflow(page); R.layout.push({ state: 'results', viewport: vn, ...ov }); check(`C ${vn}: no horizontal page overflow`, ov.page_scrollW <= ov.innerW + 1, JSON.stringify(ov))
+-  await page.screenshot({ path: `${SHOTS}/shot_results_${vn}.png` })
+-  const hit = await page.evaluate(() => { const b = [...document.querySelectorAll('input[type=checkbox][aria-label^="Compare "]')][2]; b.scrollIntoView({ block: 'start' }); const r = b.getBoundingClientRect(), top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); const hd = document.querySelector('.topbar'); return { self: top === b, rectTop: Math.round(r.top), headerSticky: getComputedStyle(hd).position === 'sticky', headerH: Math.round(hd.getBoundingClientRect().height), onTop: top ? top.tagName + '.' + String(top.className).slice(0, 14) : 'none' } })
+-  check(`C3 ${vn}: a control scrolled to the top edge is not hidden behind the sticky header`, hit.self, JSON.stringify(hit)); await page.evaluate(() => window.scrollTo(0, 0))
+-  if (vn !== 'tablet') {
+-    const boxes = await page.$$('input[type=checkbox][aria-label^="Compare "]')
+-    if (vn === 'mobile') { for (const i of [1, 2]) await tap(page, boxes[i]) } else { await boxes[1].click(); await boxes[2].click() }
+-    check(`D0 ${vn}: two players selected via ${vn === 'mobile' ? 'a real touch tap' : 'click'}`, (await page.$$eval('input[type=checkbox][aria-label^="Compare "]', c => c.filter(x => x.checked).length)) === 2)
+-    await clickText(page, 'button', 'compare \\d players')
+-    try { await page.waitForSelector('[aria-label=Comparison]', { timeout: 30000 }) } catch (e) { check(`D ${vn}: compare panel opens`, false, JSON.stringify(await diag(page))); throw e }
+-    const ov3 = await overflow(page); check(`D ${vn}: compare panel renders without page overflow`, ov3.page_scrollW <= ov3.innerW + 1, JSON.stringify(ov3.offenders)); await page.screenshot({ path: `${SHOTS}/shot_compare_${vn}.png`, fullPage: true })
+-    await clickText(page, 'button', '^high press$'); await page.waitForSelector('[aria-label="What if"] ul li', { timeout: 30000 })
+-    check(`E ${vn}: what-if rows appear`, (await page.$$eval('[aria-label="What if"] ul li', l => l.length)) > 0)
+-    await axe(page, `results+compare+whatif-${vn}`)
+-    R.touch.push({ viewport: vn, undersized: await page.evaluate(() => [...document.querySelectorAll('button, select, summary, input')].map(e => { const r = e.getBoundingClientRect(); return { tag: e.tagName + (e.type ? ':' + e.type : ''), w: Math.round(r.width), h: Math.round(r.height), label: (e.getAttribute('aria-label') || e.textContent || '').trim().slice(0, 24) } }).filter(x => x.w && (x.w < 24 || x.h < 24)).slice(0, 12)) })
+-  }
+-  R.console.push({ state: 'flow-' + vn, errors: errs }); await page.close()
+-})
+-
+-for (const [vn, vp] of Object.entries(VIEW)) await guard(`C2 ${vn} stress`, async () => {   // long name + long explanation, FRESH page
+-  const { page } = await open(vp); await search(page)
+-  await page.evaluate(() => { const h = document.querySelector('[data-testid=ix-card] h3'); h.textContent = 'Wolfeschlegelsteinhausenbergerdorff-Vandenberghe '.repeat(2); const q = document.querySelector('.ix-why'); if (q) q.textContent = 'x'.repeat(400) })
+-  const ov2 = await overflow(page); check(`C2 ${vn}: long name + long explanation do not overflow the page`, ov2.page_scrollW <= ov2.innerW + 1, JSON.stringify(ov2.offenders)); await page.close()
+-})
+-
+-await guard('F focus-visibility probe', async () => {
+-  const { page } = await open(VIEW.desktop)   // FC27 default keeps the division group visible
+-  for (const sel of ['button.btn', 'input[name=gv]', 'select[aria-label=Position]', 'input[name=division]']) { await page.focus(sel); await page.keyboard.press('Shift'); R.focus.push({ sel, ...(await page.$eval(sel, e => { const s = getComputedStyle(e); return { outline: s.outlineStyle + ' ' + s.outlineWidth, boxShadow: s.boxShadow.slice(0, 40) } }).catch(() => ({ outline: 'n/a' }))) }) }
+-  await page.close()
+-})
+-
+-const live = r => r.url().endsWith('/api/v3/recommendations')
+-const respond = (status, body, delay = 0) => r => live(r) ? (setTimeout(() => r.respond({ status, contentType: 'application/json', body: typeof body === 'string' ? body : JSON.stringify(body) }), delay), true) : false
+-const state = (name, icpt, expect) => guard(`G ${name}`, async () => {
+-  const { page, errs } = await open(VIEW.desktop, icpt); await page.click('input[name=gv][type=radio]:not(:checked)'); await clickText(page, 'button', 'find players')
+-  await new Promise(r => setTimeout(r, name.startsWith('slow') ? 600 : 1500)); const out = await expect(page); check(`G ${name}`, out.ok, out.detail)
+-  check(`G ${name}: app still alive (no blank screen)`, await page.$eval('h1', e => !!e.textContent).catch(() => false)); R.console.push({ state: name, errors: errs.slice(0, 3) }); await page.close()
+-})
+-const text = p => p.$eval('body', b => b.innerText)
+-await state('503 object detail shows the server message', respond(503, { detail: { error: 'REFERENCE_DISTRIBUTION_UNAVAILABLE', detail: 'FC27 is research-only. Set include_research_data=true.', requires: 'include_research_data' } }), async p => ({ ok: /research-only/.test(await text(p)), detail: '' }))
+-await state('500 plain error is surfaced, not swallowed', respond(500, { detail: 'boom' }), async p => ({ ok: /boom|went wrong/i.test(await text(p)), detail: '' }))
+-await state('malformed 200 (ranked: null)', respond(200, { ranked: null, division: null }), async p => ({ ok: /unexpected response/i.test(await text(p)), detail: 'expects a visible error, not a blank page' }))
+-await state('empty ranked list says so', respond(200, { ranked: [], division: { requested: null, scope: 'ALL_DIVISIONS', candidate_counts: {} }, counts: { candidates: 5, excluded: 5 }, request_id: 'x' }), async p => ({ ok: /no eligible players/i.test(await text(p)), detail: '' }))
+-await state('slow response shows a loading indicator', respond(200, { ranked: [], division: { requested: null, scope: 'ALL_DIVISIONS', candidate_counts: {} } }, 3000), async p => ({ ok: /scoring players/i.test(await text(p)), detail: '' }))
+-await state('network failure is surfaced', r => live(r) ? (r.abort('failed'), true) : false, async p => ({ ok: /went wrong|failed|network|unreachable/i.test(await text(p)), detail: '' }))
+-R.summary = { pass: R.checks.filter(c => c.ok).length, fail: R.checks.filter(c => !c.ok).length }; fs.writeFileSync(OUT, JSON.stringify(R, null, 1)); console.log('SUMMARY', JSON.stringify(R.summary)); await browser.close()
+--- /dev/null
++++ b/scripts/browser_qa/qa.test.mjs
+@@ -0,0 +1,47 @@
++import test from 'node:test'
++import assert from 'node:assert/strict'
++import fs from 'node:fs'
++import os from 'node:os'
++import path from 'node:path'
++import { spawnSync } from 'node:child_process'
++
++for (const [mode, exit] of Object.entries({ pass: 0, warning: 0, assertion: 1, crash: 1,
++  launch: 1, config: 1, missing: 1, emptySuite: 1, artifact: 1, cleanup: 1 })) {
++  test(mode, t => {
++    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'fc-qa-'))
++    t.after(() => fs.rmSync(dir, { recursive: true, force: true }))
++    const report = path.join(dir, 'run.json')
++    const source = `
++      import { runQA } from ${JSON.stringify(new URL('./qa.mjs', import.meta.url).href)}
++      import fs from 'node:fs'
++      const mode = process.env.CASE
++      process.exitCode = await runQA({
++        base: mode === 'config' ? '' : 'http://localhost',
++        out: process.env.REPORT, shots: process.env.SHOTS,
++        requiredSuites: ['live'], screenshots: mode === 'artifact' ? ['required'] : [],
++        launch: async () => {
++          if (mode === 'launch') throw Error('launch failed')
++          return { version: async () => 'fixture', close: async () => {
++            fs.writeFileSync(process.env.REPORT + '.closed', 'closed')
++            if (mode === 'cleanup') throw Error('close failed')
++          } }
++        },
++        run: async ({guard, check}) => {
++          if (mode !== 'missing') await guard('live', async () => {
++            if (mode === 'crash') throw Error('page load failed')
++            if (mode === 'emptySuite') return
++            check('required', mode !== 'assertion')
++            if (mode === 'warning') check('diagnostic', false, 'minor', 'WARNING')
++          })
++        }
++      })
++    `
++    const child = spawnSync(process.execPath, ['--input-type=module', '-e', source],
++      { env: { ...process.env, CASE: mode, REPORT: report, SHOTS: dir }, encoding: 'utf8' })
++    assert.equal(child.status, exit, child.stderr)
++    const result = JSON.parse(fs.readFileSync(report, 'utf8'))
++    assert.equal(result.exitCode, exit)
++    assert.equal(result.status, exit ? 'FAIL' : 'PASS')
++    assert.equal(fs.existsSync(report + '.closed'), !['config', 'launch'].includes(mode))
++  })
++}
+--- a/scripts/browser_qa/README.md
++++ b/scripts/browser_qa/README.md
+@@ -1,10 +1,16 @@
+-# Real-browser QA (Phase 25)
+-Tooling lives OUTSIDE the project (no change to package.json); the browser binary ships inside the npm package:
+-    mkdir /tmp/qa && cd /tmp/qa && npm i puppeteer-core @sparticuz/chromium axe-core
+-    apt-get install -y libnss3 libgbm1 libatk1.0-0t64 libatk-bridge2.0-0t64 libcups2t64 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libpango-1.0-0 libcairo2 libasound2t64 fonts-liberation
+-Run (API on :8011, `npm run build` done in frontend/):
+-    DIST=frontend/dist API=http://127.0.0.1:8011 node scripts/browser_qa/serve.mjs &
+-    cp scripts/browser_qa/qa.mjs /tmp/qa/ && cd /tmp/qa && QA_BASE=http://127.0.0.1:4173 QA_OUT=results.json QA_SHOTS=. node qa.mjs
+-Everything is MEASURED and reported as numbers; nothing here is a compliance claim. Lessons baked in: overflow is compared to the
+-CONFIGURED viewport width (a phone widens innerWidth to fit overflowing content); mobile uses real touch taps; each flow is guarded
+-so one failure cannot hide the rest.
++# Browser QA
++Run from the project root with the API on port 8011, a migrated isolated database,
++a local research-authorized FC26 player fixture, and a built frontend.
++
++    npm install --prefix scripts/browser_qa --no-save puppeteer-core@24 axe-core@4
++    node scripts/browser_qa/serve.mjs
++    node --test scripts/browser_qa/qa.test.mjs
++
++In another terminal set QA_CHROME to the browser executable, QA_OUT to the desired
++JSON path and QA_SHOTS to the screenshots parent, then run `node scripts/browser_qa/qa.mjs`.
++On supported Linux hosts the runner can also use an installed @sparticuz/chromium.
++Reports include a unique directory per run. Infrastructure and failed required
++assertions exit nonzero. Serious/critical axe violations carrying WCAG tags block
++because they can prevent access to controls or content. Other axe findings are
++warnings. Focus and touch measurements are diagnostic. The injected HTTP errors
++are expected in the failure journeys. Uncaught page exceptions block in every journey.
+--- /dev/null
++++ b/scripts/browser_qa/scenarios.mjs
+@@ -0,0 +1,114 @@
++export async function scenarios({ browser, R, BASE, SHOTS, AXE, check, guard }) {
++const VIEW = { desktop: { width: 1280, height: 900 }, tablet: { width: 768, height: 1024 }, mobile: { width: 390, height: 844, isMobile: true, hasTouch: true } }
++async function open(vp, intercept) {
++  const page = await browser.newPage(); await page.setViewport(vp); const errs = []
++  page.on('pageerror', e => { errs.push(String(e.stack || e)); check('uncaught page error', false, e.stack || e.message) }); page.on('console', m => { if (m.type() === 'error') errs.push('console: ' + m.text()) })
++  if (intercept) { await page.setRequestInterception(true); page.on('request', r => { if (!intercept(r)) r.continue() }) }
++  const response = await page.goto(BASE + '/intelligence', { waitUntil: 'networkidle0' }); if (!response?.ok()) throw Error('Page load returned ' + response?.status()); return { page, errs }
++}
++// Compare against the CONFIGURED viewport width, not innerWidth: a phone widens innerWidth to fit overflowing content.
++const overflow = async page => { const W = page.viewport().width; return page.evaluate(W => { const off = []; for (const e of document.querySelectorAll('body *')) { const r = e.getBoundingClientRect(); if (r.width && r.right > W + 1) off.push(e.tagName + '.' + String(e.className).slice(0, 30)) } return { page_scrollW: document.documentElement.scrollWidth, innerW: W, layoutW: innerWidth, offenders: [...new Set(off)].slice(0, 6) } }, W) }
++const find = page => page.$$eval('button', bs => bs.find(b => /find players/i.test(b.textContent))?.disabled)
++const clickText = (page, sel, re) => page.evaluate((s, r) => { const e = [...document.querySelectorAll(s)].find(x => new RegExp(r, 'i').test(x.textContent)); e?.click(); return !!e }, sel, re)
++async function axe(page, name) {
++  await page.evaluate(AXE)
++  const v = await page.evaluate(async () => { const r = await axe.run(document, { runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'] })
++    return r.violations.map(x => ({ id: x.id, impact: x.impact, tags: x.tags, help: x.help, nodes: x.nodes.length, samples: x.nodes.slice(0, 3).map(n => ({ target: n.target.join(' ').slice(0, 70), html: n.html.slice(0, 60), data: n.any[0]?.data ? { fg: n.any[0].data.fgColor, bg: n.any[0].data.bgColor, ratio: n.any[0].data.contrastRatio, size: n.any[0].data.fontSize } : null })) })) })
++  R.axe.push({ state: name, violations: v }); console.log('AXE', name, v.map(x => `${x.id}(${x.impact},${x.nodes})`).join(' ') || 'none')
++  for (const x of v) {
++    const blocking = ['critical', 'serious'].includes(x.impact) && x.tags.some(tag => tag.startsWith('wcag'))
++    check(name + ' accessibility ' + x.id, false, x.help, blocking ? 'FAIL' : 'WARNING')
++  }
++  for (const x of v) console.log('   ', x.id, JSON.stringify(x.samples).slice(0, 330))
++}
++const diag = page => page.evaluate(() => { const bs = [...document.querySelectorAll('input[type=checkbox][aria-label^="Compare "]')].slice(0, 3).map(b => ({ checked: b.checked, w: Math.round(b.getBoundingClientRect().width) })); const btn = [...document.querySelectorAll('button')].find(b => /compare \d players/i.test(b.textContent)); return { boxes: bs, compareBtn: btn ? { text: btn.textContent, disabled: btn.disabled } : null, err: document.querySelector('.error-box')?.innerText?.slice(0, 80) ?? null } })
++async function search(page, tactic = 'BALANCED') {
++  await page.click('input[name=gv][type=radio]:not(:checked)')
++  return recommend(page, tactic)
++}
++async function recommend(page, tactic) {
++  await page.select('select[aria-label="Tactical style"]', tactic)
++  const response = page.waitForResponse(r => r.url().endsWith('/api/v3/recommendations') && r.request().method() === 'POST')
++  await clickText(page, 'button', 'find players')
++  const http = await response
++  const payload = JSON.parse(http.request().postData()), result = await http.json()
++  await page.waitForSelector('[data-testid=ix-card]', { timeout: 40000 })
++  const rows = await page.$$eval('[data-testid=ix-card]', cards => cards.map(card => ({
++    name: card.querySelector('h3').textContent, rank: Number(card.querySelector('.ix-rank').textContent),
++    score: card.querySelector('.ix-score').textContent
++  })))
++  check('FC26 CM ' + tactic + ' request reached API and rendered the returned rankings',
++    http.ok() && payload.game_version === 'FC26' && payload.position === 'CM' && payload.tactical_profile === tactic && result.request.tactical_profile === tactic &&
++    result.reference_distribution_version === 'fc26-players-2026-09-r1' &&
++    result.reference_distribution_universe === 'RATINGS_SITE_PLAYERS' && rows.length === result.ranked.length &&
++    rows.every((row, i) => row.name === result.ranked[i].name && row.rank === result.ranked[i].rank && row.score === result.ranked[i].score.toFixed(4)))
++  return result
++}
++async function tap(page, h) { await h.evaluate(e => e.scrollIntoView({ block: 'center' })); const bb = await h.boundingBox(); await page.touchscreen.tap(bb.x + bb.width / 2, bb.y + bb.height / 2) }
++
++await guard('A initial state + keyboard', async () => {
++  const { page, errs } = await open(VIEW.desktop)
++  check('A1 page renders h1', await page.$eval('h1', e => /player intelligence/i.test(e.textContent)))
++  check('A2 FC27 default + Find players disabled until division chosen', (await find(page)) === true && await page.$eval('input[name=gv]:checked', e => e.parentElement.textContent.includes('FC27')))
++  await page.focus('input[name=division]'); await page.keyboard.press('Space')
++  check('A3 keyboard Space selects a division and enables the button', (await find(page)) === false)
++  await page.keyboard.press('ArrowDown'); check('A4 arrow key moves the radio selection', await page.$$eval('input[name=division]', rs => rs.filter(r => r.checked).length === 1))
++  R.layout.push({ state: 'initial', viewport: 'desktop', ...(await overflow(page)) }); await axe(page, 'initial-desktop'); R.console.push({ state: 'initial', errors: errs }); await page.close()
++})
++
++for (const [vn, vp] of Object.entries(VIEW)) await guard(`flow ${vn}`, async () => {
++  const { page, errs } = await open(vp); const t0 = Date.now(); const initial = await search(page); const ms = Date.now() - t0
++  const n = await page.$$eval('[data-testid=ix-card]', c => c.length), brackets = await page.$$eval('[aria-label="Effectively tied"]', c => c.length)
++  check(`B ${vn}: results render (${n} cards, ${brackets} tie brackets, ${ms} ms click->cards)`, n > 0)
++  const ov = await overflow(page); R.layout.push({ state: 'results', viewport: vn, ...ov }); check(`C ${vn}: no horizontal page overflow`, ov.page_scrollW <= ov.innerW + 1, JSON.stringify(ov))
++  await page.screenshot({ path: `${SHOTS}/shot_results_${vn}.png` })
++  const hit = await page.evaluate(() => { const b = [...document.querySelectorAll('input[type=checkbox][aria-label^="Compare "]')][2]; b.scrollIntoView({ block: 'start' }); const r = b.getBoundingClientRect(), top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); const hd = document.querySelector('.topbar'); return { self: top === b, rectTop: Math.round(r.top), headerSticky: getComputedStyle(hd).position === 'sticky', headerH: Math.round(hd.getBoundingClientRect().height), onTop: top ? top.tagName + '.' + String(top.className).slice(0, 14) : 'none' } })
++  check(`C3 ${vn}: a control scrolled to the top edge is not hidden behind the sticky header`, hit.self, JSON.stringify(hit)); await page.evaluate(() => window.scrollTo(0, 0))
++  if (vn !== 'tablet') {
++    const boxes = await page.$$('input[type=checkbox][aria-label^="Compare "]')
++    if (vn === 'mobile') { for (const i of [1, 2]) await tap(page, boxes[i]) } else { await boxes[1].click(); await boxes[2].click() }
++    check(`D0 ${vn}: two players selected via ${vn === 'mobile' ? 'a real touch tap' : 'click'}`, (await page.$$eval('input[type=checkbox][aria-label^="Compare "]', c => c.filter(x => x.checked).length)) === 2)
++    await clickText(page, 'button', 'compare \\d players')
++    try { await page.waitForSelector('[aria-label=Comparison]', { timeout: 30000 }) } catch (e) { check(`D ${vn}: compare panel opens`, false, JSON.stringify(await diag(page))); throw e }
++    const ov3 = await overflow(page); check(`D ${vn}: compare panel renders without page overflow`, ov3.page_scrollW <= ov3.innerW + 1, JSON.stringify(ov3.offenders)); await page.screenshot({ path: `${SHOTS}/shot_compare_${vn}.png`, fullPage: true })
++    await clickText(page, 'button', '^high press$'); await page.waitForSelector('[aria-label="What if"] ul li', { timeout: 30000 })
++    check(`E ${vn}: what-if rows appear`, (await page.$$eval('[aria-label="What if"] ul li', l => l.length)) > 0)
++    await axe(page, `results+compare+whatif-${vn}`)
++    R.touch.push({ viewport: vn, undersized: await page.evaluate(() => [...document.querySelectorAll('button, select, summary, input')].map(e => { const r = e.getBoundingClientRect(); return { tag: e.tagName + (e.type ? ':' + e.type : ''), w: Math.round(r.width), h: Math.round(r.height), label: (e.getAttribute('aria-label') || e.textContent || '').trim().slice(0, 24) } }).filter(x => x.w && (x.w < 24 || x.h < 24)).slice(0, 12)) })
++  }
++  if (vn === 'desktop') {
++    const pressed = await recommend(page, 'HIGH_PRESS')
++    check('Tactical change recomputed demand', pressed.request_id !== initial.request_id &&
++      JSON.stringify(pressed.demand_vector) !== JSON.stringify(initial.demand_vector))
++  }
++  R.console.push({ state: 'flow-' + vn, errors: errs }); await page.close()
++})
++
++for (const [vn, vp] of Object.entries(VIEW)) await guard(`C2 ${vn} stress`, async () => {   // long name + long explanation, FRESH page
++  const { page } = await open(vp); await search(page)
++  await page.evaluate(() => { const h = document.querySelector('[data-testid=ix-card] h3'); h.textContent = 'Wolfeschlegelsteinhausenbergerdorff-Vandenberghe '.repeat(2); const q = document.querySelector('.ix-why'); if (q) q.textContent = 'x'.repeat(400) })
++  const ov2 = await overflow(page); check(`C2 ${vn}: long name + long explanation do not overflow the page`, ov2.page_scrollW <= ov2.innerW + 1, JSON.stringify(ov2.offenders)); await page.close()
++})
++
++await guard('F focus-visibility probe', async () => {
++  const { page } = await open(VIEW.desktop)   // FC27 default keeps the division group visible
++  for (const sel of ['button.btn', 'input[name=gv]', 'select[aria-label=Position]', 'input[name=division]']) { await page.focus(sel); await page.keyboard.press('Shift'); R.focus.push({ sel, ...(await page.$eval(sel, e => { const s = getComputedStyle(e); return { outline: s.outlineStyle + ' ' + s.outlineWidth, boxShadow: s.boxShadow.slice(0, 40) } }).catch(() => ({ outline: 'n/a' }))) }) }
++  check('Focus probes captured all controls', R.focus.length === 4 && R.focus.every(x => x.outline !== 'n/a'))
++  await page.close()
++})
++
++const live = r => r.url().endsWith('/api/v3/recommendations')
++const respond = (status, body, delay = 0) => r => live(r) ? (setTimeout(() => r.respond({ status, contentType: 'application/json', body: typeof body === 'string' ? body : JSON.stringify(body) }), delay), true) : false
++const state = (name, icpt, expect) => guard(`G ${name}`, async () => {
++  const { page, errs } = await open(VIEW.desktop, icpt); await page.click('input[name=gv][type=radio]:not(:checked)'); await clickText(page, 'button', 'find players')
++  await new Promise(r => setTimeout(r, name.startsWith('slow') ? 600 : 1500)); const out = await expect(page); check(`G ${name}`, out.ok, out.detail)
++  check(`G ${name}: app still alive (no blank screen)`, await page.$eval('h1', e => !!e.textContent).catch(() => false)); R.console.push({ state: name, errors: errs.slice(0, 3) }); await page.close()
++})
++const text = p => p.$eval('body', b => b.innerText)
++await state('503 object detail shows the server message', respond(503, { detail: { error: 'REFERENCE_DISTRIBUTION_UNAVAILABLE', detail: 'FC27 is research-only. Set include_research_data=true.', requires: 'include_research_data' } }), async p => ({ ok: /research-only/.test(await text(p)), detail: '' }))
++await state('500 plain error is surfaced, not swallowed', respond(500, { detail: 'boom' }), async p => ({ ok: /boom|went wrong/i.test(await text(p)), detail: '' }))
++await state('malformed 200 (ranked: null)', respond(200, { ranked: null, division: null }), async p => ({ ok: /unexpected response/i.test(await text(p)), detail: 'expects a visible error, not a blank page' }))
++await state('empty ranked list says so', respond(200, { ranked: [], division: { requested: null, scope: 'ALL_DIVISIONS', candidate_counts: {} }, counts: { candidates: 5, excluded: 5 }, request_id: 'x' }), async p => ({ ok: /no eligible players/i.test(await text(p)), detail: '' }))
++await state('slow response shows a loading indicator', respond(200, { ranked: [], division: { requested: null, scope: 'ALL_DIVISIONS', candidate_counts: {} } }, 3000), async p => ({ ok: /scoring players/i.test(await text(p)), detail: '' }))
++await state('network failure is surfaced', r => live(r) ? (r.abort('failed'), true) : false, async p => ({ ok: /went wrong|failed|network|unreachable/i.test(await text(p)), detail: '' }))
++}
+--- a/scripts/browser_qa/serve.mjs
++++ b/scripts/browser_qa/serve.mjs
+@@ -7,7 +7,9 @@
+     const p = http.request({ host: API.hostname, port: API.port, path: req.url, method: req.method, headers: req.headers }, r => { res.writeHead(r.statusCode, r.headers); r.pipe(res) })
+     p.on('error', e => { res.writeHead(502); res.end(String(e)) }); req.pipe(p); return
+   }
+-  let f = path.join(DIST, decodeURIComponent(req.url.split('?')[0]))
+-  if (!f.startsWith(DIST) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) f = path.join(DIST, 'index.html')
++  let f
++  try { f = path.join(DIST, decodeURIComponent(req.url.split('?')[0])) } catch { res.writeHead(400); res.end(); return }
++  if (path.relative(DIST, f).split(path.sep)[0] === '..' || !fs.existsSync(f) || fs.statSync(f).isDirectory()) f = path.join(DIST, 'index.html')
++  if (!fs.existsSync(f)) { res.writeHead(503); res.end('Frontend build unavailable'); return }
+   res.writeHead(200, { 'Content-Type': T[path.extname(f)] ?? 'application/octet-stream' }); fs.createReadStream(f).pipe(res)
+ }).listen(PORT, '127.0.0.1', () => console.log('serving', DIST, 'on', PORT))
+--- a/scripts/ingest_fc27_card_identity.py
++++ b/scripts/ingest_fc27_card_identity.py
+@@ -1,9 +1,10 @@
+ #!/usr/bin/env python3
+-"""Ingest the FC27 card identity/reference package as RESEARCH_ONLY (migration 009). Phase 24.
++"""Ingest the FC27 card identity/reference package as RESEARCH_ONLY (migrations 009–010).
+ 
+ FAIL CLOSED:
+   * refuses unless --approve-research-only-ingest AND --approved-by are given (the project registry
+-    lists `futgg` as NOT_PERMITTED; ingesting a fut.gg-derived package is an owner decision);
++    lists `futgg` as NOT_PERMITTED); an independently reviewed permission
++    record, evidence file and pinned package inventory are also required;
+   * refuses if the package fails the integrity checks below (re-derived, not trusted from its self-report);
+   * everything runs in ONE transaction; DB triggers enforce FC27-only + RESEARCH_ONLY + registered source;
+   * nothing is resolved silently: package conflicts/duplicates and audit findings are stored as OPEN flags;
+@@ -12,12 +13,11 @@
+   python scripts/ingest_fc27_card_identity.py --package-dir <FC27_CARD_DATASET> --approve-research-only-ingest --approved-by "<name>"
+ """
+ from __future__ import annotations
+-import argparse, collections, csv, datetime as dt, hashlib, json, os, re, sys
++import argparse, collections, csv, datetime as dt, hashlib, json, os, re, shutil, sys, tempfile
+ from pathlib import Path
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ sys.path.insert(0, str(ROOT))
+-import psycopg  # noqa: E402
+ 
+ SOURCE_ID = "futgg_fc27_identity_research"
+ URL_RE = re.compile(r"^https://www\.fut\.gg/players/(\d+)-([^/]+)/(\d+)-(\d+)/$")
+@@ -29,7 +29,14 @@
+ 
+ def rd(p: Path):
+     with open(p, newline="", encoding="utf-8-sig") as f:
+-        return list(csv.DictReader(f))
++        reader = csv.DictReader(f, strict=True)
++        fields = reader.fieldnames or []
++        if not fields or len(fields) != len(set(fields)) or not all(fields):
++            die(f"invalid CSV header: {p.name}")
++        rows = list(reader)
++        if any(None in row or None in row.values() for row in rows):
++            die(f"ragged CSV: {p.name}")
++        return rows
+ 
+ 
+ def ts(s: str) -> dt.datetime:
+@@ -45,6 +52,56 @@
+     if not pts:
+         die(f"no request-log row for {needle}")
+     return min(pts), max(pts)
++
++
++# Maintainer-reviewed evidence lives outside the supplied package. No approval ships today.
++APPROVAL = ROOT / "data" / "approvals" / "fc27_card_identity.json"
++REQUIRED = {
++    "manifests/DATASET_MANIFEST.json", "provenance/raw_file_hashes.csv", "provenance/request_log.csv",
++    "conflicts/CARD_DUPLICATES.csv", "conflicts/CONFLICT_QUEUE.csv",
++    *("canonical/" + name + ".csv" for name in (
++        "fc27_card_index", "fc27_game_players", "fc27_rarities", "fc27_roles_reference",
++        "fc27_playstyles_reference", "fc27_ut_cards_observed_sample")),
++}
++
++
++def check_approval():
++    if not APPROVAL.is_file():
++        die("missing independently reviewed research permission record for futgg")
++    record = json.loads(APPROVAL.read_text(encoding="utf-8"))
++    today = dt.datetime.now(dt.timezone.utc).date()
++    if (record.get("source") != "futgg" or record.get("scope") != "FC27_CARD_IDENTITY_RESEARCH_ONLY"
++            or not record.get("reviewer") or not record.get("applicable_terms")
++            or not dt.date.fromisoformat(record["review_date"]) <= today <= dt.date.fromisoformat(record["expires"])
++            or not record.get("snapshot_id")):
++        die("invalid or expired permission record")
++    evidence = (APPROVAL.parent / record["permission_file"]).resolve()
++    if (not evidence.is_relative_to(APPROVAL.parent.resolve()) or not evidence.is_file()
++            or not evidence.stat().st_size or hashlib.sha256(evidence.read_bytes()).hexdigest() != record["permission_sha256"]):
++        die("reviewed permission document unavailable or changed")
++    return record
++
++
++def verify_inventory(pkg, record):
++    inventory = record["files"]
++    if not REQUIRED <= inventory.keys() or not any(k.startswith("raw/") for k in inventory):
++        die("approved inventory lacks required raw, canonical or provenance files")
++    for name, meta in inventory.items():
++        p = (pkg / name).resolve()
++        if not p.is_relative_to(pkg.resolve()) or not p.is_file() or not p.stat().st_size:
++            die(f"missing or invalid required file: {name}")
++        if hashlib.sha256(p.read_bytes()).hexdigest() != meta["sha256"]:
++            die(f"hash mismatch: {name}")
++        if p.suffix.lower() == ".csv":
++            rows = rd(p)
++            if len(rows) != meta["rows"]:
++                die(f"row count mismatch: {name}")
++            if name.startswith("canonical/") and any(row.get("snapshot_id") != record["snapshot_id"] for row in rows):
++                die(f"snapshot mismatch: {name}")
++    man = json.loads((pkg / "manifests/DATASET_MANIFEST.json").read_text(encoding="utf-8-sig"))
++    if (man["snapshot_id"] != record["snapshot_id"] or man["dataset_version"] not in ("0.1.0-research", "v0.1.0-research") or not man["dataset_name"]):
++        die("unsupported package version or snapshot")
++    return man
+ 
+ 
+ def verify_package(pkg: Path):
+@@ -60,14 +117,22 @@
+     if {r["game_player_id"]: int(r["fc27_card_count"]) for r in gp} != dict(agg): die("game_players is not a faithful aggregation of the card index")
+     if len(rar) != 26 or sum(int(r["card_count"]) for r in rar) != 20189: die("rarities: expected 26 rows summing to 20,189")
+     urls = {r["card_url"] for r in idx}
+-    if not {d["record_a"] for d in dups} <= urls: die("CARD_DUPLICATES references URLs absent from the index")
++    if len(gp) != len(agg) or len(urls) != len(idx):
++        die("duplicate player identity or canonical card URL")
++    slugs = {row["game_player_id"]: row["player_slug"] for row in gp}
++    if any(slugs[r["game_player_id"]] != r["player_slug"] for r in idx):
++        die("contradictory source player slug")
++    if any(d[k] not in urls for d in dups for k in ("record_a", "record_b")):
++        die("duplicate references a URL absent from the index")
+     raw = pkg / "raw"
+-    if raw.exists():
+-        for r in rd(pkg / "provenance/raw_file_hashes.csv"):
+-            if hashlib.sha256((raw / r["file"]).read_bytes()).hexdigest() != r["sha256"]: die(f"raw hash mismatch: {r['file']}")
+-        raw_note = "raw sha256 verified"
+-    else:
+-        raw_note = "raw/ absent: hashes NOT re-verified"
++    hashes = rd(pkg / "provenance/raw_file_hashes.csv")
++    names = {r["file"] for r in hashes}
++    if not raw.is_dir() or not hashes or len(names) != len(hashes) or names != {p.name for p in raw.iterdir() if p.is_file()}:
++        die("raw files and hash inventory differ")
++    for r in hashes:
++        if hashlib.sha256((raw / r["file"]).read_bytes()).hexdigest() != r["sha256"]:
++            die(f"raw hash mismatch: {r['file']}")
++    raw_note = "raw sha256 verified"
+     return idx, rar, ps, roles, dups, raw_note
+ 
+ 
+@@ -78,21 +143,47 @@
+     a = ap.parse_args()
+     if not a.approve_research_only_ingest or not a.approved_by.strip():
+         die("owner approval required (--approve-research-only-ingest --approved-by NAME): registry lists futgg as NOT_PERMITTED")
+-    pkg = Path(a.package_dir); idx, rar, ps, roles, dups, raw_note = verify_package(pkg)
++    record = check_approval()
++    with tempfile.TemporaryDirectory() as tmp:
++        pkg = Path(tmp)
++        original = Path(a.package_dir).resolve()
++        for name in record["files"]:
++            source, dest = (original / name).resolve(), (pkg / name).resolve()
++            if not source.is_relative_to(original) or not dest.is_relative_to(pkg) or not source.is_file():
++                die(f"required file outside package or missing: {name}")
++            dest.parent.mkdir(parents=True, exist_ok=True)
++            shutil.copyfile(source, dest)
++        man = verify_inventory(pkg, record)
++        inventory_hash = hashlib.sha256(json.dumps(record["files"], sort_keys=True).encode()).hexdigest()
++        return ingest(pkg, man, a, inventory_hash)
++
++
++def ingest(pkg, man, a, inventory_hash):
++    import psycopg
++    idx, rar, ps, roles, dups, raw_note = verify_package(pkg)
+     log = rd(pkg / "provenance/request_log.csv"); conflicts = rd(pkg / "conflicts/CONFLICT_QUEUE.csv")
+-    man = json.loads((pkg / "manifests/DATASET_MANIFEST.json").read_text(encoding="utf-8-sig")); SNAP = man["snapshot_id"]
++    SNAP = man["snapshot_id"]
+     w_rar, w_site, w_ps, w_roles = (log_window(log, n) for n in ("fut_gg_rarities", "sitemap27_p", "sitemap_playstyles", "fut_gg_roles_"))
+     dup_extra = collections.Counter(d["record_a"] for d in dups)
+-    conn = psycopg.connect(os.environ["DATABASE_URL"]); cur = conn.cursor(); S = {"raw": raw_note, "approved_by": a.approved_by}
++    with psycopg.connect(os.environ["DATABASE_URL"]) as conn:
++        return write_transaction(conn, a, inventory_hash, man, SNAP, idx, rar, ps, roles, dups, raw_note, conflicts, dup_extra, w_rar, w_site, w_ps, w_roles)
++
++
++def write_transaction(conn, a, inventory_hash, man, SNAP, idx, rar, ps, roles, dups, raw_note, conflicts, dup_extra, w_rar, w_site, w_ps, w_roles):
++    cur = conn.cursor(); S = {"raw": raw_note, "approved_by": a.approved_by}
+     cur.execute("select id from game_version where code='FC27'"); r = cur.fetchone()
+     if not r: die("game_version FC27 missing")
+     GV = r[0]
+     cur.execute("select usage_status, legal_gate from source_registry where source_id=%s", (SOURCE_ID,)); r = cur.fetchone()
+     if not r or r[0] != "RESEARCH_ONLY": die(f"source {SOURCE_ID} not registered RESEARCH_ONLY (run migration 009)")
+     cur.execute("select usage_status from source_registry where source_id='futgg'"); S["registry_futgg_usage_status_unchanged"] = (cur.fetchone() or [None])[0]
+-    cur.execute("""insert into card_source_snapshot(snapshot_id, game_version_id, source_id, package_name, package_version, declared_window_start, declared_window_end,
+-                   license_note, retrieved_at_semantics, audit_status) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) on conflict do nothing""",
+-        (SNAP, GV, SOURCE_ID, man["dataset_name"], man["dataset_version"], ts("2026-09-30T07:28:00Z"), ts("2026-09-30T08:10:00Z"),
++    cur.execute("LOCK TABLE card_source_snapshot IN SHARE ROW EXCLUSIVE MODE")
++    cur.execute("SELECT snapshot_id, inventory_sha256 FROM card_source_snapshot WHERE game_version_id=%s", (GV,))
++    if any(row != (SNAP, inventory_hash) for row in cur.fetchall()):
++        die("existing FC27 snapshot differs or lacks a verified inventory; refusing to merge historical snapshots")
++    cur.execute("""insert into card_source_snapshot(snapshot_id, inventory_sha256, game_version_id, source_id, package_name, package_version, declared_window_start, declared_window_end,
++                   license_note, retrieved_at_semantics, audit_status) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) on conflict do nothing""",
++        (SNAP, inventory_hash, GV, SOURCE_ID, man["dataset_name"], man["dataset_version"], ts("2026-09-30T07:28:00Z"), ts("2026-09-30T08:10:00Z"),
+          "RESEARCH-ONLY / NO REDISTRIBUTION / NO ML TRAINING (package LEGAL_ACCESS_REPORT); registry entry futgg is NOT_PERMITTED",
+          "package retrieved_at values are build/processing times (08:31-08:56Z), AFTER the declared 07:28-08:10Z window; acquired_from/to are taken from provenance/request_log.csv",
+          "INDEPENDENT_AUDIT_PARTIAL (Phase 24; see audit report)"))
+@@ -113,9 +204,8 @@
+     S["playstyle_pages_unique"] = ins("""insert into fc27_playstyle_page_reference(game_version_id,slug,name_derived_from_slug,sitemap_row_count,source_id,snapshot_id,package_retrieved_at,acquired_from,acquired_to)
+         values (%s,%s,%s,%s,%s,%s,%s,%s,%s) on conflict do nothing""", [(GV, s, first[s]["name_normalized"], n, SOURCE_ID, SNAP, ts(first[s]["retrieved_at"]), *ex(w_ps)) for s, n in pcount.items()])
+     S["playstyle_sitemap_rows_collapsed"] = len(ps)
+-    cur.execute("""update fc27_card_identity i set game_player_id = gp.id from game_player gp join game_version v on v.id = gp.game_version_id
+-                   where v.code='FC27' and i.game_version_id = v.id and gp.source_player_id::text = i.source_player_id and i.game_player_id is null""")
+-    S["identity_rows_resolved_to_game_player"] = cur.rowcount
++    # A provider ID alone is insufficient to establish a reviewed player link.
++    S["identity_rows_resolved_to_game_player"] = 0
+     # ---- open flags ----
+     flags = []
+     def flag(ft, ent, field=None, sa=None, va=None, sb=None, vb=None, status="OPEN", by="claude_audit", **details):
+@@ -151,11 +241,18 @@
+         cur.execute("""insert into fc27_card_open_flag(game_version_id,snapshot_id,source_id,flag_type,entity,field,source_a,value_a,source_b,value_b,status,raised_by,details)
+                        values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::jsonb) on conflict do nothing""", f); n0 += cur.rowcount
+     S["flags_inserted"] = n0; S["flags_submitted"] = len(flags); S["identity_name_disagreements"] = len(dis)
+-    cur.execute("select (select count(*) from fc27_card_identity), (select count(distinct source_player_id) from fc27_card_identity), (select count(*) from fc27_rarity_catalogue), (select sum(card_count) from fc27_rarity_catalogue), (select count(*) from fc27_role_reference), (select count(*) from fc27_playstyle_page_reference), (select count(*) from fc27_card_open_flag where status='OPEN'), (select count(*) from fc27_card_identity where game_player_id is not null)")
+-    S["db_after"] = dict(zip(["identity", "distinct_players", "rarities", "rarity_card_sum", "roles", "playstyle_pages", "open_flags", "identity_with_game_player"], cur.fetchone()))
++    expected_counts = {"fc27_card_identity": len(idx), "fc27_rarity_catalogue": len(rar),
++                       "fc27_role_reference": len(roles), "fc27_playstyle_page_reference": len(first)}
++    S["snapshot_counts"] = {}
++    for table, expected in expected_counts.items():
++        cur.execute(f"SELECT count(*) FROM {table} WHERE snapshot_id=%s AND source_id=%s", (SNAP, SOURCE_ID))
++        actual = cur.fetchone()[0]
++        if actual != expected:
++            die(f"{table} snapshot count {actual} != expected {expected}")
++        S["snapshot_counts"][table] = actual
+     if a.dry_run: conn.rollback(); S["dry_run"] = "ROLLED BACK"
+     else: conn.commit()
+-    out = ROOT / "artifacts" / "phase24" / "fc27_card_identity_ingest_report.json"; out.parent.mkdir(parents=True, exist_ok=True)
++    out = ROOT / "artifacts" / "phase26" / "fc27_card_identity_ingest_report.json"; out.parent.mkdir(parents=True, exist_ok=True)
+     out.write_text(json.dumps(S, indent=2, default=str), encoding="utf-8"); print(json.dumps(S, indent=2, default=str)); return 0
+ 
+ 

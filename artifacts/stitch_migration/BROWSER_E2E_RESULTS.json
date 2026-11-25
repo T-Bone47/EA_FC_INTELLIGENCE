@@ -1,0 +1,498 @@
+{
+  "stadium": {
+    "status": "passed",
+    "checks": [
+      "Keyboard skip link, sidebar, FC27 opt-in search, grid/table switch and player details",
+      "FC27 V3.2 formation-slot ranking, explanation inspector and bound-context player comparison",
+      "Dedicated card comparison route and exact special-item IDs",
+      "Keyboard pitch assignment, seven-width layout, backend upgrade, apply/undo and mobile menu",
+      "Live Phase 31 evidence cohort",
+      "Signup with return-to hash, authenticated profile, logout, login and recovery availability",
+      "Server-side item filters, exact detail, opt-in, release membership and forwarded-request refusals"
+    ],
+    "pages": [
+      "overview",
+      "discover",
+      "intelligence",
+      "comparison",
+      "squad-lab",
+      "squad-dna",
+      "upgrades",
+      "squad-lab-mobile",
+      "evidence",
+      "login",
+      "profile"
+    ],
+    "responsive": [
+      {
+        "view": "overview",
+        "viewport": 1600,
+        "page": 1600,
+        "main": 1392,
+        "mainWidth": 1392
+      },
+      {
+        "view": "overview",
+        "viewport": 1440,
+        "page": 1440,
+        "main": 1232,
+        "mainWidth": 1232
+      },
+      {
+        "view": "overview",
+        "viewport": 1280,
+        "page": 1280,
+        "main": 1072,
+        "mainWidth": 1072
+      },
+      {
+        "view": "overview",
+        "viewport": 1024,
+        "page": 1024,
+        "main": 840,
+        "mainWidth": 840
+      },
+      {
+        "view": "overview",
+        "viewport": 768,
+        "page": 768,
+        "main": 768,
+        "mainWidth": 768
+      },
+      {
+        "view": "overview",
+        "viewport": 390,
+        "page": 390,
+        "main": 390,
+        "mainWidth": 390
+      },
+      {
+        "view": "overview",
+        "viewport": 360,
+        "page": 360,
+        "main": 360,
+        "mainWidth": 360
+      },
+      {
+        "view": "discover",
+        "viewport": 1600,
+        "page": 1600,
+        "main": 1392,
+        "mainWidth": 1392
+      },
+      {
+        "view": "discover",
+        "viewport": 1440,
+        "page": 1440,
+        "main": 1232,
+        "mainWidth": 1232
+      },
+      {
+        "view": "discover",
+        "viewport": 1280,
+        "page": 1280,
+        "main": 1072,
+        "mainWidth": 1072
+      },
+      {
+        "view": "discover",
+        "viewport": 1024,
+        "page": 1024,
+        "main": 840,
+        "mainWidth": 840
+      },
+      {
+        "view": "discover",
+        "viewport": 768,
+        "page": 768,
+        "main": 768,
+        "mainWidth": 768
+      },
+      {
+        "view": "discover",
+        "viewport": 390,
+        "page": 390,
+        "main": 390,
+        "mainWidth": 390
+      },
+      {
+        "view": "discover",
+        "viewport": 360,
+        "page": 360,
+        "main": 360,
+        "mainWidth": 360
+      },
+      {
+        "view": "intelligence",
+        "viewport": 1600,
+        "page": 1600,
+        "main": 1392,
+        "mainWidth": 1392
+      },
+      {
+        "view": "intelligence",
+        "viewport": 1440,
+        "page": 1440,
+        "main": 1232,
+        "mainWidth": 1232
+      },
+      {
+        "view": "intelligence",
+        "viewport": 1280,
+        "page": 1280,
+        "main": 1072,
+        "mainWidth": 1072
+      },
+      {
+        "view": "intelligence",
+        "viewport": 1024,
+        "page": 1024,
+        "main": 840,
+        "mainWidth": 840
+      },
+      {
+        "view": "intelligence",
+        "viewport": 768,
+        "page": 768,
+        "main": 768,
+        "mainWidth": 768
+      },
+      {
+        "view": "intelligence",
+        "viewport": 390,
+        "page": 390,
+        "main": 390,
+        "mainWidth": 390
+      },
+      {
+        "view": "intelligence",
+        "viewport": 360,
+        "page": 360,
+        "main": 360,
+        "mainWidth": 360
+      },
+      {
+        "view": "comparison",
+        "viewport": 1600,
+        "page": 1600,
+        "main": 1392,
+        "mainWidth": 1392
+      },
+      {
+        "view": "comparison",
+        "viewport": 1440,
+        "page": 1440,
+        "main": 1232,
+        "mainWidth": 1232
+      },
+      {
+        "view": "comparison",
+        "viewport": 1280,
+        "page": 1280,
+        "main": 1072,
+        "mainWidth": 1072
+      },
+      {
+        "view": "comparison",
+        "viewport": 1024,
+        "page": 1024,
+        "main": 840,
+        "mainWidth": 840
+      },
+      {
+        "view": "comparison",
+        "viewport": 768,
+        "page": 768,
+        "main": 768,
+        "mainWidth": 768
+      },
+      {
+        "view": "comparison",
+        "viewport": 390,
+        "page": 390,
+        "main": 390,
+        "mainWidth": 390
+      },
+      {
+        "view": "comparison",
+        "viewport": 360,
+        "page": 360,
+        "main": 360,
+        "mainWidth": 360
+      },
+      {
+        "view": "squad-lab",
+        "viewport": 1600,
+        "page": 1600,
+        "main": 1392,
+        "mainWidth": 1392
+      },
+      {
+        "view": "squad-lab",
+        "viewport": 1440,
+        "page": 1440,
+        "main": 1232,
+        "mainWidth": 1232
+      },
+      {
+        "view": "squad-lab",
+        "viewport": 1280,
+        "page": 1280,
+        "main": 1072,
+        "mainWidth": 1072
+      },
+      {
+        "view": "squad-lab",
+        "viewport": 1024,
+        "page": 1024,
+        "main": 840,
+        "mainWidth": 840
+      },
+      {
+        "view": "squad-lab",
+        "viewport": 768,
+        "page": 768,
+        "main": 768,
+        "mainWidth": 768
+      },
+      {
+        "view": "squad-lab",
+        "viewport": 390,
+        "page": 390,
+        "main": 390,
+        "mainWidth": 390
+      },
+      {
+        "view": "squad-lab",
+        "viewport": 360,
+        "page": 360,
+        "main": 360,
+        "mainWidth": 360
+      },
+      {
+        "view": "evidence",
+        "viewport": 1600,
+        "page": 1600,
+        "main": 1392,
+        "mainWidth": 1392
+      },
+      {
+        "view": "evidence",
+        "viewport": 1440,
+        "page": 1440,
+        "main": 1232,
+        "mainWidth": 1232
+      },
+      {
+        "view": "evidence",
+        "viewport": 1280,
+        "page": 1280,
+        "main": 1072,
+        "mainWidth": 1072
+      },
+      {
+        "view": "evidence",
+        "viewport": 1024,
+        "page": 1024,
+        "main": 840,
+        "mainWidth": 840
+      },
+      {
+        "view": "evidence",
+        "viewport": 768,
+        "page": 768,
+        "main": 768,
+        "mainWidth": 768
+      },
+      {
+        "view": "evidence",
+        "viewport": 390,
+        "page": 390,
+        "main": 390,
+        "mainWidth": 390
+      },
+      {
+        "view": "evidence",
+        "viewport": 360,
+        "page": 360,
+        "main": 360,
+        "mainWidth": 360
+      },
+      {
+        "view": "login",
+        "viewport": 1600,
+        "page": 1600,
+        "main": 1600,
+        "mainWidth": 1600
+      },
+      {
+        "view": "login",
+        "viewport": 1440,
+        "page": 1440,
+        "main": 1440,
+        "mainWidth": 1440
+      },
+      {
+        "view": "login",
+        "viewport": 1280,
+        "page": 1280,
+        "main": 1280,
+        "mainWidth": 1280
+      },
+      {
+        "view": "login",
+        "viewport": 1024,
+        "page": 1024,
+        "main": 1024,
+        "mainWidth": 1024
+      },
+      {
+        "view": "login",
+        "viewport": 768,
+        "page": 768,
+        "main": 768,
+        "mainWidth": 768
+      },
+      {
+        "view": "login",
+        "viewport": 390,
+        "page": 390,
+        "main": 390,
+        "mainWidth": 390
+      },
+      {
+        "view": "login",
+        "viewport": 360,
+        "page": 360,
+        "main": 360,
+        "mainWidth": 360
+      },
+      {
+        "view": "profile",
+        "viewport": 1600,
+        "page": 1600,
+        "main": 1392,
+        "mainWidth": 1392
+      },
+      {
+        "view": "profile",
+        "viewport": 1440,
+        "page": 1440,
+        "main": 1232,
+        "mainWidth": 1232
+      },
+      {
+        "view": "profile",
+        "viewport": 1280,
+        "page": 1280,
+        "main": 1072,
+        "mainWidth": 1072
+      },
+      {
+        "view": "profile",
+        "viewport": 1024,
+        "page": 1024,
+        "main": 840,
+        "mainWidth": 840
+      },
+      {
+        "view": "profile",
+        "viewport": 768,
+        "page": 768,
+        "main": 768,
+        "mainWidth": 768
+      },
+      {
+        "view": "profile",
+        "viewport": 390,
+        "page": 390,
+        "main": 390,
+        "mainWidth": 390
+      },
+      {
+        "view": "profile",
+        "viewport": 360,
+        "page": 360,
+        "main": 360,
+        "mainWidth": 360
+      }
+    ],
+    "accessibility": [
+      {
+        "view": "overview",
+        "passes": 23,
+        "violations": []
+      },
+      {
+        "view": "intelligence",
+        "passes": 29,
+        "violations": []
+      },
+      {
+        "view": "comparison",
+        "passes": 27,
+        "violations": []
+      },
+      {
+        "view": "squad-lab-360",
+        "passes": 25,
+        "violations": []
+      },
+      {
+        "view": "evidence",
+        "passes": 26,
+        "violations": []
+      },
+      {
+        "view": "login",
+        "passes": 24,
+        "violations": []
+      },
+      {
+        "view": "profile",
+        "passes": 26,
+        "violations": []
+      }
+    ],
+    "pageErrors": [],
+    "overview_ready_ms": 328,
+    "recommendation_submit_to_visible_ms": 4401
+  },
+  "card_squad_regression": {
+    "checks": [
+      "Two same-OVR versions, item-only attributes, PlayStyle preference, why-not explanation",
+      "Formation slot ranking, stale-result invalidation and tactical scenario",
+      "Mobile layout and missing goalkeeper evidence",
+      "Six-profile card comparison and signed, owner-bound item feedback",
+      {
+        "mobile_squad_lab_accessibility": {
+          "passes": 28,
+          "violations": []
+        }
+      },
+      "Formation transformation moves the outfield item and retains the locked goalkeeper",
+      "Mobile card shortlist, locked unscored keeper, exact single upgrade, apply and undo, tactical alternatives, DNA, save and reload",
+      {
+        "preview_to_visible_dna_ms": 63,
+        "viewport_width": 390
+      },
+      "Saved profile preferences drive new research squads",
+      "In-flight real API response discarded after changing tactics",
+      "Owned FC27 squad, price-free exact catalogue XI, atomic save and reopened copy"
+    ],
+    "uncaught_browser_errors": []
+  },
+  "evidence_regression": {
+    "checks": [
+      "Opt-in, 100-item cohort, 36 controls, real V3.2 comparison, no measured winner, stale result invalidation",
+      "Authenticated manual match submission with a reported zero, private pending state, owner withdrawal, 390px layout"
+    ],
+    "accessibility": {
+      "passes": 24,
+      "violations": []
+    },
+    "uncaught_browser_errors": []
+  },
+  "chromium": "158.0.8127.37",
+  "backend": "Loopback API and disposable PostgreSQL"
+}

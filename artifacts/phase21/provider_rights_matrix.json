@@ -1,0 +1,305 @@
+{
+  "futdb_app": {
+    "provider_id": "futdb_app",
+    "per_dimension": {
+      "ACCESS": {
+        "answer": "EXPLICITLY_ALLOWED",
+        "evidence_reference": "futdb.app homepage: free/paid API tiers exist",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "API access itself is offered"
+      },
+      "AUTOMATION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "no terms page found to confirm automation scope beyond rate limits"
+      },
+      "STORAGE": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "no terms/license page exists anywhere on the site"
+      },
+      "DERIVATION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      },
+      "COMMERCIAL": {
+        "answer": "AMBIGUOUS",
+        "evidence_reference": "paid pricing tiers exist but no terms define what commercial use covers",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "implied by pricing, never stated"
+      },
+      "DISPLAY": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      },
+      "REDISTRIBUTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      },
+      "RETENTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      },
+      "ATTRIBUTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      }
+    },
+    "cleared_dimensions": [
+      "ACCESS"
+    ],
+    "not_cleared_dimensions": [
+      "AUTOMATION",
+      "STORAGE",
+      "DERIVATION",
+      "COMMERCIAL",
+      "DISPLAY",
+      "REDISTRIBUTION",
+      "RETENTION",
+      "ATTRIBUTION"
+    ],
+    "minimum_production_clearance": false,
+    "raw_redistribution_cleared": false,
+    "derived_intelligence_potentially_allowed": false,
+    "overall_status": "PARTIAL"
+  },
+  "fut_db_com": {
+    "provider_id": "fut_db_com",
+    "per_dimension": {
+      "ACCESS": {
+        "answer": "EXPLICITLY_ALLOWED",
+        "evidence_reference": "T&C Sec 2: available to individuals and companies",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "AUTOMATION": {
+        "answer": "CONDITIONAL",
+        "evidence_reference": "T&C Sec 8: permitted subject to not disrupting server stability",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "rate-limit condition"
+      },
+      "STORAGE": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "T&C never addresses storage"
+      },
+      "DERIVATION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      },
+      "COMMERCIAL": {
+        "answer": "EXPLICITLY_ALLOWED",
+        "evidence_reference": "T&C Sec 2: available to companies",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "DISPLAY": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      },
+      "REDISTRIBUTION": {
+        "answer": "EXPLICITLY_PROHIBITED",
+        "evidence_reference": "T&C Sec 7: reproduction/distribution/modification of content prohibited without explicit permission",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "NEW finding this session"
+      },
+      "RETENTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      },
+      "ATTRIBUTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "not addressed"
+      }
+    },
+    "cleared_dimensions": [
+      "ACCESS",
+      "COMMERCIAL"
+    ],
+    "not_cleared_dimensions": [
+      "AUTOMATION",
+      "STORAGE",
+      "DERIVATION",
+      "DISPLAY",
+      "REDISTRIBUTION",
+      "RETENTION",
+      "ATTRIBUTION"
+    ],
+    "minimum_production_clearance": false,
+    "raw_redistribution_cleared": false,
+    "derived_intelligence_potentially_allowed": false,
+    "overall_status": "BLOCKED"
+  },
+  "futbin": {
+    "provider_id": "futbin",
+    "per_dimension": {
+      "ACCESS": {
+        "answer": "EXPLICITLY_ALLOWED",
+        "evidence_reference": "human browsing permitted",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "AUTOMATION": {
+        "answer": "EXPLICITLY_PROHIBITED",
+        "evidence_reference": "ToS Sec 13: no scraping/data mining without written permission",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "STORAGE": {
+        "answer": "EXPLICITLY_PROHIBITED",
+        "evidence_reference": "implied by no-scraping clause: nothing to store without prohibited access",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "DERIVATION": {
+        "answer": "EXPLICITLY_PROHIBITED",
+        "evidence_reference": "same",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "COMMERCIAL": {
+        "answer": "EXPLICITLY_PROHIBITED",
+        "evidence_reference": "ToS: no business use without a license",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "DISPLAY": {
+        "answer": "EXPLICITLY_PROHIBITED",
+        "evidence_reference": "same",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "REDISTRIBUTION": {
+        "answer": "EXPLICITLY_PROHIBITED",
+        "evidence_reference": "same",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "RETENTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": ""
+      },
+      "ATTRIBUTION": {
+        "answer": "CONDITIONAL",
+        "evidence_reference": "narrow student/content-creator pricing carve-out requires attribution",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "does not cover this product"
+      }
+    },
+    "cleared_dimensions": [
+      "ACCESS"
+    ],
+    "not_cleared_dimensions": [
+      "AUTOMATION",
+      "STORAGE",
+      "DERIVATION",
+      "COMMERCIAL",
+      "DISPLAY",
+      "REDISTRIBUTION",
+      "RETENTION",
+      "ATTRIBUTION"
+    ],
+    "minimum_production_clearance": false,
+    "raw_redistribution_cleared": false,
+    "derived_intelligence_potentially_allowed": false,
+    "overall_status": "BLOCKED"
+  },
+  "futwiz": {
+    "provider_id": "futwiz",
+    "per_dimension": {
+      "ACCESS": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      },
+      "AUTOMATION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      },
+      "STORAGE": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      },
+      "DERIVATION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      },
+      "COMMERCIAL": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      },
+      "DISPLAY": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      },
+      "REDISTRIBUTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      },
+      "RETENTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      },
+      "ATTRIBUTION": {
+        "answer": "SILENT",
+        "evidence_reference": "NO_EVIDENCE_SUPPLIED",
+        "evidence_timestamp": "2026-09-20",
+        "notes": "terms not located after two search attempts across two sessions"
+      }
+    },
+    "cleared_dimensions": [],
+    "not_cleared_dimensions": [
+      "ACCESS",
+      "AUTOMATION",
+      "STORAGE",
+      "DERIVATION",
+      "COMMERCIAL",
+      "DISPLAY",
+      "REDISTRIBUTION",
+      "RETENTION",
+      "ATTRIBUTION"
+    ],
+    "minimum_production_clearance": false,
+    "raw_redistribution_cleared": false,
+    "derived_intelligence_potentially_allowed": false,
+    "overall_status": "UNVERIFIED"
+  }
+}

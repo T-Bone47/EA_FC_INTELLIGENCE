@@ -1,0 +1,176 @@
+{
+  "no_playstyle_evidence": {
+    "hash": "130251999957660ecfe542872b105d30cfcf61fab78094b072bf61d8d15729cb",
+    "top_names": [
+      "NoPSEvidence"
+    ]
+  },
+  "playstyle_relevance": {
+    "hash": "ffc08f34e65deb2c01cc99ce64c972445668a1fd978d7932adaeb72bee6cde08",
+    "top_names": [
+      "RelevantPS",
+      "NoPSEvidence"
+    ]
+  },
+  "pool_ordering_a": {
+    "hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+    "top_names": [
+      "Jude Bellingham",
+      "Pedri",
+      "Federico Valverde",
+      "Frenkie de Jong",
+      "Rodri",
+      "Nicol\u00f2 Barella",
+      "Vitinha",
+      "Florian Wirtz",
+      "Joshua Kimmich",
+      "Bruno Guimar\u00e3es"
+    ]
+  },
+  "pool_ordering_b": {
+    "hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+    "top_names": [
+      "Jude Bellingham",
+      "Pedri",
+      "Federico Valverde",
+      "Frenkie de Jong",
+      "Rodri",
+      "Nicol\u00f2 Barella",
+      "Vitinha",
+      "Florian Wirtz",
+      "Joshua Kimmich",
+      "Bruno Guimar\u00e3es"
+    ]
+  },
+  "pool_ordering_identical": true,
+  "position_mismatch": {
+    "hash": "c82ff648f7064293db36cfb85b6c48dad407d593d7a7704f00ac5ca5f445c802",
+    "top_names": [
+      "RealCB"
+    ]
+  },
+  "same_attributes_different_ovr": {
+    "hash": "ff27035f4d5ed292068bc1260af4451552d7d5417f7712a241a9b505822da65a",
+    "top_names": [
+      "SameAttrs",
+      "SameAttrs"
+    ]
+  },
+  "same_ovr_different_attributes": {
+    "hash": "25afffa37582b7fbabf531bceeeb38031c7aec1de1287f2ec382f762f0c0ce78",
+    "top_names": [
+      "A",
+      "B"
+    ]
+  },
+  "same_player_two_tactics": {
+    "high_press": {
+      "hash": "7269460345777dbfc4ce855cd9dea1328eb64686afc7410e344609b88fc5d645",
+      "top_names": [
+        "SamePlayer"
+      ]
+    },
+    "low_block": {
+      "hash": "8af1330c3bd921ceceb3f0bcb686ed09148bbd3227845fcae751b4682a5202fb",
+      "top_names": [
+        "SamePlayer"
+      ]
+    }
+  },
+  "tactical_BALANCED": {
+    "hash": "732338774f01df83dd264dc21186e9e93fc093e904ede0d6b6cea159df2bbb14",
+    "top_names": [
+      "Jude Bellingham",
+      "Rodri",
+      "Federico Valverde",
+      "Pedri",
+      "Joshua Kimmich",
+      "Bruno Guimar\u00e3es",
+      "Vitinha",
+      "Nicol\u00f2 Barella",
+      "Frenkie de Jong",
+      "Tijjani Reijnders"
+    ]
+  },
+  "tactical_DIRECT_PLAY": {
+    "hash": "23300dc9fd9e25bcb2143f9bf7348eb3677f4e33c16fa52b092e390e7014d375",
+    "top_names": [
+      "Federico Valverde",
+      "Jude Bellingham",
+      "Rodri",
+      "Adrien Rabiot",
+      "Nicol\u00f2 Barella",
+      "Joshua Kimmich",
+      "Tijjani Reijnders",
+      "Marcos Llorente",
+      "Sancet",
+      "Frenkie de Jong"
+    ]
+  },
+  "tactical_HIGH_PRESS": {
+    "hash": "24a513f8c91fa077463d83e6e161e16136fab0fcecb81d020338b720bcaf7189",
+    "top_names": [
+      "Federico Valverde",
+      "Jude Bellingham",
+      "Nicol\u00f2 Barella",
+      "Pedri",
+      "Tijjani Reijnders",
+      "Frenkie de Jong",
+      "Joshua Kimmich",
+      "Marcos Llorente",
+      "Vitinha",
+      "Jo\u00e3o Neves"
+    ]
+  },
+  "tactical_LOW_BLOCK": {
+    "hash": "e1a3b05aa327b442ac9ae80f494a2fbdbdc0ea9acd79de267ab8db7955480da6",
+    "top_names": [
+      "Rodri",
+      "Federico Valverde",
+      "Jude Bellingham",
+      "Sergej Milinkovi\u0107-Savi\u0107",
+      "Joelinton",
+      "Jo\u00e3o Neves",
+      "Declan Rice",
+      "Joshua Kimmich",
+      "Leon Goretzka",
+      "Adrien Rabiot"
+    ]
+  },
+  "tactical_PACE_ABUSER": {
+    "hash": "a69df29952d798d2fd80014cf79c5a3205035761bfe4f1226eb490004e4e30be",
+    "top_names": [
+      "Federico Valverde",
+      "Jude Bellingham",
+      "Nicol\u00f2 Barella",
+      "Pedri",
+      "Frenkie de Jong",
+      "Tijjani Reijnders",
+      "Joshua Kimmich",
+      "Marcos Llorente",
+      "Vitinha",
+      "Florian Wirtz"
+    ]
+  },
+  "tactical_POSSESSION": {
+    "hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+    "top_names": [
+      "Jude Bellingham",
+      "Pedri",
+      "Federico Valverde",
+      "Frenkie de Jong",
+      "Rodri",
+      "Nicol\u00f2 Barella",
+      "Vitinha",
+      "Florian Wirtz",
+      "Joshua Kimmich",
+      "Bruno Guimar\u00e3es"
+    ]
+  },
+  "thin_evidence": {
+    "hash": "a106f8ca2ae5f5185e2e66a17db2f5222687cd471cc2ae9f761a22e460de6c0e",
+    "top_names": [
+      "Documented"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+..................                                                       [100%]
+=============================== warnings summary ===============================
+backend/core/db.py:23
+  /home/claude/work/EA_FC_INTELLIGENCE_full_project/EA_FC_INTELLIGENCE-main/backend/core/db.py:23: UserWarning: JWT_SECRET not set — using an ephemeral development secret. Set JWT_SECRET in any deployed environment.
+    conninfo=get_settings().database_url,
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+18 passed, 1 warning in 0.32s

@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "scope": "final-policy and API snapshot",
+  "targeted_backend": {
+    "passed": 91,
+    "subtests_passed": 66
+  },
+  "boundary_probes": [
+    "Denial with shipped registry in production-like settings precedes catalogue reads",
+    "Temporary fixture approvals expose exactly one of two same-game players and one of two cards",
+    "Candidate and linked-card reads use the scoped release even after an earlier local cache load",
+    "Approved card identity with no attribute observations reports NO_DATA for attributes",
+    "A rolled-back attribute edit leaves the reviewed member visible",
+    "A committed attribute edit removes membership and invalidates cached candidates"
+  ],
+  "approved_fixture_only": true,
+  "production_dataset_approvals_changed": false
+}

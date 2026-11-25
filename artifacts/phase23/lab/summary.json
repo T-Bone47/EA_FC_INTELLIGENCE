@@ -1,0 +1,94 @@
+{
+  "generated_at": "2026-09-30T00:13:18.709001+00:00",
+  "lab_version": "lab-2026-09-30-r1",
+  "datasets": {
+    "FC26": {
+      "candidates": 16228,
+      "data_status": "CANONICAL",
+      "reference": "fc26-players-2026-09-r1",
+      "content_hash": "ac52f46dc8a2433db57daf51cea02936605a38d07dde00fd9176966ea6609f22",
+      "archetype_mean_overlap": {
+        "CAM": 4.83,
+        "CB": 4.5,
+        "CDM": 5.33,
+        "CM": 4.0,
+        "GK": 7.0,
+        "LB": 5.0,
+        "LM": 6.0,
+        "LW": 6.3,
+        "RB": 6.0,
+        "RM": 6.0,
+        "RW": 5.9,
+        "ST": 4.73
+      }
+    },
+    "FC27": {
+      "candidates": 19789,
+      "data_status": "RESEARCH_ONLY",
+      "reference": "fc27-players-2026-09-r1",
+      "content_hash": "224e4474dc0e0b54e7a422774d536d3962e4ebc6a224ebe7143872a759ec305e",
+      "archetype_mean_overlap": {
+        "CAM": 4.17,
+        "CB": 5.33,
+        "CDM": 5.33,
+        "CM": 3.5,
+        "GK": 6.0,
+        "LB": 5.0,
+        "LM": 7.0,
+        "LW": 6.5,
+        "RB": 4.0,
+        "RM": 7.0,
+        "RW": 5.0,
+        "ST": 4.33
+      }
+    }
+  },
+  "decisions": [
+    {
+      "variant": "V3.2-cand-complementarity",
+      "game_version": "FC26",
+      "mean_overlap_delta_vs_baseline": -0.058,
+      "decision": "REJECTED",
+      "reasons": [
+        "CM: near-tie rate rose 0.7593 -> 0.7778"
+      ]
+    },
+    {
+      "variant": "V3.2-cand-missing-zero",
+      "game_version": "FC26",
+      "mean_overlap_delta_vs_baseline": 0.0,
+      "decision": "ADOPTABLE",
+      "reasons": []
+    },
+    {
+      "variant": "V3.2-cand-missing-p01",
+      "game_version": "FC26",
+      "mean_overlap_delta_vs_baseline": 0.0,
+      "decision": "ADOPTABLE",
+      "reasons": []
+    },
+    {
+      "variant": "V3.2-cand-complementarity",
+      "game_version": "FC27",
+      "mean_overlap_delta_vs_baseline": 0.025,
+      "decision": "REJECTED",
+      "reasons": [
+        "tactical discrimination regressed (mean overlap +0.025)"
+      ]
+    },
+    {
+      "variant": "V3.2-cand-missing-zero",
+      "game_version": "FC27",
+      "mean_overlap_delta_vs_baseline": 0.0,
+      "decision": "ADOPTABLE",
+      "reasons": []
+    },
+    {
+      "variant": "V3.2-cand-missing-p01",
+      "game_version": "FC27",
+      "mean_overlap_delta_vs_baseline": 0.0,
+      "decision": "ADOPTABLE",
+      "reasons": []
+    }
+  ]
+}

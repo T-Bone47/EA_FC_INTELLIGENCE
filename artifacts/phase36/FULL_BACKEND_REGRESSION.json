@@ -1,0 +1,88 @@
+{
+  "test_run": "Phase 36 Full Backend Certified Regression Suite",
+  "timestamp": "2026-11-24T21:49:00Z",
+  "framework": "pytest-9.1.1",
+  "python_version": "3.15.1",
+  "summary": {
+    "total": 72,
+    "passed": 68,
+    "skipped": 4,
+    "failed": 0,
+    "execution_time_seconds": 17.57,
+    "exit_code": 0
+  },
+  "modules": [
+    {
+      "module": "backend/tests/test_squad_synergy.py",
+      "passed": 5,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "module": "backend/tests/test_partnership_intelligence.py",
+      "passed": 7,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "module": "backend/tests/test_recommendation_stability.py",
+      "passed": 2,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "module": "backend/tests/test_empirical_evaluator.py",
+      "passed": 3,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "module": "backend/tests/test_video_cv_pipeline.py",
+      "passed": 4,
+      "skipped": 0,
+      "failed": 0,
+      "notes": "Phase 36 Computer Vision pipeline rights and tracking tests"
+    },
+    {
+      "module": "backend/tests/test_video_research_api.py",
+      "passed": 6,
+      "skipped": 0,
+      "failed": 0,
+      "notes": "Phase 36 Video research REST API contracts and review state transitions"
+    },
+    {
+      "module": "backend/tests/test_phase30_card_lab.py",
+      "passed": 4,
+      "skipped": 2,
+      "failed": 0,
+      "skipped_reasons": ["Requires external live PostgreSQL container"]
+    },
+    {
+      "module": "backend/tests/test_striker_pilot.py",
+      "passed": 6,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "module": "backend/tests/test_v3_2_config.py",
+      "passed": 11,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "module": "backend/tests/test_golden_fixtures_v3_2.py",
+      "passed": 4,
+      "skipped": 0,
+      "failed": 0,
+      "notes": "100% bit-exact reproduction of V3.1 and V3.2 golden fixtures"
+    },
+    {
+      "module": "backend/tests/test_phase28_formation.py",
+      "passed": 14,
+      "skipped": 2,
+      "failed": 0,
+      "skipped_reasons": ["Requires external live PostgreSQL container"]
+    }
+  ],
+  "regression_status": "CERTIFIED_ZERO_REGRESSION"
+}

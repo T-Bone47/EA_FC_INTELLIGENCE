@@ -1,0 +1,278 @@
+{
+  "4-2-3-1": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LB",
+      "LDM",
+      "LAM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "RCB",
+      "CAM",
+      "ST"
+    ],
+    "right_flank_slots": [
+      "RB",
+      "RDM",
+      "RAM"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "4-3-3": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LB",
+      "LCM",
+      "LW"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "RCB",
+      "CDM",
+      "ST"
+    ],
+    "right_flank_slots": [
+      "RB",
+      "RCM",
+      "RW"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "4-4-2": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LB",
+      "LM",
+      "LCM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "RCB",
+      "LST",
+      "RST"
+    ],
+    "right_flank_slots": [
+      "RB",
+      "RCM",
+      "RM"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "4-3-2-1": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LB",
+      "LCM",
+      "LF"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "RCB",
+      "CDM",
+      "ST"
+    ],
+    "right_flank_slots": [
+      "RB",
+      "RCM",
+      "RF"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "4-5-1": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LB",
+      "LM",
+      "LCM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "RCB",
+      "CDM",
+      "ST"
+    ],
+    "right_flank_slots": [
+      "RB",
+      "RCM",
+      "RM"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "4-1-2-1-2": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LB",
+      "LCM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "RCB",
+      "CDM",
+      "CAM",
+      "LST",
+      "RST"
+    ],
+    "right_flank_slots": [
+      "RB",
+      "RCM"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "3-5-2": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LWB",
+      "LCM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "CB",
+      "RCB",
+      "CDM",
+      "LST",
+      "RST"
+    ],
+    "right_flank_slots": [
+      "RCM",
+      "RWB"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "3-4-2-1": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LM",
+      "LCM",
+      "LAM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "CB",
+      "RCB",
+      "ST"
+    ],
+    "right_flank_slots": [
+      "RCM",
+      "RM",
+      "RAM"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "3-4-3": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LWB",
+      "LCM",
+      "LW"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "CB",
+      "RCB",
+      "ST"
+    ],
+    "right_flank_slots": [
+      "RCM",
+      "RWB",
+      "RW"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "5-3-2": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LWB",
+      "LCM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "CB",
+      "RCB",
+      "CDM",
+      "LST",
+      "RST"
+    ],
+    "right_flank_slots": [
+      "RWB",
+      "RCM"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "5-2-1-2": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LWB",
+      "LCDM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "CB",
+      "RCB",
+      "CAM",
+      "LST",
+      "RST"
+    ],
+    "right_flank_slots": [
+      "RWB",
+      "RCDM"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  },
+  "4-2-2-2": {
+    "total_slots": 11,
+    "left_flank_slots": [
+      "LB",
+      "LDM",
+      "LAM"
+    ],
+    "central_spine_slots": [
+      "GK",
+      "LCB",
+      "RCB",
+      "LST",
+      "RST"
+    ],
+    "right_flank_slots": [
+      "RB",
+      "RDM",
+      "RAM"
+    ],
+    "disjoint": true,
+    "complete": true,
+    "status": "VERIFIED_COMPLIANT"
+  }
+}

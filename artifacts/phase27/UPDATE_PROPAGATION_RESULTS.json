@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "transport": "FastAPI TestClient with live PostgreSQL",
+  "initial_score": 0.8805663013,
+  "during_uncommitted_score": 0.8805663013,
+  "post_rollback_score": 0.8805663013,
+  "post_commit_score": 0.7674779712,
+  "restored_score": 0.8805663013,
+  "next_request_ms": 2523.15,
+  "commit_to_observed_ms": 2523.16,
+  "changes_preserved_on_exit": false
+}

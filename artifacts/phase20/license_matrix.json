@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-09-19",
+  "fields": [
+    {"field": "card_id", "legal_status": "UNKNOWN", "note": "no legitimate card source; nothing to classify"},
+    {"field": "player_id", "legal_status": "GREEN", "note": "EA ratings item id, via the CC0-claimed foundation (player scope, chain itself UNVERIFIED)"},
+    {"field": "position", "legal_status": "GREEN", "note": "player scope only, per above"},
+    {"field": "attributes", "legal_status": "UNKNOWN", "note": "card-level attributes: no source"},
+    {"field": "playstyles", "legal_status": "UNKNOWN", "note": "card-scope PS+: no source; player-scope PS carried at 45.2% coverage, unrelated to card question"},
+    {"field": "roles", "legal_status": "UNKNOWN", "note": "no source identified anywhere, at any legal status, across all sessions"},
+    {"field": "price", "legal_status": "RED", "note": "every source with price data (FUTBIN, FUT.GG, FutDB) either prohibits automated ingestion or fails to grant redistribution rights"},
+    {"field": "image_url", "legal_status": "RED", "note": "separate IP question (image assets), not investigated this phase, defaulted conservatively"},
+    {"field": "card_type", "legal_status": "UNKNOWN", "note": "no legitimate card source"},
+    {"field": "chemistry", "legal_status": "UNKNOWN", "note": "no source; also no verified FC26 mechanic to encode even if data existed"}
+  ],
+  "rule": "production ingestion rejects RED and UNKNOWN fields; only GREEN fields may be published"
+}

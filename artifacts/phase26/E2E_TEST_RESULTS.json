@@ -1,0 +1,11 @@
+{
+  "status": "BLOCKED",
+  "browser_lifecycle_tests_passed": 10,
+  "actual_browser_cli_exit": 1,
+  "browser_version": null,
+  "viewports_executed": [],
+  "screenshots": [],
+  "startup_report": "browser_startup.json",
+  "ci_status": "NOT_RUN",
+  "real_journeys": "BLOCKED"
+}

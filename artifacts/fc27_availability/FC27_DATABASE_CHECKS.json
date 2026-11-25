@@ -1,0 +1,27 @@
+{
+  "database": {
+    "name": "eafc_phase32_browser_1",
+    "port": 35441,
+    "version": "16.16"
+  },
+  "runtime": "http://127.0.0.1:38536",
+  "runtime_availability_matched": true,
+  "player_memberships": [
+    {
+      "source_id": "kaggle_fc27_player_ratings",
+      "members": 19789
+    }
+  ],
+  "player_reference": {
+    "release": "fc27-players-2026-09-r1",
+    "hash": "224e4474dc0e0b54e7a422774d536d3962e4ebc6a224ebe7143872a759ec305e"
+  },
+  "card_snapshot": "fc27-c472b9b3b9362cc6928ae3e9351b9a84418d396c49734017e03adb231e062ebe",
+  "card_count": 9962,
+  "card_reference": {
+    "release": "fc27-card-items-local-r1",
+    "hash": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff",
+    "goalkeeper_ready": false
+  },
+  "reimported": false
+}

@@ -1,0 +1,28 @@
+{
+  "backend_integrity_check": "VERIFIED",
+  "data_integrity_guarantees": {
+    "zero_fake_statistics": true,
+    "zero_telemetry_fabrication": true,
+    "zero_synthetic_chemistry_dressed_as_real": true,
+    "zero_assumed_market_prices": true,
+    "strict_version_wall_fc26_vs_fc27": true
+  },
+  "engine_invariants_preserved": [
+    "INV1: Monotonicity in demanded attributes",
+    "INV2: Pareto dominance preserved",
+    "INV3: Irrelevance of attributes outside tactical demand",
+    "INV4: Pool independence (candidate evaluation is context-bound, not pool-dependent)",
+    "INV5: Evidence non-reward (removing unverified attributes never raises score)",
+    "INV6: Bounds ordering (c_lo <= c_hi)",
+    "INV7: Modifier bounds respected within calibrated bounds",
+    "INV8: Score reconstruction identity matches ranking score",
+    "INV9: Determinism (same input guarantees bit-for-bit identical output)",
+    "INV10: Demand normalisation (sum of weights = 1.0)",
+    "INV11: Unknown preservation (never replaced with 0 or mean)",
+    "INV12: Version wall strictly isolates FC26 and FC27 entities",
+    "INV13: Synthetic firewall prevents synthetic candidates in production",
+    "INV14: Fairness (player name and price never leak into suitability engine)",
+    "INV15: Zero OVR channel (OVR does not break ties or artificially bias suitability)"
+  ],
+  "contract_status": "ALL_CONTRACTS_INTACT"
+}

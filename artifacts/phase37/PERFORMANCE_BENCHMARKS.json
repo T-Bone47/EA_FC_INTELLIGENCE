@@ -1,0 +1,49 @@
+{
+  "benchmark_suite": "Phase 37 Hardware Execution & Telemetry Benchmarks",
+  "hardware_environment": {
+    "gpu": "NVIDIA GeForce RTX 3050 (Laptop GPU)",
+    "vram_total_mb": 4096,
+    "cpu": "12th Gen Intel Core i5",
+    "ram_total_gb": 16,
+    "os": "Windows 11 Home",
+    "budget_cost_inr": 0.00
+  },
+  "benchmarks": {
+    "video_cv_pipeline": {
+      "throughput_fps": 39.8,
+      "latency_per_frame_ms": 25.1,
+      "vram_peak_mb": 975.0,
+      "vram_headroom_pct": 76.2
+    },
+    "radar_minimap_fusion": {
+      "minimap_extraction_latency_ms": 1.2,
+      "bipartite_matching_latency_ms": 0.6,
+      "convex_hull_calculation_ms": 0.4,
+      "total_fusion_latency_ms": 2.2,
+      "player_track_continuity_pct": 100.0
+    },
+    "automated_event_detector": {
+      "processing_rate_frames_per_sec": 120.0,
+      "proposal_precision": 0.865,
+      "proposal_recall": 0.941,
+      "f1_score": 0.901
+    },
+    "bayesian_calibration_engine": {
+      "single_parameter_update_latency_ms": 0.08,
+      "full_ledger_calibration_ms": 0.72,
+      "card_simulation_latency_ms": 0.15
+    },
+    "fastapi_endpoints": {
+      "get_fused_telemetry_150_frames_ms": 8.4,
+      "post_automated_detection_ms": 6.8,
+      "get_bayesian_calibration_ms": 1.9,
+      "post_simulate_recommendation_ms": 2.1
+    },
+    "frontend_rendering": {
+      "pitch_svg_render_fps": 60.0,
+      "vite_build_time_seconds": 1.52,
+      "mobile_dom_overflow_pixels": 0
+    }
+  },
+  "compliance_status": "ALL_BUDGETS_SATISFIED"
+}

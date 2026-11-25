@@ -1,0 +1,36 @@
+{
+  "assets": {
+    "javascript": {
+      "before": {
+        "bytes": 348344,
+        "gzip_bytes": 103239
+      },
+      "after": {
+        "bytes": 366696,
+        "gzip_bytes": 107829
+      }
+    },
+    "stylesheets": {
+      "before": {
+        "bytes": 18194,
+        "gzip_bytes": 4882
+      },
+      "after": {
+        "bytes": 31599,
+        "gzip_bytes": 7715
+      }
+    }
+  },
+  "browser_measurements_single_samples_ms": {
+    "overview_visible": 328,
+    "fc27_recommendation_submit_to_result": 4401,
+    "legacy_card_squad_preview_to_visible_at_390": 63
+  },
+  "fc26_candidate_loading": {
+    "threshold_seconds": 2.0,
+    "original_route_seconds": 2.200825199994142,
+    "migrated_route_seconds": 2.1939936999988277,
+    "full_regression_seconds": 2.2228931999998167
+  },
+  "method": "Before/after candidate tests used the same Windows database. Only the research-card API route module changed between commands. Browser timings are single samples."
+}

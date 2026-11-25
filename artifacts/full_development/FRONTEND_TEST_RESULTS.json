@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "checks": {
+    "typescript_no_emit": "PASS",
+    "production_build": "PASS",
+    "vitest_files": 17,
+    "vitest_passed": 92,
+    "live_api_vitest_passed": 3
+  },
+  "live_routes": [
+    "V3 recommendations",
+    "V3 comparison",
+    "V3 what-if"
+  ],
+  "environment": "React test DOM and local HTTP against disposable PostgreSQL",
+  "real_browser_status": "BLOCKED_BY_ENVIRONMENT"
+}

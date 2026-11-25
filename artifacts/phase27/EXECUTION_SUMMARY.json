@@ -1,0 +1,36 @@
+{
+  "python": "3.15.1",
+  "node": "26.12.1",
+  "postgresql": "16.16",
+  "vite": "5.4.21",
+  "vitest": "2.1.9",
+  "frontend": {
+    "tests": 88,
+    "passed": 88,
+    "live_api_integration_tests": 3,
+    "configuration": "Existing vite.config.ts imported directly because configuring esbuild via npm scripts could not read protected parent directories. Node webstorage disabled for Vitest workers to use jsdom storage.",
+    "verification_commands": [
+      "frontend/node_modules/.bin/tsc --noEmit",
+      "node --input-type=module -e \"import config from './vite.config.ts'; import {build} from 'vite'; await build({...config,configFile:false});\"",
+      "E2E_API_URL=http://127.0.0.1:35428 NODE_OPTIONS=--no-experimental-webstorage node --input-type=module -e \"import config from './vite.config.ts'; import {startVitest} from 'vitest/node'; const ctx=await startVitest('test',[],{run:true},{...config,configFile:false}); if(ctx) await ctx.close();\""
+    ]
+  },
+  "focused_backend": {
+    "passed": 12,
+    "suites": [
+      "backend.tests.test_phase26_policy",
+      "backend.tests.test_phase26_contract",
+      "backend.tests.test_phase27_api_policy"
+    ]
+  },
+  "browser_runner": {
+    "passed": 10,
+    "command": "node --test scripts/browser_qa/qa.test.mjs"
+  },
+  "migration": [
+    "python scripts/setup_database.py",
+    "python scripts/build_field_provenance_v3.py --game-version FC26"
+  ],
+  "network_http": "python -B artifacts/phase27/verify_http.py",
+  "propagation": "python -B artifacts/phase27/verify_refresh.py"
+}

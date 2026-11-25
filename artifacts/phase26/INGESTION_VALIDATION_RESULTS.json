@@ -1,0 +1,11 @@
+{
+  "status": "BLOCKED",
+  "offline_unit_methods_passed": 3,
+  "actual_import": "REFUSED",
+  "database_transactions_executed": 0,
+  "required_inputs": [
+    "approved original card package",
+    "reviewed permission document and hash inventory",
+    "disposable PostgreSQL"
+  ]
+}

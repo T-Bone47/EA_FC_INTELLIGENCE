@@ -1,0 +1,52 @@
+{
+  "scope": "FC26 in-process scoring and worker isolation only",
+  "reference": "fc26-players-2026-09-r1",
+  "comparisons": {
+    "threads": {
+      "workers": 4,
+      "requests": 8,
+      "matches_sequential": true
+    },
+    "processes": {
+      "workers": 4,
+      "requests": 8,
+      "matches_sequential": true
+    }
+  },
+  "cases": [
+    [
+      "GK",
+      "POSSESSION"
+    ],
+    [
+      "GK",
+      "HIGH_PRESS"
+    ],
+    [
+      "CB",
+      "POSSESSION"
+    ],
+    [
+      "CB",
+      "HIGH_PRESS"
+    ],
+    [
+      "CM",
+      "POSSESSION"
+    ],
+    [
+      "CM",
+      "HIGH_PRESS"
+    ],
+    [
+      "ST",
+      "POSSESSION"
+    ],
+    [
+      "ST",
+      "HIGH_PRESS"
+    ]
+  ],
+  "http_multiworker_version_division_reference_isolation": "BLOCKED",
+  "database_recovery": "BLOCKED"
+}

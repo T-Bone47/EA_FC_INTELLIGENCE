@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "postgresql": "16.16",
+  "environment": "disposable loopback, local test",
+  "applied": [
+    "DATABASE_SCHEMA_V1.sql",
+    "002_card_version.sql",
+    "003_auth_sessions.sql",
+    "004_squads_saved.sql",
+    "005_card_intelligence.sql",
+    "006_v3_production_safety.sql",
+    "007_research_only_status.sql",
+    "008_fc27_research_firewall.sql",
+    "009_fc27_card_identity_research.sql",
+    "010_candidate_generation_and_identity_view.sql",
+    "011_catalogue_release_membership.sql",
+    "seed_reference_data.sql"
+  ],
+  "tracked_setup_rerun": "completed, tracked entries skipped",
+  "isolated_seed": {
+    "fc26_players": 16228,
+    "fc27_players": 19789,
+    "synthetic_fc26_cards": 60,
+    "fc26_provenance_rows": 585560
+  },
+  "mixed_membership_commit_and_rollback": "PASS",
+  "user_database_touched": false
+}

@@ -1,0 +1,92 @@
+{
+  "protocol_key": "fc27-st-press-counter-r1",
+  "engine": "3.2.1",
+  "config": "v3.2-2026-09-30-r1",
+  "research_only": true,
+  "reference": "fc27-card-items-local-r1",
+  "reference_sha256": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff",
+  "snapshot": "fc27-c472b9b3b9362cc6928ae3e9351b9a84418d396c49734017e03adb231e062ebe",
+  "cohort_digest": "2e35cec585bf2b896660f65213090128a5ca044374d059ba0cab6c41d46b7d63",
+  "top_100_export_sha256": "c249984a0de5ab590e0a25faeb94087b9530d1698c075a231170948d10caaf97",
+  "context": {
+    "game_version": "FC27",
+    "entity_scope": "ut_card",
+    "formation": "4-3-3",
+    "slot": "ST",
+    "position": "ST"
+  },
+  "cards": {
+    "A": {
+      "name": "Ousmane Dembélé",
+      "card_item_id": "ec2091c7-93c6-5bb8-8bba-59009b186700",
+      "source_item_id": "231443",
+      "overall": 90,
+      "source_rarity": "Rare"
+    },
+    "B": {
+      "name": "Kylian Mbappé",
+      "card_item_id": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+      "source_item_id": "231747",
+      "overall": 91,
+      "source_rarity": "Rare"
+    }
+  },
+  "tactics": {
+    "HIGH_PRESS": {
+      "primary_outcome_per_90": "tackles_won",
+      "hypothesis": "A has a higher observed rate than B",
+      "ranked_strikers": 15,
+      "predictions": [
+        {
+          "card": "A",
+          "cohort_striker_rank": 1,
+          "score": 0.8451815449,
+          "upper": 0.8451815449,
+          "coverage": 1.0
+        },
+        {
+          "card": "B",
+          "cohort_striker_rank": 5,
+          "score": 0.8319367674,
+          "upper": 0.8319367674,
+          "coverage": 1.0
+        }
+      ],
+      "decision_evidence": {
+        "status": "CLEAR_SEPARATION",
+        "margin_low": 0.0132447775,
+        "margin_high": 0.0132447775,
+        "noise_threshold": 0.005
+      }
+    },
+    "COUNTER_ATTACK": {
+      "primary_outcome_per_90": "shots_on_target",
+      "hypothesis": "B has a higher observed rate than A",
+      "ranked_strikers": 15,
+      "predictions": [
+        {
+          "card": "B",
+          "cohort_striker_rank": 1,
+          "score": 0.8731691722,
+          "upper": 0.8731691722,
+          "coverage": 1.0
+        },
+        {
+          "card": "A",
+          "cohort_striker_rank": 2,
+          "score": 0.8615522056,
+          "upper": 0.8615522056,
+          "coverage": 1.0
+        }
+      ],
+      "decision_evidence": {
+        "status": "CLEAR_SEPARATION",
+        "margin_low": 0.0116169666,
+        "margin_high": 0.0116169666,
+        "noise_threshold": 0.005
+      }
+    }
+  },
+  "match_observations": 0,
+  "prediction_sha256": "10dfc5b8ff6d92ae07ece3de855ab316b294b2fc287ba7f626eef8c18be2dcae"
+}

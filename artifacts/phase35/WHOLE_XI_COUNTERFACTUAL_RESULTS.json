@@ -1,0 +1,190 @@
+{
+  "report_title": "Phase 35 Whole-XI Multi-Slot Counterfactual Intelligence Report",
+  "phase": "Phase 35",
+  "engine_version": "V3.2.1",
+  "card_release": "fc27-card-items-local-r1",
+  "delta_precision_policy": "IEEE-754 double precision floating point delta subtraction before formatting",
+  "total_scenarios_evaluated": 8,
+  "scenarios": {
+    "scenario_1_baseline_433_high_press": {
+      "description": "Baseline 4-3-3 Starting XI under HIGH_PRESS with Demb\u00e9l\u00e9 at ST.",
+      "metrics": {
+        "alignment_index_pct": 78.5,
+        "alignment_status": "MODERATE_ALIGNMENT",
+        "mean_suitability": 0.8268,
+        "dispersion_std": 0.033,
+        "dispersion_penalty": 0.0165,
+        "total_friction_penalty": 0.025,
+        "channels": {
+          "left_flank": 0.8441,
+          "central_spine": 0.7981,
+          "right_flank": 0.8477
+        },
+        "friction_alerts_count": 1,
+        "alerts": [
+          {
+            "rule_id": "RULE-HP-FWD-DEF",
+            "rule_version": "1.0.0",
+            "slot": "LW",
+            "position": "LW",
+            "card_item_id": "bb2ac9ee-59fe-59ff-ae8c-2592936aab60",
+            "card_name": "Vin\u00edcius Jos\u00e9 de Oliveira J\u00fanior",
+            "tactical_context": "HIGH_PRESS",
+            "evaluated_capability": "High-turnover defensive disruption",
+            "attribute_name": "defending",
+            "attribute_value": 31,
+            "threshold": 40,
+            "evidence_classification": "EMPIRICALLY_SUPPORTED",
+            "friction_penalty": 0.025,
+            "explanation": "Forward defending attribute (31) is below 40, significantly reducing turnover winning rates in opponent third.",
+            "recommended_action": "Deploy a pressing forward specialist (e.g. Demb\u00e9l\u00e9, Alvarez) or transition team tactical profile to COUNTER_ATTACK.",
+            "empirical_reference": "Phase 33 Experiment 001: Demb\u00e9l\u00e9 (55 Def) produced +2.0 tackles/90 and +2.0 interceptions/90 vs Mbapp\u00e9 (29 Def).",
+            "missing_data_limitation": null
+          }
+        ],
+        "slot_scores": {
+          "GK": null,
+          "LB": 0.868835503,
+          "LCB": 0.7813184745,
+          "RCB": 0.7685695908,
+          "RB": 0.8735474363,
+          "LCM": 0.8388956938,
+          "CDM": 0.7972895624,
+          "RCM": 0.8343933848,
+          "LW": 0.8247151086,
+          "ST": 0.8451815449,
+          "RW": 0.83511133
+        }
+      }
+    },
+    "scenario_2_double_flank_overhaul": {
+      "comparison_label": "Double Flank Overhaul",
+      "description": "Swapping left flank personnel (LB Mendy) to enhance wide defensive transition security.",
+      "baseline_alignment_pct": 78.5,
+      "counterfactual_alignment_pct": 78.5,
+      "alignment_delta_pct": 0.0,
+      "baseline_mean_suitability": 0.8268,
+      "counterfactual_mean_suitability": 0.8268,
+      "mean_suitability_delta": 0.0,
+      "baseline_dispersion_std": 0.033,
+      "counterfactual_dispersion_std": 0.033,
+      "baseline_friction_alerts": 1,
+      "counterfactual_friction_alerts": 1,
+      "channels_after": {
+        "left_flank": 0.8441,
+        "central_spine": 0.7981,
+        "right_flank": 0.8477
+      },
+      "alignment_status_after": "MODERATE_ALIGNMENT"
+    },
+    "scenario_3_central_spine_double_swap": {
+      "comparison_label": "Central Spine Double Swap (Mbapp\u00e9 ST + Kimmich CDM)",
+      "description": "Mbapp\u00e9 brings elite finishing but low defensive workrate triggers RULE-HP-FWD-DEF (-2.5%).",
+      "baseline_alignment_pct": 78.5,
+      "counterfactual_alignment_pct": 76.4,
+      "alignment_delta_pct": -2.1,
+      "baseline_mean_suitability": 0.8268,
+      "counterfactual_mean_suitability": 0.8297,
+      "mean_suitability_delta": 0.0029,
+      "baseline_dispersion_std": 0.033,
+      "counterfactual_dispersion_std": 0.0313,
+      "baseline_friction_alerts": 1,
+      "counterfactual_friction_alerts": 2,
+      "channels_after": {
+        "left_flank": 0.8441,
+        "central_spine": 0.8055,
+        "right_flank": 0.8477
+      },
+      "alignment_status_after": "MODERATE_ALIGNMENT"
+    },
+    "scenario_4_counterattack_realignment": {
+      "comparison_label": "Tactical Realignment to COUNTER_ATTACK (Mbapp\u00e9 ST + Demb\u00e9l\u00e9 RW)",
+      "description": "Transitioning team tactical system to Counterattack where Mbapp\u00e9 pace and finishing dominate.",
+      "baseline_alignment_pct": 78.5,
+      "counterfactual_alignment_pct": 81.6,
+      "alignment_delta_pct": 3.1,
+      "baseline_mean_suitability": 0.8268,
+      "counterfactual_mean_suitability": 0.8336,
+      "mean_suitability_delta": 0.0068,
+      "baseline_dispersion_std": 0.033,
+      "counterfactual_dispersion_std": 0.0355,
+      "baseline_friction_alerts": 1,
+      "counterfactual_friction_alerts": 0,
+      "channels_after": {
+        "left_flank": 0.8522,
+        "central_spine": 0.807,
+        "right_flank": 0.8504
+      },
+      "alignment_status_after": "MODERATE_ALIGNMENT"
+    },
+    "scenario_5_formation_transformation_4231": {
+      "comparison_label": "4-3-3 to 4-2-3-1 Double Pivot Transformation",
+      "description": "Restructuring into a 4-2-3-1 formation with double defensive pivots and advanced playmaker.",
+      "baseline_alignment_pct": 78.5,
+      "counterfactual_alignment_pct": 85.6,
+      "alignment_delta_pct": 7.1,
+      "baseline_mean_suitability": 0.8268,
+      "counterfactual_mean_suitability": 0.8656,
+      "mean_suitability_delta": 0.0388,
+      "baseline_dispersion_std": 0.033,
+      "counterfactual_dispersion_std": 0.0185,
+      "baseline_friction_alerts": 1,
+      "counterfactual_friction_alerts": 0,
+      "channels_after": {
+        "left_flank": 0.854,
+        "central_spine": 0.8788,
+        "right_flank": 0.8598
+      },
+      "alignment_status_after": "HIGH_ALIGNMENT"
+    },
+    "scenario_6_possession_rebalance": {
+      "comparison_label": "Possession Midfield Mastery (Bellingham + Putellas + Rodri)",
+      "description": "Maximizing central midfield progression, short passing, and vision under POSSESSION.",
+      "baseline_alignment_pct": 78.5,
+      "counterfactual_alignment_pct": 82.5,
+      "alignment_delta_pct": 4.0,
+      "baseline_mean_suitability": 0.8268,
+      "counterfactual_mean_suitability": 0.8429,
+      "mean_suitability_delta": 0.0161,
+      "baseline_dispersion_std": 0.033,
+      "counterfactual_dispersion_std": 0.0365,
+      "baseline_friction_alerts": 1,
+      "counterfactual_friction_alerts": 0,
+      "channels_after": {
+        "left_flank": 0.8556,
+        "central_spine": 0.8165,
+        "right_flank": 0.8655
+      },
+      "alignment_status_after": "HIGH_ALIGNMENT"
+    },
+    "scenario_7_defensive_overhaul": {
+      "comparison_label": "Central Defensive Overhaul (Dias + Saliba CB Unit)",
+      "description": "Evaluating stopper-sweeper balance in central defense under high-press conditions.",
+      "baseline_alignment_pct": 78.5,
+      "counterfactual_alignment_pct": 79.1,
+      "alignment_delta_pct": 0.6,
+      "baseline_mean_suitability": 0.8268,
+      "counterfactual_mean_suitability": 0.8301,
+      "mean_suitability_delta": 0.0033,
+      "baseline_dispersion_std": 0.033,
+      "counterfactual_dispersion_std": 0.0283,
+      "baseline_friction_alerts": 1,
+      "counterfactual_friction_alerts": 1,
+      "channels_after": {
+        "left_flank": 0.8441,
+        "central_spine": 0.8064,
+        "right_flank": 0.8477
+      },
+      "alignment_status_after": "MODERATE_ALIGNMENT"
+    },
+    "scenario_8_asymmetry_stress_test": {
+      "description": "Synthetic Asymmetric Roster (8 Superstars @ 0.90+ and 2 Liabilities @ 0.40) proving dispersion penalty prevents false high cohesion.",
+      "arithmetic_mean": 0.816,
+      "dispersion_std": 0.2038,
+      "dispersion_penalty": 0.1019,
+      "alignment_index_pct": 71.4,
+      "alignment_status": "PARTIAL_ALIGNMENT",
+      "mathematical_insight": "Despite an arithmetic mean of 81.6%, the dispersion penalty pulls net alignment down, correctly flagging systemic defensive risk."
+    }
+  }
+}

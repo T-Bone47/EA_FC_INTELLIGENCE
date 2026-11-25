@@ -1,0 +1,140 @@
+{
+  "revision_sha256": "2ed6d0c74153a385d6b9bcd3f4bd5ee138aee9e98ae063e4753430e8bf7eee0d",
+  "changes": {
+    ".github/workflows/phase26.yml": {
+      "before": null,
+      "after": "9fd33f8d2286637f89a3848cf773b663edbd9edd8de977ad7d9cb4d693e8c8e8"
+    },
+    "backend/api/deps.py": {
+      "before": "932cc5e54ebc9cded7d9eee7465bf661bbc878f69c642e0ff5b2fb9c51bd7f5a",
+      "after": "66f726f35c812540defc1adaad722c66155ced3f4f9600c5eeea2848ccb212c8"
+    },
+    "backend/api/main.py": {
+      "before": "b9901a74ad724ffdfb52794e50349ccd37969a95755c0acfc61c102065d18865",
+      "after": "38a16bcf8cc7f06dfdbb8de3e6537b39ea613b623770be8208f7a1ba3991fee1"
+    },
+    "backend/api/routes/compare.py": {
+      "before": "5c166914d5690a16df5f6cb64ccaf74419bd39e8d52229198576dfae54920f6e",
+      "after": "acade96fb9241cf0289a2a1106bbda3b95e9ded35dc3d149bb3d4c45c4fee6c6"
+    },
+    "backend/api/routes/recommendations.py": {
+      "before": "a2adb91f2bece4ef9ff2c5916df5b508a5d22660b6a19e1e97decfa494422fb7",
+      "after": "06663a638b9ab613d9a9932dc94013420a015dcde3878a9f2d7365a5450eb5ed"
+    },
+    "backend/api/schemas_v3.py": {
+      "before": "8f11e84c0868f3c5f87a694527ae9ea1b2fb9d766678e8a4c5f1d86f0f1bff52",
+      "after": "ba2018dc9bfcd9fc7afd6efb7475f30d7ce4a51b2d16ee57ec4a8afa1cdc3d5d"
+    },
+    "backend/data_access/candidate_repository.py": {
+      "before": "4b2b834fd98bab6e0f1826adfab022c833215a20447a016be9223d9c55ce4a10",
+      "after": "70d531b2cdcd28cca7c692864e401e4d2dd99417b5ac53b74ab912e2232f3ea7"
+    },
+    "backend/services/recommendation_engine_v3.py": {
+      "before": "e1df56e1a78a6cb9152b2d957304be613d172e5073017b31329cdd6e44c1b99a",
+      "after": "eac491baee441a843c8b900d172c079fe8ad6b94f969e09a34fab524a6d14f51"
+    },
+    "backend/services/recommendation_service_v3.py": {
+      "before": "47769417ca64e65ff54f8d2697b3464ea6bc2f6877967ec27fae565e00f7cade",
+      "after": "00ab7c8a6e38487e37b6c2f3ec944e494afedb25142f066052211e1ec1ff13da"
+    },
+    "backend/services/reference_distribution.py": {
+      "before": "beba9ef6c068091a21b4d88262bb82a4ab209cae2661239b415e25ee3e0b8219",
+      "after": "79ff507fa85e5c52fbe2157d2f0aaa7f79ef8087f314dcba3507cae7664f3b29"
+    },
+    "backend/tests/test_phase26_contract.py": {
+      "before": null,
+      "after": "0b961f6405f5370c72a887f7489590eece5360383bc902730f10174437cb062d"
+    },
+    "backend/tests/test_phase26_database.py": {
+      "before": null,
+      "after": "43af2a31ad844394354ab42ada4437ebacc87232a077a60711003c19bf077605"
+    },
+    "backend/tests/test_phase26_policy.py": {
+      "before": null,
+      "after": "b0e4a78d8239954e0a2ad6c4f8394020e48c2814812eac4c716e28ca95bc3442"
+    },
+    "db/migrations/010_candidate_generation_and_identity_view.sql": {
+      "before": null,
+      "after": "2a6c83b999251065c743a05d862f9653ddc91126d9bfcee3ae2f45cdbb1cf011"
+    },
+    "docs/API_V3.md": {
+      "before": "24bb5e3b933d7919c2b72c54e0fe3ecad9d02d2beaeaab65d5b6aa0a77562d00",
+      "after": "43683052c79f5d2ba68d3c66cd37bb92087d867c8542de7007b3c0dc15481433"
+    },
+    "frontend/src/intelligence/Intelligence.test.tsx": {
+      "before": "627e528a6f74ad46b11fdfb0d8b323c3740c362ab5647ec23a72937561df0db7",
+      "after": "026ba3ccb0438b4fea5c8c0114d702e1ddd33862aa61eeb77776784fef55a3ae"
+    },
+    "frontend/src/intelligence/Intelligence.tsx": {
+      "before": "26bf4126e44e0a74485c743f6ac1b649fa513caee21e2ad7a466c868c1681875",
+      "after": "8e91a1578d47b5765ef3a8f71081f49b96b2a033de101e27f6de984e810c192d"
+    },
+    "frontend/src/intelligence/types.ts": {
+      "before": "865e8ff79b0d798e7f6ab9006ebb58abb51ad30a9b91f699783c86616e4d85a0",
+      "after": "cd72b1c665128eebf30e78b79ba53fd9360b1106f0e59bf30ac21130e8a921e5"
+    },
+    "frontend/src/intelligence/WhatIfPanel.tsx": {
+      "before": "84d97f563d0e6acf2c291bdc6761a48b5f8650c1ed93503f7e31da8f98ea3822",
+      "after": "5a27bdba59f78b555903f3acfb6c1fa18a67647fae1ec8689d776cbefcbaf5e2"
+    },
+    "scripts/browser_qa/qa.mjs": {
+      "before": "2b4f1d39ba1fbc8ce8cdbd74099c7def7b4513f09aec09fe0927b489199542bc",
+      "after": "0d2c7d57b9c72a3a11ff7b5fe37132ea82361ea9f38a690f0788d4556836964f"
+    },
+    "scripts/browser_qa/qa.test.mjs": {
+      "before": null,
+      "after": "0f26cf9e59c368d9a9bdd9ea718c023a9faad9ef4e83953f46f4cb41a700edb2"
+    },
+    "scripts/browser_qa/README.md": {
+      "before": "64bcf4d1c0d4cddc07c056343a066b51ede564c42e45aa611239389bec9fc8fe",
+      "after": "6e333fdbcce0ab535dc19855735309f9851f527f8bffa6b0a02f58f73f9e6206"
+    },
+    "scripts/browser_qa/scenarios.mjs": {
+      "before": null,
+      "after": "b31b2b641c5a17d4c2425823871aa072b18e197171107b1561115ac1bc0b936f"
+    },
+    "scripts/browser_qa/serve.mjs": {
+      "before": "bd30a40a88774ce7de011c7b6cf390325e506ebd47a86c4b3a6b3b6351145c2f",
+      "after": "c02e4a51002aa2518e1c98aa484895437650d7089dc4d879f311430f4fd147d8"
+    },
+    "scripts/ingest_fc27_card_identity.py": {
+      "before": "ae4a6fac02e5a48f16539edb380e12d300467d13b191616b283da2cef0dc1c45",
+      "after": "b5f605cb1c4c6e8076a152a0b24f9b201c11d9aca05c5239d001e7d96f44da60"
+    }
+  },
+  "evidence": {
+    "API_CONTRACT_RESULTS.json": "965d90892a05e70607b3f9a34be44a4ef6fe96cd88c8a7045ac5b14f65372da0",
+    "BASELINE_REPORT.md": "c85a95e7d1b0d8092c993f7c0f0ea3dfb3276f5077f7817925d776717b727408",
+    "BASELINE_SHA256.json": "b8ad7a4bea21e82db8c1be203ab528c3fef1d4423be91074cc3bf1d00ba8e2eb",
+    "BASELINE_TEST_RESULTS.json": "76666f95f83e2cc549e65647203c1272d95176e293169e82a442f11b6860569e",
+    "browser_startup.json": "a4f164952fd8b2ec7f7d7dc13befddca0720fb4dc9951cf87c732e9ce2349260",
+    "CALIBRATION_REPRODUCTION.md": "91f36596749aad2343f9a8ea947b1556eccf08c90ee75bc4880b2c1a274acf04",
+    "CONCURRENCY_RESULTS.json": "45ce3c2d7d6a86f6e42d5a33fa619f2196bc2f5aa5f40fe3bf31729a551c4c3f",
+    "CORE_INTELLIGENCE_AUDIT.md": "d5029f597f261c1d25023947085a2d2850836be3eb0a62451b35b924ebfd9f4a",
+    "DATABASE_CERTIFICATION.md": "ff483fdf9fbfcb5f03df7c931f9f19adaa27f0453bf5ba65fcc8f54db714099b",
+    "DEFECT_REGISTER.md": "0c3db91376ccab0c46cd7dbb20269c0b2ece1d1887b314a3a5b8bcf800c29631",
+    "E2E_TEST_REPORT.md": "816e9b6d89b3b0e4454f98b41cd7770afc4c30ef4326f890d2895d7cc269ec6a",
+    "E2E_TEST_RESULTS.json": "c0a268883849fa35628ba07ab20efce313e1aaf9c31f10f914a554bf4cd3897e",
+    "FC27_ENGINE_RESULTS.json": "121078b6b1a2d9478f42ba105ccda31e4e92dbdc99016ca3fe358eaadc0ac110",
+    "FC27_PLAYER_SOURCE_CHECK.json": "3f3303604d8510099a9edcfde0bec4feb33a6c3d6192cbc303df30daad6038f0",
+    "FINAL_COMMAND_RESULTS.json": "116b6f0b67a682858c2ef901e28495b643d0dc522980f703853b8402f18b4c6a",
+    "FINAL_RELEASE_CERTIFICATION.json": "c6950480a3d90571303cf5a6e81e0caf26b4ffdae2f13df27e63e49cceb06bed",
+    "FINAL_RELEASE_CERTIFICATION.md": "f23704696f76580c5c45fefcf659e17a3e342e0ecd4f53e0669daee478fca5e2",
+    "GLM_HANDOFF.md": "50ac5f5621237e0c833cc05cc7ec97a6c4071889e0aa52908cca13b232729208",
+    "GOLDEN_FIXTURE_DIFF.json": "6c821237b70a9ae486f618554ed480577a80f0f4fbbc1fe4b4c7103170d2c704",
+    "INGESTION_FAILURE_MATRIX.csv": "574f4b8d95a2a4818e4994d1ab98c3c3e9b1304b4f8ab2e32f9792cb6e8d322e",
+    "INGESTION_INTEGRITY_AUDIT.md": "bc7a39c0e40c369bba1630e21495187793d90c4cba47b941364259b69aa74536",
+    "INGESTION_VALIDATION_RESULTS.json": "4c9f19ee4b4049cacb67ecea7ac6b08bb1745bbb3fdaa909709fa396089ccccb",
+    "INTELLIGENCE_INVARIANT_RESULTS.json": "2f74dd7b6916976374bba1691e6044f7623d747a9082b1c7e03687e00d19a59f",
+    "LICENCE_GATE_AUDIT.md": "9649ee009deea76db43daefcb4fea1787da3fe2252afcd524fd634ea4d6087a0",
+    "LICENCE_GATE_TEST_RESULTS.json": "d3ade599041d53b6a1f0b9634e6f4856abd8f7a08e6620ba23ceda0e2a1dd1de",
+    "PERFORMANCE_RESULTS.json": "f76cf66f87036e2600af3db03b80b89627b58bd24d686a43f4385bb31ed0ba80",
+    "PHASE26_CHANGES.diff": "0c36841fab97edcf9a474270b97d1079b1d603a266b9f331489cb5ca4ef3506f",
+    "REALTIME_BEHAVIOUR_REPORT.md": "a96789365b516135e83107ff07a428393759b30a788ab526ebed2c76906c892e",
+    "reproduce_calibration.py": "1be39e86b976ad4fca014c03d3fd1bd34a12e3bcefeb1b04310eb7b29118c808",
+    "reproduce_engine.py": "cc72bf8f00acfa3df7189e9feb78da2c9f459a74cdf3a196543e21004116eed3",
+    "reproduce_fc27_engine.py": "f5357b15161e66984be1e4b8416f212a81e46079b8db36a50104ac3cd46612ed",
+    "REVIEWER_FINDINGS.md": "b3aa8228954a2c866918b05710191926a9baf1dbd0c3445b9c8789e1f324e8df",
+    "SECURITY_AUDIT.md": "8c65bcb4dc44aa876e5733601c55552a365185dfc2a428ffe25fc30d10733696"
+  }
+}

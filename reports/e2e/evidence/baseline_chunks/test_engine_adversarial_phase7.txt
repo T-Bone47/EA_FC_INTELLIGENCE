@@ -1,0 +1,194 @@
+..F.F..F............F.FF.F.FF.....................                       [100%]
+=================================== FAILURES ===================================
+____________ TestOvrTrapsPhase7.test_90_generic_gk_vs_82_specialist ____________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7 object at 0x7f82a87ac380>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5bdf560>
+
+    def test_90_generic_gk_vs_82_specialist(self, engine):
+        """Generic 90 GK vs 82 LOW_BLOCK specialist — specialist must win."""
+        gen = make_candidate(name="Generic90", position="GK", ovr=90, attrs=_attrs(
+            gk_diving=82, gk_handling=82, gk_kicking=82, gk_positioning=82, gk_reflexes=82))
+        spec = make_candidate(name="Specialist82", position="GK", ovr=82, attrs=_attrs(
+            gk_diving=90, gk_handling=90, gk_kicking=70, gk_positioning=92, gk_reflexes=91))
+        req = make_req(position="GK", tactical_profile="LOW_BLOCK")
+        res = engine.recommend([gen, spec], req)
+>       assert res.best_evaluation.candidate.name == "Specialist82"
+E       AssertionError: assert 'Generic90' == 'Specialist82'
+E         
+E         - Specialist82
+E         + Generic90
+
+backend/tests/test_engine_adversarial_phase7.py:70: AssertionError
+_________ TestOvrTrapsPhase7.test_shooting_striker_unsuited_possession _________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7 object at 0x7f82a875dd00>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5a01670>
+
+    def test_shooting_striker_unsuited_possession(self, engine):
+        """High-shooting 89 ST with poor link play loses to 83 false-9 type for POSSESSION."""
+        shooter = make_candidate(name="Shooter89", position="ST", ovr=89, attrs=_attrs(
+            finishing=93, shot_power=92, positioning=80, short_passing=62,
+            vision=60, ball_control=70, composure=75, dribbling_detail=68))
+        linker = make_candidate(name="Linker83", position="ST", ovr=83, attrs=_attrs(
+            finishing=80, shot_power=78, positioning=82, short_passing=84,
+            vision=84, ball_control=86, composure=84, dribbling_detail=84))
+        req = make_req(position="ST", tactical_profile="POSSESSION")
+        res = engine.recommend([shooter, linker], req)
+>       assert res.best_evaluation.candidate.name == "Linker83"
+E       AssertionError: assert 'Shooter89' == 'Linker83'
+E         
+E         - Linker83
+E         + Shooter89
+
+backend/tests/test_engine_adversarial_phase7.py:94: AssertionError
+__________ TestOvrTrapsPhase7.test_high_ovr_winger_unsuited_defensive __________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7 object at 0x7f82a87acfe0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5a03080>
+
+    def test_high_ovr_winger_unsuited_defensive(self, engine):
+        """87 attacking winger loses to 82 defensive winger for LOW_BLOCK RM."""
+        attacker = make_candidate(name="Attacker87", position="RM", ovr=87, attrs=_attrs(
+            pace=90, dribbling_detail=90, finishing=85, crossing=84,
+            defending=40, interceptions=38, standing_tackle=35, stamina=70))
+        worker = make_candidate(name="Worker82", position="RM", ovr=82, attrs=_attrs(
+            pace=78, dribbling_detail=75, finishing=70, crossing=76,
+            defending=75, interceptions=74, standing_tackle=72, stamina=88))
+        req = make_req(position="RM", tactical_profile="LOW_BLOCK")
+        res = engine.recommend([attacker, worker], req)
+>       assert res.best_evaluation.candidate.name == "Worker82"
+E       AssertionError: assert 'Attacker87' == 'Worker82'
+E         
+E         - Worker82
+E         + Attacker87
+
+backend/tests/test_engine_adversarial_phase7.py:132: AssertionError
+_____________ TestTacticalPhase7.test_pressing_vs_possession_flip ______________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f82a87aee10>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5ad82c0>
+
+    def test_pressing_vs_possession_flip(self, engine):
+        press, poss = self._cm_pair()
+        r_press = engine.recommend([press, poss], make_req(position="CM", tactical_profile="PRESSING"))
+        r_poss = engine.recommend([press, poss], make_req(position="CM", tactical_profile="POSSESSION"))
+>       assert r_press.best_evaluation.candidate.name == "Press"
+E       AssertionError: assert 'Poss' == 'Press'
+E         
+E         - Press
+E         + Poss
+
+backend/tests/test_engine_adversarial_phase7.py:256: AssertionError
+____________ TestTacticalPhase7.test_crossing_vs_possession_winger _____________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f82a87ae330>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5ad8b90>
+
+    def test_crossing_vs_possession_winger(self, engine):
+        crosser = make_candidate(name="Crosser", position="RW", ovr=84, attrs=_attrs(
+            crossing=90, curve=86, pace=84, dribbling_detail=80, short_passing=74))
+        technician = make_candidate(name="Technician", position="RW", ovr=84, attrs=_attrs(
+            crossing=70, curve=72, pace=78, dribbling_detail=90, short_passing=88))
+        r_cross = engine.recommend([crosser, technician], make_req(position="RW", tactical_profile="CROSSING"))
+        r_poss = engine.recommend([crosser, technician], make_req(position="RW", tactical_profile="POSSESSION"))
+        assert r_cross.best_evaluation.candidate.name == "Crosser"
+>       assert r_poss.best_evaluation.candidate.name == "Technician"
+E       AssertionError: assert 'Crosser' == 'Technician'
+E         
+E         - Technician
+E         + Crosser
+
+backend/tests/test_engine_adversarial_phase7.py:275: AssertionError
+_________________ TestTacticalPhase7.test_buildup_vs_direct_cb _________________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f82a87ae030>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5adb410>
+
+    def test_buildup_vs_direct_cb(self, engine):
+        passer = make_candidate(name="Passer", position="CB", ovr=84, attrs=_attrs(
+            short_passing=88, long_passing=86, vision=82, composure=84, defending=82))
+        direct = make_candidate(name="Direct", position="CB", ovr=84, attrs=_attrs(
+            short_passing=68, long_passing=88, strength=90, heading_accuracy=88, defending=85))
+        r_build = engine.recommend([passer, direct], make_req(position="CB", tactical_profile="SLOW_BUILD_UP"))
+>       assert r_build.best_evaluation.candidate.name == "Passer"
+E       AssertionError: assert 'Direct' == 'Passer'
+E         
+E         - Passer
+E         + Direct
+
+backend/tests/test_engine_adversarial_phase7.py:283: AssertionError
+___________________ TestTacticalPhase7.test_352_cb_vs_442_cb ___________________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f82a87ad3a0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5a96600>
+
+    def test_352_cb_vs_442_cb(self, engine):
+        passer = make_candidate(name="Passer", position="CB", ovr=83, attrs=_attrs(
+            defending=83, short_passing=88, long_passing=85, vision=82, composure=84))
+        stopper = make_candidate(name="Stopper", position="CB", ovr=85, attrs=_attrs(
+            defending=90, short_passing=62, long_passing=60, vision=55, composure=65))
+        r_352 = engine.recommend([passer, stopper],
+                                 make_req(position="CB", formation="3-5-2", slot="CB",
+                                          tactical_profile="SLOW_BUILD_UP"))
+>       assert r_352.best_evaluation.candidate.name == "Passer"
+E       AssertionError: assert 'Stopper' == 'Passer'
+E         
+E         - Passer
+E         + Stopper
+
+backend/tests/test_engine_adversarial_phase7.py:303: AssertionError
+____________ TestTacticalPhase7.test_tactical_evidence_names_attrs _____________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f82a87ac3e0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5a97980>
+
+    def test_tactical_evidence_names_attrs(self, engine):
+        a = make_candidate(name="A", position="CM", ovr=84, attrs=_attrs(
+            stamina=88, aggression=80, interceptions=78))
+        ev = engine.evaluate(a, make_req(position="CM", tactical_profile="PRESSING"))
+>       assert ev.components["tactical_fit"].status.value == "KNOWN"
+E       AssertionError: assert 'INSUFFICIENT_EVIDENCE' == 'KNOWN'
+E         
+E         - KNOWN
+E         + INSUFFICIENT_EVIDENCE
+
+backend/tests/test_engine_adversarial_phase7.py:314: AssertionError
+________________ TestTacticalPhase7.test_strict_floor_excludes _________________
+
+self = <backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7 object at 0x7f82a87af2f0>
+engine = <backend.services.recommendation_engine_v2.RecommendationEngineV2 object at 0x7f82a5a97a10>
+
+    def test_strict_floor_excludes(self, engine):
+        weak = make_candidate(name="Weak", position="CM", ovr=84, attrs=_attrs(
+            stamina=55, aggression=45, interceptions=40, defensive_awareness=45,
+            short_passing=85, vision=86))
+        strong = make_candidate(name="Strong", position="CM", ovr=82, attrs=_attrs(
+            stamina=90, aggression=85, interceptions=86, defensive_awareness=85,
+            short_passing=78, vision=74))
+        req = make_req(position="CM", tactical_profile="PRESSING", strict_tactics=True)
+        res = engine.recommend([weak, strong], req)
+>       assert res.best_evaluation.candidate.name == "Strong"
+E       AssertionError: assert 'Weak' == 'Strong'
+E         
+E         - Strong
+E         + Weak
+
+backend/tests/test_engine_adversarial_phase7.py:326: AssertionError
+=============================== warnings summary ===============================
+backend/core/db.py:23
+  /home/claude/work/EA_FC_INTELLIGENCE_full_project/EA_FC_INTELLIGENCE-main/backend/core/db.py:23: UserWarning: JWT_SECRET not set — using an ephemeral development secret. Set JWT_SECRET in any deployed environment.
+    conninfo=get_settings().database_url,
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_90_generic_gk_vs_82_specialist
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_shooting_striker_unsuited_possession
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_high_ovr_winger_unsuited_defensive
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_pressing_vs_possession_flip
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_crossing_vs_possession_winger
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_buildup_vs_direct_cb
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_352_cb_vs_442_cb
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_tactical_evidence_names_attrs
+FAILED backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_strict_floor_excludes
+9 failed, 41 passed, 1 warning in 0.70s

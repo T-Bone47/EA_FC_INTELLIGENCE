@@ -1,0 +1,95 @@
+{
+  "backend": {
+    "passed": 823,
+    "failed": 24,
+    "skipped": 10,
+    "passing_subtests": 90,
+    "failing_test_ids": [
+      "backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_90_generic_gk_vs_82_specialist",
+      "backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_shooting_striker_unsuited_possession",
+      "backend/tests/test_engine_adversarial_phase7.py::TestOvrTrapsPhase7::test_high_ovr_winger_unsuited_defensive",
+      "backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_pressing_vs_possession_flip",
+      "backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_crossing_vs_possession_winger",
+      "backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_buildup_vs_direct_cb",
+      "backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_352_cb_vs_442_cb",
+      "backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_tactical_evidence_names_attrs",
+      "backend/tests/test_engine_adversarial_phase7.py::TestTacticalPhase7::test_strict_floor_excludes",
+      "backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[CB-cb_pool]",
+      "backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[ST-st_pool]",
+      "backend/tests/test_engine_v3_real_data.py::TestRD3OvrCorrelationBand::test_rho_within_band[CM-cm_pool]",
+      "backend/tests/test_engine_v3_real_data.py::TestRD4TacticalResponsiveness::test_spread_clears_target[CB-cb_pool]",
+      "backend/tests/test_integration_production.py::TestExplanationConsistency::test_why_this_matches_scoring",
+      "backend/tests/test_integration_production.py::TestExplanationConsistency::test_why_not_alternatives_differentials",
+      "backend/tests/test_integration_production.py::TestExplanationConsistency::test_confidence_v2_additive",
+      "backend/tests/test_integration_production.py::TestFormationIntegration::test_433_formation",
+      "backend/tests/test_integration_production.py::TestFormationIntegration::test_4231_formation",
+      "backend/tests/test_integration_production.py::TestFormationIntegration::test_3421_formation",
+      "backend/tests/test_integration_production.py::TestTacticalCombinationIntegration::test_outfield_combo_pressing_fast_build_up",
+      "backend/tests/test_integration_production.py::TestAdversarialProduction::test_version_mismatch_rejected",
+      "backend/tests/test_integration_production.py::TestAdversarialProduction::test_budget_unverified_not_enforced",
+      "backend/tests/test_integration_production.py::TestSecurity::test_sql_injection_inert",
+      "backend/tests/test_integration_production.py::TestSecurity::test_rate_limiting"
+    ],
+    "baseline_failed": 77,
+    "focused_passed": 20
+  },
+  "frontend": {
+    "build": "passed",
+    "tests_passed": 95
+  },
+  "http": {
+    "registered_routes": 34,
+    "live_http_probes": 10,
+    "engine": "3.2.1"
+  },
+  "browser": {
+    "stadium": {
+      "checks": [
+        "Keyboard skip link, sidebar, FC27 opt-in search, grid/table switch and player details",
+        "FC27 V3.2 formation-slot ranking, explanation inspector and bound-context player comparison",
+        "Dedicated card comparison route and exact special-item IDs",
+        "Keyboard pitch assignment, seven-width layout, backend upgrade, apply/undo and mobile menu",
+        "Live Phase 31 evidence cohort",
+        "Signup with return-to hash, authenticated profile, logout, login and recovery availability",
+        "Server-side item filters, exact detail, opt-in, release membership and forwarded-request refusals"
+      ]
+    },
+    "availability": {
+      "checks": [
+        "Shared opt-in, scoped FC27 player filters, search and player details",
+        "Legacy URL redirects to V3.2, honors context and preferences, and compares two real FC27 players",
+        "Opt-in carried to Discover Cards, with distinct item IDs and the card-specific reference",
+        "Real squad optimization, unscored locked goalkeeper, mobile layout and revocation across workspaces",
+        "Production app independently refuses player, reference, recommendation, card and squad research requests"
+      ]
+    },
+    "cards_squads_profile": {
+      "checks": [
+        "Two same-OVR versions, item-only attributes, PlayStyle preference, why-not explanation",
+        "Formation slot ranking, stale-result invalidation and tactical scenario",
+        "Mobile layout and missing goalkeeper evidence",
+        "Six-profile card comparison and signed, owner-bound item feedback",
+        "Formation transformation moves the outfield item and retains the locked goalkeeper",
+        "Mobile card shortlist, locked unscored keeper, exact single upgrade, apply and undo, tactical alternatives, DNA, save and reload",
+        "Saved profile preferences drive new research squads",
+        "In-flight real API response discarded after changing tactics",
+        "Owned FC27 squad, price-free exact catalogue XI, atomic save and reopened copy"
+      ]
+    },
+    "performance": {
+      "checks": [
+        "Opt-in, 100-item cohort, 36 controls, real V3.2 comparison, no measured winner, stale result invalidation",
+        "Authenticated manual match submission with a reported zero, private pending state, owner withdrawal, 390px layout"
+      ]
+    },
+    "vite_preview": {
+      "checks": [
+        "Shared opt-in, scoped FC27 player filters, search and player details",
+        "Legacy URL redirects to V3.2, honors context and preferences, and compares two real FC27 players",
+        "Opt-in carried to Discover Cards, with distinct item IDs and the card-specific reference",
+        "Real squad optimization, unscored locked goalkeeper, mobile layout and revocation across workspaces",
+        "Production app independently refuses player, reference, recommendation, card and squad research requests"
+      ]
+    }
+  }
+}

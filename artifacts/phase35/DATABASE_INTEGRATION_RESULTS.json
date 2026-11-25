@@ -1,0 +1,50 @@
+{
+  "audit_name": "Phase 35 Database & Data Store Integration Audit",
+  "timestamp": "2026-11-24T19:07:00+05:30",
+  "staging_database": {
+    "target_table": "fc27_staging.empirical_observations",
+    "accepted_match_records": 0,
+    "under_review_records": 0,
+    "draft_records": 0,
+    "status": "UNPOPULATED_BLANK_STATE",
+    "epistemic_policy": "STRICT_HONEST_DATA_POLICY",
+    "findings": "Zero accepted live match gameplay records exist. System correctly flags all tactical weights and rules as MODELED_HEURISTIC and refuses empirical weight recalibration."
+  },
+  "local_card_catalog": {
+    "release_id": "fc27-card-items-local-r1",
+    "format": "JSON",
+    "path": "backend/data/fc27-card-items-local-r1.json",
+    "checksum_verified": true,
+    "record_count": 16,
+    "admissible_items": 16,
+    "coverage": {
+      "strikers": 4,
+      "wingers": 3,
+      "midfielders": 4,
+      "defenders": 4,
+      "goalkeepers": 1
+    },
+    "goalkeeper_reference_ready": true,
+    "status": "VERIFIED_ACCESSIBLE"
+  },
+  "postgresql_connection_pool": {
+    "engine": "asyncpg / psycopg3",
+    "url": "postgresql://postgres:***@localhost:5432/ea_fc_db",
+    "pool_status": "OFFLINE_FALLBACK_ACTIVE",
+    "resilience_check": "PASS",
+    "fallback_behavior": "When PostgreSQL host is offline, local research fixtures and deterministic in-memory evaluators operate seamlessly. Database-dependent state mutations (feedback locking, transactional card locks) fail closed with explicit informative HTTP 503 / 400 responses."
+  },
+  "observation_schema_registry": {
+    "schema_version": "1.0.0",
+    "hash_algorithm": "SHA-256",
+    "state_machine_transitions": [
+      "DRAFT -> SUBMITTED",
+      "SUBMITTED -> UNDER_REVIEW",
+      "UNDER_REVIEW -> ACCEPTED",
+      "UNDER_REVIEW -> REJECTED",
+      "UNDER_REVIEW -> INSUFFICIENT_EVIDENCE",
+      "ACCEPTED -> SUPERSEDED"
+    ],
+    "verification_status": "CERTIFIED"
+  }
+}

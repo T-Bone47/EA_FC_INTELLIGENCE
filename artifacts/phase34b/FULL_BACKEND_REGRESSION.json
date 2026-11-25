@@ -1,0 +1,120 @@
+{
+  "test_suite": "EA FC Intelligence Full Backend Pytest Regression",
+  "phase": "34B",
+  "timestamp": "2026-11-24T10:35:15Z",
+  "python_version": "3.15.1",
+  "pytest_version": "9.1.1",
+  "platform": "win32",
+  "summary": {
+    "total_collected": 104,
+    "passed": 100,
+    "skipped": 4,
+    "failed": 0,
+    "duration_seconds": 4.00
+  },
+  "modules_evaluated": [
+    {
+      "module": "backend/tests/test_squad_synergy.py",
+      "tests_count": 5,
+      "passed": 5,
+      "skipped": 0,
+      "tests": [
+        "test_all_12_formations_mapped_completely_without_overlap",
+        "test_alignment_index_mathematical_precision",
+        "test_tactical_rules_provenance_and_reconstruction",
+        "test_channel_metrics_handles_unscored_gk_and_unfilled_slots",
+        "test_whole_xi_synergy_master_evaluator"
+      ]
+    },
+    {
+      "module": "backend/tests/test_empirical_evaluator.py",
+      "tests_count": 3,
+      "passed": 3,
+      "skipped": 0,
+      "tests": [
+        "test_statistics_helpers",
+        "test_empirical_evaluator_blank_sheet",
+        "test_empirical_evaluator_full_matches"
+      ]
+    },
+    {
+      "module": "backend/tests/test_phase30_card_lab.py",
+      "tests_count": 6,
+      "passed": 4,
+      "skipped": 2,
+      "skipped_reason": "Live PostgreSQL database required for ownership locks and transaction rollback tests",
+      "tests": [
+        "test_grouped_assignment_exhaustive",
+        "test_two_new_items_can_require_joint_release_of_two_footballer_groups",
+        "test_pareto_and_identity_semantics",
+        "test_every_lab_route_requires_local_release"
+      ]
+    },
+    {
+      "module": "backend/tests/test_striker_pilot.py",
+      "tests_count": 6,
+      "passed": 6,
+      "skipped": 0,
+      "tests": [
+        "test_empty_sheet_reports_no_results",
+        "test_reports_expected_directions_and_preserves_zero",
+        "test_mixed_patches_or_missing_values_prevent_pooled_rates[game_patch]",
+        "test_mixed_patches_or_missing_values_prevent_pooled_rates[tackles_won]",
+        "test_replacement_requires_excluding_both_originals",
+        "test_rejects_modified_exact_card_or_predictions"
+      ]
+    },
+    {
+      "module": "backend/tests/test_v3_2_config.py",
+      "tests_count": 11,
+      "passed": 11,
+      "skipped": 0,
+      "tests": [
+        "test_v3_1_config_is_frozen_and_historical",
+        "test_v3_2_differs_from_v3_1_in_exactly_one_value_plus_its_version",
+        "test_default_config_is_v3_2",
+        "test_registry_resolves_both_versions_and_rejects_unknown",
+        "test_unknown_missing_charge_is_rejected_at_construction",
+        "test_snapshot_reports_the_config_it_was_given",
+        "test_engine_stamps_the_version_of_the_config_it_ran[v3.1]",
+        "test_engine_stamps_the_version_of_the_config_it_ran[v3.2]",
+        "test_engine_version_identifies_v3_2",
+        "test_interaction_modifier_remains_disabled",
+        "test_no_production_module_imports_the_experiment_lab"
+      ]
+    },
+    {
+      "module": "backend/tests/test_golden_fixtures_v3_2.py",
+      "tests_count": 6,
+      "passed": 6,
+      "skipped": 0,
+      "tests": [
+        "test_v3_1_pinned_config_reproduces_the_committed_v3_1_goldens",
+        "test_default_builder_is_pinned_to_v3_1",
+        "test_v3_2_engine_matches_the_committed_v3_2_goldens",
+        "test_v3_2_golden_declares_its_config",
+        "test_exactly_the_reviewed_fixtures_changed",
+        "test_change_report_shows_only_partial_coverage_candidates_move_and_c_lo_only_falls"
+      ]
+    },
+    {
+      "module": "backend/tests/test_engine_intelligence.py",
+      "tests_count": 51,
+      "passed": 51,
+      "skipped": 0
+    },
+    {
+      "module": "backend/tests/test_phase28_formation.py",
+      "tests_count": 16,
+      "passed": 14,
+      "skipped": 2,
+      "skipped_reason": "Live database slot comparison requires active PostgreSQL service"
+    }
+  ],
+  "engine_invariants_certified": {
+    "deterministic_scoring_frozen": true,
+    "receipt_hash_invariant": true,
+    "fastapi_204_compatible": true,
+    "zero_unhandled_exceptions": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "fd3f46e7-ff72-41f3-ab25-9c471748fecd",
+  "timestamp": "2026-11-22T18:10:27.469Z",
+  "base": "http://127.0.0.1:4173",
+  "build": "unversioned export",
+  "environment": "win32",
+  "node": "v26.12.1",
+  "browser": null,
+  "checks": [
+    {
+      "scenario": "startup",
+      "name": "infrastructure",
+      "ok": false,
+      "severity": "BLOCKER",
+      "detail": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'puppeteer-core' imported from C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\scripts\\browser_qa\\qa.mjs\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:343:9)\n    at packageResolve (node:internal/modules/esm/resolve:751:25)\n    at moduleResolve (node:internal/modules/esm/resolve:840:18)\n    at defaultResolve (node:internal/modules/esm/resolve:973:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:708:20)\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:728:38)\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:766:56)\n    at #resolve (node:internal/modules/esm/loader:690:17)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:610:35)\n    at node:internal/modules/esm/loader:639:32"
+    }
+  ],
+  "suites": [],
+  "screenshots": [],
+  "layout": [],
+  "axe": [],
+  "focus": [],
+  "touch": [],
+  "console": [],
+  "exitCode": 1,
+  "status": "FAIL"
+}

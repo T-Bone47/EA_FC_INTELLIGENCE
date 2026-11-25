@@ -1,0 +1,385 @@
+{
+  "change": "missing_value_charge P10 -> ZERO",
+  "changed": [
+    "no_playstyle_evidence",
+    "playstyle_relevance",
+    "position_mismatch",
+    "same_attributes_different_ovr",
+    "same_ovr_different_attributes",
+    "same_player_two_tactics.high_press",
+    "same_player_two_tactics.low_block",
+    "thin_evidence"
+  ],
+  "engine_version": "3.2.0",
+  "fixtures": {
+    "no_playstyle_evidence": {
+      "candidate_deltas_first5": [
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.8016299968,
+          "c_lo_v3_2": 0.7908275276,
+          "delta_c_lo": -0.010802469200000053,
+          "kappa": 0.9756944444,
+          "name": "NoPSEvidence",
+          "r_v3_1": 0.8016299968,
+          "r_v3_2": 0.7908275276
+        }
+      ],
+      "changed": true,
+      "rank_order_changed": false,
+      "reason": "Candidate(s) with partial evidence coverage (kappa<1): unpublished demanded attributes now contribute 0 to C_lo instead of the frozen P10 charge, so C_lo (and R = C_lo*M) can only fall. Fully covered candidates are bit-identical.",
+      "v3_1_hash": "130251999957660ecfe542872b105d30cfcf61fab78094b072bf61d8d15729cb",
+      "v3_1_top": [
+        "NoPSEvidence"
+      ],
+      "v3_2_hash": "1df8a897fb7011e7c0800ca736b99e5341f3cb88bf2ead1c3c9d2ec819521ada",
+      "v3_2_top": [
+        "NoPSEvidence"
+      ]
+    },
+    "playstyle_relevance": {
+      "candidate_deltas_first5": [
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.8016299968,
+          "c_lo_v3_2": 0.7908275276,
+          "delta_c_lo": -0.010802469200000053,
+          "kappa": 0.9756944444,
+          "name": "RelevantPS",
+          "r_v3_1": 0.8817929965,
+          "r_v3_2": 0.8699102804
+        },
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.8016299968,
+          "c_lo_v3_2": 0.7908275276,
+          "delta_c_lo": -0.010802469200000053,
+          "kappa": 0.9756944444,
+          "name": "NoPSEvidence",
+          "r_v3_1": 0.8016299968,
+          "r_v3_2": 0.7908275276
+        }
+      ],
+      "changed": true,
+      "rank_order_changed": false,
+      "reason": "Candidate(s) with partial evidence coverage (kappa<1): unpublished demanded attributes now contribute 0 to C_lo instead of the frozen P10 charge, so C_lo (and R = C_lo*M) can only fall. Fully covered candidates are bit-identical.",
+      "v3_1_hash": "ffc08f34e65deb2c01cc99ce64c972445668a1fd978d7932adaeb72bee6cde08",
+      "v3_1_top": [
+        "RelevantPS",
+        "NoPSEvidence"
+      ],
+      "v3_2_hash": "6135f30ce904efe6b569c0a78a66d76b30c351582ef5bb83faf57dddbd3d47d8",
+      "v3_2_top": [
+        "RelevantPS",
+        "NoPSEvidence"
+      ]
+    },
+    "pool_ordering_a": {
+      "changed": false,
+      "reason": "No partial-coverage candidate affects this fixture; bit-identical.",
+      "v3_1_hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+      "v3_1_top": [
+        "Jude Bellingham",
+        "Pedri",
+        "Federico Valverde"
+      ],
+      "v3_2_hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+      "v3_2_top": [
+        "Jude Bellingham",
+        "Pedri",
+        "Federico Valverde"
+      ]
+    },
+    "pool_ordering_b": {
+      "changed": false,
+      "reason": "No partial-coverage candidate affects this fixture; bit-identical.",
+      "v3_1_hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+      "v3_1_top": [
+        "Jude Bellingham",
+        "Pedri",
+        "Federico Valverde"
+      ],
+      "v3_2_hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+      "v3_2_top": [
+        "Jude Bellingham",
+        "Pedri",
+        "Federico Valverde"
+      ]
+    },
+    "position_mismatch": {
+      "candidate_deltas_first5": [
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.6922066162,
+          "c_lo_v3_2": 0.549785032,
+          "delta_c_lo": -0.14242158420000006,
+          "kappa": 0.6468421053,
+          "name": "RealCB",
+          "r_v3_1": 0.6922066162,
+          "r_v3_2": 0.549785032
+        }
+      ],
+      "changed": true,
+      "rank_order_changed": false,
+      "reason": "Candidate(s) with partial evidence coverage (kappa<1): unpublished demanded attributes now contribute 0 to C_lo instead of the frozen P10 charge, so C_lo (and R = C_lo*M) can only fall. Fully covered candidates are bit-identical.",
+      "v3_1_hash": "c82ff648f7064293db36cfb85b6c48dad407d593d7a7704f00ac5ca5f445c802",
+      "v3_1_top": [
+        "RealCB"
+      ],
+      "v3_2_hash": "392d824e24cf47a797e47ac0d16f76aaf943194a5fd9b6e73e4c675adbf6e217",
+      "v3_2_top": [
+        "RealCB"
+      ]
+    },
+    "same_attributes_different_ovr": {
+      "candidate_deltas_first5": [
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.8016299968,
+          "c_lo_v3_2": 0.7908275276,
+          "delta_c_lo": -0.010802469200000053,
+          "kappa": 0.9756944444,
+          "name": "SameAttrs",
+          "r_v3_1": 0.8016299968,
+          "r_v3_2": 0.7908275276
+        },
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.8016299968,
+          "c_lo_v3_2": 0.7908275276,
+          "delta_c_lo": -0.010802469200000053,
+          "kappa": 0.9756944444,
+          "name": "SameAttrs",
+          "r_v3_1": 0.8016299968,
+          "r_v3_2": 0.7908275276
+        }
+      ],
+      "changed": true,
+      "rank_order_changed": false,
+      "reason": "Candidate(s) with partial evidence coverage (kappa<1): unpublished demanded attributes now contribute 0 to C_lo instead of the frozen P10 charge, so C_lo (and R = C_lo*M) can only fall. Fully covered candidates are bit-identical.",
+      "v3_1_hash": "ff27035f4d5ed292068bc1260af4451552d7d5417f7712a241a9b505822da65a",
+      "v3_1_top": [
+        "SameAttrs",
+        "SameAttrs"
+      ],
+      "v3_2_hash": "f0298281b31ec746f9191a386d999a7230c167abd868ee930687904bb1ba5917",
+      "v3_2_top": [
+        "SameAttrs",
+        "SameAttrs"
+      ]
+    },
+    "same_ovr_different_attributes": {
+      "candidate_deltas_first5": [
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.8016299968,
+          "c_lo_v3_2": 0.7908275276,
+          "delta_c_lo": -0.010802469200000053,
+          "kappa": 0.9756944444,
+          "name": "A",
+          "r_v3_1": 0.8016299968,
+          "r_v3_2": 0.7908275276
+        },
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.7030750024,
+          "c_lo_v3_2": 0.6922725333,
+          "delta_c_lo": -0.010802469099999934,
+          "kappa": 0.9756944444,
+          "name": "B",
+          "r_v3_1": 0.7030750024,
+          "r_v3_2": 0.6922725333
+        }
+      ],
+      "changed": true,
+      "rank_order_changed": false,
+      "reason": "Candidate(s) with partial evidence coverage (kappa<1): unpublished demanded attributes now contribute 0 to C_lo instead of the frozen P10 charge, so C_lo (and R = C_lo*M) can only fall. Fully covered candidates are bit-identical.",
+      "v3_1_hash": "25afffa37582b7fbabf531bceeeb38031c7aec1de1287f2ec382f762f0c0ce78",
+      "v3_1_top": [
+        "A",
+        "B"
+      ],
+      "v3_2_hash": "cd63dc51e33f0951a721a62eb429ad3e7aaa1b1cd6a7a8aeaba8e5cfd6da22ef",
+      "v3_2_top": [
+        "A",
+        "B"
+      ]
+    },
+    "same_player_two_tactics.high_press": {
+      "candidate_deltas_first5": [
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.7757875445,
+          "c_lo_v3_2": 0.7649850753,
+          "delta_c_lo": -0.010802469199999942,
+          "kappa": 0.9805555556,
+          "name": "SamePlayer",
+          "r_v3_1": 0.7757875445,
+          "r_v3_2": 0.7649850753
+        }
+      ],
+      "changed": true,
+      "rank_order_changed": false,
+      "reason": "Candidate(s) with partial evidence coverage (kappa<1): unpublished demanded attributes now contribute 0 to C_lo instead of the frozen P10 charge, so C_lo (and R = C_lo*M) can only fall. Fully covered candidates are bit-identical.",
+      "v3_1_hash": "7269460345777dbfc4ce855cd9dea1328eb64686afc7410e344609b88fc5d645",
+      "v3_1_top": [
+        "SamePlayer"
+      ],
+      "v3_2_hash": "e8927257f4e52e9d2f0554b071825b2b97f48e56cb646ef9aea69f98a6283267",
+      "v3_2_top": [
+        "SamePlayer"
+      ]
+    },
+    "same_player_two_tactics.low_block": {
+      "candidate_deltas_first5": [
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.7382238963,
+          "c_lo_v3_2": 0.7051776443,
+          "delta_c_lo": -0.033046252,
+          "kappa": 0.9226315789,
+          "name": "SamePlayer",
+          "r_v3_1": 0.7382238963,
+          "r_v3_2": 0.7051776443
+        }
+      ],
+      "changed": true,
+      "rank_order_changed": false,
+      "reason": "Candidate(s) with partial evidence coverage (kappa<1): unpublished demanded attributes now contribute 0 to C_lo instead of the frozen P10 charge, so C_lo (and R = C_lo*M) can only fall. Fully covered candidates are bit-identical.",
+      "v3_1_hash": "8af1330c3bd921ceceb3f0bcb686ed09148bbd3227845fcae751b4682a5202fb",
+      "v3_1_top": [
+        "SamePlayer"
+      ],
+      "v3_2_hash": "2c166e6670068e5fe7f42ff14222aade11f87f4c334824dfbb11c6708b778c10",
+      "v3_2_top": [
+        "SamePlayer"
+      ]
+    },
+    "tactical_BALANCED": {
+      "changed": false,
+      "reason": "No partial-coverage candidate affects this fixture; bit-identical.",
+      "v3_1_hash": "732338774f01df83dd264dc21186e9e93fc093e904ede0d6b6cea159df2bbb14",
+      "v3_1_top": [
+        "Jude Bellingham",
+        "Rodri",
+        "Federico Valverde"
+      ],
+      "v3_2_hash": "732338774f01df83dd264dc21186e9e93fc093e904ede0d6b6cea159df2bbb14",
+      "v3_2_top": [
+        "Jude Bellingham",
+        "Rodri",
+        "Federico Valverde"
+      ]
+    },
+    "tactical_DIRECT_PLAY": {
+      "changed": false,
+      "reason": "No partial-coverage candidate affects this fixture; bit-identical.",
+      "v3_1_hash": "23300dc9fd9e25bcb2143f9bf7348eb3677f4e33c16fa52b092e390e7014d375",
+      "v3_1_top": [
+        "Federico Valverde",
+        "Jude Bellingham",
+        "Rodri"
+      ],
+      "v3_2_hash": "23300dc9fd9e25bcb2143f9bf7348eb3677f4e33c16fa52b092e390e7014d375",
+      "v3_2_top": [
+        "Federico Valverde",
+        "Jude Bellingham",
+        "Rodri"
+      ]
+    },
+    "tactical_HIGH_PRESS": {
+      "changed": false,
+      "reason": "No partial-coverage candidate affects this fixture; bit-identical.",
+      "v3_1_hash": "24a513f8c91fa077463d83e6e161e16136fab0fcecb81d020338b720bcaf7189",
+      "v3_1_top": [
+        "Federico Valverde",
+        "Jude Bellingham",
+        "Nicol\u00f2 Barella"
+      ],
+      "v3_2_hash": "24a513f8c91fa077463d83e6e161e16136fab0fcecb81d020338b720bcaf7189",
+      "v3_2_top": [
+        "Federico Valverde",
+        "Jude Bellingham",
+        "Nicol\u00f2 Barella"
+      ]
+    },
+    "tactical_LOW_BLOCK": {
+      "changed": false,
+      "reason": "No partial-coverage candidate affects this fixture; bit-identical.",
+      "v3_1_hash": "e1a3b05aa327b442ac9ae80f494a2fbdbdc0ea9acd79de267ab8db7955480da6",
+      "v3_1_top": [
+        "Rodri",
+        "Federico Valverde",
+        "Jude Bellingham"
+      ],
+      "v3_2_hash": "e1a3b05aa327b442ac9ae80f494a2fbdbdc0ea9acd79de267ab8db7955480da6",
+      "v3_2_top": [
+        "Rodri",
+        "Federico Valverde",
+        "Jude Bellingham"
+      ]
+    },
+    "tactical_PACE_ABUSER": {
+      "changed": false,
+      "reason": "No partial-coverage candidate affects this fixture; bit-identical.",
+      "v3_1_hash": "a69df29952d798d2fd80014cf79c5a3205035761bfe4f1226eb490004e4e30be",
+      "v3_1_top": [
+        "Federico Valverde",
+        "Jude Bellingham",
+        "Nicol\u00f2 Barella"
+      ],
+      "v3_2_hash": "a69df29952d798d2fd80014cf79c5a3205035761bfe4f1226eb490004e4e30be",
+      "v3_2_top": [
+        "Federico Valverde",
+        "Jude Bellingham",
+        "Nicol\u00f2 Barella"
+      ]
+    },
+    "tactical_POSSESSION": {
+      "changed": false,
+      "reason": "No partial-coverage candidate affects this fixture; bit-identical.",
+      "v3_1_hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+      "v3_1_top": [
+        "Jude Bellingham",
+        "Pedri",
+        "Federico Valverde"
+      ],
+      "v3_2_hash": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+      "v3_2_top": [
+        "Jude Bellingham",
+        "Pedri",
+        "Federico Valverde"
+      ]
+    },
+    "thin_evidence": {
+      "candidate_deltas_first5": [
+        {
+          "c_hi_changed": false,
+          "c_lo_v3_1": 0.8016299968,
+          "c_lo_v3_2": 0.7908275276,
+          "delta_c_lo": -0.010802469200000053,
+          "kappa": 0.9756944444,
+          "name": "Documented",
+          "r_v3_1": 0.8016299968,
+          "r_v3_2": 0.7908275276
+        }
+      ],
+      "changed": true,
+      "rank_order_changed": false,
+      "reason": "Candidate(s) with partial evidence coverage (kappa<1): unpublished demanded attributes now contribute 0 to C_lo instead of the frozen P10 charge, so C_lo (and R = C_lo*M) can only fall. Fully covered candidates are bit-identical.",
+      "v3_1_hash": "a106f8ca2ae5f5185e2e66a17db2f5222687cd471cc2ae9f761a22e460de6c0e",
+      "v3_1_top": [
+        "Documented"
+      ],
+      "v3_2_hash": "9aec36b8b2cf611a640bc222bd347195988eb77358aa1474ca82a29e1f588cbf",
+      "v3_2_top": [
+        "Documented"
+      ]
+    }
+  },
+  "from": "v3-2026-09-17-r1",
+  "n_changed": 8,
+  "n_unchanged": 8,
+  "to": "v3.2-2026-09-30-r1",
+  "v3_1_reproduces_committed_goldens": true
+}

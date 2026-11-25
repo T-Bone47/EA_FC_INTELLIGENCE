@@ -1,0 +1,38 @@
+{
+  "test_runner": "Vitest 2.1.9 (jsdom)",
+  "test_files_total": 17,
+  "test_files_passed": 16,
+  "test_files_skipped": 1,
+  "tests_total": 95,
+  "tests_passed": 92,
+  "tests_skipped": 3,
+  "tests_failed": 0,
+  "duration_seconds": 6.14,
+  "suites": [
+    { "file": "src/api/client.test.ts", "passed": 9, "failed": 0 },
+    { "file": "src/lib/format.test.ts", "passed": 8, "failed": 0 },
+    { "file": "src/lib/useApi.test.tsx", "passed": 6, "failed": 0 },
+    { "file": "src/state/session.test.tsx", "passed": 4, "failed": 0 },
+    { "file": "src/components/DataQuality.test.tsx", "passed": 4, "failed": 0 },
+    { "file": "src/components/common.test.tsx", "passed": 8, "failed": 0 },
+    { "file": "src/intelligence/Card.test.tsx", "passed": 6, "failed": 0 },
+    { "file": "src/pages/Recommend.results.test.tsx", "passed": 5, "failed": 0 },
+    { "file": "src/intelligence/WhatIfPanel.test.tsx", "passed": 5, "failed": 0 },
+    { "file": "src/intelligence/api.test.ts", "passed": 3, "failed": 0 },
+    { "file": "src/intelligence/noRanking.test.ts", "passed": 2, "failed": 0 },
+    { "file": "src/intelligence/Ladder.test.tsx", "passed": 5, "failed": 0 },
+    { "file": "src/intelligence/ErrorBoundary.test.tsx", "passed": 2, "failed": 0 },
+    { "file": "src/intelligence/ComparePanel.test.tsx", "passed": 4, "failed": 0 },
+    { "file": "src/intelligence/route.test.tsx", "passed": 1, "failed": 0 },
+    { "file": "src/intelligence/Intelligence.test.tsx", "passed": 20, "failed": 0 },
+    { "file": "src/intelligence/e2e.live.test.tsx", "passed": 0, "failed": 0, "skipped": 3 }
+  ],
+  "production_build": {
+    "status": "passed",
+    "compiler": "tsc --noEmit && vite build",
+    "duration_seconds": 1.12,
+    "errors": 0,
+    "warnings": 0
+  },
+  "regression_status": "ZERO_REGRESSIONS"
+}

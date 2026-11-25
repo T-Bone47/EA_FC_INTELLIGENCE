@@ -1,0 +1,19 @@
+feature,route,implementation,verification
+Navigation and contextual game status,All workspace routes,Shared responsive sidebar and workspace header,Chromium and route test
+Overview and recent analysis,/ and /dashboard,Public and authenticated dashboards with session analysis history,Chromium
+Player discovery,/search,Live filters paginated grid table and scoped details,Chromium
+FC27 item filters and exact detail,/cards,Release filtered items and typed item detail,API and Chromium
+V3.2 player analysis,/intelligence,Three-column studio with explanations and submitted context,Frontend and Chromium
+Legacy recommendation workflow,/recommend,Retained compatibility route,Existing frontend suite
+Exact item comparison,/compare?scope=cards and /cards,V3.2 item comparisons and tactics,Chromium
+Public player comparison,/compare,Retained player selection and player comparison contract,Existing backend suite
+Squad Lab,/cards/squad-lab,Pitch shortlist assignments locking optimizer and receipts,Chromium
+Squad DNA,/cards/squad-lab#squad-dna,Backend slot evidence and tactical matrix,Chromium
+Smart Upgrade Studio,/cards/squad-lab#upgrade-studio,Actual before after and apply undo,Chromium
+Evidence Lab,/cards/performance,Phase 31 cohort and observations,Chromium and PostgreSQL
+Auth and return routing,/login and /signup,Existing auth services and guest mode,Chromium
+Password reset delivery,/login,Unavailable control state,Chromium
+Profile and settings,/profile,Existing saved preferences and sessions,Chromium
+Public FC27 item dataset,/cards,Local research entitlement only,Backend and Chromium
+Market and chemistry,/cards/squad-lab,Unavailable when inputs lack verification,Existing optimizer tests
+Hosted deployment,,Requires an authorized target,Local release only

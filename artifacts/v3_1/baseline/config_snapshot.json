@@ -1,0 +1,76 @@
+{
+  "config": {
+    "config_version": "v3-2026-09-17-r1",
+    "lam_default": {
+      "value": 0.7,
+      "status": "MEASURED",
+      "note": "Adversarial margins healthy for lambda in [0.5,0.8]; CB/ST real-data discrimination clears <=6.0/10 mean top-10 overlap at 0.7; CM does not (measured 6.9/10) -- see TEST_RESULTS.md RD-1. Per-request overridable."
+    },
+    "kappa_min": {
+      "value": 0.6,
+      "status": "PLACEHOLDER",
+      "note": "Gate is inert on current data (measured kappa ~1.00 at P01 across all position groups). No empirical basis yet; do not present as calibrated."
+    },
+    "kappa_band_min": {
+      "value": 0.75,
+      "status": "POLICY",
+      "note": "Qualitative score bands withheld below this coverage. Needs an owner."
+    },
+    "theta_pos": {
+      "value": 0.4,
+      "status": "POLICY",
+      "note": "Matches the pre-existing compatible_positions adjacency bar so the engine gate and the repository pre-filter agree by construction."
+    },
+    "modifier_min": {
+      "value": 0.85,
+      "status": "POLICY",
+      "note": "PlayStyle/interaction effect sizes are UNKNOWN (no verified FC26 mechanic); bound kept tight so no single modifier can dominate capability. Revisit only if effect sizes become measurable."
+    },
+    "modifier_max": {
+      "value": 1.15,
+      "status": "POLICY",
+      "note": "See modifier_min."
+    },
+    "playstyle_modifier_cap": {
+      "value": 0.1,
+      "status": "POLICY",
+      "note": "Individual cap on the PlayStyle modifier's contribution to modifier_max/min."
+    },
+    "interaction_modifier_cap": {
+      "value": 0.1,
+      "status": "POLICY",
+      "note": "Individual cap on the attribute-interaction modifier's contribution."
+    },
+    "saturation_excess_factor": {
+      "value": 0.35,
+      "status": "POLICY",
+      "note": "Carried from v2 engine_config.py unchanged."
+    },
+    "default_saturation_knee": {
+      "value": 88.0,
+      "status": "POLICY",
+      "note": "Carried from v2 engine_config.py unchanged."
+    },
+    "tie_epsilon": {
+      "value": 0.005,
+      "status": "POLICY",
+      "note": "Reuses the pre-existing SENSITIVITY_MIN_SWING noise threshold so there is one definition of 'noise' in the system."
+    },
+    "reference_quantile_lo": {
+      "value": 10.0,
+      "status": "POLICY",
+      "note": "P10. Harsher (P05) over-penalises; gentler (P25) under-penalises."
+    },
+    "reference_quantile_hi": {
+      "value": 90.0,
+      "status": "POLICY",
+      "note": "P90."
+    },
+    "reference_min_n": {
+      "value": 50.0,
+      "status": "POLICY",
+      "note": "Minimum sample size per (position_group, attribute). Real data clears this by 36x or more in every cell measured."
+    }
+  },
+  "config_hash": "09a7293b21d1347e1afe724a3df64020dd7e9b42330e76e12f1419a6ded60455"
+}

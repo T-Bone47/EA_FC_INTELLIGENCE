@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-09-19",
+  "discovered_cards": 0,
+  "verified_cards": 0,
+  "accessible_cards_note": "many viewable by human browsing on FUTBIN/FUT.GG/FUTWIZ; not a countable dataset since bulk retrieval is prohibited by terms",
+  "legally_usable_cards": 0,
+  "canonical_cards": 0,
+  "unresolved_cards": 0,
+  "duplicate_cards": 0,
+  "missing_id_cards": null,
+  "missing_attribute_cards": null,
+  "missing_playstyle_cards": null,
+  "missing_role_cards": null,
+  "missing_price_cards": null,
+  "card_coverage_pct": 0.0,
+  "field_coverage_pct": 0.0,
+  "provenance_coverage_pct": 0.0,
+  "legal_coverage_pct": 0.0,
+  "production_ut_card_rows": 0,
+  "synthetic_test_only_rows": 60
+}

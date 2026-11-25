@@ -1,0 +1,66 @@
+{
+  "command": "python -m pytest backend/tests -q -p no:cacheprovider",
+  "database": "Disposable PostgreSQL cloned from the isolated Windows ingestion run",
+  "passed": 804,
+  "failed": 25,
+  "skipped": 10,
+  "passing_subtests": 90,
+  "duration_seconds": 321.52,
+  "phase31_focused_passed": 3,
+  "phase31_baseline_failure_ids_matched": 24,
+  "additional_windows_failure_ids": [
+    "backend.tests.test_integration_production.TestPerformance.test_candidate_loading_performance"
+  ],
+  "failure_ids": [
+    "backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7.test_90_generic_gk_vs_82_specialist",
+    "backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7.test_high_ovr_winger_unsuited_defensive",
+    "backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7.test_shooting_striker_unsuited_possession",
+    "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_352_cb_vs_442_cb",
+    "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_buildup_vs_direct_cb",
+    "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_crossing_vs_possession_winger",
+    "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_pressing_vs_possession_flip",
+    "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_strict_floor_excludes",
+    "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_tactical_evidence_names_attrs",
+    "backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand.test_rho_within_band[CB-cb_pool]",
+    "backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand.test_rho_within_band[CM-cm_pool]",
+    "backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand.test_rho_within_band[ST-st_pool]",
+    "backend.tests.test_engine_v3_real_data.TestRD4TacticalResponsiveness.test_spread_clears_target[CB-cb_pool]",
+    "backend.tests.test_integration_production.TestAdversarialProduction.test_budget_unverified_not_enforced",
+    "backend.tests.test_integration_production.TestAdversarialProduction.test_version_mismatch_rejected",
+    "backend.tests.test_integration_production.TestExplanationConsistency.test_confidence_v2_additive",
+    "backend.tests.test_integration_production.TestExplanationConsistency.test_why_not_alternatives_differentials",
+    "backend.tests.test_integration_production.TestExplanationConsistency.test_why_this_matches_scoring",
+    "backend.tests.test_integration_production.TestFormationIntegration.test_3421_formation",
+    "backend.tests.test_integration_production.TestFormationIntegration.test_4231_formation",
+    "backend.tests.test_integration_production.TestFormationIntegration.test_433_formation",
+    "backend.tests.test_integration_production.TestPerformance.test_candidate_loading_performance",
+    "backend.tests.test_integration_production.TestSecurity.test_rate_limiting",
+    "backend.tests.test_integration_production.TestSecurity.test_sql_injection_inert",
+    "backend.tests.test_integration_production.TestTacticalCombinationIntegration.test_outfield_combo_pressing_fast_build_up"
+  ],
+  "skip_ids": [
+    "backend.tests.test_card_scenarios.TestVersionFirewallAndWatermarks.test_placeholder",
+    "backend.tests.test_fc27_card_identity_research.test_ingested_counts_match_the_audited_package",
+    "backend.tests.test_fc27_card_identity_research.test_no_card_id_is_ever_joined_across_versions",
+    "backend.tests.test_fc27_card_identity_research.test_open_flags_are_preserved_and_none_resolved",
+    "backend.tests.test_fc27_card_identity_research.test_player_join_uses_fc27_game_player_only",
+    "backend.tests.test_fc27_card_identity_research.test_spine_view_matches_identity_and_keeps_player_card_distinct",
+    "backend.tests.test_phase26_database.test_committed_child_update_invalidates_both_candidate_caches",
+    "backend.tests.test_phase27_database.test_noncanonical_cards_are_absent_from_direct_search_and_linked_reads",
+    "backend.tests.test_phase28_release_membership.test_approved_membership_filters_same_version_rows_links_and_caches",
+    "backend.tests.test_pipeline_release_integrity.test_reference_and_provenance_use_bound_fc27_snapshot"
+  ],
+  "candidate_loading_threshold_seconds": 2.0,
+  "candidate_loading_original_route_seconds": 2.200825199994142,
+  "candidate_loading_migrated_route_seconds": 2.1939936999988277,
+  "staging_replay": {
+    "validation": "PASS",
+    "public_memberships_created": 0,
+    "database": {
+      "snapshots_inserted": 0,
+      "snapshots_reused": 4,
+      "rows_written": 0,
+      "transaction": "COMMITTED"
+    }
+  }
+}

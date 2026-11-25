@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "public_memberships_created": 0,
+  "database": {
+    "snapshots_inserted": 0,
+    "snapshots_reused": 4,
+    "rows_written": 0,
+    "transaction": "COMMITTED"
+  }
+}

@@ -1,0 +1,875 @@
+{
+  "status": "PASS",
+  "scope": "offline local research; division pools formed by the audit script",
+  "reference": "fc27-players-2026-09-r1",
+  "divisions": {
+    "Women's Football": 1940,
+    "Men's Football": 17849
+  },
+  "cases": [
+    {
+      "division": "Men's Football",
+      "position": "GK",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "GK",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "GK",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "GK",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "GK",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "GK",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CB",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CB",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CB",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CB",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CB",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CB",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LB",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LB",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LB",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LB",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LB",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LB",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RB",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RB",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RB",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RB",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RB",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RB",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CDM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CDM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CDM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CDM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CDM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CDM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CAM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CAM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CAM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CAM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CAM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "CAM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LW",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LW",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LW",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LW",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LW",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "LW",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RW",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RW",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RW",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RW",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RW",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "RW",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "ST",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "ST",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "ST",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "ST",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "ST",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Men's Football",
+      "position": "ST",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "GK",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "GK",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "GK",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "GK",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "GK",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "GK",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CB",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CB",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CB",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CB",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CB",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CB",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LB",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LB",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LB",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LB",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LB",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LB",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RB",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RB",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RB",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RB",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RB",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RB",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CDM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CDM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CDM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CDM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CDM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CDM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CAM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CAM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CAM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CAM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CAM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "CAM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RM",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RM",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RM",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RM",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RM",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RM",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LW",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LW",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LW",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LW",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LW",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "LW",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RW",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RW",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RW",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RW",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RW",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "RW",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "ST",
+      "tactic": "BALANCED",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "ST",
+      "tactic": "POSSESSION",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "ST",
+      "tactic": "HIGH_PRESS",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "ST",
+      "tactic": "LOW_BLOCK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "ST",
+      "tactic": "COUNTER_ATTACK",
+      "sample": 24
+    },
+    {
+      "division": "Women's Football",
+      "position": "ST",
+      "tactic": "DIRECT_PLAY",
+      "sample": 24
+    }
+  ]
+}

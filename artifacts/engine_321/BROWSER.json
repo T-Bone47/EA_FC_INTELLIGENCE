@@ -1,0 +1,228 @@
+{
+  "status": "passed",
+  "checks": [
+    "Shared opt-in, scoped FC27 player filters, search and player details",
+    "Legacy URL redirects to V3.2, honors context and preferences, and compares two real FC27 players",
+    "Opt-in carried to Discover Cards, with distinct item IDs and the card-specific reference",
+    "Real squad optimization, unscored locked goalkeeper, mobile layout and revocation across workspaces",
+    "Production app independently refuses player, reference, recommendation, card and squad research requests"
+  ],
+  "errors": [],
+  "local_availability": {
+    "environment": "local",
+    "database_status": "CONNECTED",
+    "versions": {
+      "FC26": {
+        "game_player": {
+          "production": {
+            "status": "PRODUCTION_NOT_APPROVED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "local": {
+            "status": "LOCAL_CATALOGUE_AVAILABLE",
+            "record_count": 16228,
+            "release_id": "fc26-players-2026-09-r1",
+            "reference_ready": true
+          },
+          "research": null
+        },
+        "ut_card": {
+          "production": {
+            "status": "PRODUCTION_NOT_APPROVED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "local": {
+            "status": "DATA_NOT_INGESTED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "research": null
+        }
+      },
+      "FC27": {
+        "game_player": {
+          "production": {
+            "status": "PRODUCTION_NOT_APPROVED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "local": {
+            "status": "DATA_NOT_INGESTED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "research": {
+            "status": "RESEARCH_RELEASE_AVAILABLE",
+            "record_count": 19789,
+            "release_id": "fc27-players-2026-09-r1",
+            "reference_ready": true
+          }
+        },
+        "ut_card": {
+          "production": {
+            "status": "PRODUCTION_NOT_APPROVED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "local": {
+            "status": "DATA_NOT_INGESTED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "research": {
+            "status": "RESEARCH_RELEASE_AVAILABLE",
+            "record_count": 9962,
+            "release_id": "fc27-card-items-local-r1",
+            "reference_ready": true,
+            "goalkeeper_reference_ready": false
+          }
+        }
+      }
+    }
+  },
+  "player_recommendation": {
+    "engine_version": "3.2.1",
+    "dataset": {
+      "game_version": "FC27",
+      "data_status": "RESEARCH_ONLY",
+      "research_only": true,
+      "reference_distribution": {
+        "version": "fc27-players-2026-09-r1",
+        "universe": "RATINGS_SITE_PLAYERS",
+        "content_hash": "224e4474dc0e0b54e7a422774d536d3962e4ebc6a224ebe7143872a759ec305e"
+      },
+      "notice": "RESEARCH_ONLY: non-commercial research snapshot; not production data"
+    },
+    "request": {
+      "game_version": "FC27",
+      "position": "ST",
+      "tactical_profile": "HIGH_PRESS",
+      "limit": 10,
+      "include_research_data": true,
+      "division": "Men's Football",
+      "formation": "4-3-3",
+      "slot": "ST",
+      "attribute_preferences": [
+        {
+          "attribute": "stamina",
+          "weight": 2
+        }
+      ],
+      "desired_playstyles_plus": [
+        "Quick Step"
+      ]
+    },
+    "ranked": 10,
+    "leading_pair": {
+      "higher": "Kylian Mbappé",
+      "lower": "Raphinha",
+      "status": "CLEAR_SEPARATION",
+      "margin_low": 0.0058049063,
+      "margin_high": 0.0058049063,
+      "noise_threshold": 0.005
+    },
+    "pairwise_decision_evidence": {
+      "status": "CLEAR_SEPARATION",
+      "margin_low": 0.0058049063,
+      "margin_high": 0.0058049063,
+      "noise_threshold": 0.005
+    }
+  },
+  "card_comparison": {
+    "dataset": {
+      "game_version": "FC27",
+      "data_status": "RESEARCH_ONLY",
+      "research_only": true,
+      "reference_distribution": {
+        "version": "fc27-card-items-local-r1",
+        "universe": "UT_CARDS",
+        "content_hash": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff"
+      },
+      "notice": "RESEARCH_ONLY: non-commercial research snapshot; not production data"
+    },
+    "item_ids": [
+      "b6a5b159-dcbc-5522-abd8-e78e4c173cdc",
+      "15cf0795-8a19-5039-823c-aea9b1d9c52f"
+    ],
+    "pairwise_decision_evidence": {
+      "status": "NEAR_TIE",
+      "margin_low": 0.0006493506,
+      "margin_high": 0.0006493506,
+      "noise_threshold": 0.005
+    }
+  },
+  "squad": {
+    "scored": 1,
+    "goalkeeper_score": null,
+    "status": "EXACT_OPTIMAL"
+  },
+  "production_availability": {
+    "environment": "production",
+    "database_status": "CONNECTED",
+    "versions": {
+      "FC26": {
+        "game_player": {
+          "production": {
+            "status": "PRODUCTION_NOT_APPROVED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "local": null,
+          "research": null
+        },
+        "ut_card": {
+          "production": {
+            "status": "PRODUCTION_NOT_APPROVED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "local": null,
+          "research": null
+        }
+      },
+      "FC27": {
+        "game_player": {
+          "production": {
+            "status": "PRODUCTION_NOT_APPROVED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "local": null,
+          "research": {
+            "status": "RESEARCH_ACCESS_DISABLED",
+            "record_count": null,
+            "release_id": null,
+            "reference_ready": null
+          }
+        },
+        "ut_card": {
+          "production": {
+            "status": "PRODUCTION_NOT_APPROVED",
+            "record_count": 0,
+            "release_id": null,
+            "reference_ready": false
+          },
+          "local": null,
+          "research": {
+            "status": "RESEARCH_ACCESS_DISABLED",
+            "record_count": null,
+            "release_id": null,
+            "reference_ready": null
+          }
+        }
+      }
+    }
+  }
+}

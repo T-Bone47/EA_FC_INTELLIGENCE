@@ -1,0 +1,20 @@
+source_key,title,observation_type,origin,access,source_url,source_date,disposition
+ea-ratings,EA FC27 ratings,OFFICIAL_CARD_ATTRIBUTE,ea,REFERENCE_ONLY,https://www.ea.com/games/ea-sports-fc/ratings,,Public ratings reference without match outcomes
+ea-top-ratings,EA FC27 Top 27 ratings,OFFICIAL_CARD_ATTRIBUTE,ea,REFERENCE_ONLY,https://www.ea.com/games/ea-sports-fc/fc-27/news/fc27-ratings-top-27,2026-08-17,Base rating cross-check for leading names
+ea-fut,EA FC27 FUT Deep Dive,OFFICIAL_GAME_MECHANIC,ea,REFERENCE_ONLY,https://www.ea.com/games/ea-sports-fc/fc-27/news/pitch-notes-fc27-fut-deep-dive,,Official labels differ from source Rare
+ea-gameplay,EA FC27 Gameplay Deep Dive,OFFICIAL_GAME_MECHANIC,ea,REFERENCE_ONLY,https://www.ea.com/games/ea-sports-fc/fc-27/news/pitch-notes-fc27-gameplay-deep-dive,,Describes mechanics and balance intent
+ea-playstyles,EA FC27 PlayStyles guide,OFFICIAL_GAME_MECHANIC,ea,REFERENCE_ONLY,https://www.ea.com/games/ea-sports-fc/fc-27/news/what-are-playstyles,2026-09-25,Mechanic definitions only
+ea-patch-1.2.0,EA FC27 title update 1.2.0,OFFICIAL_GAME_MECHANIC,ea,REFERENCE_ONLY,https://www.ea.com/games/ea-sports-fc/fc-27/news/fc27-title-update-v1-2-0,2026-11-10,Patch-specific context
+ea-community-api,EA Community API access notice,UNVERIFIED_CLAIM,ea,REFERENCE_ONLY,https://www.ea.com/games/ea-sports-fc/news/pitch-notes-fc26-community-api-update,2026-07-27,Access notice for named authorized partners
+ea-forums,EA FC27 feedback forum,COMMUNITY_OPINION,ea-forums,REFERENCE_ONLY,https://forums.ea.com/category/fc-27-en/discussions/fc-27-feedback-en/,,Manual post reference only
+futwiz,FC27 ratings guide,UNVERIFIED_CLAIM,futwiz,REFERENCE_ONLY,https://www.futwiz.com/guides/fc-27-player-ratings,2026-11-03,Third-party base rating cross-check without performance observations
+futgg,FC27 4-3-3 tactics guide,COMMUNITY_OPINION,futgg,REFERENCE_ONLY,https://www.fut.gg/tactics/4-3-3/,,Reported tactic choices do not establish item performance
+fctactics,FC Tactics 4-3-3 guide,COMMUNITY_OPINION,futgg,REFERENCE_ONLY,https://fctactics.co.uk/formations/4-3-3,,Shares FUT.GG codes and is grouped conservatively with that origin
+creator,Manual creator gameplay reference,CREATOR_OBSERVATION,creator-unresolved,REFERENCE_ONLY,,,Author and original permalink required
+community,Manual community review reference,COMMUNITY_OPINION,community-unresolved,REFERENCE_ONLY,,,Author and original permalink required
+unverified,Manual unverified claim,UNVERIFIED_CLAIM,unverified,REFERENCE_ONLY,,,Context only
+owner,Owner supplied manual reports,OWNER_RECORDED_MATCH,first-party,PERMITTED_SUBMISSION,,,Private first-party report and affirmative permission
+volunteer,Voluntary match reporting,USER_SUBMITTED_MATCH,first-party,PERMITTED_SUBMISSION,,,Default private with optional explicit research sharing
+controlled,Matched comparison protocol,CONTROLLED_EXPERIMENT,first-party,PERMITTED_SUBMISSION,,,Requires complete paired design metadata
+pinned,Owner supplied FC27 card snapshot,OFFICIAL_CARD_ATTRIBUTE,owner-archive,RESEARCH_ONLY,,,Observed archive fields with official rarity and base identity unconfirmed
+v32,V3.2 prediction,MODEL_PREDICTION,model,DERIVED,,,Computed at request time

@@ -1,0 +1,24 @@
+{
+  "raw": "raw sha256 verified",
+  "approved_by": "user instruction (audit prompt step 4) on SANDBOX copy; owner registry sign-off still required for any real DB",
+  "registry_futgg_usage_status_unchanged": "NOT_PERMITTED",
+  "rarities": 26,
+  "identity_rows_submitted": 20175,
+  "roles": 114,
+  "playstyle_pages_unique": 41,
+  "playstyle_sitemap_rows_collapsed": 141,
+  "identity_rows_resolved_to_game_player": 0,
+  "flags_inserted": 3,
+  "flags_submitted": 68,
+  "identity_name_disagreements": 37,
+  "db_after": {
+    "identity": 20175,
+    "distinct_players": 19620,
+    "rarities": 26,
+    "rarity_card_sum": 20189,
+    "roles": 114,
+    "playstyle_pages": 41,
+    "open_flags": 62,
+    "identity_with_game_player": 19653
+  }
+}

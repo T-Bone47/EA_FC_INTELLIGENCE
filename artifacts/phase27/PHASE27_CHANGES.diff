@@ -1,0 +1,1297 @@
+--- /dev/null
++++ b/.dockerignore
+@@ -0,0 +1,10 @@
++data/
++.phase27-runtime/
++**/node_modules/
++**/__pycache__/
++frontend/dist/
++artifacts/
++reports/
++.git/
++.env
++**/.env
+--- a/.github/workflows/phase26.yml
++++ b/.github/workflows/phase26.yml
+@@ -32,8 +32,10 @@
+       - run: python scripts/setup_database.py
+       - run: python scripts/setup_database.py
+       - run: python scripts/ingest_fc26_foundation.py
+-      - run: python -m unittest backend.tests.test_phase26_policy backend.tests.test_phase26_contract
+-      - run: python -m pytest -q backend/tests/test_phase26_database.py backend/tests/test_fc27_card_identity_research.py
++      - run: python scripts/register_fc27_research_source.py
++      - run: python -c "from pathlib import Path; from scripts import ingest_fc27_research as s; s.ARTIFACTS=Path('/tmp/eafc-research-validation'); raise SystemExit(s.main())"
++      - run: python -m unittest backend.tests.test_phase26_policy backend.tests.test_phase26_contract backend.tests.test_phase27_api_policy
++      - run: python -m pytest -q backend/tests/test_phase26_database.py backend/tests/test_phase27_database.py backend/tests/test_fc27_card_identity_research.py
+       - run: npm --prefix frontend ci
+       - run: npm --prefix frontend test
+       - run: npm --prefix frontend run build
+--- a/backend/api/deps.py
++++ b/backend/api/deps.py
+@@ -16,6 +16,9 @@
+ from backend.api.security import decode_access_token
+ from backend.core.config import get_settings
+ from backend.repositories.user_repository import UserRepository
++from backend.services.data_license_gate import (
++    Environment, catalogue_release_permitted, environment_from_settings,
++)
+ 
+ _users = UserRepository()
+ 
+@@ -150,8 +153,23 @@
+                     "silently defaulted."))
+     return up
+ 
++def is_production_like() -> bool:
++    return environment_from_settings(get_settings().environment) == Environment.PRODUCTION
++
++
++def can_read_catalogue(game_version: str, entity_scope: str) -> bool:
++    return not is_production_like() or catalogue_release_permitted(game_version, entity_scope)
++
++
++def require_catalogue_release(game_version: str, entity_scope: str) -> None:
++    if not can_read_catalogue(game_version, entity_scope):
++        raise HTTPException(403, detail={
++            "error": "DATA_LICENSE_GATE_FAILED",
++            "detail": f"No verified {entity_scope} dataset is available for {game_version}.",
++        })
++
++
+ def require_legacy_research_environment() -> None:
+     """The frozen V2 ranking and comparison services are for local research."""
+-    from backend.services.recommendation_service_v3 import Environment, environment_from_settings
+-    if environment_from_settings(get_settings().environment) == Environment.PRODUCTION:
++    if is_production_like():
+         raise HTTPException(410, "Legacy intelligence is disabled here. Use the V3 player intelligence endpoints.")
+--- a/backend/api/main.py
++++ b/backend/api/main.py
+@@ -94,7 +94,7 @@
+                    compare, squads, feedback):
+         app.include_router(module.router)
+ 
+-    from backend.services.recommendation_service_v3 import Environment, environment_from_settings
++    from backend.services.data_license_gate import Environment, environment_from_settings
+ 
+     @app.get("/api")
+     def api_root() -> dict:
+@@ -104,9 +104,9 @@
+             "docs": "/api/docs",
+             "canonical_endpoints": [
+                 *([] if environment_from_settings(settings.environment) == Environment.PRODUCTION
+-                  else ["POST /api/recommendations", "POST /api/compare"]),
++                  else ["POST /api/recommendations", "POST /api/compare",
++                        "POST /api/recommendations/parse-intent"]),
+                 "POST /api/v3/recommendations",
+-                "POST /api/recommendations/parse-intent",
+                 "POST /api/v3/compare",
+                 "POST /api/v3/what-if",
+                 "GET  /api/players",
+--- a/backend/api/routes/cards.py
++++ b/backend/api/routes/cards.py
+@@ -16,7 +16,8 @@
+ from fastapi import APIRouter, Depends, HTTPException, Query
+ 
+ from backend.api.deps import (
+-    Pagination, pagination_params, rate_limit_default, validate_game_version,
++    Pagination, can_read_catalogue, pagination_params, rate_limit_default,
++    require_catalogue_release, validate_game_version,
+ )
+ from backend.repositories.player_repository import PlayerRepository
+ from backend.services import card_value_service
+@@ -47,8 +48,10 @@
+ 
+ 
+ def _require_production_card(game_version: str, card_id: uuid.UUID) -> dict:
+-    page = repo.card_page(_gv_id(game_version), card_id)
+-    if page is None or (page.get("card") or {}).get("is_synthetic"):
++    require_catalogue_release(game_version, "ut_card")
++    page = repo.card_page(_gv_id(game_version), card_id,
++                          include_player=can_read_catalogue(game_version, "game_player"))
++    if page is None:
+         raise HTTPException(404, "Card not found in this game version's "
+                                  "canonical data (synthetic test data is not "
+                                  "exposed through production endpoints).")
+@@ -71,8 +74,9 @@
+     pagination: Pagination = Depends(pagination_params),
+ ) -> dict:
+     gv = validate_game_version(game_version)
++    require_catalogue_release(gv, "ut_card")
+     result = repo.card_search(
+-        _gv_id(gv), q=q, position=position, rarity=rarity, card_type=card_type,
++        _gv_id(gv), include_player=can_read_catalogue(gv, "game_player"), q=q, position=position, rarity=rarity, card_type=card_type,
+         playstyle=playstyle, ovr_min=ovr_min, ovr_max=ovr_max,
+         price_max=price_max, sort=sort, sort_dir=sort_dir,
+         page=pagination.page, page_size=pagination.page_size)
+@@ -101,13 +105,7 @@
+ 
+ @router.get("/cards/{card_id}/value")
+ def card_value(card_id: uuid.UUID, game_version: str = Query("FC26")) -> dict:
+-    """Price/budget facts for one card WITHOUT a user context.
+-
+-    Value is contextual (§14): a real value score requires a recommendation
+-    request (POST /api/recommendations with entity_scope='ut_card'). This
+-    endpoint reports verified-price status and freshness only — it never
+-    invents a value number.
+-    """
++    """Verified-price status and freshness for one card."""
+     gv = validate_game_version(game_version)
+     page = _require_production_card(gv, card_id)
+     price = page.get("price")
+@@ -118,9 +116,7 @@
+         "price_status": "VERIFIED_PRICE" if has_price else "PRICE_UNKNOWN",
+         "latest_price": _json_safe(price) if has_price else None,
+         "value_status": "REQUIRES_USER_CONTEXT",
+-        "note": ("value = marginal contextual utility per verified cost — "
+-                 "compute via POST /api/recommendations (entity_scope="
+-                 "'ut_card'); OVR/price is never used as value (§14)"),
++        "note": "Legacy contextual UT card scoring is available in local research.",
+     }
+ 
+ 
+@@ -128,4 +124,5 @@
+ def card_data_status(game_version: str = Query("FC26")) -> dict:
+     """§44 data-quality surface: what card data exists — and what is NO_DATA."""
+     gv = validate_game_version(game_version)
++    require_catalogue_release(gv, "ut_card")
+     return {"game_version": gv, **_json_safe(repo.card_data_status(_gv_id(gv)))}
+--- a/backend/api/routes/feedback.py
++++ b/backend/api/routes/feedback.py
+@@ -10,10 +10,12 @@
+ from fastapi import APIRouter, Depends, HTTPException
+ 
+ from backend.api.deps import (
+-    CurrentUser, admin_required, current_user_required, rate_limit_default,
++    CurrentUser, admin_required, can_read_catalogue, current_user_required, rate_limit_default,
++    require_catalogue_release,
+     validate_game_version,
+ )
+ from backend.api.schemas import FeedbackIn, SavePlayerIn
++from backend.core.config import get_settings
+ from backend.repositories.feedback_repository import FeedbackRepository
+ from backend.repositories.player_repository import PlayerRepository
+ from backend.repositories.squad_repository import SquadRepository
+@@ -49,7 +51,13 @@
+                user: CurrentUser = Depends(current_user_required)) -> dict:
+     gv = validate_game_version(game_version) if game_version else None
+     from datetime import date, datetime
+-    items = squads.saved_players(uuid.UUID(user.id), gv)
++    versions = [gv] if gv else get_settings().supported_versions()
++    scopes = {(code, scope) for code in versions for scope in ("game_player", "ut_card")
++              if can_read_catalogue(code, scope)}
++    if not scopes:
++        return {"items": [], "total": 0}
++    items = [it for it in squads.saved_players(uuid.UUID(user.id), gv)
++             if (it["game_version"], it["entity_type"]) in scopes]
+     for it in items:
+         it["entity_id"] = str(it["entity_id"])
+         it["id"] = str(it["id"])
+@@ -62,14 +70,15 @@
+ def save_player(body: SavePlayerIn,
+                 user: CurrentUser = Depends(current_user_required)) -> dict:
+     gv = validate_game_version(body.game_version)
++    require_catalogue_release(gv, body.entity_type)
+     gvid = players.game_version_id(gv)
+     if body.entity_type == "game_player":
+-        page = players.player_page(gvid, body.entity_id)
++        page = players.player_page(gvid, body.entity_id, include_cards=False, include_other_versions=False)
+         if page is None:
+             raise HTTPException(404, "Player not found in this game version.")
+     else:
+-        page = players.card_page(gvid, body.entity_id)
+-        if page is None or page["card"].get("is_synthetic"):
++        page = players.card_page(gvid, body.entity_id, include_player=False)
++        if page is None:
+             raise HTTPException(404, "Card not found in canonical production data.")
+     squads.save_player(uuid.UUID(user.id), gvid, body.entity_type,
+                        body.entity_id, body.note)
+--- a/backend/api/routes/health.py
++++ b/backend/api/routes/health.py
+@@ -2,6 +2,8 @@
+ from __future__ import annotations
+ 
+ from fastapi import APIRouter
++
++from backend.api.deps import is_production_like
+ 
+ router = APIRouter(tags=["health"])
+ 
+@@ -14,13 +16,12 @@
+ 
+ @router.get("/api/health/ready")
+ def ready() -> dict:
+-    """Readiness probe. Counts are REAL and scoped to production data only
+-    (data_status = 'CANONICAL'): synthetic and RESEARCH_ONLY rows are
+-    excluded, and per-version counts make an empty version (e.g. FC27 = 0
+-    production rows) visible instead of implied by an aggregate. Research-
+-    only rows are reported separately and are never served."""
++    """Check the required schema in production and report row counts in local QA."""
+     from backend.core.db import query, query_one
+     try:
++        if is_production_like():
++            query_one("SELECT 1 FROM candidate_cache_generation")
++            return {"status": "ready", "database": "up"}
+         row = query_one("""
+             SELECT (SELECT count(*) FROM game_player
+                      WHERE data_status = 'CANONICAL') AS game_players,
+--- a/backend/api/routes/meta.py
++++ b/backend/api/routes/meta.py
+@@ -8,7 +8,8 @@
+ 
+ from fastapi import APIRouter, Depends, HTTPException, Query
+ 
+-from backend.api.deps import rate_limit_default, validate_game_version
++from backend.api.deps import can_read_catalogue, is_production_like, rate_limit_default, require_catalogue_release, validate_game_version
++from backend.core.config import get_settings
+ from backend.core.db import query
+ from backend.services.archetypes import ARCHETYPE_DEFINITIONS
+ from backend.services.engine_config import ENGINE_VERSION, QUALITY_BANDS
+@@ -37,6 +38,11 @@
+ 
+ @router.get("/game-versions")
+ def game_versions() -> list[dict]:
++    if is_production_like():
++        return [{"code": code, "display_name": code,
++                 "status": "ACTIVE" if can_read_catalogue(code, "game_player") else "NO_DATA",
++                 "released_on": None, "config": {}}
++                for code in get_settings().supported_versions()]
+     rows = query("""SELECT code, display_name, status, released_on, config
+                     FROM game_version ORDER BY code""")
+     for r in rows:
+@@ -47,16 +53,19 @@
+ @router.get("/reference")
+ def reference(game_version: str = Query("FC26")) -> dict:
+     gv = validate_game_version(game_version)
++    require_catalogue_release(gv, "game_player")
+     rows = query("SELECT id, code, config, status FROM game_version WHERE code=%s", (gv,))
+     if not rows:
+         raise HTTPException(404, f"game_version {gv} not registered")
+     cfg = rows[0]["config"] or {}
+     playstyles = query(
+         """SELECT pd.playstyle_name,
+-                  count(*) FILTER (WHERE gpp.tier='plus')::int AS plus_holders,
+-                  count(*)::int AS total_holders
++                  count(gp.id) FILTER (WHERE gpp.tier='plus')::int AS plus_holders,
++                  count(gp.id)::int AS total_holders
+            FROM playstyle_definition pd
+            LEFT JOIN game_player_playstyle gpp ON gpp.playstyle_definition_id = pd.id
++           LEFT JOIN game_player gp ON gp.id = gpp.game_player_id
++             AND gp.game_version_id = pd.game_version_id AND gp.data_status = 'CANONICAL'
+            WHERE pd.game_version_id = %s AND pd.data_status = 'CANONICAL'
+            GROUP BY pd.playstyle_name ORDER BY pd.playstyle_name""",
+         (rows[0]["id"],))
+--- a/backend/api/routes/players.py
++++ b/backend/api/routes/players.py
+@@ -13,7 +13,8 @@
+ from fastapi import APIRouter, Depends, HTTPException, Query
+ 
+ from backend.api.deps import (
+-    Pagination, current_user_optional, pagination_params, rate_limit_default,
++    Pagination, can_read_catalogue, is_production_like, pagination_params, rate_limit_default,
++    require_catalogue_release,
+     validate_game_version,
+ )
+ from backend.repositories.player_repository import PlayerRepository
+@@ -58,6 +59,7 @@
+     pagination: Pagination = Depends(pagination_params),
+ ) -> dict:
+     gv = validate_game_version(game_version)
++    require_catalogue_release(gv, "game_player")
+     result = repo.search(
+         _gv_id(gv), q=q, position=position.upper() if position else None,
+         club=club, nation=nation, league=league,
+@@ -70,13 +72,17 @@
+ @router.get("/players/facets")
+ def facets(game_version: str = Query("FC26")) -> dict:
+     gv = validate_game_version(game_version)
++    require_catalogue_release(gv, "game_player")
+     return {"game_version": gv, **_json_safe(repo.facets(_gv_id(gv)))}
+ 
+ 
+ @router.get("/players/{player_id}")
+ def player_page(player_id: uuid.UUID, game_version: str = Query("FC26")) -> dict:
+     gv = validate_game_version(game_version)
+-    page = repo.player_page(_gv_id(gv), player_id)
++    require_catalogue_release(gv, "game_player")
++    page = repo.player_page(_gv_id(gv), player_id,
++                            include_cards=can_read_catalogue(gv, "ut_card"),
++                            include_other_versions=not is_production_like())
+     if page is None:
+         raise HTTPException(404, "Player not found in this game version's "
+                                  "canonical data (or excluded by the synthetic "
+@@ -87,13 +93,8 @@
+ @router.get("/cards/{card_id}")
+ def card_page(card_id: uuid.UUID, game_version: str = Query("FC26")) -> dict:
+     gv = validate_game_version(game_version)
+-    page = repo.card_page(_gv_id(gv), card_id)
++    require_catalogue_release(gv, "ut_card")
++    page = repo.card_page(_gv_id(gv), card_id, include_player=can_read_catalogue(gv, "game_player"))
+     if page is None:
+         raise HTTPException(404, "Card not found in this game version.")
+-    card = page["card"]
+-    # synthetic cards are visible ONLY with an explicit debug flag and are
+-    # loudly labelled; default production surface hides them entirely.
+-    if card.get("is_synthetic"):
+-        raise HTTPException(404, "Card not found (synthetic test data is not "
+-                                 "exposed through production endpoints).")
+     return _json_safe(page)
+--- a/backend/api/routes/recommendations.py
++++ b/backend/api/routes/recommendations.py
+@@ -200,7 +200,7 @@
+     return draft
+ 
+ 
+-@router.get("/recommendations/feedback/analytics")
++@router.get("/recommendations/feedback/analytics", dependencies=[Depends(require_legacy_research_environment)])
+ def feedback_analytics(game_version: Optional[str] = Query(default=None)) -> dict:
+     """§33 phase-2 MEASURE: deterministic label analytics. No ML, no user
+     identifiers, no secrets — counts and readiness only."""
+@@ -209,7 +209,7 @@
+     return fa.summarize(game_version=gv)
+ 
+ 
+-@router.post("/recommendations/parse-intent")
++@router.post("/recommendations/parse-intent", dependencies=[Depends(require_legacy_research_environment)])
+ def parse_intent_endpoint(body: NaturalLanguageRequest) -> dict:
+     gv = validate_game_version(body.game_version)
+     # v2.1: structured intent engine (§2/§3/§4) — every emitted value carries
+@@ -232,7 +232,7 @@
+             merged[key] = structured[key]
+     merged["confidence_notes"] = structured["confidence_notes"]
+     return {"draft": merged,
+-            "note": "Review the draft, then POST /api/recommendations with it. "
++            "note": "Local research only. Review the draft before requesting legacy recommendations. "
+                     "The parser never invents ratings, cards or prices. Every "
+                     "field lists its source (USER_TEXT/INFERRED/DEFAULT), "
+                     "confidence and whether it was explicit."}
+--- a/backend/api/routes/squads.py
++++ b/backend/api/routes/squads.py
+@@ -11,7 +11,10 @@
+ 
+ from fastapi import APIRouter, Depends, HTTPException
+ 
+-from backend.api.deps import CurrentUser, current_user_required, rate_limit_default
++from backend.api.deps import (
++    CurrentUser, can_read_catalogue, current_user_required, rate_limit_default,
++    require_catalogue_release, require_legacy_research_environment,
++)
+ from backend.api.routes.meta import FORMATIONS
+ from backend.api.routes.recommendations import get_service
+ from backend.api.schemas import (
+@@ -74,7 +77,13 @@
+     squad = squads.get_squad(uuid.UUID(user.id), squad_id)
+     if squad is None:
+         raise HTTPException(404, "Squad not found (or not owned by you).")
+-    return _json_safe({**squad, "slots": squads.slots(squad_id, uuid.UUID(user.id))})
++    version = squad["game_version_code"]
++    player_visible = can_read_catalogue(version, "game_player")
++    card_visible = can_read_catalogue(version, "ut_card")
++    slots = squads.slots(squad_id, uuid.UUID(user.id)) if player_visible else []
++    if not card_visible:
++        slots = [row for row in slots if row["ut_card_id"] is None]
++    return _json_safe({**squad, "slots": slots})
+ 
+ 
+ @router.patch("/{squad_id}")
+@@ -110,13 +119,14 @@
+         raise HTTPException(422, f"slot {slot_index} of {squad['formation']} is "
+                                  f"{layout[slot_index]}, not {body.slot_position}")
+     if body.game_player_id:
++        require_catalogue_release(squad["game_version_code"], "game_player")
+         page = players.player_page(squad["game_version_id"], body.game_player_id)
+         if page is None:
+             raise HTTPException(404, "Player not found in this squad's game version "
+                                      "(versions are never mixed).")
+     if body.ut_card_id:
+-        from backend.repositories.player_repository import PlayerRepository
+-        if PlayerRepository().card_page(squad["game_version_id"], body.ut_card_id) is None:
++        require_catalogue_release(squad["game_version_code"], "ut_card")
++        if players.card_page(squad["game_version_id"], body.ut_card_id, include_player=False) is None:
+             raise HTTPException(404, "Card not found in this squad's game version.")
+     squads.assign_slot(squad_id, uuid.UUID(user.id), slot_index, body.slot_position,
+                        body.game_player_id, body.ut_card_id)
+@@ -132,7 +142,7 @@
+     return get_squad(squad_id, user)
+ 
+ 
+-@router.get("/{squad_id}/evaluation")
++@router.get("/{squad_id}/evaluation", dependencies=[Depends(require_legacy_research_environment)])
+ def evaluate_squad(squad_id: uuid.UUID,
+                    user: CurrentUser = Depends(current_user_required)):
+     """Squad summary with VERIFIED link facts. Chemistry itself stays
+@@ -171,7 +181,7 @@
+     }
+ 
+ 
+-@router.post("/{squad_id}/recommend-replacement")
++@router.post("/{squad_id}/recommend-replacement", dependencies=[Depends(require_legacy_research_environment)])
+ def recommend_replacement(squad_id: uuid.UUID, body: SquadReplaceRequest,
+                           user: CurrentUser = Depends(current_user_required)):
+     """Recommendation for one slot, using the rest of the squad as context."""
+--- a/backend/repositories/player_repository.py
++++ b/backend/repositories/player_repository.py
+@@ -1,10 +1,8 @@
+ """Production read-side repository: search, player pages, card pages.
+ 
+-PRODUCTION FIREWALL: every query here serves data_status = 'CANONICAL' only.
+-Synthetic fixtures (§13) and RESEARCH_ONLY data (e.g. the non-commercial FC27
+-Kaggle snapshot, Phase 22) are never visible through production read paths.
+-
+-All reads are game_version-scoped — FC26 and FC27 records are never mixed.
++Catalogue record queries default to canonical rows and scope them by game
++version. The API applies release permission separately. Local diagnostics can
++count quarantined records or explicitly inspect synthetic fixtures.
+ """
+ from __future__ import annotations
+ 
+@@ -16,6 +14,7 @@
+ # Allow-list, not deny-list: `<> 'SYNTHETIC_TEST'` (the pre-Phase-22 filter)
+ # would have served RESEARCH_ONLY and PENDING_REVIEW rows.
+ PROD_FILTER = "gp.data_status = 'CANONICAL'"
++CARD_FILTER = "uc.data_status = 'CANONICAL' AND uc.is_synthetic = FALSE"
+ 
+ SORTABLE = {
+     "overall_rating": "gp.overall_rating",
+@@ -122,7 +121,8 @@
+ 
+     # ------------------------------------------------------------------ player page
+     def player_page(self, game_version_id: uuid.UUID,
+-                    player_id: uuid.UUID) -> Optional[dict]:
++                    player_id: uuid.UUID, *, include_cards: bool = True,
++                    include_other_versions: bool = True) -> Optional[dict]:
+         """Full RealPlayer -> GamePlayer -> UTCard aggregate with provenance."""
+         with get_conn() as conn:
+             gp = conn.execute(f"""
+@@ -133,7 +133,7 @@
+                 LEFT JOIN club_affiliation ca ON ca.game_player_id = gp.id
+                          AND ca.game_version_id = gp.game_version_id
+                 LEFT JOIN club c ON c.id = ca.club_id
+-                LEFT JOIN real_player rp ON rp.id = gp.real_player_id
++                LEFT JOIN real_player rp ON rp.id = gp.real_player_id AND rp.data_status = 'CANONICAL'
+                 WHERE gp.id = %(id)s AND gp.game_version_id = %(gv)s AND {PROD_FILTER}""",
+                 {"id": player_id, "gv": game_version_id}).fetchone()
+             if gp is None:
+@@ -149,17 +149,19 @@
+                 """SELECT pd.playstyle_name, gpp.tier
+                    FROM game_player_playstyle gpp
+                    JOIN playstyle_definition pd ON pd.id = gpp.playstyle_definition_id
+-                   WHERE gpp.game_player_id=%s ORDER BY gpp.tier, pd.playstyle_name""",
+-                (player_id,)).fetchall()
++                   WHERE gpp.game_player_id=%s AND pd.game_version_id=%s
++                     AND pd.data_status = 'CANONICAL'
++                   ORDER BY gpp.tier, pd.playstyle_name""",
++                (player_id, game_version_id)).fetchall()
+             cards = conn.execute(
+-                """SELECT uc.id, uc.card_name, uc.position, uc.overall_rating,
++                f"""SELECT uc.id, uc.card_name, uc.position, uc.overall_rating,
+                           uc.data_status, uc.source_card_id, cr.rarity_code,
+                           uc.created_at
+                    FROM ut_card uc
+                    LEFT JOIN card_rarity cr ON cr.id = uc.rarity_id
+-                   WHERE uc.game_player_id=%s AND uc.game_version_id=%s
++                   WHERE uc.game_player_id=%s AND uc.game_version_id=%s AND {CARD_FILTER}
+                    ORDER BY uc.overall_rating DESC NULLS LAST, uc.card_name""",
+-                (player_id, game_version_id)).fetchall()
++                (player_id, game_version_id)).fetchall() if include_cards else []
+             versions = conn.execute(
+                 """SELECT gv.code FROM game_version gv WHERE gv.id=%s""",
+                 (game_version_id,)).fetchone()
+@@ -176,7 +178,7 @@
+                 (player_id, game_version_id)).fetchone()
+             # sibling game versions of the same real player (never mixed, listed only)
+             siblings = []
+-            if gp.get("real_player_id"):
++            if include_other_versions and gp.get("real_player_id"):
+                 siblings = conn.execute(
+                     """SELECT g2.id, g2.display_name, gv2.code AS game_version
+                        FROM game_player g2 JOIN game_version gv2 ON gv2.id = g2.game_version_id
+@@ -199,12 +201,16 @@
+         }
+ 
+     # ------------------------------------------------------------------ card page
+-    def card_page(self, game_version_id: uuid.UUID, card_id: uuid.UUID) -> Optional[dict]:
++    def card_page(self, game_version_id: uuid.UUID, card_id: uuid.UUID, *,
++                  include_player: bool = True, include_synthetic: bool = False) -> Optional[dict]:
++        visible = CARD_FILTER
++        if include_synthetic:
++            visible = f"({CARD_FILTER} OR (uc.data_status = 'SYNTHETIC_TEST' AND uc.is_synthetic))"
+         with get_conn() as conn:
+             card = conn.execute(
+-                """SELECT uc.*, cr.rarity_code, cr.rarity_name
++                f"""SELECT uc.*, cr.rarity_code, cr.rarity_name
+                    FROM ut_card uc LEFT JOIN card_rarity cr ON cr.id = uc.rarity_id
+-                   WHERE uc.id=%s AND uc.game_version_id=%s""",
++                   WHERE uc.id=%s AND uc.game_version_id=%s AND {visible}""",
+                 (card_id, game_version_id)).fetchone()
+             if card is None:
+                 return None
+@@ -224,10 +230,14 @@
+                    FROM card_price WHERE ut_card_id=%s
+                    ORDER BY observed_at DESC LIMIT 1""", (card_id,)).fetchone()
+             player = None
+-            if card.get("game_player_id"):
++            if include_player and card.get("game_player_id"):
+                 player = conn.execute(
+-                    "SELECT id, display_name, position_primary, overall_rating "
+-                    "FROM game_player WHERE id=%s", (card["game_player_id"],)).fetchone()
++                    f"""SELECT id, display_name, position_primary, overall_rating
++                        FROM game_player gp WHERE id=%s AND game_version_id=%s AND {PROD_FILTER}""",
++                    (card["game_player_id"], game_version_id)).fetchone()
++            card = dict(card)
++            if player is None:
++                card["game_player_id"] = None
+         return {
+             "card": dict(card),
+             "attribute_overrides": {r["attribute_code"]: r["value"] for r in overrides},
+@@ -246,6 +256,7 @@
+     }
+ 
+     def card_search(self, game_version_id: uuid.UUID, *,
++                    include_player: bool = True,
+                     q: Optional[str] = None,
+                     position: Optional[str] = None,
+                     rarity: Optional[str] = None,
+@@ -259,8 +270,8 @@
+         firewall). Unknown filters match nothing — never everything."""
+         sort_col = self._CARD_SORTS.get(sort, "uc.overall_rating")
+         direction = "ASC" if sort_dir == "asc" else "DESC"
+-        where = ["uc.game_version_id = %(gv)s", "uc.is_synthetic = FALSE"]
+-        params: dict = {"gv": game_version_id}
++        where = ["uc.game_version_id = %(gv)s", CARD_FILTER]
++        params: dict = {"gv": game_version_id, "include_player": include_player}
+         if q:
+             where.append("uc.card_name ILIKE %(q)s")
+             params["q"] = f"%{q}%"
+@@ -309,6 +320,8 @@
+                     FROM ut_card uc
+                     LEFT JOIN card_rarity cr ON cr.id = uc.rarity_id
+                     LEFT JOIN game_player gp ON gp.id = uc.game_player_id
++                        AND gp.game_version_id = uc.game_version_id
++                        AND %(include_player)s AND {PROD_FILTER}
+                     LEFT JOIN LATERAL (
+                         SELECT cp.price_coins, cp.observed_at FROM card_price cp
+                         WHERE cp.ut_card_id = uc.id AND cp.currency = 'COINS'
+@@ -325,23 +338,24 @@
+         """§44 data-quality surface: what card data exists, and what does not."""
+         with get_conn() as conn:
+             cards = conn.execute(
+-                """SELECT count(*) FILTER (WHERE NOT is_synthetic) AS production,
++                """SELECT count(*) FILTER (WHERE data_status = 'CANONICAL' AND NOT is_synthetic) AS production,
+                           count(*) FILTER (WHERE is_synthetic) AS synthetic,
+-                          count(*) FILTER (WHERE NOT is_synthetic
++                          count(*) FILTER (WHERE data_status = 'CANONICAL' AND NOT is_synthetic
+                                            AND playstyle_data_published) AS ps_published,
+-                          count(*) FILTER (WHERE identity_status = 'RESOLVED') AS resolved,
+-                          max(updated_at) FILTER (WHERE NOT is_synthetic) AS last_update
++                          count(*) FILTER (WHERE data_status = 'CANONICAL' AND NOT is_synthetic
++                                                 AND identity_status = 'RESOLVED') AS resolved,
++                          max(updated_at) FILTER (WHERE data_status = 'CANONICAL' AND NOT is_synthetic) AS last_update
+                    FROM ut_card WHERE game_version_id = %s""",
+                 (game_version_id,)).fetchone()
+             prices = conn.execute(
+                 """SELECT count(DISTINCT cp.ut_card_id) AS priced
+                    FROM card_price cp JOIN ut_card uc ON uc.id = cp.ut_card_id
+-                   WHERE uc.game_version_id = %s AND NOT uc.is_synthetic""",
++                   WHERE uc.game_version_id = %s AND uc.data_status = 'CANONICAL' AND NOT uc.is_synthetic""",
+                 (game_version_id,)).fetchone()
+             roles = conn.execute(
+                 """SELECT count(*) AS n FROM ut_card_role ucr
+                    JOIN ut_card uc ON uc.id = ucr.ut_card_id
+-                   WHERE uc.game_version_id = %s AND NOT uc.is_synthetic""",
++                   WHERE uc.game_version_id = %s AND uc.data_status = 'CANONICAL' AND NOT uc.is_synthetic""",
+                 (game_version_id,)).fetchone()
+             chem = conn.execute(
+                 """SELECT count(*) AS n FROM chemistry_rule cr
+@@ -413,7 +427,8 @@
+                 f"""SELECT c.league_name, count(*) n FROM club_affiliation ca
+                    JOIN club c ON c.id = ca.club_id
+                    JOIN game_player gp ON gp.id = ca.game_player_id
+-                   WHERE ca.game_version_id=%s AND c.league_name IS NOT NULL
++                   WHERE ca.game_version_id=%s AND gp.game_version_id=ca.game_version_id
++                     AND c.league_name IS NOT NULL
+                      AND {PROD_FILTER}
+                    GROUP BY c.league_name ORDER BY n DESC""", (game_version_id,)).fetchall()
+             positions = conn.execute(
+--- a/backend/repositories/squad_repository.py
++++ b/backend/repositories/squad_repository.py
+@@ -94,6 +94,7 @@
+                       c.name AS club, c.league_name AS league
+                FROM user_squad_slot sl
+                LEFT JOIN game_player gp ON gp.id = sl.game_player_id
++                 AND gp.data_status = 'CANONICAL' 
+                LEFT JOIN club_affiliation ca ON ca.game_player_id = gp.id
+                  AND ca.game_version_id = gp.game_version_id
+                LEFT JOIN club c ON c.id = ca.club_id
+@@ -144,7 +145,8 @@
+                       gp.nation
+                FROM user_saved_player sp
+                JOIN game_version gv ON gv.id = sp.game_version_id
+-               LEFT JOIN game_player gp ON gp.id = sp.entity_id
++               LEFT JOIN game_player gp ON gp.id = sp.entity_id AND sp.entity_type = 'game_player'
++                 AND gp.game_version_id = sp.game_version_id AND gp.data_status = 'CANONICAL' 
+                WHERE sp.user_profile_id = %s
+                  AND (%s::text IS NULL OR gv.code = %s)
+                ORDER BY sp.created_at DESC""",
+--- a/backend/services/data_license_gate.py
++++ b/backend/services/data_license_gate.py
+@@ -42,6 +42,17 @@
+     LOCAL = "local"
+     RESEARCH = "research"
+     PRODUCTION = "production"
++
++
++def environment_from_settings(name: str | None) -> Environment:
++    """Map deployment settings to the licence-gate environment. Anything
++    production-like (or unknown) fails closed to PRODUCTION."""
++    n = (name or "").strip().lower()
++    if n in ("development", "dev", "local", "test"):
++        return Environment.LOCAL
++    if n == "research":
++        return Environment.RESEARCH
++    return Environment.PRODUCTION
+ 
+ 
+ @dataclass(frozen=True)
+@@ -162,6 +173,16 @@
+         reason=entry.reason or _REASONS[entry.status],
+         release_permitted=(entry.status == DataLicenseStatus.VERIFIED),
+     )
++
++
++def catalogue_release_permitted(game_version: str, entity_scope: str) -> bool:
++    """A version-only catalogue can serve exactly one verified release per scope."""
++    releases = [version for version, entry in _DATASET_LICENSE_REGISTRY.items()
++                if (entry.game_version, entry.entity_scope) == (game_version, entity_scope)]
++    if len(releases) != 1:
++        return False
++    return check_license_gate(releases[0], game_version=game_version,
++                              entity_scope=entity_scope).release_permitted
+ 
+ 
+ class DataLicenseGateFailure(Exception):
+--- a/backend/services/recommendation_service_v3.py
++++ b/backend/services/recommendation_service_v3.py
+@@ -29,7 +29,7 @@
+ from backend.domain.user_model import AttributePreference, UserRequirements
+ from backend.services.data_license_gate import (
+     DataLicenseGateFailure,
+-    Environment,
++    Environment, environment_from_settings,
+     ProductionOverrideForbidden,
+ 
+ )
+@@ -62,17 +62,6 @@
+ # identifying information -- only request shape, engine/config/data
+ # versions, and aggregate outcome counts.
+ telemetry_log = logging.getLogger("eafc.v3.telemetry")
+-
+-
+-def environment_from_settings(name: str | None) -> Environment:
+-    """Map deployment settings to the licence-gate environment. Anything
+-    production-like (or unknown) fails closed to PRODUCTION."""
+-    n = (name or "").strip().lower()
+-    if n in ("development", "dev", "local", "test"):
+-        return Environment.LOCAL
+-    if n == "research":
+-        return Environment.RESEARCH
+-    return Environment.PRODUCTION
+ 
+ 
+ class ServiceRefusal(Exception):
+--- a/backend/services/reference_distribution.py
++++ b/backend/services/reference_distribution.py
+@@ -276,6 +276,11 @@
+ def resolve_serving_reference(game_version, scope, research, environment, override=None):
+     """Resolve only registered snapshots and authorize the result on every request, including cache hits."""
+     from backend.services.data_license_gate import DataLicenseGateFailure, Environment, gate_or_raise
++    if environment == Environment.PRODUCTION:
++        entry = _REFERENCE_REGISTRY.get((str(game_version).strip().upper(), Universe.RATINGS_SITE_PLAYERS))
++        if entry and (research or not entry["research_only"]):
++            gate_or_raise(entry["version"], environment=environment, game_version=game_version,
++                          entity_scope=scope, allow_research_only=entry["research_only"] and research)
+     ref = load_reference_for(game_version, entity_type=scope, allow_research_only=research)
+     if override is not None and override != ref.version:
+         raise ReferenceDistributionMismatch(f"{override!r} is not the registered reference for {game_version}")
+--- a/backend/tests/test_api.py
++++ b/backend/tests/test_api.py
+@@ -94,7 +94,7 @@
+     gp = d["game_player"]
+     assert gp["display_name"] == "Kylian Mbappé"
+     assert d["attributes"]["finishing"] is not None
+-    assert d["provenance"]["usage_status"] == "LICENSED"
++    assert d["provenance"]["usage_status"] == "UNKNOWN"  # FC26 chain is unverified
+     assert d["freshness"]["last_observed"]
+     # card list exists but real cards are not ingested
+     assert d["cards"] == []
+--- /dev/null
++++ b/backend/tests/test_phase27_api_policy.py
+@@ -0,0 +1,66 @@
++"""Production catalogue policy at HTTP boundaries. No database is required."""
++import unittest
++import uuid
++from unittest.mock import patch
++
++from fastapi.testclient import TestClient
++
++from backend.api.deps import CurrentUser, current_user_required
++from backend.api.main import create_app
++from backend.core.config import Settings
++from backend.services.data_license_gate import catalogue_release_permitted
++
++
++class ProductionCatalogueTests(unittest.TestCase):
++    def test_shipped_releases_lack_production_permission(self):
++        for version in ("FC26", "FC27", "FC28"):
++            for scope in ("game_player", "ut_card"):
++                with self.subTest(version=version, scope=scope):
++                    self.assertFalse(catalogue_release_permitted(version, scope))
++
++    def test_production_denial_does_not_require_frozen_distribution_files(self):
++        from backend.services.data_license_gate import DataLicenseGateFailure, Environment
++        from backend.services.reference_distribution import resolve_serving_reference
++
++        with patch("backend.services.reference_distribution.load_reference_distribution",
++                   side_effect=AssertionError("unverified reference file must not be opened")):
++            with self.assertRaises(DataLicenseGateFailure):
++                resolve_serving_reference("FC26", "game_player", False, Environment.PRODUCTION)
++
++    def test_data_routes_deny_before_repository_or_reference_reads(self):
++        entity = uuid.uuid4()
++        routes = (
++            "/players", "/players/facets", f"/players/{entity}",
++            "/cards", f"/cards/{entity}", f"/cards/{entity}/versions",
++            f"/cards/{entity}/prices", f"/cards/{entity}/value",
++            "/card-data-status", "/meta/reference",
++        )
++        app = create_app()
++        user = CurrentUser(str(uuid.uuid4()), "test@example.invalid", "user", "test-session")
++        app.dependency_overrides[current_user_required] = lambda: user
++        with TestClient(app) as client, patch("backend.api.deps.get_settings") as settings, patch(
++            "backend.repositories.player_repository.get_conn",
++            side_effect=AssertionError("unverified catalogue must not be read"),
++        ), patch("backend.api.routes.meta.query",
++                 side_effect=AssertionError("unverified catalogue metadata must not be read")):
++            for environment in ("production", "staging", "unknown"):
++                settings.return_value = Settings(environment=environment)
++                for version in ("FC26", "FC27"):
++                    for route in routes:
++                        with self.subTest(environment=environment, version=version, route=route):
++                            response = client.get("/api" + route, params={"game_version": version})
++                            self.assertEqual(response.status_code, 403, response.text)
++                            self.assertEqual(response.json()["detail"]["error"], "DATA_LICENSE_GATE_FAILED")
++            self.assertEqual(client.get("/api/saved-players").json(), {"items": [], "total": 0})
++            self.assertEqual(client.post("/api/saved-players", json={
++                "game_version": "FC26", "entity_type": "game_player", "entity_id": str(entity),
++            }).status_code, 403)
++            self.assertEqual(client.get(f"/api/squads/{entity}/evaluation").status_code, 410)
++            self.assertEqual(client.post(f"/api/squads/{entity}/recommend-replacement",
++                                         json={"slot_index": 0}).status_code, 410)
++            self.assertEqual(client.post("/api/recommendations/parse-intent",
++                                         json={"text": "quick midfielder", "game_version": "FC26"}).status_code, 410)
++            self.assertEqual(client.get("/api/recommendations/feedback/analytics").status_code, 410)
++            self.assertEqual(client.get("/api/meta/game-versions").json()[0]["status"], "NO_DATA")
++            with patch("backend.core.db.query_one", return_value={"column": 1}):
++                self.assertEqual(client.get("/api/health/ready").json(), {"status": "ready", "database": "up"})
+--- /dev/null
++++ b/backend/tests/test_phase27_database.py
+@@ -0,0 +1,41 @@
++"""Row-status defense in depth, exercised only on disposable CI PostgreSQL."""
++import os
++import uuid
++from urllib.parse import urlparse
++
++import pytest
++
++URL = os.environ.get("DATABASE_URL", "")
++pytestmark = pytest.mark.skipif(urlparse(URL).path != "/eafc_ci", reason="requires disposable eafc_ci")
++
++
++def test_noncanonical_cards_are_absent_from_direct_search_and_linked_reads():
++    import psycopg
++    from backend.repositories.player_repository import PlayerRepository
++
++    repository = PlayerRepository()
++    version_id = repository.game_version_id("FC26")
++    marker = str(uuid.uuid4())
++    ids = {}
++    with psycopg.connect(URL) as conn:
++        player_id = conn.execute(
++            "SELECT id FROM game_player WHERE game_version_id=%s AND data_status='CANONICAL' LIMIT 1",
++            (version_id,),
++        ).fetchone()[0]
++        for status in ("CANONICAL", "PENDING_REVIEW", "REJECTED", "SYNTHETIC_TEST"):
++            ids[status] = conn.execute(
++                """INSERT INTO ut_card (game_version_id, game_player_id, source_id, source_card_id,
++                                        card_name, position, data_status, is_synthetic)
++                   VALUES (%s, %s, 'synthetic_fixtures', %s, %s, 'CM', %s, %s) RETURNING id""",
++                (version_id, player_id, f"{marker}-{status}", marker, status, status == "SYNTHETIC_TEST"),
++            ).fetchone()[0]
++    try:
++        assert repository.card_page(version_id, ids["CANONICAL"])["game_player"]["id"] == player_id
++        for status in ("PENDING_REVIEW", "REJECTED", "SYNTHETIC_TEST"):
++            assert repository.card_page(version_id, ids[status]) is None
++        assert [row["id"] for row in repository.card_search(version_id, q=marker)["items"]] == [ids["CANONICAL"]]
++        linked = {row["id"] for row in repository.player_page(version_id, player_id)["cards"]}
++        assert linked.intersection(ids.values()) == {ids["CANONICAL"]}
++    finally:
++        with psycopg.connect(URL) as conn:
++            conn.execute("DELETE FROM ut_card WHERE id = ANY(%s)", (list(ids.values()),))
+--- a/backend/tests/test_postgres_integration.py
++++ b/backend/tests/test_postgres_integration.py
+@@ -172,7 +172,8 @@
+     assert row is not None
+     from backend.repositories.player_repository import PlayerRepository
+     gvid = PlayerRepository().game_version_id("FC26")
+-    page = PlayerRepository().card_page(gvid, row["id"])
++    assert PlayerRepository().card_page(gvid, row["id"]) is None
++    page = PlayerRepository().card_page(gvid, row["id"], include_synthetic=True)
+     assert page is not None and page["card"]["is_synthetic"] is True
+     # a FC27-scoped lookup of the same card finds nothing (version isolation)
+     gvid27 = PlayerRepository().game_version_id("FC27")
+--- a/backend/tests/test_v3_1_calibration_hardening.py
++++ b/backend/tests/test_v3_1_calibration_hardening.py
+@@ -275,14 +275,20 @@
+ 
+     @requires_db
+     def test_service_layer_only_ever_loads_game_player_scope(self):
+-        """The v3 service must never call the ut_card-serving repository
+-        method, regardless of what the request asks for -- confirmed by
+-        reading the actual call the service makes, not just its return value."""
+-        import inspect
++        """Exercise the shared service path and verify the requested repository scope."""
++        from unittest.mock import Mock
++
++        from backend.api.schemas_v3 import RecommendationRequestV3
+         from backend.services.recommendation_service_v3 import RecommendationServiceV3
+-        source = inspect.getsource(RecommendationServiceV3.recommend)
+-        assert "load_cards" not in source, "v3 service must never call the ut_card loader"
+-        assert "load_candidates" in source
++
++        repository = Mock(spec=["load_candidates", "load_cards"])
++        repository.load_candidates.return_value = []
++        response = RecommendationServiceV3(repository=repository).recommend(
++            RecommendationRequestV3(game_version="FC26", position="CM"))
++        assert response["entity_scope"] == "game_player"
++        repository.load_candidates.assert_called_once()
++        repository.load_cards.assert_not_called()
++
+ 
+ 
+ # ---------------------------------------------------------------------
+--- a/db/seed_reference_data.sql
++++ b/db/seed_reference_data.sql
+@@ -46,14 +46,14 @@
+    'Canonical authority for the fields EA publishes. Bulk table data is not exposed to a standard page fetch (JS-rendered / undocumented endpoints) so direct bulk ingestion is NOT performed. Accessed only for field-level schema confirmation.'),
+ 
+   ('kaggle_justdhia_ea_fc26_player_ratings', 'EA Sports FC 26 Player Ratings (Kaggle carrier)', 'CARRIER_DATASET', 3,
+-   'https://www.kaggle.com/datasets/justdhia/ea-sports-fc-26-player-ratings', 'CC0 1.0 Public Domain',
+-   'LICENSED', 'CLEARED', 'project-owner-license-review', TIMESTAMPTZ '2026-09-14 00:00:00+00',
++   'https://www.kaggle.com/datasets/justdhia/ea-sports-fc-26-player-ratings', 'Unverified licence chain (FC26_DATA_GAPS.md G-10)',
++   'UNKNOWN', 'CLEARED', 'local packaged snapshot processing only', NULL,
+    ARRAY['overall_rating','pace','shooting','passing','dribbling','defending','physicality',
+          'position_primary','position_secondary','nation','club','league','date_of_birth',
+          'height_cm','weight_kg','preferred_foot','weak_foot_stars','skill_moves_stars',
+          'gk_diving','gk_handling','gk_kicking','gk_positioning','gk_reflexes',
+          'playstyles','playstyles_plus','detailed_attributes'],
+-   'CC0-licensed carrier of values scraped from the official EA ratings page (men''s universe, scraped March 2026). CC0 permits commercial use and redistribution. 16,228 players; forensics in docs/DATASET_FORENSICS_FC26.md. Authority is derived from EA; conflicts defer to ea_official_ratings.'),
++   'Packaged FC26 fixture for local validation only. The claimed CC0 chain is unverified. No production serving, commercial use, or redistribution approval is recorded. See docs/FC26_DATA_GAPS.md G-10.'),
+ 
+   ('synthetic_fixtures', 'Synthetic test fixtures (project-generated)', 'SYNTHETIC_FIXTURE', 5,
+    NULL, 'project-internal', 'SYNTHETIC_TEST', 'NOT_REQUIRED', NULL, NULL, ARRAY[]::TEXT[],
+@@ -63,7 +63,7 @@
+    'PUBLIC_REFERENCE', 'REQUIRED', NULL, NULL, ARRAY[]::TEXT[],
+    'Not ingested. Reference-only for card-structure/schema discovery. No scraping performed.'),
+ 
+-  ('futgg', 'FUT.GG', 'COMMUNITY_DB', 4, 'https://www.fut.gg', 'proprietary', 'UNKNOWN', 'REQUIRED',
++  ('futgg', 'FUT.GG', 'COMMUNITY_DB', 4, 'https://www.fut.gg', 'proprietary', 'NOT_PERMITTED', 'REQUIRED',
+    NULL, NULL, ARRAY[]::TEXT[], 'Not ingested. No access attempted.'),
+ 
+   ('futwiz', 'FUTWIZ', 'COMMUNITY_DB', 4, 'https://www.futwiz.com', 'proprietary', 'UNKNOWN',
+@@ -79,7 +79,11 @@
+   SET name = EXCLUDED.name, source_type = EXCLUDED.source_type,
+       authority_tier = EXCLUDED.authority_tier, url = EXCLUDED.url,
+       license = EXCLUDED.license, usage_status = EXCLUDED.usage_status,
+-      legal_gate = EXCLUDED.legal_gate, canonical_fields = EXCLUDED.canonical_fields,
++      legal_gate = EXCLUDED.legal_gate,
++      cleared_by = CASE WHEN source_registry.source_id = 'kaggle_justdhia_ea_fc26_player_ratings'
++                        THEN EXCLUDED.cleared_by ELSE source_registry.cleared_by END,
++      cleared_at = CASE WHEN source_registry.source_id = 'kaggle_justdhia_ea_fc26_player_ratings'
++                        THEN EXCLUDED.cleared_at ELSE source_registry.cleared_at END, canonical_fields = EXCLUDED.canonical_fields,
+       notes = EXCLUDED.notes;
+ 
+ -- FC26 card rarities (reference table; card-level data still NOT ingested) -------
+@@ -97,7 +101,7 @@
+ -- (max observed plus-per-player across all 119 PlayStyle+ holders is exactly 1).
+ INSERT INTO playstyle_plus_cap (game_version_id, scope, max_plus, evidence_note)
+ SELECT id, 'player_base', 1,
+-       'Observed maximum PlayStyle+ count per player = 1 across all 119 holders in the CC0 FC26 foundation (docs/DATASET_FORENSICS_FC26.md). Card-scope cap for promo cards is UNKNOWN and intentionally not seeded.'
++       'Observed maximum PlayStyle+ count per player = 1 across all 119 holders in the unverified FC26 foundation (docs/DATASET_FORENSICS_FC26.md). Card-scope cap for promo cards is UNKNOWN and intentionally not seeded.'
+ FROM game_version WHERE code = 'FC26'
+ ON CONFLICT (game_version_id, scope) DO UPDATE SET max_plus = EXCLUDED.max_plus,
+        evidence_note = EXCLUDED.evidence_note;
+--- a/deploy/DEPLOYMENT.md
++++ b/deploy/DEPLOYMENT.md
+@@ -1,7 +1,8 @@
+ # Deployment Guide — EA FC Player Intelligence
+ 
+ Target stack: Python 3.13, FastAPI + gunicorn/uvicorn, PostgreSQL 17, built React SPA
+-served same-origin by the API. Everything below is reproducible from a clean machine.
++served same-origin by the API. This guide describes the deployment order. Phase 27 verifies PostgreSQL 16.16 locally.
++Production catalogue and ranking data require a verified release for each version and entity scope.
+ 
+ ## 0. What gets deployed
+ 
+@@ -9,7 +10,7 @@
+ |---|---|---|
+ | API + SPA | `backend/` + `frontend/dist` | one uvicorn/gunicorn app; SPA mounted when `FRONTEND_DIST` is set |
+ | Database | PostgreSQL 17 | schema from `db/DATABASE_SCHEMA_V1.sql` + `db/migrations/*.sql` + `db/seed_reference_data.sql` |
+-| Data | `scripts/ingest_*.py` | idempotent; re-runnable on every deploy |
++| Data | Version-scoped releases | The shipped snapshots are for isolated local validation |
+ 
+ No background workers, no cache server, no message queue — deliberately minimal.
+ 
+@@ -44,21 +45,27 @@
+ python3 scripts/setup_database.py        # idempotent; applies schema + migrations + seed, tracks checksums
+ ```
+ 
+-`setup_database.py` records every file in `schema_migrations` with a checksum;
+-re-running is a no-op unless a migration changed (changed checksums fail loudly
+-instead of half-applying — inspect before forcing).
++Apply migration 010 before starting the API. Candidate reads use its
++generation table, and production readiness checks that the table is accessible.
++The setup command tracks checksums. It skips unchanged files, reapplies an
++updated reference seed, and refuses edits to applied schema migrations.
+ 
+-## 4. Ingest production data (idempotent)
++## 4. Load local validation data
++
++In an isolated local test database, where the packaged fixtures are permitted
++for the validation workflow:
+ 
+ ```bash
+-python3 scripts/ingest_fc26_foundation.py    # 16,228 players from the CC0 Kaggle carrier dataset
+-python3 scripts/ingest_real_identities.py    # 20 real-player identity links
+-# synthetic fixture cards are TEST-ONLY; do NOT run ingest_synthetic_cards.py in production.
++ENVIRONMENT=test python3 scripts/ingest_fc26_foundation.py
++ENVIRONMENT=test python3 scripts/register_fc27_research_source.py
++ENVIRONMENT=test python3 scripts/ingest_fc27_research.py
+ ```
+ 
+-Every script is safe to re-run: upserts on natural keys, no duplicates, child rows
+-re-pointed at canonical ids. Legal gate: sources with `legal_gate=REQUIRED` and no
+-`cleared_by` are refused by the pipeline — this is intentional and must not be bypassed.
++The shipped FC26 release is UNVERIFIED and FC27 is RESEARCH_ONLY. Production-like
++builds refuse both. Production publication requires verified rights evidence
++and a deployment manifest that binds database rows and distribution files to the
++approved release. The Docker build excludes bundled research data and local QA files. Mount only
++approved distributions at `/app/data` after the release is authorized.
+ 
+ ## 5. Build the frontend
+ 
+@@ -87,7 +94,7 @@
+ 
+ ```bash
+ curl -fsS http://127.0.0.1:8000/api/health          # {"status":"ok",...}
+-curl -fsS http://127.0.0.1:8000/api/health/ready    # real counts; 503 when DB is down
++curl -fsS http://127.0.0.1:8000/api/health/ready    # database and migration readiness; 503 when unavailable
+ curl -fsS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8000/          # 200 (SPA)
+ curl -s -X POST http://127.0.0.1:8000/api/recommendations \
+   -H 'Content-Type: application/json' \
+--- a/deploy/Dockerfile
++++ b/deploy/Dockerfile
+@@ -17,7 +17,7 @@
+ COPY backend/ backend/
+ COPY scripts/ scripts/
+ COPY db/ db/
+-COPY data/ data/
++# Approved release distributions are mounted separately at /app/data.
+ COPY --from=frontend /fe/dist /app/frontend/dist
+ USER eafc
+ EXPOSE 8000
+--- a/frontend/src/intelligence/Intelligence.test.tsx
++++ b/frontend/src/intelligence/Intelligence.test.tsx
+@@ -5,12 +5,12 @@
+ // plain stub (not vi.fn): vitest's spy bookkeeping leaks an unhandled rejection for rejecting async mocks
+ const h = vi.hoisted(() => ({ impl: null as null | ((r: unknown) => Promise<unknown>), calls: [] as unknown[],
+   cmpImpl: null as null | ((r: unknown, ids: string[]) => Promise<unknown>), cmpCalls: [] as unknown[][],
+-  wiCalls: [] as unknown[][] }))
++  wiImpl: null as null | (() => Promise<unknown>), wiCalls: [] as unknown[][] }))
+ vi.mock('./api', async (importOriginal) => ({
+   ...(await importOriginal<typeof import('./api')>()),   // keep the real toApiError; stub only the network
+   recommend: (r: unknown) => { h.calls.push(r); return h.impl!(r) },
+   compare: (r: unknown, ids: string[]) => { h.cmpCalls.push([r, ids]); return h.cmpImpl!(r, ids) },
+-  whatIf: (b: unknown, v: unknown, t: unknown) => { h.wiCalls.push([b, v, t]); return Promise.resolve(wiFx) },
++  whatIf: (b: unknown, v: unknown, t: unknown) => { h.wiCalls.push([b, v, t]); return h.wiImpl!() },
+ }))
+ import { Intelligence, buildRequest, type FormState } from './Intelligence'
+ import rec from './fixtures/recommend.fc26.cm.json'
+@@ -41,7 +41,7 @@
+ })
+ 
+ describe('Intelligence page', () => {
+-  beforeEach(() => { h.calls.length = 0; h.cmpCalls.length = 0; h.wiCalls.length = 0; h.impl = async () => rec; h.cmpImpl = async () => cmpFx })
++  beforeEach(() => { h.calls.length = 0; h.cmpCalls.length = 0; h.wiCalls.length = 0; h.impl = async () => rec; h.cmpImpl = async () => cmpFx; h.wiImpl = async () => wiFx })
+ 
+   it('keeps Find players disabled until the FC27 division is chosen', async () => {
+     const u = userEvent.setup(); render(<Intelligence />)
+@@ -105,6 +105,40 @@
+     expect(await screen.findByLabelText('Comparison')).toBeInTheDocument()
+   })
+ 
++  it('ignores an older recommendation when the user changes the form and resubmits', async () => {
++    let resolveOld!: (value: unknown) => void
++    h.impl = () => new Promise(resolve => { resolveOld = resolve })
++    const u = userEvent.setup()
++    render(<Intelligence />)
++    await u.click(screen.getByLabelText('FC26'))
++    await u.click(find())
++    await u.selectOptions(screen.getByLabelText('Tactical style'), 'LOW_BLOCK')
++    expect(find()).toBeEnabled()
++    h.impl = async () => rec
++    await u.click(find())
++    expect(await screen.findByTestId('submitted-request')).toHaveTextContent('low block')
++    await act(async () => { resolveOld({ ranked: null, division: null }) })
++    expect(screen.queryByRole('alert')).toBeNull()
++    expect(screen.getByTestId('submitted-request')).toHaveTextContent('low block')
++  })
++
++  it('ignores a what-if response from before a new recommendation', async () => {
++    let finish!: (value: unknown) => void
++    h.wiImpl = () => new Promise(resolve => { finish = resolve })
++    const u = userEvent.setup()
++    render(<Intelligence />)
++    await u.click(screen.getByLabelText('FC26'))
++    await u.click(find())
++    await u.click(await screen.findByRole('button', { name: 'High press' }))
++    await u.selectOptions(screen.getByLabelText('Tactical style'), 'LOW_BLOCK')
++    h.impl = async () => ({ ...rec, request_id: 'new-request' })
++    await u.click(find())
++    await screen.findByTestId('submitted-request')
++    await act(async () => { finish(wiFx) })
++    expect(screen.queryByText(/entered the top 10/i)).toBeNull()
++    expect(screen.queryByRole('heading', { name: 'High press' })).toBeNull()
++  })
++
+   it('ignores a comparison response from before a new search', async () => {
+     const u = userEvent.setup(); render(<Intelligence />)
+     await u.click(screen.getByLabelText('FC26')); await u.click(find())
+--- a/frontend/src/intelligence/Intelligence.tsx
++++ b/frontend/src/intelligence/Intelligence.tsx
+@@ -53,21 +53,38 @@
+   const [selected, setSelected] = useState<string[]>([])
+   const [cmp, setCmp] = useState<CompareResponse | null>(null)
+   const [cmpErr, setCmpErr] = useState<ApiError | null>(null)
+-  const set = (p: Partial<FormState>) => setS(prev => ({ ...prev, ...p }))
++  const recommendGeneration = useRef(0)
++  const compareGeneration = useRef(0)
++  const requestPending = useRef(false)
+   const req = buildRequest(s)
+ 
+-  const compareGeneration = useRef(0)
++  function set(p: Partial<FormState>) {
++    recommendGeneration.current++
++    requestPending.current = false
++    setBusy(false); setError(null)
++    setS(prev => ({ ...prev, ...p }))
++  }
+ 
+   async function submit() {
+-    if (!req) return
++    if (!req || requestPending.current) return
++    const generation = ++recommendGeneration.current
+     compareGeneration.current++
++    requestPending.current = true
+     setResult(null); setLastReq(null)
+     setBusy(true); setError(null); setCmp(null); setCmpErr(null); setSelected([])
+     try {
+       const res = await recommend(req)
++      if (generation !== recommendGeneration.current) return
+       if (!isResponse(res)) throw new Error('The server returned an unexpected response.')
+       setResult(res); setLastReq(req)
+-    } catch (e) { setResult(null); setError(toApiError(e)) } finally { setBusy(false) }
++    } catch (e) {
++      if (generation === recommendGeneration.current) setError(toApiError(e))
++    } finally {
++      if (generation === recommendGeneration.current) {
++        requestPending.current = false
++        setBusy(false)
++      }
++    }
+   }
+ 
+   function toggle(e: Entry) {
+@@ -141,6 +158,12 @@
+       {busy && <Loading label="Scoring players" />}
+       <ErrorBox error={error} />
+       {result && <ErrorBoundary key={result.request_id}>
++        {lastReq && <p className="ix-scope" data-testid="submitted-request">
++          Results for {lastReq.game_version} · {lastReq.position} · {lastReq.tactical_profile.replace(/_/g, ' ').toLowerCase()}
++          {lastReq.division ? ` · ${lastReq.division}` : lastReq.game_version === 'FC27' ? ' · Both divisions' : ''}
++          {lastReq.secondary_tactical_profile ? ` · Secondary ${lastReq.secondary_tactical_profile.replace(/_/g, ' ').toLowerCase()}` : ''}
++          {lastReq.lam != null ? ` · Emphasis ${lastReq.lam.toFixed(2)}` : ''}
++        </p>}
+         <ScopeBanner division={result.division} />
+         {result.ranked.length === 0 ? (
+           <p role="status" className="ix-scope">No eligible players for this request ({result.counts?.candidates ?? 0} candidates considered, {result.counts?.excluded ?? 0} excluded by eligibility gates).</p>
+--- a/frontend/src/intelligence/WhatIfPanel.tsx
++++ b/frontend/src/intelligence/WhatIfPanel.tsx
+@@ -26,7 +26,7 @@
+   const [err, setErr] = useState<ApiError | null>(null)
+   const [busy, setBusy] = useState(false)
+   async function run(p: Preset) {
+-    setBusy(true); setErr(null)
++    setBusy(true); setErr(null); setRes(null)
+     try { setRes(await whatIf(request, [{ label: p.label, ...p.change }], 10)) } catch (e) { setRes(null); setErr(toApiError(e)) } finally { setBusy(false) }
+   }
+   const v = res?.variants[0]
+--- a/scripts/browser_qa/README.md
++++ b/scripts/browser_qa/README.md
+@@ -1,6 +1,6 @@
+ # Browser QA
+ Run from the project root with the API on port 8011, a migrated isolated database,
+-a local research-authorized FC26 player fixture, and a built frontend.
++the packaged FC26 and FC27 player snapshots loaded in the isolated local test environment, and a built frontend.
+ 
+     npm install --prefix scripts/browser_qa --no-save puppeteer-core@24 axe-core@4
+     node scripts/browser_qa/serve.mjs
+@@ -12,5 +12,5 @@
+ Reports include a unique directory per run. Infrastructure and failed required
+ assertions exit nonzero. Serious/critical axe violations carrying WCAG tags block
+ because they can prevent access to controls or content. Other axe findings are
+-warnings. Focus and touch measurements are diagnostic. The injected HTTP errors
++warnings. The keyboard suite checks Tab order and visible focus. The mobile suite uses touch taps to select players. Undersized control measurements are diagnostic. The injected HTTP errors
+ are expected in the failure journeys. Uncaught page exceptions block in every journey.
+--- a/scripts/browser_qa/qa.mjs
++++ b/scripts/browser_qa/qa.mjs
+@@ -6,12 +6,12 @@
+ 
+ const required = [
+   'A initial state + keyboard', 'flow desktop', 'flow tablet', 'flow mobile',
+-  'C2 desktop stress', 'C2 tablet stress', 'C2 mobile stress', 'F focus-visibility probe',
++  'C2 desktop stress', 'C2 tablet stress', 'C2 mobile stress', 'F focus-visibility probe', 'FC27 research flow',
+   ...['503 object detail shows the server message', '500 plain error is surfaced, not swallowed',
+       'malformed 200 (ranked: null)', 'empty ranked list says so', 'slow response shows a loading indicator',
+       'network failure is surfaced'].map(name => 'G ' + name),
+ ]
+-const requiredShots = ['results_desktop', 'results_tablet', 'results_mobile', 'compare_desktop', 'compare_mobile']
++const requiredShots = ['results_desktop', 'results_tablet', 'results_mobile', 'compare_desktop', 'compare_mobile', 'fc27_desktop']
+ 
+ export async function runQA({ base, out, shots, launch, run, requiredSuites = required, screenshots = requiredShots }) {
+   const id = randomUUID()
+--- a/scripts/browser_qa/scenarios.mjs
++++ b/scripts/browser_qa/scenarios.mjs
+@@ -26,7 +26,7 @@
+   await page.click('input[name=gv][type=radio]:not(:checked)')
+   return recommend(page, tactic)
+ }
+-async function recommend(page, tactic) {
++async function recommend(page, tactic, version = 'FC26', division) {
+   await page.select('select[aria-label="Tactical style"]', tactic)
+   const response = page.waitForResponse(r => r.url().endsWith('/api/v3/recommendations') && r.request().method() === 'POST')
+   await clickText(page, 'button', 'find players')
+@@ -37,9 +37,9 @@
+     name: card.querySelector('h3').textContent, rank: Number(card.querySelector('.ix-rank').textContent),
+     score: card.querySelector('.ix-score').textContent
+   })))
+-  check('FC26 CM ' + tactic + ' request reached API and rendered the returned rankings',
+-    http.ok() && payload.game_version === 'FC26' && payload.position === 'CM' && payload.tactical_profile === tactic && result.request.tactical_profile === tactic &&
+-    result.reference_distribution_version === 'fc26-players-2026-09-r1' &&
++  check(version + ' CM ' + tactic + ' request reached API and rendered the returned rankings',
++    http.ok() && payload.game_version === version && payload.division === division && payload.position === 'CM' && payload.tactical_profile === tactic && result.request.tactical_profile === tactic &&
++    result.reference_distribution_version === version.toLowerCase() + '-players-2026-09-r1' &&
+     result.reference_distribution_universe === 'RATINGS_SITE_PLAYERS' && rows.length === result.ranked.length &&
+     rows.every((row, i) => row.name === result.ranked[i].name && row.rank === result.ranked[i].rank && row.score === result.ranked[i].score.toFixed(4)))
+   return result
+@@ -81,6 +81,7 @@
+     check('Tactical change recomputed demand', pressed.request_id !== initial.request_id &&
+       JSON.stringify(pressed.demand_vector) !== JSON.stringify(initial.demand_vector))
+   }
++  check('No console errors during ' + vn + ' results', errs.length === 0, JSON.stringify(errs))
+   R.console.push({ state: 'flow-' + vn, errors: errs }); await page.close()
+ })
+ 
+@@ -91,9 +92,45 @@
+ })
+ 
+ await guard('F focus-visibility probe', async () => {
+-  const { page } = await open(VIEW.desktop)   // FC27 default keeps the division group visible
+-  for (const sel of ['button.btn', 'input[name=gv]', 'select[aria-label=Position]', 'input[name=division]']) { await page.focus(sel); await page.keyboard.press('Shift'); R.focus.push({ sel, ...(await page.$eval(sel, e => { const s = getComputedStyle(e); return { outline: s.outlineStyle + ' ' + s.outlineWidth, boxShadow: s.boxShadow.slice(0, 40) } }).catch(() => ({ outline: 'n/a' }))) }) }
+-  check('Focus probes captured all controls', R.focus.length === 4 && R.focus.every(x => x.outline !== 'n/a'))
++  const { page, errs } = await open(VIEW.desktop)
++  const order = ['input[name=gv]', 'select[aria-label=Position]', 'input[name=division]', 'select[aria-label="Tactical style"]']
++  const reached = []
++  for (let i = 0; i < 35 && reached.length < order.length; i++) {
++    await page.keyboard.press('Tab')
++    const item = await page.evaluate(selectors => {
++      const el = document.activeElement
++      const selector = selectors.find(sel => el?.matches(sel))
++      if (!selector) return null
++      const css = getComputedStyle(el)
++      return { selector, visible: el.matches(':focus-visible') &&
++        ((css.outlineStyle !== 'none' && parseFloat(css.outlineWidth) > 0) || css.boxShadow !== 'none') }
++    }, order)
++    if (item) reached.push(item)
++  }
++  R.focus.push(...reached)
++  check('Tab visits game, position, division and tactic in order with visible focus',
++    reached.length === order.length && reached.every((item, i) => item.selector === order[i] && item.visible),
++    JSON.stringify(reached))
++  check('No console errors during keyboard traversal', errs.length === 0, JSON.stringify(errs))
++  await page.close()
++})
++
++await guard('FC27 research flow', async () => {
++  const { page, errs } = await open(VIEW.desktop)
++  await page.click('input[name=division]')
++  const result = await recommend(page, 'BALANCED', 'FC27', "Men's Football")
++  check('FC27 research results preserve version and division',
++    result.request.include_research_data === true && result.division.requested === "Men's Football" &&
++    result.dataset.data_status === 'RESEARCH_ONLY')
++  const choices = await page.$$('input[type=checkbox][aria-label^="Compare "]')
++  await choices[0].click(); await choices[1].click()
++  await clickText(page, 'button', 'compare 2 players')
++  await page.waitForSelector('[aria-label=Comparison]')
++  await clickText(page, 'button', '^high press$')
++  await page.waitForSelector('[aria-label="What if"] ul li')
++  check('FC27 compares players and displays a what-if variant', true)
++  check('No console errors during FC27 research flow', errs.length === 0, JSON.stringify(errs))
++  await page.screenshot({ path: `${SHOTS}/shot_fc27_desktop.png` })
+   await page.close()
+ })
+ 
+--- a/scripts/ingest_fc26_foundation.py
++++ b/scripts/ingest_fc26_foundation.py
+@@ -13,7 +13,9 @@
+ 
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+ 
++from backend.core.config import get_settings  # noqa: E402
+ from backend.core.db import close_pool, query  # noqa: E402
++from backend.services.data_license_gate import Environment, environment_from_settings, gate_or_raise  # noqa: E402
+ from backend.domain.evidence_model import SourceRecord, UsageStatus  # noqa: E402
+ from backend.ingestion.identity_resolver import IdentityIndex  # noqa: E402
+ from backend.ingestion.local_file_adapter import LocalFileAdapter  # noqa: E402
+@@ -55,6 +57,10 @@
+ 
+ 
+ def main() -> None:
++    environment = environment_from_settings(get_settings().environment)
++    gate_or_raise("fc26-players-2026-09-r1", environment=environment,
++                  game_version="FC26", entity_scope="game_player",
++                  allow_unverified=environment != Environment.PRODUCTION)
+     src = source_record()
+     adapter = LocalFileAdapter(
+         src, "FC26",
+--- a/scripts/setup_database.py
++++ b/scripts/setup_database.py
+@@ -68,7 +68,9 @@
+                 print(f"  skip (applied): {f.name}")
+                 continue
+             if row and row[0] != checksum:
+-                print(f"  re-apply (changed): {f.name}")
++                if f.name != "seed_reference_data.sql":
++                    raise RuntimeError(f"Applied SQL changed: {f.name}. Add a new migration.")
++                print(f"  refresh reference seed: {f.name}")
+             print(f"  applying: {f.name}")
+             conn.execute(sql)
+             conn.execute(

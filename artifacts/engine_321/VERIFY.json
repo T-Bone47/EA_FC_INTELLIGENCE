@@ -1,0 +1,19 @@
+{
+  "backend_postgresql": {
+    "tests": 146,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "backend_seconds": 95.901,
+  "frontend": {
+    "unit_passed": 92,
+    "live_postgresql_passed": 3
+  },
+  "chrome_postgresql": {
+    "status": "passed",
+    "checks": 5
+  },
+  "baseline_identical_contexts": 144,
+  "tactic_sensitive_scorable_position_scopes": 35
+}

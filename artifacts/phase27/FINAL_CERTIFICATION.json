@@ -1,0 +1,25 @@
+{
+  "verdict": "NOT_CERTIFIED",
+  "revision_sha256": "fc2876b0630d5025db6e705ede5b09af613aa0958ea550187a8742a5aa4430c9",
+  "source_files_changed": 32,
+  "status": {
+    "current_production_release_denial": "PASS",
+    "postgresql_010": "PASS",
+    "in_app_browser": "PASS",
+    "puppeteer_ci": "BLOCKED",
+    "docker_image": "NOT_BUILT",
+    "production_data_rights": "BLOCKED",
+    "calibration": "FAIL",
+    "source_to_release_manifest": "PENDING"
+  },
+  "backend": {
+    "tests": 786,
+    "failures": 24,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 756,
+    "subtests_passed": 90
+  },
+  "frontend_passed": 88,
+  "verified_production_denials": 22
+}

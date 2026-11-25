@@ -1,0 +1,137 @@
+{
+  "test_run": "Phase 35 Backend Certified Regression Suite",
+  "timestamp": "2026-11-24T19:03:00+05:30",
+  "framework": "pytest-9.1.1",
+  "python_version": "3.15.1",
+  "summary": {
+    "total": 113,
+    "passed": 109,
+    "skipped": 4,
+    "failed": 0,
+    "execution_time_seconds": 4.80,
+    "exit_code": 0
+  },
+  "modules": [
+    {
+      "module": "backend/tests/test_squad_synergy.py",
+      "passed": 5,
+      "skipped": 0,
+      "failed": 0,
+      "tests": [
+        "test_all_12_formations_mapped_completely_without_overlap",
+        "test_alignment_index_mathematical_precision",
+        "test_tactical_rules_provenance_and_reconstruction",
+        "test_channel_metrics_handles_unscored_gk_and_unfilled_slots",
+        "test_whole_xi_synergy_master_evaluator"
+      ]
+    },
+    {
+      "module": "backend/tests/test_partnership_intelligence.py",
+      "passed": 7,
+      "skipped": 0,
+      "failed": 0,
+      "tests": [
+        "test_harmonic_mean_properties",
+        "test_st_cam_complementary_dynamics",
+        "test_winger_fullback_flank_synergy",
+        "test_cm_cdm_pivot_balance",
+        "test_two_strikers_differentiation",
+        "test_cb_cb_recovery_and_stopper",
+        "test_high_press_friction_triggers"
+      ]
+    },
+    {
+      "module": "backend/tests/test_recommendation_stability.py",
+      "passed": 2,
+      "skipped": 0,
+      "failed": 0,
+      "tests": [
+        "test_candidate_stability_profile_dataclass",
+        "test_stability_engine_runs_scenarios"
+      ]
+    },
+    {
+      "module": "backend/tests/test_empirical_evaluator.py",
+      "passed": 3,
+      "skipped": 0,
+      "failed": 0,
+      "tests": [
+        "test_statistics_helpers",
+        "test_empirical_evaluator_blank_sheet",
+        "test_empirical_evaluator_full_matches"
+      ]
+    },
+    {
+      "module": "backend/tests/test_phase30_card_lab.py",
+      "passed": 4,
+      "skipped": 2,
+      "failed": 0,
+      "skipped_reasons": [
+        "test_live_lab_ownership_locks_feedback_and_upgrade (Requires live PostgreSQL container)",
+        "test_append_conflict_fails_closed_and_transaction_rolls_back (Requires live PostgreSQL container)"
+      ]
+    },
+    {
+      "module": "backend/tests/test_striker_pilot.py",
+      "passed": 6,
+      "skipped": 0,
+      "failed": 0,
+      "tests": [
+        "test_empty_sheet_reports_no_results",
+        "test_reports_expected_directions_and_preserves_zero",
+        "test_mixed_patches_or_missing_values_prevent_pooled_rates[game_patch]",
+        "test_mixed_patches_or_missing_values_prevent_pooled_rates[tackles_won]",
+        "test_replacement_requires_excluding_both_originals",
+        "test_rejects_modified_exact_card_or_predictions"
+      ]
+    },
+    {
+      "module": "backend/tests/test_v3_2_config.py",
+      "passed": 11,
+      "skipped": 0,
+      "failed": 0,
+      "tests": [
+        "test_v3_1_config_is_frozen_and_historical",
+        "test_v3_2_differs_from_v3_1_in_exactly_one_value_plus_its_version",
+        "test_default_config_is_v3_2",
+        "test_registry_resolves_both_versions_and_rejects_unknown",
+        "test_unknown_missing_charge_is_rejected_at_construction",
+        "test_snapshot_reports_the_config_it_was_given",
+        "test_engine_stamps_the_version_of_the_config_it_ran[v3.1]",
+        "test_engine_stamps_the_version_of_the_config_it_ran[v3.2]",
+        "test_engine_version_identifies_v3_2",
+        "test_interaction_modifier_remains_disabled",
+        "test_no_production_module_imports_the_experiment_lab"
+      ]
+    },
+    {
+      "module": "backend/tests/test_golden_fixtures_v3_2.py",
+      "passed": 4,
+      "skipped": 0,
+      "failed": 0,
+      "tests": [
+        "test_v3_1_pinned_config_reproduces_the_committed_v3_1_goldens",
+        "test_default_builder_is_pinned_to_v3_1",
+        "test_v3_2_engine_matches_the_committed_v3_2_goldens",
+        "test_v3_2_golden_declares_its_config"
+      ]
+    },
+    {
+      "module": "backend/tests/test_fastapi_app.py",
+      "passed": 25,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "module": "backend/tests/test_phase28_formation.py",
+      "passed": 14,
+      "skipped": 2,
+      "failed": 0,
+      "skipped_reasons": [
+        "test_live_slot_scoring_comparison_and_what_if_share_demand (Requires live PostgreSQL container)",
+        "test_stated_style_roundtrips_through_the_owned_profile (Requires live PostgreSQL container)"
+      ]
+    }
+  ],
+  "verification_status": "CERTIFIED_PASS"
+}

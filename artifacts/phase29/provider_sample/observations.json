@@ -1,0 +1,240 @@
+{
+  "as_of": "2026-11-23T00:00:00+00:00",
+  "config": "v3.2-2026-09-30-r1",
+  "scope": "FOUR_ITEM_RESEARCH_ONLY",
+  "profiles": [
+    "PACE_ABUSER",
+    "COUNTER_ATTACK",
+    "POSSESSION",
+    "DRIBBLE_HEAVY",
+    "PRESSING",
+    "CROSSING",
+    "LONG_SHOT",
+    "DIRECT_PLAY",
+    "BUILD_UP",
+    "BALANCED",
+    "HIGH_PRESS",
+    "MID_BLOCK",
+    "LOW_BLOCK",
+    "FAST_BUILD_UP",
+    "SLOW_BUILD_UP",
+    "CUSTOM"
+  ],
+  "source_csv_sha256": {
+    "archive (3).zip": "e2fe9d848fa21b04f0b76d851a94ad2d44b8a8c695bc202d4e0f1f5843db1264",
+    "archive (4).zip": "1abaebe45d9ee7448667638c0fa96e8b4f2af710fe608cd0a6ba9b1bb4817eeb",
+    "archive (5).zip": "c472b9b3b9362cc6928ae3e9351b9a84418d396c49734017e03adb231e062ebe"
+  },
+  "cases": [
+    {
+      "item": 192119,
+      "candidate_base": 192119,
+      "name": "Thibaut Courtois",
+      "rarity": "Rare",
+      "rating": 90,
+      "positions_raw": "GK, CM",
+      "eligible_local": [
+        "GK"
+      ],
+      "issues": [
+        {
+          "field": "positions",
+          "value": "CM"
+        }
+      ],
+      "base_club_matches": true,
+      "provider_identity_issues": [
+        "FUTDB_SAMPLE_MISSING",
+        "FLUX_CATALOGUE_SAMPLE_MISSING"
+      ],
+      "october_exact_base": "192119",
+      "styles": {
+        "base": [
+          "Far Throw",
+          "Far Reach"
+        ],
+        "plus": [
+          "1v1 Close Down"
+        ]
+      },
+      "role_kind": "EDITORIAL_ROLE_FIT_UNVERIFIED",
+      "official_role_eligibility": null,
+      "demanded": 5,
+      "counts": {
+        "card_observation": 0,
+        "october_exact_item": 5,
+        "game_player_context": 5,
+        "futdb_returned": null,
+        "flux_returned": null,
+        "futdb_schema_path": 5,
+        "flux_sample_path": 0
+      },
+      "futdb_identity_and_metadata": null,
+      "datafluxor_catalogue_base": null,
+      "datafluxor_catalogue_sandbox": null,
+      "price_candidates": []
+    },
+    {
+      "item": 231747,
+      "candidate_base": 231747,
+      "name": "Kylian Mbappé",
+      "rarity": "Rare",
+      "rating": 91,
+      "positions_raw": "ST, LW",
+      "eligible_local": [
+        "ST",
+        "LW"
+      ],
+      "issues": [],
+      "base_club_matches": true,
+      "provider_identity_issues": [
+        "FUTDB_SAMPLE_MISSING",
+        "FLUX_CATALOGUE_SAMPLE_MISSING"
+      ],
+      "october_exact_base": "231747",
+      "styles": {
+        "base": [
+          "Finesse Shot",
+          "Acrobatic",
+          "Low Driven",
+          "Gamechanger",
+          "Rapid",
+          "First Touch"
+        ],
+        "plus": [
+          "Quick Step"
+        ]
+      },
+      "role_kind": "EDITORIAL_ROLE_FIT_UNVERIFIED",
+      "official_role_eligibility": null,
+      "demanded": 26,
+      "counts": {
+        "card_observation": 26,
+        "october_exact_item": 26,
+        "game_player_context": 26,
+        "futdb_returned": null,
+        "flux_returned": null,
+        "futdb_schema_path": 26,
+        "flux_sample_path": 1
+      },
+      "futdb_identity_and_metadata": null,
+      "datafluxor_catalogue_base": null,
+      "datafluxor_catalogue_sandbox": null,
+      "price_candidates": [
+        {
+          "platform": "ps",
+          "market": "console",
+          "observed_at": "2026-09-27T21:52:40Z",
+          "checked_at": "2026-09-27T21:52:40Z",
+          "rarity": "gold_rare",
+          "price_source": "list",
+          "issues": [
+            "ILLUSTRATIVE_SANDBOX",
+            "NAME_MISMATCH",
+            "CLUB_MISMATCH",
+            "OUTSIDE_FRESHNESS_WINDOW",
+            "PENDING_OR_INEXACT"
+          ],
+          "independently_corroborated": false
+        }
+      ]
+    },
+    {
+      "item": 67386507,
+      "candidate_base": 277643,
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "rarity": "Team of the week",
+      "rating": 91,
+      "positions_raw": "RW, RM",
+      "eligible_local": [
+        "RW",
+        "RM"
+      ],
+      "issues": [],
+      "base_club_matches": true,
+      "provider_identity_issues": [
+        "FUTDB_SAMPLE_MISSING",
+        "FLUX_CATALOGUE_SAMPLE_MISSING"
+      ],
+      "october_exact_base": null,
+      "styles": {
+        "base": [
+          "Finesse Shot",
+          "Incisive Pass",
+          "Inventive",
+          "Rapid",
+          "First Touch",
+          "Quick Step"
+        ],
+        "plus": [
+          "Technical"
+        ]
+      },
+      "role_kind": "EDITORIAL_ROLE_FIT_UNVERIFIED",
+      "official_role_eligibility": null,
+      "demanded": 26,
+      "counts": {
+        "card_observation": 26,
+        "october_exact_item": null,
+        "game_player_context": 26,
+        "futdb_returned": null,
+        "flux_returned": null,
+        "futdb_schema_path": 26,
+        "flux_sample_path": 1
+      },
+      "futdb_identity_and_metadata": null,
+      "datafluxor_catalogue_base": null,
+      "datafluxor_catalogue_sandbox": null,
+      "price_candidates": []
+    },
+    {
+      "item": 84163723,
+      "candidate_base": 277643,
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "rarity": "Star Performer",
+      "rating": 91,
+      "positions_raw": "RW, RM",
+      "eligible_local": [
+        "RW",
+        "RM"
+      ],
+      "issues": [],
+      "base_club_matches": true,
+      "provider_identity_issues": [
+        "FUTDB_SAMPLE_MISSING",
+        "FLUX_CATALOGUE_SAMPLE_MISSING"
+      ],
+      "october_exact_base": null,
+      "styles": {
+        "base": [
+          "Finesse Shot",
+          "Incisive Pass",
+          "Technical",
+          "Rapid",
+          "Trickster"
+        ],
+        "plus": [
+          "Quick Step"
+        ]
+      },
+      "role_kind": "EDITORIAL_ROLE_FIT_UNVERIFIED",
+      "official_role_eligibility": null,
+      "demanded": 26,
+      "counts": {
+        "card_observation": 26,
+        "october_exact_item": null,
+        "game_player_context": 26,
+        "futdb_returned": null,
+        "flux_returned": null,
+        "futdb_schema_path": 26,
+        "flux_sample_path": 1
+      },
+      "futdb_identity_and_metadata": null,
+      "datafluxor_catalogue_base": null,
+      "datafluxor_catalogue_sandbox": null,
+      "price_candidates": []
+    }
+  ],
+  "public_release": false,
+  "price_reconciliation": "REQUIRES_VERIFIED_CROSS_PROVIDER_IDENTITY"
+}

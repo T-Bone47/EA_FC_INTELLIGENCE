@@ -1,0 +1,112 @@
+{
+  "validation_cases": [
+    {
+      "case_name": "Uniform Elite Fit",
+      "inputs": {
+        "mean": 0.85,
+        "dispersion": 0.0,
+        "alerts_count": 0
+      },
+      "output": {
+        "alignment_index_pct": 85.0,
+        "status": "HIGH_ALIGNMENT",
+        "status_convention": "Explicit model convention: HIGH (>=82.0%), MODERATE (72.0-81.9%), PARTIAL (60.0-71.9%), DISSONANCE (<60.0%).",
+        "mean_suitability": 0.85,
+        "suitability_dispersion": 0.0,
+        "friction_penalty": 0,
+        "active_friction_count": 0,
+        "scored_slots_count": 10,
+        "total_slots_count": 10,
+        "unscored_slots": []
+      },
+      "reconstructed_index": 85.0,
+      "verified": true
+    },
+    {
+      "case_name": "High Dispersion Weak Link",
+      "inputs": {
+        "scores": [
+          0.95,
+          0.55
+        ],
+        "alerts_count": 0
+      },
+      "output": {
+        "alignment_index_pct": 65.0,
+        "status": "PARTIAL_ALIGNMENT",
+        "status_convention": "Explicit model convention: HIGH (>=82.0%), MODERATE (72.0-81.9%), PARTIAL (60.0-71.9%), DISSONANCE (<60.0%).",
+        "mean_suitability": 0.75,
+        "suitability_dispersion": 0.2,
+        "friction_penalty": 0,
+        "active_friction_count": 0,
+        "scored_slots_count": 2,
+        "total_slots_count": 2,
+        "unscored_slots": []
+      },
+      "reconstructed_index": 65.0,
+      "verified": true
+    },
+    {
+      "case_name": "Uniform Fit with Single Critical Friction Deduction",
+      "inputs": {
+        "mean": 0.85,
+        "friction_penalty": 0.025
+      },
+      "output": {
+        "alignment_index_pct": 82.5,
+        "status": "HIGH_ALIGNMENT",
+        "status_convention": "Explicit model convention: HIGH (>=82.0%), MODERATE (72.0-81.9%), PARTIAL (60.0-71.9%), DISSONANCE (<60.0%).",
+        "mean_suitability": 0.85,
+        "suitability_dispersion": 0.0,
+        "friction_penalty": 0.025,
+        "active_friction_count": 1,
+        "scored_slots_count": 10,
+        "total_slots_count": 10,
+        "unscored_slots": []
+      },
+      "reconstructed_index": 82.5,
+      "verified": true
+    },
+    {
+      "case_name": "Unfilled Zero-Slot Lineup",
+      "inputs": {
+        "scored_slots": 0
+      },
+      "output": {
+        "alignment_index_pct": null,
+        "status": "INSUFFICIENT_EVIDENCE",
+        "status_convention": "Zero scored slots available in squad.",
+        "mean_suitability": null,
+        "suitability_dispersion": null,
+        "friction_penalty": 0.0,
+        "active_friction_count": 0,
+        "scored_slots_count": 0,
+        "total_slots_count": 0,
+        "unscored_slots": []
+      },
+      "reconstructed_index": null,
+      "verified": true
+    },
+    {
+      "case_name": "Near-Zero Floor Check (No Arbitrary Clamping)",
+      "inputs": {
+        "mean": 0.05,
+        "penalty": 0.1
+      },
+      "output": {
+        "alignment_index_pct": 0.0,
+        "status": "TACTICAL_DISSONANCE",
+        "status_convention": "Explicit model convention: HIGH (>=82.0%), MODERATE (72.0-81.9%), PARTIAL (60.0-71.9%), DISSONANCE (<60.0%).",
+        "mean_suitability": 0.05,
+        "suitability_dispersion": 0.0,
+        "friction_penalty": 0.1,
+        "active_friction_count": 1,
+        "scored_slots_count": 10,
+        "total_slots_count": 10,
+        "unscored_slots": []
+      },
+      "reconstructed_index": 0.0,
+      "verified": true
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "status": "BLOCKED",
+  "dataset_id": "fc26-ut-cards-hypothetical",
+  "game_version": "FC26",
+  "entity_scope": "ut_card",
+  "card_count": 0,
+  "legally_usable_card_count": 0,
+  "provenance_coverage": null,
+  "legal_coverage": null,
+  "unresolved_conflicts": 0,
+  "blocking_reasons": [
+    "card_count is 0: no FC26 UT card data has been legitimately acquired. There is nothing to release. See PHASE_20_CARD_DATA_STATUS.md."
+  ],
+  "warnings": [],
+  "evaluated_at": "2026-09-20T14:53:33.665569+00:00"
+}

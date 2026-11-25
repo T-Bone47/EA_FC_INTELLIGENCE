@@ -1,0 +1,19 @@
+{
+  "total_cases": 110,
+  "schema_validity_rate_pct": 100.0,
+  "bounded_tool_selection_accuracy_pct": 100.0,
+  "evidence_reference_resolution_pct": 100.0,
+  "unsupported_evidence_abstention_pct": 100.0,
+  "prompt_injection_block_rate_pct": 100.0,
+  "latency_ms": {
+    "mean": 371.13,
+    "p50": 6.67,
+    "p95": 839.68,
+    "max": 3643.63
+  },
+  "target_gates": {
+    "schema_valid >= 95%": true,
+    "evidence_ref >= 95%": true,
+    "tool_selection >= 90%": true
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "alert_id": "ALERT-TRACE-001",
+  "rule_provenance": {
+    "rule_id": "RULE-HP-FWD-DEF",
+    "rule_version": "1.0.0",
+    "slot": "ST",
+    "position": "ST",
+    "card_item_id": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+    "card_name": "Kylian Mbapp\u00e9",
+    "tactical_context": "HIGH_PRESS",
+    "evaluated_capability": "High-turnover defensive disruption",
+    "attribute_name": "defending",
+    "attribute_value": 29,
+    "threshold": 40,
+    "evidence_classification": "EMPIRICALLY_SUPPORTED",
+    "friction_penalty": 0.025,
+    "explanation": "Forward defending attribute (29) is below 40, significantly reducing turnover winning rates in opponent third.",
+    "recommended_action": "Deploy a pressing forward specialist (e.g. Demb\u00e9l\u00e9, Alvarez) or transition team tactical profile to COUNTER_ATTACK.",
+    "empirical_reference": "Phase 33 Experiment 001: Demb\u00e9l\u00e9 (55 Def) produced +2.0 tackles/90 and +2.0 interceptions/90 vs Mbapp\u00e9 (29 Def).",
+    "missing_data_limitation": null
+  },
+  "input_attributes": {
+    "defending": 29,
+    "pace": 96,
+    "stamina": 83,
+    "finishing": 95
+  },
+  "mathematical_reconstruction": {
+    "condition": "defending (29) < threshold (40)",
+    "evaluation": true,
+    "friction_penalty_applied": 0.025,
+    "empirical_basis": "Phase 33 Experiment 001: Demb\u00e9l\u00e9 (55 Def) produced +2.0 tackles/90 and +2.0 interceptions/90 vs Mbapp\u00e9 (29 Def)."
+  },
+  "trace_verification": "SUCCESSFULLY_RECONSTRUCTED"
+}

@@ -1,0 +1,85 @@
+{
+  "experiment_id": "EXP-ST-PRESS-001",
+  "title": "FC27 Striker Tactical Differentiation: High Press vs Counterattack",
+  "phase": "Phase 35",
+  "engine_version": "V3.2.1",
+  "prediction_checksum_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "dataset_release": "fc27-card-items-local-r1",
+  "formation": "4-3-3",
+  "slot": "ST",
+  "candidates": {
+    "arm_a": {
+      "card_item_id": "top100-022",
+      "canonical_name": "Ousmane Dembélé",
+      "ovr": 86,
+      "stamina": 84,
+      "pace": 93,
+      "finishing": 78,
+      "workrates": "High/Med",
+      "roles": ["Inside Forward", "Winger"]
+    },
+    "arm_b": {
+      "card_item_id": "top100-001",
+      "canonical_name": "Kylian Mbappé",
+      "ovr": 91,
+      "stamina": 78,
+      "pace": 97,
+      "finishing": 92,
+      "workrates": "High/Low",
+      "roles": ["Advanced Forward", "Poacher"]
+    }
+  },
+  "tactical_profiles": {
+    "HIGH_PRESS": {
+      "tactical_profile_code": "HIGH_PRESS",
+      "primary_metric": "turnovers_forced_final_third",
+      "predicted_leader": "A",
+      "predicted_scores": {
+        "arm_a": 0.8452,
+        "arm_b": 0.8319
+      },
+      "predicted_delta": 0.0132,
+      "active_friction_rules": {
+        "arm_b": ["RULE-HP-FWD-DEF"]
+      },
+      "hypothesis": "Dembélé forces significantly more final-third turnovers due to superior stamina, workrate, and press engagement."
+    },
+    "COUNTER_ATTACK": {
+      "tactical_profile_code": "COUNTER_ATTACK",
+      "primary_metric": "box_entries_completed",
+      "predicted_leader": "B",
+      "predicted_scores": {
+        "arm_a": 0.8410,
+        "arm_b": 0.8842
+      },
+      "predicted_delta": 0.0432,
+      "active_friction_rules": {},
+      "hypothesis": "Mbappé dominates direct breakaway attacks and box penetration due to elite top-end sprint speed and lethal finishing."
+    }
+  },
+  "controlled_invariants": {
+    "formation": "4-3-3",
+    "locked_teammates": {
+      "GK": "top100-015",
+      "LB": "top100-044",
+      "LCB": "top100-008",
+      "RCB": "top100-012",
+      "RB": "top100-038",
+      "CDM": "top100-006",
+      "LCM": "top100-018",
+      "RCM": "top100-025",
+      "LW": "top100-004",
+      "RW": "top100-030"
+    },
+    "patch_version": "Patch 1.04",
+    "difficulty": "Legendary",
+    "half_length_mins": 6,
+    "tactical_defending": true
+  },
+  "quality_gate": {
+    "min_completed_minutes_per_match": 75,
+    "min_card_minutes_played": 60,
+    "max_allowed_ping_ms": 80.0,
+    "required_counterbalance": "AB_BA_PAIRED_BLOCKS"
+  }
+}

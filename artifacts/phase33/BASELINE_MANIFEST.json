@@ -1,0 +1,186 @@
+{
+  "manifest_version": "phase33-baseline-v1",
+  "created_at": "2026-11-24T13:12:00Z",
+  "phase": 33,
+  "mission": "Empirical Gameplay Validation & Next-Generation Tactical Intelligence",
+  "engine_metadata": {
+    "engine_version": "3.2.1",
+    "engine_config": "v3.2-2026-09-30-r1",
+    "status": "FROZEN_BASELINE",
+    "weights_frozen": true,
+    "tie_epsilon": 0.015,
+    "noise_threshold": 0.005,
+    "default_lambda": 0.70
+  },
+  "dataset_metadata": {
+    "game_version": "FC27",
+    "installed_patch": "1.2.0",
+    "research_only": true,
+    "reference_version": "fc27-card-items-local-r1",
+    "reference_sha256": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff",
+    "snapshot": "fc27-c472b9b3b9362cc6928ae3e9351b9a84418d396c49734017e03adb231e062ebe",
+    "cohort_digest": "2e35cec585bf2b896660f65213090128a5ca044374d059ba0cab6c41d46b7d63",
+    "top_100_export_sha256": "c249984a0de5ab590e0a25faeb94087b9530d1698c075a231170948d10caaf97"
+  },
+  "experimental_context": {
+    "formation": "4-3-3",
+    "slot": "ST",
+    "position": "ST",
+    "role": "Advanced Forward",
+    "tactical_profiles": [
+      "HIGH_PRESS",
+      "COUNTER_ATTACK"
+    ],
+    "game_mode": "FRIENDLY_CONTROLLED",
+    "platform": "PC",
+    "controller": "HUMAN_OPERATOR",
+    "opponent_context": "FIXED_LEGENDARY_AI",
+    "skill_context": "CERTIFIED_PILOT_OPERATOR_A"
+  },
+  "primary_candidates": {
+    "A": {
+      "card_item_id": "ec2091c7-93c6-5bb8-8bba-59009b186700",
+      "source_item_id": "231443",
+      "name": "Ousmane Dembélé",
+      "overall": 90,
+      "rarity": "Rare",
+      "primary_position": "ST",
+      "playstyles_base": ["Low Driven", "Gamechanger", "Inventive", "Rapid", "Trickster", "Quick Step"],
+      "playstyles_plus": ["Finesse Shot"],
+      "core_attributes": {
+        "pace": 90,
+        "shooting": 89,
+        "passing": 83,
+        "dribbling": 94,
+        "defending": 55,
+        "physicality": 70
+      }
+    },
+    "B": {
+      "card_item_id": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+      "source_item_id": "231747",
+      "name": "Kylian Mbappé",
+      "overall": 91,
+      "rarity": "Rare",
+      "primary_position": "ST",
+      "playstyles_base": ["Finesse Shot", "Acrobatic", "Low Driven", "Gamechanger", "Rapid", "First Touch"],
+      "playstyles_plus": ["Quick Step"],
+      "core_attributes": {
+        "pace": 96,
+        "shooting": 91,
+        "passing": 80,
+        "dribbling": 92,
+        "defending": 29,
+        "physicality": 76
+      }
+    }
+  },
+  "near_tied_candidates": {
+    "C": {
+      "card_item_id": "482726b4-09e6-55ad-8a79-0dab545948a7",
+      "source_item_id": "246548",
+      "name": "Melchie Dumornay",
+      "overall": 88,
+      "rarity": "Rare",
+      "primary_position": "ST",
+      "playstyles_base": ["Finesse Shot", "Chip Shot", "Low Driven", "Incisive Pass", "Technical", "Quick Step"],
+      "playstyles_plus": ["Gamechanger"],
+      "core_attributes": {
+        "pace": 92,
+        "shooting": 85,
+        "passing": 79,
+        "dribbling": 91,
+        "defending": 60,
+        "physicality": 73
+      }
+    },
+    "D": {
+      "card_item_id": "dc6393ae-e6fc-52c5-8ace-5e7e81fd5689",
+      "source_item_id": "230864",
+      "name": "Ewa Pajor",
+      "overall": 89,
+      "rarity": "Rare",
+      "primary_position": "ST",
+      "playstyles_base": ["Finesse Shot", "Precision Header", "Low Driven", "Gamechanger", "Rapid"],
+      "playstyles_plus": ["Chip Shot"],
+      "core_attributes": {
+        "pace": 93,
+        "shooting": 91,
+        "passing": 65,
+        "dribbling": 89,
+        "defending": 22,
+        "physicality": 72
+      }
+    }
+  },
+  "frozen_predictions": {
+    "HIGH_PRESS": {
+      "primary_outcome_per_90": "tackles_won",
+      "directional_hypothesis": "Card A (Dembélé) > Card B (Mbappé)",
+      "cohort_ranked_strikers": 15,
+      "separation_status": "CLEAR_SEPARATION",
+      "predictions": [
+        {
+          "arm": "A",
+          "name": "Ousmane Dembélé",
+          "rank": 1,
+          "score": 0.8451815449,
+          "coverage": 1.0,
+          "delta_to_next": 0.00401
+        },
+        {
+          "arm": "B",
+          "name": "Kylian Mbappé",
+          "rank": 5,
+          "score": 0.8319367674,
+          "coverage": 1.0,
+          "delta_from_leader": -0.0132447775
+        }
+      ],
+      "margin": 0.0132447775,
+      "near_tie_evaluation": {
+        "candidate_pair": ["Alexander Isak", "Marie Katoto"],
+        "ranks": [13, 14],
+        "scores": [0.78590, 0.78540],
+        "delta": 0.00050,
+        "status": "NEAR_TIE",
+        "margin_below_noise_threshold": true
+      }
+    },
+    "COUNTER_ATTACK": {
+      "primary_outcome_per_90": "shots_on_target",
+      "directional_hypothesis": "Card B (Mbappé) > Card A (Dembélé)",
+      "cohort_ranked_strikers": 15,
+      "separation_status": "CLEAR_SEPARATION",
+      "predictions": [
+        {
+          "arm": "B",
+          "name": "Kylian Mbappé",
+          "rank": 1,
+          "score": 0.8731691722,
+          "coverage": 1.0,
+          "delta_to_next": 0.0116169666
+        },
+        {
+          "arm": "A",
+          "name": "Ousmane Dembélé",
+          "rank": 2,
+          "score": 0.8615522056,
+          "coverage": 1.0,
+          "delta_from_leader": -0.0116169666
+        }
+      ],
+      "margin": 0.0116169666,
+      "near_tie_evaluation": {
+        "candidate_pair": ["Melchie Dumornay", "Ewa Pajor"],
+        "ranks": [3, 4],
+        "scores": [0.85867, 0.85769],
+        "delta": 0.00098,
+        "status": "NEAR_TIE",
+        "margin_below_noise_threshold": true
+      }
+    }
+  },
+  "protocol_assignment_key": "fc27-st-press-counter-r1",
+  "prediction_checksum": "10dfc5b8ff6d92ae07ece3de855ab316b294b2fc287ba7f626eef8c18be2dcae"
+}

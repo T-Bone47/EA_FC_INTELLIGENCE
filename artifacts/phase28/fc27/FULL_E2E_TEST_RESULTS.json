@@ -1,0 +1,363 @@
+{
+  "status": "PASS",
+  "browser": "HeadlessChrome/153.0.8010.0",
+  "application": "local built React frontend, FastAPI and disposable PostgreSQL 16",
+  "passed_checks": 51,
+  "completed_suites": 15,
+  "suites": [
+    "A initial state + keyboard",
+    "flow desktop",
+    "flow tablet",
+    "flow mobile",
+    "C2 desktop stress",
+    "C2 tablet stress",
+    "C2 mobile stress",
+    "F focus-visibility probe",
+    "FC27 research flow",
+    "G 503 object detail shows the server message",
+    "G 500 plain error is surfaced, not swallowed",
+    "G malformed 200 (ranked: null)",
+    "G empty ranked list says so",
+    "G slow response shows a loading indicator",
+    "G network failure is surfaced"
+  ],
+  "checks": [
+    {
+      "name": "A1 page renders h1",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "A initial state + keyboard"
+    },
+    {
+      "name": "A2 FC27 default + Find players disabled until division chosen",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "A initial state + keyboard"
+    },
+    {
+      "name": "A3 keyboard Space selects a division and enables the button",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "A initial state + keyboard"
+    },
+    {
+      "name": "A4 arrow key moves the radio selection",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "A initial state + keyboard"
+    },
+    {
+      "name": "FC26 CM BALANCED request reached API and rendered the returned rankings",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "B desktop: results render (10 cards, 3 tie brackets, 975 ms click->cards)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "C desktop: no horizontal page overflow",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "C3 desktop: a control scrolled to the top edge is not hidden behind the sticky header",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "D0 desktop: two players selected via click",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "D desktop: compare panel renders without page overflow",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "E desktop: what-if rows appear",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "FC26 CM HIGH_PRESS request reached API and rendered the returned rankings",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "Tactical change recomputed demand",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "No console errors during desktop results",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow desktop"
+    },
+    {
+      "name": "FC26 CM BALANCED request reached API and rendered the returned rankings",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow tablet"
+    },
+    {
+      "name": "B tablet: results render (10 cards, 3 tie brackets, 825 ms click->cards)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow tablet"
+    },
+    {
+      "name": "C tablet: no horizontal page overflow",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow tablet"
+    },
+    {
+      "name": "C3 tablet: a control scrolled to the top edge is not hidden behind the sticky header",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow tablet"
+    },
+    {
+      "name": "No console errors during tablet results",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow tablet"
+    },
+    {
+      "name": "FC26 CM BALANCED request reached API and rendered the returned rankings",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow mobile"
+    },
+    {
+      "name": "B mobile: results render (10 cards, 3 tie brackets, 760 ms click->cards)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow mobile"
+    },
+    {
+      "name": "C mobile: no horizontal page overflow",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow mobile"
+    },
+    {
+      "name": "C3 mobile: a control scrolled to the top edge is not hidden behind the sticky header",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow mobile"
+    },
+    {
+      "name": "D0 mobile: two players selected via a real touch tap",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow mobile"
+    },
+    {
+      "name": "D mobile: compare panel renders without page overflow",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow mobile"
+    },
+    {
+      "name": "E mobile: what-if rows appear",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow mobile"
+    },
+    {
+      "name": "No console errors during mobile results",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "flow mobile"
+    },
+    {
+      "name": "FC26 CM BALANCED request reached API and rendered the returned rankings",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "C2 desktop stress"
+    },
+    {
+      "name": "C2 desktop: long name + long explanation do not overflow the page",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "C2 desktop stress"
+    },
+    {
+      "name": "FC26 CM BALANCED request reached API and rendered the returned rankings",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "C2 tablet stress"
+    },
+    {
+      "name": "C2 tablet: long name + long explanation do not overflow the page",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "C2 tablet stress"
+    },
+    {
+      "name": "FC26 CM BALANCED request reached API and rendered the returned rankings",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "C2 mobile stress"
+    },
+    {
+      "name": "C2 mobile: long name + long explanation do not overflow the page",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "C2 mobile stress"
+    },
+    {
+      "name": "Tab visits game, position, division and tactic in order with visible focus",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "F focus-visibility probe"
+    },
+    {
+      "name": "No console errors during keyboard traversal",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "F focus-visibility probe"
+    },
+    {
+      "name": "FC27 CM BALANCED request reached API and rendered the returned rankings",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "FC27 research flow"
+    },
+    {
+      "name": "FC27 research results preserve version and division",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "FC27 research flow"
+    },
+    {
+      "name": "FC27 compares players and displays a what-if variant",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "FC27 research flow"
+    },
+    {
+      "name": "No console errors during FC27 research flow",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "FC27 research flow"
+    },
+    {
+      "name": "G 503 object detail shows the server message",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G 503 object detail shows the server message"
+    },
+    {
+      "name": "G 503 object detail shows the server message: app still alive (no blank screen)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G 503 object detail shows the server message"
+    },
+    {
+      "name": "G 500 plain error is surfaced, not swallowed",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G 500 plain error is surfaced, not swallowed"
+    },
+    {
+      "name": "G 500 plain error is surfaced, not swallowed: app still alive (no blank screen)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G 500 plain error is surfaced, not swallowed"
+    },
+    {
+      "name": "G malformed 200 (ranked: null)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G malformed 200 (ranked: null)"
+    },
+    {
+      "name": "G malformed 200 (ranked: null): app still alive (no blank screen)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G malformed 200 (ranked: null)"
+    },
+    {
+      "name": "G empty ranked list says so",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G empty ranked list says so"
+    },
+    {
+      "name": "G empty ranked list says so: app still alive (no blank screen)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G empty ranked list says so"
+    },
+    {
+      "name": "G slow response shows a loading indicator",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G slow response shows a loading indicator"
+    },
+    {
+      "name": "G slow response shows a loading indicator: app still alive (no blank screen)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G slow response shows a loading indicator"
+    },
+    {
+      "name": "G network failure is surfaced",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G network failure is surfaced"
+    },
+    {
+      "name": "G network failure is surfaced: app still alive (no blank screen)",
+      "ok": true,
+      "severity": "INFO",
+      "scenario": "G network failure is surfaced"
+    }
+  ],
+  "axe": [
+    {
+      "state": "initial-desktop",
+      "violations": []
+    },
+    {
+      "state": "results+compare+whatif-desktop",
+      "violations": []
+    },
+    {
+      "state": "results+compare+whatif-mobile",
+      "violations": []
+    }
+  ],
+  "manual_squad_journey": {
+    "environment": "earlier Windows development workspace, in-app browser",
+    "flow": [
+      "local account",
+      "FC27 squad",
+      "explicit research opt-in",
+      "4-3-3 CDM assignment",
+      "replacement lookup",
+      "assignment and rescore"
+    ],
+    "observed_initial_score": 0.784,
+    "observed_replacement_score": 0.875,
+    "mobile_width_px": 390,
+    "mobile_page_width_px": 375,
+    "next_keyboard_control": "tactical style select"
+  },
+  "hosted_ci": "UNVERIFIED"
+}

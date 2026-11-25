@@ -1,0 +1,9 @@
+# V3.2 core intelligence
+
+The offline audit scored the exported FC26 foundation using fc26-players-2026-09-r1. Rights status is UNVERIFIED and results are for engineering review. A separate FC27 source check verified all three base-player files against the local manifest and confirmed 19,789 rows across 60 columns. FC27 is RESEARCH_ONLY. The offline FC27 run used the shipped adapter and normalizer, a frozen FC27 reference and samples of up to 24 per position/division. It ranked all 144 combinations of two divisions, 12 positions and six tactics, verified order invariance and reconstructed scores. It did not rank the full FC27 pool in one request or use card inputs.
+
+The engine takes a frozen position- and version-compatible distribution, builds a position and tactics demand vector, gates candidates, ranks their conservative evidence score and derives explanations from the same scoring context. At the normal API entry point the reference is authorized before loading candidates. PostgreSQL and browser delivery remain unverified here.
+
+192 FC26 position/profile cases reproduced the same top 10 under repeat evaluation, reversed candidate order and OVR replacement. 1,920 contexts reconstructed to 1e-9. Independent review reproduced 16 V3.1 and 16 V3.2 fingerprints. Tactical differences appeared across outfield samples. GK preferences showed one distinct winning ID in the tested sample consistent with the existing tactical-responsiveness limitation.
+
+The reviewer reproduced three input-boundary defects before the fix. A card in a player pool could be scored, a synthetic status with a false boolean flag was scored, and an unsupported request scope could rank. Post-fix tests refused all three. Other invariant checks and their limits are listed in INTELLIGENCE_INVARIANT_RESULTS.json. RD-3 for CB, CM and ST and RD-4 for CB remain policy findings. Full API evidence, division recomputation and live request isolation are blocked.

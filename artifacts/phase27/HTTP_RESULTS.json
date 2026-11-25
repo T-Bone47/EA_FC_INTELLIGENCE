@@ -1,0 +1,301 @@
+{
+  "production_denials": [
+    {
+      "path": "/players",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/players/facets",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/players/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/cards",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/cards/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/cards/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9/versions",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/cards/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9/value",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/cards/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9/prices",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/card-data-status",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/meta/reference",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/v3/recommendations",
+      "version": "FC26",
+      "status": 403
+    },
+    {
+      "path": "/players",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/players/facets",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/players/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/cards",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/cards/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/cards/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9/versions",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/cards/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9/value",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/cards/fdbedf98-b7a7-4635-aff9-0e5bf9a9a4f9/prices",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/card-data-status",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/meta/reference",
+      "version": "FC27",
+      "status": 403
+    },
+    {
+      "path": "/v3/recommendations",
+      "version": "FC27",
+      "status": 403
+    }
+  ],
+  "research_http": {
+    "FC26": {
+      "request": {
+        "game_version": "FC26",
+        "position": "CM",
+        "tactical_profile": "BALANCED",
+        "limit": 10
+      },
+      "candidate_count": 10275,
+      "reference": "fc26-players-2026-09-r1",
+      "recommend_compare_what_if": "PASS",
+      "recommendation": {
+        "ms": 2555.62,
+        "wire_bytes": 149060,
+        "json_bytes": 786033,
+        "gzip": true
+      }
+    },
+    "FC27": {
+      "request": {
+        "game_version": "FC27",
+        "division": "Men's Football",
+        "position": "CM",
+        "tactical_profile": "HIGH_PRESS",
+        "include_research_data": true,
+        "limit": 10
+      },
+      "candidate_count": 10936,
+      "reference": "fc27-players-2026-09-r1",
+      "recommend_compare_what_if": "PASS",
+      "recommendation": {
+        "ms": 3744.48,
+        "wire_bytes": 147745,
+        "json_bytes": 780498,
+        "gzip": true
+      }
+    }
+  },
+  "warm_sequential": [
+    {
+      "version": "FC26",
+      "ms": 951.8,
+      "wire_bytes": 149060,
+      "json_bytes": 786032,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 1183.14,
+      "wire_bytes": 147746,
+      "json_bytes": 780498,
+      "gzip": true
+    },
+    {
+      "version": "FC26",
+      "ms": 757.2,
+      "wire_bytes": 149059,
+      "json_bytes": 786032,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 1119.39,
+      "wire_bytes": 147745,
+      "json_bytes": 780498,
+      "gzip": true
+    },
+    {
+      "version": "FC26",
+      "ms": 932.14,
+      "wire_bytes": 149059,
+      "json_bytes": 786032,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 957.58,
+      "wire_bytes": 147745,
+      "json_bytes": 780497,
+      "gzip": true
+    },
+    {
+      "version": "FC26",
+      "ms": 872.1,
+      "wire_bytes": 149058,
+      "json_bytes": 786032,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 1108.26,
+      "wire_bytes": 147746,
+      "json_bytes": 780498,
+      "gzip": true
+    },
+    {
+      "version": "FC26",
+      "ms": 729.68,
+      "wire_bytes": 149059,
+      "json_bytes": 786032,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 1095.13,
+      "wire_bytes": 147745,
+      "json_bytes": 780498,
+      "gzip": true
+    },
+    {
+      "version": "FC26",
+      "ms": 895.09,
+      "wire_bytes": 149059,
+      "json_bytes": 786032,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 1137.18,
+      "wire_bytes": 147746,
+      "json_bytes": 780498,
+      "gzip": true
+    }
+  ],
+  "concurrent": [
+    {
+      "version": "FC26",
+      "ms": 4295.86,
+      "wire_bytes": 149058,
+      "json_bytes": 786033,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 4262.03,
+      "wire_bytes": 147745,
+      "json_bytes": 780498,
+      "gzip": true
+    },
+    {
+      "version": "FC26",
+      "ms": 4294.43,
+      "wire_bytes": 149060,
+      "json_bytes": 786033,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 3825.61,
+      "wire_bytes": 147746,
+      "json_bytes": 780498,
+      "gzip": true
+    },
+    {
+      "version": "FC26",
+      "ms": 3255.83,
+      "wire_bytes": 149062,
+      "json_bytes": 786033,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 3946.81,
+      "wire_bytes": 147744,
+      "json_bytes": 780497,
+      "gzip": true
+    },
+    {
+      "version": "FC26",
+      "ms": 4066.2,
+      "wire_bytes": 149061,
+      "json_bytes": 786033,
+      "gzip": true
+    },
+    {
+      "version": "FC27",
+      "ms": 4086.13,
+      "wire_bytes": 147747,
+      "json_bytes": 780498,
+      "gzip": true
+    }
+  ],
+  "warm_median_ms": {
+    "FC26": 883.595,
+    "FC27": 1113.825
+  },
+  "status": "PASS"
+}

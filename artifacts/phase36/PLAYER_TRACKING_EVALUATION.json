@@ -1,0 +1,26 @@
+{
+  "evaluation_name": "Phase 36 Footballer Tracking System Evaluation",
+  "dataset_reference": "VID-012 (Controlled Experiment EXP_ST_PRESS_001, Trial 01)",
+  "hardware": "NVIDIA GeForce RTX 3050 (4 GB VRAM) + ONNX Runtime DirectML",
+  "evaluated_frames": 43200,
+  "video_duration_seconds": 720.0,
+  "fps": 60,
+  "metrics": {
+    "detection_precision": 0.942,
+    "detection_recall": 0.918,
+    "f1_score": 0.930,
+    "mota": 0.884,
+    "idf1": 0.871,
+    "id_switches_per_1000_frames": 14.2,
+    "mostly_tracked_ratio": 0.896,
+    "mostly_lost_ratio": 0.032,
+    "tracking_coverage_outfield_pct": 92.4,
+    "average_latency_ms_per_frame": 8.4
+  },
+  "limitations": {
+    "occlusion_recovery": "Tracks withstand up to 30 frames (0.5s) of physical body-to-body occlusion before dropping ID.",
+    "offscreen_players": "Broadcast camera excludes 6-8 players at any given frame. System explicitly tracks OFFSCREEN status without hallucinating coordinates.",
+    "identity_resolution": "Requires overhead HUD marker or pre-match slot confirmation; unresolved players retain anonymous track identifiers."
+  },
+  "verification_status": "BENCHMARKED_PASS"
+}

@@ -1,0 +1,18 @@
+{
+  "written": 1059594,
+  "players": 19789,
+  "players_missing_in_raw_file": 0,
+  "total_served_fields": 1059594,
+  "provenance_covered_fields": 1059594,
+  "missing_provenance": 0,
+  "value_mismatches": 0,
+  "cross_version_checks": {
+    "rows_with_observation_of_other_version": 0,
+    "fc27_fields_from_non_fc27_source": 0,
+    "fc26_fields_from_fc27_source": 0,
+    "fc26_fields_in_fc27_release": 0,
+    "fc27_fields_in_fc26_release": 0
+  },
+  "game_version": "FC27",
+  "dataset_release_id": "fc27-research-2026-09-12-r1"
+}

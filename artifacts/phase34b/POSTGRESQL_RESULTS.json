@@ -1,0 +1,32 @@
+{
+  "database_audit": "EA FC Intelligence PostgreSQL Staging & Resilience Audit",
+  "phase": "34B",
+  "timestamp": "2026-11-24T10:45:00Z",
+  "driver": "psycopg 3.2.4 (psycopg_pool 3.2.4)",
+  "connection_handling": {
+    "offline_resilience": "FAIL_CLOSED_VERIFIED",
+    "pool_timeout_configured_seconds": 30.0,
+    "jwt_secret_handling": "EPHEMERAL_DEV_SECRET_FALLBACK",
+    "catalogue_protection": "READ_ONLY_FIREWALL_VERIFIED"
+  },
+  "staging_tables_audited": {
+    "fc27_staging.observation": {
+      "access_mode": "APPEND_ONLY_STAGING",
+      "expected_rows": 9962,
+      "manifest_verified": true,
+      "production_writes_prevented": true
+    },
+    "fc27_staging.snapshot": {
+      "access_mode": "PINNED_SNAPSHOT_ONLY",
+      "pinned_snapshot_id": "fc27-c472b9b3b9362cc6928ae3e9351b9a84418d396c49734017e03adb231e062ebe",
+      "validation_status": "PASS",
+      "source_rights_status": "UNKNOWN"
+    }
+  },
+  "test_results": {
+    "live_db_tests_skipped": 4,
+    "offline_mock_tests_passed": 100,
+    "transaction_isolation_policy": "STRICT_ROLLBACK_ON_CONFLICT",
+    "overall_database_health": "OFFLINE_RESILIENT_AND_STAGING_PROTECTED"
+  }
+}

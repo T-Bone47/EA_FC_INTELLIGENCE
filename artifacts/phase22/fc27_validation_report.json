@@ -1,0 +1,557 @@
+{
+  "generated_at": "2026-09-29T12:37:00.957785+00:00",
+  "source_id": "kaggle_fc27_player_ratings",
+  "game_version": "FC27",
+  "data_status": "RESEARCH_ONLY",
+  "raw_files": {
+    "raw/archive.zip": {
+      "sha256": "fc1efc564629cbb43008225acd895fa825bb225155d58448be859cbdbdaede5b",
+      "bytes": 1669966
+    },
+    "raw/extracted/players.csv": {
+      "sha256": "e2fe9d848fa21b04f0b76d851a94ad2d44b8a8c695bc202d4e0f1f5843db1264",
+      "bytes": 5031708
+    },
+    "raw/extracted/README.md": {
+      "sha256": "ad4b9459236b7b69736e0817a0a930b5a29504350975f0c0b4cc2603cbc4c0d4",
+      "bytes": 6104
+    }
+  },
+  "verdict": "PASS",
+  "blocking_reasons": [],
+  "dataset": {
+    "row_count": 19789,
+    "expected_row_count": 19789,
+    "row_count_matches": true,
+    "column_count": 60,
+    "header_exact_match": true,
+    "editions": {
+      "fc27": 19789
+    },
+    "snapshot_dates": {
+      "2026-09-12": 19789
+    }
+  },
+  "identity": {
+    "duplicate_source_player_ids": [],
+    "duplicate_canonical_ids": 0,
+    "canonical_id_rule": "uuid5(ns, 'game_player|<source_id>|<GAME_VERSION>|<source_player_id>') -- game_version is in the preimage"
+  },
+  "required_fields_missing": {
+    "overall_rating": 0,
+    "position": 0,
+    "name": 0
+  },
+  "positions": {
+    "vocabulary_used": [
+      "CAM",
+      "CB",
+      "CDM",
+      "CM",
+      "GK",
+      "LB",
+      "LM",
+      "LW",
+      "RB",
+      "RM",
+      "RW",
+      "ST"
+    ],
+    "primary": {
+      "CAM": 1163,
+      "CB": 3595,
+      "CDM": 1568,
+      "CM": 2376,
+      "GK": 2204,
+      "LB": 1435,
+      "LM": 1149,
+      "LW": 489,
+      "RB": 1531,
+      "RM": 1077,
+      "RW": 484,
+      "ST": 2718
+    },
+    "alternate_tokens": {
+      "CAM": 2485,
+      "CB": 951,
+      "CDM": 3124,
+      "CM": 3484,
+      "LB": 1028,
+      "LM": 2975,
+      "LW": 2274,
+      "RB": 992,
+      "RM": 2992,
+      "RW": 2220,
+      "ST": 1014
+    },
+    "players_with_alternates": 12896
+  },
+  "attributes": {
+    "attacking_crossing": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 7,
+      "max": 93
+    },
+    "attacking_finishing": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 4,
+      "max": 96
+    },
+    "attacking_heading_accuracy": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 7,
+      "max": 94
+    },
+    "attacking_short_passing": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 13,
+      "max": 94
+    },
+    "attacking_volleys": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 5,
+      "max": 92
+    },
+    "skill_dribbling": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 5,
+      "max": 95
+    },
+    "skill_curve": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 8,
+      "max": 93
+    },
+    "skill_fk_accuracy": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 7,
+      "max": 93
+    },
+    "skill_long_passing": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 11,
+      "max": 94
+    },
+    "skill_ball_control": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 9,
+      "max": 94
+    },
+    "movement_acceleration": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 15,
+      "max": 97
+    },
+    "movement_sprint_speed": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 15,
+      "max": 97
+    },
+    "movement_agility": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 20,
+      "max": 94
+    },
+    "movement_reactions": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 30,
+      "max": 94
+    },
+    "movement_balance": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 20,
+      "max": 96
+    },
+    "power_shot_power": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 20,
+      "max": 95
+    },
+    "power_jumping": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 27,
+      "max": 95
+    },
+    "power_stamina": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 15,
+      "max": 95
+    },
+    "power_strength": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 28,
+      "max": 95
+    },
+    "power_long_shots": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 5,
+      "max": 94
+    },
+    "mentality_aggression": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 11,
+      "max": 95
+    },
+    "mentality_interceptions": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 6,
+      "max": 90
+    },
+    "mentality_positioning": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 3,
+      "max": 96
+    },
+    "mentality_vision": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 20,
+      "max": 95
+    },
+    "mentality_penalties": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 10,
+      "max": 94
+    },
+    "mentality_composure": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 15,
+      "max": 94
+    },
+    "defending_awareness": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 5,
+      "max": 92
+    },
+    "defending_standing_tackle": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 8,
+      "max": 93
+    },
+    "defending_sliding_tackle": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 8,
+      "max": 90
+    },
+    "goalkeeping_diving": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 3,
+      "max": 90
+    },
+    "goalkeeping_handling": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 3,
+      "max": 90
+    },
+    "goalkeeping_kicking": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 3,
+      "max": 90
+    },
+    "goalkeeping_positioning": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 3,
+      "max": 90
+    },
+    "goalkeeping_reflexes": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 3,
+      "max": 90
+    },
+    "pace": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 29,
+      "max": 96
+    },
+    "shooting": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 21,
+      "max": 94
+    },
+    "passing": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 26,
+      "max": 92
+    },
+    "dribbling": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 30,
+      "max": 93
+    },
+    "defending": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 15,
+      "max": 91
+    },
+    "physicality": {
+      "blank": 0,
+      "non_integer": 0,
+      "out_of_range": 0,
+      "min": 33,
+      "max": 91
+    }
+  },
+  "enumerations": {
+    "preferred_foot": {
+      "Left": 4649,
+      "Right": 15140
+    },
+    "skill_moves": {
+      "1": 2204,
+      "2": 9142,
+      "3": 7078,
+      "4": 1305,
+      "5": 60
+    },
+    "weak_foot": {
+      "1": 180,
+      "2": 4419,
+      "3": 12185,
+      "4": 2719,
+      "5": 286
+    },
+    "invalid_birthdates": 0,
+    "age_at_snapshot_min": 16,
+    "age_at_snapshot_max": 42,
+    "height_cm_published": 0,
+    "weight_kg_published": 0
+  },
+  "goalkeepers": {
+    "gk_rows": 2204,
+    "gk_missing_any_goalkeeping_attribute": 0,
+    "gk_face_stat_mirrors_of_goalkeeping_attributes": {
+      "pace==goalkeeping_diving": 2204,
+      "shooting==goalkeeping_handling": 2204,
+      "passing==goalkeeping_kicking": 2204,
+      "dribbling==goalkeeping_reflexes": 2204,
+      "physicality==goalkeeping_positioning": 2204
+    },
+    "outfield_rows_with_same_equalities": {
+      "pace==goalkeeping_diving": 0,
+      "shooting==goalkeeping_handling": 0,
+      "passing==goalkeeping_kicking": 0,
+      "dribbling==goalkeeping_reflexes": 0,
+      "physicality==goalkeeping_positioning": 0
+    },
+    "interpretation": "GK rows carry EA's GK face stats in the outfield-named columns; they are not mapped to canonical pace..physicality"
+  },
+  "outfield": {
+    "outfield_rows": 17585,
+    "missing_any_detailed_attribute": 0,
+    "missing_any_face_stat": 0
+  },
+  "playstyles": {
+    "players_with_any": 8051,
+    "coverage_fraction": 0.406842,
+    "distinct_base_names": 36,
+    "distinct_plus_names": 36,
+    "base_counts": {
+      "Acrobatic": 160,
+      "Aerial Fortress": 1193,
+      "Anticipate": 511,
+      "Block": 502,
+      "Bruiser": 494,
+      "Chip Shot": 133,
+      "Cross Claimer": 242,
+      "Dead Ball": 400,
+      "Deflector": 96,
+      "Enforcer": 347,
+      "Far Reach": 70,
+      "Far Throw": 217,
+      "Finesse Shot": 598,
+      "First Touch": 415,
+      "Footwork": 381,
+      "Gamechanger": 367,
+      "Incisive Pass": 529,
+      "Intercept": 853,
+      "Inventive": 432,
+      "Jockey": 494,
+      "Long Ball Pass": 1034,
+      "Long Throw": 437,
+      "Low Driven Shot": 372,
+      "Pinged Pass": 216,
+      "Power Shot": 322,
+      "Precision Header": 708,
+      "Press Proven": 489,
+      "Quick Step": 531,
+      "Rapid": 840,
+      "Relentless": 506,
+      "Rush Out": 80,
+      "Slide Tackle": 552,
+      "Technical": 1052,
+      "Tiki Taka": 213,
+      "Trickster": 120,
+      "Whipped Pass": 540
+    },
+    "plus_counts": {
+      "Acrobatic": 3,
+      "Aerial Fortress": 5,
+      "Anticipate": 4,
+      "Block": 6,
+      "Bruiser": 4,
+      "Chip Shot": 2,
+      "Cross Claimer": 5,
+      "Dead Ball": 4,
+      "Deflector": 3,
+      "Enforcer": 5,
+      "Far Reach": 3,
+      "Far Throw": 5,
+      "Finesse Shot": 8,
+      "First Touch": 4,
+      "Footwork": 1,
+      "Gamechanger": 3,
+      "Incisive Pass": 7,
+      "Intercept": 8,
+      "Inventive": 2,
+      "Jockey": 7,
+      "Long Ball Pass": 4,
+      "Long Throw": 6,
+      "Low Driven Shot": 4,
+      "Pinged Pass": 8,
+      "Power Shot": 4,
+      "Precision Header": 6,
+      "Press Proven": 5,
+      "Quick Step": 10,
+      "Rapid": 5,
+      "Relentless": 6,
+      "Rush Out": 5,
+      "Slide Tackle": 6,
+      "Technical": 8,
+      "Tiki Taka": 8,
+      "Trickster": 4,
+      "Whipped Pass": 6
+    },
+    "plus_per_player": {
+      "0": 19605,
+      "1": 184
+    },
+    "rows_with_malformed_playstyles": 0,
+    "names_not_in_reference_vocabulary": [],
+    "reference_names_not_observed": []
+  },
+  "gender": {
+    "distribution": {
+      "Women's Football": 1940,
+      "Men's Football": 17849
+    },
+    "goalkeepers_by_division": {
+      "Men's Football": 1971,
+      "Women's Football": 233
+    },
+    "positions_by_division": {
+      "Women's Football": {
+        "CAM": 95,
+        "CB": 339,
+        "CDM": 112,
+        "CM": 281,
+        "GK": 233,
+        "LB": 146,
+        "LM": 107,
+        "LW": 34,
+        "RB": 156,
+        "RM": 103,
+        "RW": 34,
+        "ST": 300
+      },
+      "Men's Football": {
+        "CAM": 1068,
+        "CB": 3256,
+        "CDM": 1456,
+        "CM": 2095,
+        "GK": 1971,
+        "LB": 1289,
+        "LM": 1042,
+        "LW": 455,
+        "RB": 1375,
+        "RM": 974,
+        "RW": 450,
+        "ST": 2418
+      }
+    },
+    "league_overlap_between_divisions": []
+  },
+  "row_outcomes": {
+    "accepted": 19789,
+    "flagged": 0,
+    "rejected": 0
+  },
+  "rejected_rows": [],
+  "flagged_rows": []
+}

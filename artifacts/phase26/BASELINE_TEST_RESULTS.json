@@ -1,0 +1,34 @@
+{
+  "status": "BLOCKED",
+  "python": "3.15",
+  "node": "26.12.1",
+  "git": "export without .git",
+  "counts": null,
+  "historical_failure_ids": "reports/e2e/BASELINE_FAILURES.csv",
+  "runs": [
+    {
+      "command": "python -m pytest backend/tests -q -p no:cacheprovider",
+      "exit_code": 1,
+      "tool_wall_seconds": 3.672,
+      "reason": "pytest missing"
+    },
+    {
+      "command": "npm.cmd --prefix frontend test",
+      "exit_code": 1,
+      "tool_wall_seconds": 8.131,
+      "reason": "Vitest missing"
+    },
+    {
+      "command": "npm.cmd --prefix frontend run build",
+      "exit_code": 1,
+      "tool_wall_seconds": 9.83,
+      "reason": "tsc missing"
+    },
+    {
+      "command": "node scripts/browser_qa/qa.mjs",
+      "exit_code": 1,
+      "tool_wall_seconds": 5.38,
+      "reason": "@sparticuz/chromium missing"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "project": "EA FC Intelligence — Project Stadium 3.0",
+  "generated_at": "2026-11-24T03:19:15+05:30",
+  "test_runner": "Vitest 2.1.9",
+  "summary": {
+    "test_files_total": 17,
+    "test_files_passed": 16,
+    "test_files_skipped": 1,
+    "tests_total": 95,
+    "tests_passed": 92,
+    "tests_failed": 0,
+    "tests_skipped": 3,
+    "pass_rate_percentage": 100.0,
+    "duration_seconds": 24.43
+  },
+  "test_suites": [
+    { "file": "src/api/client.test.ts", "passed": 9, "failed": 0 },
+    { "file": "src/lib/format.test.ts", "passed": 8, "failed": 0 },
+    { "file": "src/lib/useApi.test.tsx", "passed": 6, "failed": 0 },
+    { "file": "src/components/DataQuality.test.tsx", "passed": 4, "failed": 0 },
+    { "file": "src/state/session.test.tsx", "passed": 4, "failed": 0 },
+    { "file": "src/components/common.test.tsx", "passed": 8, "failed": 0 },
+    { "file": "src/intelligence/Card.test.tsx", "passed": 6, "failed": 0 },
+    { "file": "src/pages/Recommend.results.test.tsx", "passed": 5, "failed": 0 },
+    { "file": "src/intelligence/WhatIfPanel.test.tsx", "passed": 5, "failed": 0 },
+    { "file": "src/intelligence/api.test.ts", "passed": 3, "failed": 0 },
+    { "file": "src/intelligence/Ladder.test.tsx", "passed": 5, "failed": 0 },
+    { "file": "src/intelligence/noRanking.test.ts", "passed": 2, "failed": 0 },
+    { "file": "src/intelligence/ComparePanel.test.tsx", "passed": 4, "failed": 0 },
+    { "file": "src/intelligence/ErrorBoundary.test.tsx", "passed": 2, "failed": 0 },
+    { "file": "src/intelligence/route.test.tsx", "passed": 1, "failed": 0 },
+    { "file": "src/intelligence/Intelligence.test.tsx", "passed": 20, "failed": 0 },
+    { "file": "src/intelligence/e2e.live.test.tsx", "passed": 0, "failed": 0, "skipped": 3 }
+  ],
+  "invariants_verified": [
+    "Strict version isolation (FC26 vs FC27 research data never mixed)",
+    "Zero fabricated statistics or simulated chemistry claims",
+    "Accessible name invariants (button: Find players, button: Use saved football preferences)",
+    "Heading and complementary landmark invariants (Key factors, Trade-offs, Recommendation explanation)",
+    "Keyboard pitch slot assignment and mobile menu accessibility"
+  ]
+}

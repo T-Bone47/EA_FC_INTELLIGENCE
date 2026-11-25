@@ -1,0 +1,205 @@
+{
+  "system": "Windows-11-10.0.26220-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+  "python": "3.15.1",
+  "logical_cpus": 12,
+  "release": "fc27-card-items-local-r1",
+  "release_items": 9962,
+  "selected_items": 50,
+  "formation": "4-3-3",
+  "tactics": [
+    "BALANCED",
+    "POSSESSION",
+    "HIGH_PRESS",
+    "COUNTER_ATTACK",
+    "LOW_BLOCK"
+  ],
+  "scored_slots": 10,
+  "database_fetch_all_ms": 1025.144,
+  "cold_release_fetch_verify_construct_ms": 1137.759,
+  "warm_http": {
+    "n": 25,
+    "p50_ms": 115.564,
+    "p95_ms": 251.11
+  },
+  "four_concurrent_http": {
+    "n": 12,
+    "p50_ms": 499.714,
+    "p95_ms": 1061.817
+  },
+  "body_bytes": 17908,
+  "request_python_peak_bytes_excluding_loaded_release": 3532526,
+  "in_process": {
+    "score_all_slots_one_tactic": {
+      "n": 50,
+      "p50_ms": 5.93,
+      "p95_ms": 17.965
+    },
+    "solver_one_tactic": {
+      "n": 50,
+      "p50_ms": 8.466,
+      "p95_ms": 14.801
+    },
+    "complete_evaluation": {
+      "n": 10,
+      "p50_ms": 81.048,
+      "p95_ms": 151.754
+    },
+    "json_dumps": {
+      "n": 10,
+      "p50_ms": 0.169,
+      "p95_ms": 0.295
+    }
+  },
+  "tactical_matrix": [
+    {
+      "optimized_for": "BALANCED",
+      "scored_counts": {
+        "BALANCED": 10,
+        "POSSESSION": 10,
+        "HIGH_PRESS": 10,
+        "COUNTER_ATTACK": 10,
+        "LOW_BLOCK": 10
+      },
+      "scores": {
+        "BALANCED": 7.965889834,
+        "POSSESSION": 7.7831189452,
+        "HIGH_PRESS": 7.7448912256,
+        "COUNTER_ATTACK": 7.7847831509,
+        "LOW_BLOCK": 7.455201648
+      },
+      "changed_slots": [],
+      "fit_delta_vs_primary": {
+        "BALANCED": 0.0,
+        "POSSESSION": 0.0,
+        "HIGH_PRESS": 0.0,
+        "COUNTER_ATTACK": 0.0,
+        "LOW_BLOCK": 0.0
+      }
+    },
+    {
+      "optimized_for": "POSSESSION",
+      "scored_counts": {
+        "BALANCED": 10,
+        "POSSESSION": 10,
+        "HIGH_PRESS": 10,
+        "COUNTER_ATTACK": 10,
+        "LOW_BLOCK": 10
+      },
+      "scores": {
+        "BALANCED": 7.9617382802,
+        "POSSESSION": 7.8221538122,
+        "HIGH_PRESS": 7.7675539012,
+        "COUNTER_ATTACK": 7.8137225055,
+        "LOW_BLOCK": 7.496048701
+      },
+      "changed_slots": [
+        "RB",
+        "CDM",
+        "RCM"
+      ],
+      "fit_delta_vs_primary": {
+        "BALANCED": -0.0041515538,
+        "POSSESSION": 0.039034867,
+        "HIGH_PRESS": 0.0226626756,
+        "COUNTER_ATTACK": 0.0289393546,
+        "LOW_BLOCK": 0.040847053
+      }
+    },
+    {
+      "optimized_for": "HIGH_PRESS",
+      "scored_counts": {
+        "BALANCED": 10,
+        "POSSESSION": 10,
+        "HIGH_PRESS": 10,
+        "COUNTER_ATTACK": 10,
+        "LOW_BLOCK": 10
+      },
+      "scores": {
+        "BALANCED": 7.8927409103,
+        "POSSESSION": 7.7986719345,
+        "HIGH_PRESS": 7.8035717193,
+        "COUNTER_ATTACK": 7.8445623883,
+        "LOW_BLOCK": 7.4231722882
+      },
+      "changed_slots": [
+        "RCB",
+        "RB"
+      ],
+      "fit_delta_vs_primary": {
+        "BALANCED": -0.0731489237,
+        "POSSESSION": 0.0155529893,
+        "HIGH_PRESS": 0.0586804937,
+        "COUNTER_ATTACK": 0.0597792374,
+        "LOW_BLOCK": -0.0320293598
+      }
+    },
+    {
+      "optimized_for": "COUNTER_ATTACK",
+      "scored_counts": {
+        "BALANCED": 10,
+        "POSSESSION": 10,
+        "HIGH_PRESS": 10,
+        "COUNTER_ATTACK": 10,
+        "LOW_BLOCK": 10
+      },
+      "scores": {
+        "BALANCED": 7.8926766966,
+        "POSSESSION": 7.7989802305,
+        "HIGH_PRESS": 7.802563073,
+        "COUNTER_ATTACK": 7.844613458,
+        "LOW_BLOCK": 7.4234126289
+      },
+      "changed_slots": [
+        "RCB",
+        "RB",
+        "CDM",
+        "RCM"
+      ],
+      "fit_delta_vs_primary": {
+        "BALANCED": -0.0732131374,
+        "POSSESSION": 0.0158612853,
+        "HIGH_PRESS": 0.0576718474,
+        "COUNTER_ATTACK": 0.0598303071,
+        "LOW_BLOCK": -0.0317890191
+      }
+    },
+    {
+      "optimized_for": "LOW_BLOCK",
+      "scored_counts": {
+        "BALANCED": 10,
+        "POSSESSION": 10,
+        "HIGH_PRESS": 10,
+        "COUNTER_ATTACK": 10,
+        "LOW_BLOCK": 10
+      },
+      "scores": {
+        "BALANCED": 7.8788597443,
+        "POSSESSION": 7.733117436,
+        "HIGH_PRESS": 7.6267600186,
+        "COUNTER_ATTACK": 7.6589027827,
+        "LOW_BLOCK": 7.5773784151
+      },
+      "changed_slots": [
+        "LCM",
+        "CDM",
+        "RCM",
+        "RW"
+      ],
+      "fit_delta_vs_primary": {
+        "BALANCED": -0.0870300897,
+        "POSSESSION": -0.0500015092,
+        "HIGH_PRESS": -0.118131207,
+        "COUNTER_ATTACK": -0.1258803682,
+        "LOW_BLOCK": 0.1221767671
+      }
+    }
+  ],
+  "non_dominated_generated": [
+    "BALANCED",
+    "POSSESSION",
+    "HIGH_PRESS",
+    "COUNTER_ATTACK",
+    "LOW_BLOCK"
+  ]
+}

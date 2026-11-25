@@ -1,0 +1,8 @@
+{
+  "status": "BLOCKED_BY_ENVIRONMENT",
+  "in_app_browser": "service initialization timeout, two attempts",
+  "project_browser_runner": "Chrome launch timed out after 30000 ms",
+  "completed_browser_suites": 0,
+  "runner_unit_tests_passed": 10,
+  "hosted_ci": "UNVERIFIED"
+}

@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-23",
+  "backend": {
+    "passed": 800,
+    "failed": 24,
+    "skipped": 6,
+    "subtests_passed": 90,
+    "baseline_failure_ids_identical": true,
+    "remaining_failed_ids": [
+      "backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7.test_90_generic_gk_vs_82_specialist",
+      "backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7.test_high_ovr_winger_unsuited_defensive",
+      "backend.tests.test_engine_adversarial_phase7.TestOvrTrapsPhase7.test_shooting_striker_unsuited_possession",
+      "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_352_cb_vs_442_cb",
+      "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_buildup_vs_direct_cb",
+      "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_crossing_vs_possession_winger",
+      "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_pressing_vs_possession_flip",
+      "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_strict_floor_excludes",
+      "backend.tests.test_engine_adversarial_phase7.TestTacticalPhase7.test_tactical_evidence_names_attrs",
+      "backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand.test_rho_within_band[CB-cb_pool]",
+      "backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand.test_rho_within_band[CM-cm_pool]",
+      "backend.tests.test_engine_v3_real_data.TestRD3OvrCorrelationBand.test_rho_within_band[ST-st_pool]",
+      "backend.tests.test_engine_v3_real_data.TestRD4TacticalResponsiveness.test_spread_clears_target[CB-cb_pool]",
+      "backend.tests.test_integration_production.TestAdversarialProduction.test_budget_unverified_not_enforced",
+      "backend.tests.test_integration_production.TestAdversarialProduction.test_version_mismatch_rejected",
+      "backend.tests.test_integration_production.TestExplanationConsistency.test_confidence_v2_additive",
+      "backend.tests.test_integration_production.TestExplanationConsistency.test_why_not_alternatives_differentials",
+      "backend.tests.test_integration_production.TestExplanationConsistency.test_why_this_matches_scoring",
+      "backend.tests.test_integration_production.TestFormationIntegration.test_3421_formation",
+      "backend.tests.test_integration_production.TestFormationIntegration.test_4231_formation",
+      "backend.tests.test_integration_production.TestFormationIntegration.test_433_formation",
+      "backend.tests.test_integration_production.TestSecurity.test_rate_limiting",
+      "backend.tests.test_integration_production.TestSecurity.test_sql_injection_inert",
+      "backend.tests.test_integration_production.TestTacticalCombinationIntegration.test_outfield_combo_pressing_fast_build_up"
+    ],
+    "skips": {
+      "backend.tests.test_card_scenarios.TestVersionFirewallAndWatermarks.test_placeholder": "DB-level checks live in test_card_api.py",
+      "backend.tests.test_fc27_card_identity_research.test_ingested_counts_match_the_audited_package": "FC27 card package not ingested in this database",
+      "backend.tests.test_fc27_card_identity_research.test_spine_view_matches_identity_and_keeps_player_card_distinct": "FC27 card package not ingested in this database",
+      "backend.tests.test_fc27_card_identity_research.test_player_join_uses_fc27_game_player_only": "FC27 card package not ingested in this database",
+      "backend.tests.test_fc27_card_identity_research.test_no_card_id_is_ever_joined_across_versions": "FC27 card package not ingested in this database",
+      "backend.tests.test_fc27_card_identity_research.test_open_flags_are_preserved_and_none_resolved": "FC27 card package not ingested in this database"
+    }
+  },
+  "frontend": {
+    "vitest_passed": 93,
+    "typecheck": "PASS",
+    "vite_build": "PASS",
+    "browser": {
+      "checks": [
+        "Two same-OVR versions, item-only attributes, PlayStyle preference, why-not explanation",
+        "Formation slot ranking, stale-result invalidation and tactical scenario",
+        "Mobile layout and missing goalkeeper evidence",
+        "Owned FC27 squad, price-free exact catalogue XI, atomic save and reopened copy"
+      ],
+      "uncaught_browser_errors": []
+    }
+  },
+  "postgresql": {
+    "archives_verified": 4,
+    "distinct_tables": 3,
+    "staged_row_count": 20724,
+    "replay_rows_written": 0,
+    "public_memberships_created": 0,
+    "card_release_members": 9962
+  },
+  "api": {
+    "card_contexts": 72,
+    "median_ms": 119.955,
+    "p95_ms_nearest_rank": 254.96
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "runtime": "PostgreSQL 16.16 Windows x64",
+  "fresh_database": "Schema through migration 010 and reference seed applied.",
+  "upgrade_database": "Fresh isolated database created through 009, then upgraded to 010.",
+  "repeat_setup": "Unchanged migrations skipped on second run; modified reference seed reapplied separately.",
+  "fc26": {
+    "rows_ingested": 16228,
+    "rows_rejected": 0,
+    "rights": "UNVERIFIED"
+  },
+  "fc27": {
+    "rows_ingested": 19789,
+    "rows_rejected": 0,
+    "rights": "RESEARCH_ONLY"
+  },
+  "separate_databases": [
+    "fresh install database",
+    "migration and runtime test database"
+  ],
+  "fc27_card_data": "Reviewed card ingest remains blocked.",
+  "changed_migration_refused": true,
+  "fc26_field_provenance": {
+    "written": 585560,
+    "cross_version_checks": {
+      "rows_with_observation_of_other_version": 0,
+      "fc27_fields_from_non_fc27_source": 0,
+      "fc26_fields_from_fc27_source": 0,
+      "fc26_fields_in_fc27_release": 0,
+      "fc27_fields_in_fc26_release": 0
+    },
+    "game_version": "FC26",
+    "source_id": "kaggle_justdhia_ea_fc26_player_ratings",
+    "observation_id": "c96d72a4-1d09-4225-902b-17ef31854a59",
+    "dataset_release_id": "fc26-foundation-2026-09-r1"
+  },
+  "targeted_database_backend": {
+    "passed": 102,
+    "skipped": 5
+  }
+}

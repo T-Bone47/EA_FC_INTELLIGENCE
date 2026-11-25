@@ -1,0 +1,109 @@
+{
+  "benchmark_id": "FC_COACH_BENCH_V1",
+  "total_scenarios": 120,
+  "deterministic_baseline": {
+    "mode": "DETERMINISTIC_BASELINE",
+    "scenarios": 120,
+    "schema_validity_rate": 1.0,
+    "tool_selection_accuracy": 1.0,
+    "abstention_compliance": 1.0,
+    "synthetic_isolation_rate": 1.0,
+    "prompt_injection_block_rate": 1.0,
+    "paid_model_block_rate": 1.0,
+    "provider_requests_total": 0,
+    "reported_cost_usd": 0.0,
+    "latency_ms_p50": 436.12,
+    "latency_ms_p95": 907.76
+  },
+  "simulated_hybrid_react": {
+    "mode": "SIMULATED_HYBRID_REACT",
+    "scenarios": 120,
+    "schema_validity_rate": 1.0,
+    "tool_selection_accuracy": 1.0,
+    "abstention_compliance": 1.0,
+    "synthetic_isolation_rate": 1.0,
+    "prompt_injection_block_rate": 1.0,
+    "paid_model_block_rate": 1.0,
+    "provider_requests_total": 198,
+    "reported_cost_usd": 0.0,
+    "latency_ms_p50": 695.12,
+    "latency_ms_p95": 1358.2
+  },
+  "live_sample": [
+    {
+      "target": "gemini:gemini-4-hydrogen",
+      "actual_provider": "gemini",
+      "actual_model": "gemini-4-hydrogen",
+      "response_mode": "GEMINI_FREE",
+      "schema_valid": true,
+      "tool_calls": [
+        "find_recurring_mistakes",
+        "get_gamer_dna",
+        "get_official_gameplay_knowledge",
+        "get_defensive_decision_diagnostics",
+        "get_gamer_dna"
+      ],
+      "latency_ms": 39143.06,
+      "provider_requests": 4,
+      "reported_cost_usd": 0.0,
+      "notes": [
+        "gemini/gemini-4-hydrogen: Gemini transient server error HTTP 503: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again ",
+        "gemini/gemini-3.8-flash: Gemini request timed out (gemini-3.8-flash)."
+      ]
+    },
+    {
+      "target": "gemini:gemini-3.8-flash",
+      "actual_provider": "gemini",
+      "actual_model": "gemini-3.6-flash",
+      "response_mode": "GEMINI_FREE",
+      "schema_valid": true,
+      "tool_calls": [
+        "find_recurring_mistakes",
+        "get_gamer_dna",
+        "get_official_gameplay_knowledge",
+        "get_defensive_decision_diagnostics"
+      ],
+      "latency_ms": 29600.52,
+      "provider_requests": 3,
+      "reported_cost_usd": 0.0,
+      "notes": [
+        "gemini/gemini-3.8-flash: Gemini request timed out (gemini-3.8-flash).",
+        "gemini/gemini-4-hydrogen: Gemini transient server error HTTP 503: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again "
+      ]
+    },
+    {
+      "target": "openrouter:openrouter/free",
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "schema_valid": true,
+      "tool_calls": [
+        "find_recurring_mistakes",
+        "get_gamer_dna",
+        "get_official_gameplay_knowledge",
+        "get_defensive_decision_diagnostics"
+      ],
+      "latency_ms": 9665.81,
+      "provider_requests": 0,
+      "reported_cost_usd": 0.0,
+      "notes": []
+    },
+    {
+      "target": "openrouter:nvidia/nemotron-3.5-super-vl:free",
+      "actual_provider": "deterministic",
+      "actual_model": "deterministic-coach",
+      "response_mode": "DETERMINISTIC_COACH",
+      "schema_valid": true,
+      "tool_calls": [
+        "find_recurring_mistakes",
+        "get_gamer_dna",
+        "get_official_gameplay_knowledge",
+        "get_defensive_decision_diagnostics"
+      ],
+      "latency_ms": 19671.75,
+      "provider_requests": 0,
+      "reported_cost_usd": 0.0,
+      "notes": []
+    }
+  ]
+}

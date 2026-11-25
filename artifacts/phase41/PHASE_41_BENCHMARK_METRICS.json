@@ -1,0 +1,21 @@
+{
+  "total_decision_scenarios": 220,
+  "schema_validity_rate_pct": 100.0,
+  "evidence_reference_resolution_pct": 100.0,
+  "zero_hindsight_leakage_rate_pct": 100.0,
+  "abstention_compliance_pct": 100.0,
+  "coach_tool_routing_accuracy_pct": 100.0,
+  "latency_ms": {
+    "mean": 10.047,
+    "p50": 10.791,
+    "p95": 14.058,
+    "max": 71.414
+  },
+  "peak_traced_memory_mb": 2.156,
+  "target_gates": {
+    "schema_valid >= 95%": true,
+    "evidence_ref >= 95%": true,
+    "zero_hindsight == 100%": true,
+    "coach_tool_routing >= 90%": true
+  }
+}

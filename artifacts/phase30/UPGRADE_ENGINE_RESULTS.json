@@ -1,0 +1,76 @@
+{
+  "release": "fc27-card-items-local-r1",
+  "formation": "4-3-3",
+  "profile": "BALANCED",
+  "pool_items": 5,
+  "results": {
+    "one": {
+      "gain": 0.0075775173,
+      "minimum_requested_gain": 0,
+      "changes": [
+        {
+          "slot": "RW",
+          "old_source_item": "277643",
+          "new_source_item": "84163723",
+          "before_score": 0.8833516851,
+          "after_score": 0.8909292024,
+          "delta": 0.0075775173,
+          "coverage_before": 1.0,
+          "coverage_after": 1.0
+        }
+      ]
+    },
+    "two": {
+      "gain": 0.0086977772,
+      "minimum_requested_gain": 0,
+      "changes": [
+        {
+          "slot": "ST",
+          "old_source_item": "231747",
+          "new_source_item": "50563395",
+          "before_score": 0.8916148546,
+          "after_score": 0.8927351145,
+          "delta": 0.0011202599,
+          "coverage_before": 1.0,
+          "coverage_after": 1.0
+        },
+        {
+          "slot": "RW",
+          "old_source_item": "277643",
+          "new_source_item": "84163723",
+          "before_score": 0.8833516851,
+          "after_score": 0.8909292024,
+          "delta": 0.0075775173,
+          "coverage_before": 1.0,
+          "coverage_after": 1.0
+        }
+      ]
+    },
+    "minimum": {
+      "gain": 0.0086977772,
+      "minimum_requested_gain": 0.0075775273,
+      "changes": [
+        {
+          "slot": "ST",
+          "old_source_item": "231747",
+          "new_source_item": "50563395",
+          "before_score": 0.8916148546,
+          "after_score": 0.8927351145,
+          "delta": 0.0011202599,
+          "coverage_before": 1.0,
+          "coverage_after": 1.0
+        },
+        {
+          "slot": "RW",
+          "old_source_item": "277643",
+          "new_source_item": "84163723",
+          "before_score": 0.8833516851,
+          "after_score": 0.8909292024,
+          "delta": 0.0075775173,
+          "coverage_before": 1.0,
+          "coverage_after": 1.0
+        }
+      ]
+    }
+  }
+}

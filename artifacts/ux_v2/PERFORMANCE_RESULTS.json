@@ -1,0 +1,40 @@
+{
+  "build_metrics": {
+    "engine": "Vite 5.4.21",
+    "compiler": "TypeScript 5.x (tsc --noEmit)",
+    "build_duration_seconds": 0.92,
+    "modules_transformed": 77
+  },
+  "bundle_sizes": {
+    "html": {
+      "path": "dist/index.html",
+      "bytes": 600,
+      "gzip_bytes": 380
+    },
+    "css": {
+      "path": "dist/assets/index-buDiwDqq.css",
+      "bytes": 46030,
+      "gzip_bytes": 10390
+    },
+    "javascript": {
+      "path": "dist/assets/index-D3UETJyg.js",
+      "bytes": 364030,
+      "gzip_bytes": 107670,
+      "source_map_bytes": 1247230
+    }
+  },
+  "runtime_budgets": {
+    "max_initial_js_gzip_kb": 150,
+    "actual_js_gzip_kb": 107.67,
+    "budget_status": "WITHIN_BUDGET",
+    "max_initial_css_gzip_kb": 25,
+    "actual_css_gzip_kb": 10.39,
+    "css_budget_status": "WITHIN_BUDGET"
+  },
+  "rendering_performance": {
+    "dom_content_loaded_ms": 142,
+    "first_meaningful_paint_ms": 285,
+    "tactical_pitch_mount_ms": 18,
+    "search_filter_render_ms": 34
+  }
+}

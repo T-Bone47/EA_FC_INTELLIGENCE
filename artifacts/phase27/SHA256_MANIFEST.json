@@ -1,0 +1,148 @@
+{
+  "revision_sha256": "fc2876b0630d5025db6e705ede5b09af613aa0958ea550187a8742a5aa4430c9",
+  "changes": {
+    "backend/api/deps.py": {
+      "before": "66f726f35c812540defc1adaad722c66155ced3f4f9600c5eeea2848ccb212c8",
+      "after": "24957980a132b6f81f3de71a321df9009ab270dee55c061b0b6cfdc0b9cba3fb"
+    },
+    "backend/api/main.py": {
+      "before": "38a16bcf8cc7f06dfdbb8de3e6537b39ea613b623770be8208f7a1ba3991fee1",
+      "after": "459bfb0e3adb0dddbc66faccaf732332569f023f3c3d2b28f05f34d70660f018"
+    },
+    "backend/repositories/player_repository.py": {
+      "before": "879a7838125e8ca718e6c0546a4ecf148d3722040064a4ef213de5a22d840d1f",
+      "after": "1bdcc66270e3610a5b38c4293241fbcdf49f09f37060760150a89d5a92918bbc"
+    },
+    "backend/repositories/squad_repository.py": {
+      "before": "6e969a913e640b913d530b6905b83d4a6c8357d51ad9b5db3b2964e4f34fa005",
+      "after": "9e10c5266d539730a5e7c3c0c88a875b7d75ef7a385898498b6968615f180503"
+    },
+    "backend/services/data_license_gate.py": {
+      "before": "f649f2e6f0e8e6d41aa4d65ade5c92a25d04ab63db8a8cade37fbbc3d337172d",
+      "after": "f8e6866629bb7819fc89cc5a503663e8ba511da8bb0ac34561d99d5a2f039482"
+    },
+    "backend/services/recommendation_service_v3.py": {
+      "before": "00ab7c8a6e38487e37b6c2f3ec944e494afedb25142f066052211e1ec1ff13da",
+      "after": "7bac8828755616272345c27f41615858083b238e2406943e61a1aca7df82dfc0"
+    },
+    "backend/services/reference_distribution.py": {
+      "before": "79ff507fa85e5c52fbe2157d2f0aaa7f79ef8087f314dcba3507cae7664f3b29",
+      "after": "3be003183305779c2b31febe657087b03ba0aaef531236a011346f4a9932ce8a"
+    },
+    "backend/tests/test_api.py": {
+      "before": "30158e89ea44e7348a21de2b203eeb75b1538f9bcdf4b4a3d77ad8c374d35c1c",
+      "after": "beda02f04c0b6d31a0145419d590df7b703c6318298b493c0004a438eb05aaef"
+    },
+    "backend/tests/test_postgres_integration.py": {
+      "before": "1cd81a688c7529aca01c19e507b0e056065d178d3f78e197313635e2587adcc4",
+      "after": "d9f36b864f1ecbf3ccc54b44bcfcf414bdac028da03912c3a22d958836f16504"
+    },
+    "backend/tests/test_v3_1_calibration_hardening.py": {
+      "before": "6407d872deb18ca4f0504234431fb84293a5df13cccec30b40cff7658a1dcd1e",
+      "after": "2ff8325f1c09991ecc5dc1ca9aa5915eb2cc2fb3cc13ce85e030d3e56f113434"
+    },
+    "backend/api/routes/cards.py": {
+      "before": "13fef2a947d3dcacaadb19ae9957d91354baac97b707f122185731fc1de23475",
+      "after": "1b41f8b6e340769a38e2aeed1c0da4881cbdd390bee224a167ad8f8da712f839"
+    },
+    "backend/api/routes/feedback.py": {
+      "before": "4d0eebe1d5693eaa988ccbb2df2d9d8a0f666fa858a5b469db522c056a8b4029",
+      "after": "17014a27bd173e2baf32f9ba8d56166f2fde19718ba678f83d494b78b0da8be5"
+    },
+    "backend/api/routes/health.py": {
+      "before": "b407b418c3dfbf6d707595e39b7d114edbaaa1a0612dc2078ddcfd5df20d31c8",
+      "after": "3110d9ed1fc76367eb1bf2ec564195393c1508985adc2be7b9870403ed888e3e"
+    },
+    "backend/api/routes/meta.py": {
+      "before": "1162ce4d0485691edd4a586bdd44c6e055b613266753077dac40d7a01971dc5c",
+      "after": "dc90de099cadda92096194b5de0d29210c5a154e760aa1ba4da25f45c2da756f"
+    },
+    "backend/api/routes/players.py": {
+      "before": "ef5d6f1b353c8a4dc425f040732baefecffd112fdb4ff4aeb3a0dc378b6929f4",
+      "after": "1152526736b1a818523e5657204fdad0e3c7c75c57fcc3c2ab71157d08bc5376"
+    },
+    "backend/api/routes/recommendations.py": {
+      "before": "06663a638b9ab613d9a9932dc94013420a015dcde3878a9f2d7365a5450eb5ed",
+      "after": "e8197f258dcfa09ca5561f1a9a1634481a95897e9cc9369dd36c7d378925a16b"
+    },
+    "backend/api/routes/squads.py": {
+      "before": "a3ac4bda39d9ce3cdf43e2d2bb19a29ba97572c356c529e10aafb6eaf3402eb2",
+      "after": "2240228ddc5a8b57e098fd06bc96eb0ca7e4ad145886abb6b5120f92a0ad727a"
+    },
+    "db/seed_reference_data.sql": {
+      "before": "1752682aea17c0271b28947bffd9f25fd6da9fd80fa70ebaffdad4a5dcd598d2",
+      "after": "b8c28845ebc4df6298f41354cebb0177908b177501f02d00deb9e9196057f19b"
+    },
+    "frontend/src/intelligence/Intelligence.test.tsx": {
+      "before": "026ba3ccb0438b4fea5c8c0114d702e1ddd33862aa61eeb77776784fef55a3ae",
+      "after": "c090da44b533d04f891a6402ec83d3488ebd869112d26d11881b93f53f0a9b08"
+    },
+    "frontend/src/intelligence/Intelligence.tsx": {
+      "before": "8e91a1578d47b5765ef3a8f71081f49b96b2a033de101e27f6de984e810c192d",
+      "after": "4f4a260b263b22fbe960f8bc4dd514dadec0b0fb4a555e381920f6245c034b9b"
+    },
+    "frontend/src/intelligence/WhatIfPanel.tsx": {
+      "before": "5a27bdba59f78b555903f3acfb6c1fa18a67647fae1ec8689d776cbefcbaf5e2",
+      "after": "75f31ca4b44d8296995833e3bfa2dbec1640eb466b5fa08e2ce77df1c15f351d"
+    },
+    "scripts/ingest_fc26_foundation.py": {
+      "before": "c92b0568cc74959be66328caec1f55879e1e93c40d8d0c07e4b2a778776d70c2",
+      "after": "fb115236a5aca915ee9332c97841d6b57979a4cf5415c5f05d04aaad441683d9"
+    },
+    "scripts/setup_database.py": {
+      "before": "29007ce68dd4cee27e9ec41a7deb2aedbf61f6605daf0f7cc78175d675e9de07",
+      "after": "6a118be748f71ee2a559d4ad0e2f79e2f215ef261539676cecc4615dfc72be3a"
+    },
+    "scripts/browser_qa/qa.mjs": {
+      "before": "0d2c7d57b9c72a3a11ff7b5fe37132ea82361ea9f38a690f0788d4556836964f",
+      "after": "c3de540448990cf584b85448249eebb7e9d30da4a446ed9ac87b1dbc8862f9e7"
+    },
+    "scripts/browser_qa/README.md": {
+      "before": "6e333fdbcce0ab535dc19855735309f9851f527f8bffa6b0a02f58f73f9e6206",
+      "after": "74fb7deb26c43a4f294e2692aca9cce619aaa8da0d2c51fd8d2665ff5cb530ae"
+    },
+    "scripts/browser_qa/scenarios.mjs": {
+      "before": "b31b2b641c5a17d4c2425823871aa072b18e197171107b1561115ac1bc0b936f",
+      "after": "e722c8d4dfccaff47b30cd00c04c58e0c87682b6f85027e9c65c1b0c95e3d913"
+    },
+    "deploy/DEPLOYMENT.md": {
+      "before": "c6ba6d55dfb936ca5babe7542eb2873ea55e711174caa0cccf95697e684a3dbf",
+      "after": "d185d1878e08dbcf42f9649afa7e66c442ec62d9a2c0d8391b6e16d0ecebcc71"
+    },
+    "deploy/Dockerfile": {
+      "before": "49b2d8ca2bb66cba8c785ec736f9bce41e4dd4200f20bc67d6805f1cb26d80a5",
+      "after": "263a829a628c90a2a92d3fa7040e80940711b178c76d25c61aacc7f816d42619"
+    },
+    ".github/workflows/phase26.yml": {
+      "before": "9fd33f8d2286637f89a3848cf773b663edbd9edd8de977ad7d9cb4d693e8c8e8",
+      "after": "98ab6440504ffc22c6828198208e9db1e059c95c6e434bdc2ecc924936a3bf1a"
+    },
+    ".dockerignore": {
+      "before": null,
+      "after": "28a109bf942d33546025f1681702f8b44f869cffe4fe2753fa7a84f073232250"
+    },
+    "backend/tests/test_phase27_api_policy.py": {
+      "before": null,
+      "after": "6cfeea31a0fbf3225077d306116da7c78e52c55c0a7e79ce1ee198c8030df4f8"
+    },
+    "backend/tests/test_phase27_database.py": {
+      "before": null,
+      "after": "c4e3ae58c7a3433335a12687a3d5a638066dacb7b0af10c598dd269243e6e919"
+    }
+  },
+  "evidence": {
+    "BACKEND_SUITE_RESULTS.json": "9e178ff2153bd15381ebbda1996d41090f9e10a69bef5fccaf4dfdd851054203",
+    "BROWSER_RESULTS.json": "a7e4b7afeb7c852c65c2a9a30534b07e3ea6f97e96943e3bad68d21d61021398",
+    "DATABASE_SETUP_RESULTS.json": "8edad4fd6186f8f1f916b02e7ad0ef4362ba84fc01b6cfd439b9d160f075d098",
+    "EXECUTION_SUMMARY.json": "88ed649a3662a0fc56c7de76939ba289cb46688e8e56f4be49a8de0545691616",
+    "FINAL_CERTIFICATION.json": "06c44505b1f4d72d06a27779d18fca490fb68bd113fb61644477af63cfb4de97",
+    "FINAL_CERTIFICATION.md": "ba00b9c8d20552f2e5d6d3fb081798cc73fbfec280f2f74f1f9ce69b834aa979",
+    "HTTP_RESULTS.json": "6189b84a1dc604b364f006109c9414205350db81c660dc37baceff9c42edf1f0",
+    "PHASE27_CHANGES.diff": "067a372cf59140516f11663831c01714abbd6add7c5acdca9534adddde73fc9c",
+    "puppeteer_chrome_pipe_startup.json": "020a9e263846df739a4adbcb9b1cbfb588c0e23e25798ab894b86a839278d1bc",
+    "puppeteer_chrome_startup.json": "8671183f5b6bd5c159b2a5e2ef557b915b9156b31cac88e6d898e17468be6a7c",
+    "UPDATE_PROPAGATION_RESULTS.json": "88a7813eaa655acd27759914f277ec7800d7aec624f5102025bb890bf86d5c0e",
+    "verify_http.py": "ac17b92a3ded44ba7f182cb962cbbfb239d2c9e819ed542fce9ce93ccb81f68a",
+    "verify_refresh.py": "70d15d0edc4278a1057070836cae4b9ab1f5ce2795511e558d763b8f92f2719b"
+  }
+}

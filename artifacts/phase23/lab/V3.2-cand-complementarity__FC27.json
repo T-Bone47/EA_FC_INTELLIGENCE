@@ -1,0 +1,1578 @@
+{
+  "variant": "V3.2-cand-complementarity",
+  "hypothesis": "H-INT-1: balanced complementary attribute pairs deserve bounded credit; min() is non-decreasing in each argument (monotone by construction), uses only the candidate's own values (pool independent), and an unpublished side earns 0",
+  "notes": "cap=0.05; pairs=(('acceleration', 'sprint_speed'), ('short_passing', 'vision'), ('ball_control', 'dribbling_detail'), ('defensive_awareness', 'standing_tackle'), ('reactions', 'defensive_awareness'))",
+  "game_version": "FC27",
+  "reference_distribution": "fc27-players-2026-09-r1",
+  "config_version": "v3-2026-09-17-r1",
+  "lab_version": "lab-2026-09-30-r1",
+  "positions": {
+    "CM": {
+      "discrimination": {
+        "counts_balanced": {
+          "pool": 12101,
+          "ranked": 7882,
+          "excluded": 4219,
+          "not_evaluable": 0,
+          "kappa": {
+            "p01": 1.0,
+            "p10": 1.0,
+            "p50": 1.0,
+            "p90": 1.0,
+            "p99": 1.0
+          },
+          "score": {
+            "p01": 0.47683,
+            "p10": 0.551464,
+            "p50": 0.660775,
+            "p90": 0.76543,
+            "p99": 0.851039
+          },
+          "top10": [
+            [
+              "Jude Bellingham",
+              0.9153,
+              90
+            ],
+            [
+              "Mariona",
+              0.9127,
+              89
+            ],
+            [
+              "Pedri",
+              0.9062,
+              90
+            ],
+            [
+              "Jo\u00e3o Neves",
+              0.9058,
+              88
+            ],
+            [
+              "Vitinha",
+              0.9029,
+              90
+            ],
+            [
+              "Patri Guijarro",
+              0.9026,
+              88
+            ],
+            [
+              "Federico Valverde",
+              0.9,
+              87
+            ],
+            [
+              "Aitana Bonmat\u00ed",
+              0.8965,
+              90
+            ],
+            [
+              "Sakina Karchaoui",
+              0.8957,
+              87
+            ],
+            [
+              "Alexia Putellas",
+              0.8943,
+              91
+            ]
+          ]
+        },
+        "mean_pairwise_top10_overlap": 6.333,
+        "opposed_overlap": {
+          "HIGH_PRESS|LOW_BLOCK": 5,
+          "POSSESSION|COUNTER_ATTACK": 6
+        },
+        "rho_R_OVR": {
+          "BALANCED": 0.8809,
+          "POSSESSION": 0.9329,
+          "HIGH_PRESS": 0.872,
+          "LOW_BLOCK": 0.7519,
+          "COUNTER_ATTACK": 0.8934,
+          "DIRECT_PLAY": 0.9075
+        },
+        "rho_spread": 0.181,
+        "near_tie_rate_top10": 0.8148,
+        "top10_by_profile": {
+          "BALANCED": [
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "62e5fd29-f57f-5315-8b15-5924a2d5e2b4",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "2bdd746b-58a2-58a5-ab60-c1717b025051",
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "73fc0513-b076-5520-8516-93f0bbc66da4",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878"
+          ],
+          "POSSESSION": [
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "62e5fd29-f57f-5315-8b15-5924a2d5e2b4",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "73fc0513-b076-5520-8516-93f0bbc66da4",
+            "2bdd746b-58a2-58a5-ab60-c1717b025051",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0"
+          ],
+          "HIGH_PRESS": [
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "6e843afa-57f2-55b2-8ae4-b9fe73d31184",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "62e5fd29-f57f-5315-8b15-5924a2d5e2b4",
+            "43d594c5-a320-51a8-a68b-aee238365854"
+          ],
+          "LOW_BLOCK": [
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "eeb6babd-9c03-5d53-b65c-9d3b28be5aee",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "7cda4860-485c-5c75-a984-c17d45075d18",
+            "6ad51a1b-2905-510a-976b-d727a48833eb",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "f3f7a020-d314-580a-a87e-1596f97249d0",
+            "194168f6-5fd3-5991-b1c3-ce2f4d1ffd0b"
+          ],
+          "COUNTER_ATTACK": [
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "32c0ff3d-3353-5e2f-b1c4-2669ac8a9b98",
+            "6ad51a1b-2905-510a-976b-d727a48833eb",
+            "43d594c5-a320-51a8-a68b-aee238365854"
+          ],
+          "DIRECT_PLAY": [
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "6ad51a1b-2905-510a-976b-d727a48833eb",
+            "8b797ffd-97cc-5c0c-9df1-588af7f6fcfa",
+            "43d594c5-a320-51a8-a68b-aee238365854",
+            "32c0ff3d-3353-5e2f-b1c4-2669ac8a9b98"
+          ]
+        }
+      },
+      "invariants": {
+        "probe_players": 200,
+        "profile": "BALANCED",
+        "monotonicity": {
+          "checks": 2400,
+          "violations": 0
+        },
+        "pareto": {
+          "checks": 200,
+          "violations": 0
+        },
+        "irrelevance": {
+          "checks": 1000,
+          "violations": 0,
+          "attributes_probed": [
+            "volleys",
+            "penalties",
+            "free_kick_accuracy",
+            "curve",
+            "gk_diving"
+          ]
+        },
+        "missing_data": {
+          "checks": 2400,
+          "violations_any_value": 319,
+          "high_value_checks": 1148,
+          "violations_high_value": 0,
+          "max_gain_when_hidden": 0.029551,
+          "note": "violation = hiding a published value RAISES C_lo; possible only when the published value is below the charged quantile"
+        }
+      }
+    },
+    "CDM": {
+      "discrimination": {
+        "counts_balanced": {
+          "pool": 12101,
+          "ranked": 5002,
+          "excluded": 7099,
+          "not_evaluable": 0,
+          "kappa": {
+            "p01": 1.0,
+            "p10": 1.0,
+            "p50": 1.0,
+            "p90": 1.0,
+            "p99": 1.0
+          },
+          "score": {
+            "p01": 0.481781,
+            "p10": 0.566478,
+            "p50": 0.67109,
+            "p90": 0.765996,
+            "p99": 0.849354
+          },
+          "top10": [
+            [
+              "Jo\u00e3o Neves",
+              0.9038,
+              88
+            ],
+            [
+              "Rodri",
+              0.8951,
+              90
+            ],
+            [
+              "Patri Guijarro",
+              0.8949,
+              88
+            ],
+            [
+              "Declan Rice",
+              0.8918,
+              88
+            ],
+            [
+              "Federico Valverde",
+              0.886,
+              87
+            ],
+            [
+              "Taylor Flint",
+              0.8811,
+              84
+            ],
+            [
+              "Eric Garc\u00eda",
+              0.8801,
+              85
+            ],
+            [
+              "Joshua Kimmich",
+              0.8795,
+              88
+            ],
+            [
+              "Felix Nmecha",
+              0.8776,
+              85
+            ],
+            [
+              "Lena Oberdorf",
+              0.8765,
+              84
+            ]
+          ]
+        },
+        "mean_pairwise_top10_overlap": 5.4,
+        "opposed_overlap": {
+          "HIGH_PRESS|LOW_BLOCK": 3,
+          "POSSESSION|COUNTER_ATTACK": 6
+        },
+        "rho_R_OVR": {
+          "BALANCED": 0.8902,
+          "POSSESSION": 0.9209,
+          "HIGH_PRESS": 0.8666,
+          "LOW_BLOCK": 0.8836,
+          "COUNTER_ATTACK": 0.872,
+          "DIRECT_PLAY": 0.8919
+        },
+        "rho_spread": 0.0543,
+        "near_tie_rate_top10": 0.7593,
+        "top10_by_profile": {
+          "BALANCED": [
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "eeb6babd-9c03-5d53-b65c-9d3b28be5aee",
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "7cda4860-485c-5c75-a984-c17d45075d18",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "f3f7a020-d314-580a-a87e-1596f97249d0",
+            "c61636c6-88fe-5f32-9e1a-f825dd7aae55",
+            "00c53762-3cb2-5321-bd25-0c5f20a64985",
+            "6ad51a1b-2905-510a-976b-d727a48833eb",
+            "f407bf20-fb9e-5ce4-993f-fddd2bd3bffe"
+          ],
+          "POSSESSION": [
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "62e5fd29-f57f-5315-8b15-5924a2d5e2b4",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "00c53762-3cb2-5321-bd25-0c5f20a64985",
+            "73fc0513-b076-5520-8516-93f0bbc66da4",
+            "2bdd746b-58a2-58a5-ab60-c1717b025051"
+          ],
+          "HIGH_PRESS": [
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "6e843afa-57f2-55b2-8ae4-b9fe73d31184",
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "43d594c5-a320-51a8-a68b-aee238365854",
+            "3d2f1275-eccc-56d6-8af6-a46e379fec67",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "aed1089c-6cb0-58c2-89c0-249e3410f442",
+            "00c53762-3cb2-5321-bd25-0c5f20a64985"
+          ],
+          "LOW_BLOCK": [
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "eeb6babd-9c03-5d53-b65c-9d3b28be5aee",
+            "55fbaddd-eb7b-5357-96cb-dfaf52091017",
+            "f3f7a020-d314-580a-a87e-1596f97249d0",
+            "7cda4860-485c-5c75-a984-c17d45075d18",
+            "6ad51a1b-2905-510a-976b-d727a48833eb",
+            "f407bf20-fb9e-5ce4-993f-fddd2bd3bffe",
+            "c61636c6-88fe-5f32-9e1a-f825dd7aae55",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270"
+          ],
+          "COUNTER_ATTACK": [
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "6ad51a1b-2905-510a-976b-d727a48833eb",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "43d594c5-a320-51a8-a68b-aee238365854",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "3d2f1275-eccc-56d6-8af6-a46e379fec67",
+            "194168f6-5fd3-5991-b1c3-ce2f4d1ffd0b",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878"
+          ],
+          "DIRECT_PLAY": [
+            "11dc74c9-8b85-580d-bed8-166c5c1192b0",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "6ad51a1b-2905-510a-976b-d727a48833eb",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "43d594c5-a320-51a8-a68b-aee238365854",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "7cda4860-485c-5c75-a984-c17d45075d18",
+            "194168f6-5fd3-5991-b1c3-ce2f4d1ffd0b",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878"
+          ]
+        }
+      },
+      "invariants": {
+        "probe_players": 200,
+        "profile": "BALANCED",
+        "monotonicity": {
+          "checks": 2400,
+          "violations": 0
+        },
+        "pareto": {
+          "checks": 200,
+          "violations": 0
+        },
+        "irrelevance": {
+          "checks": 1000,
+          "violations": 0,
+          "attributes_probed": [
+            "volleys",
+            "penalties",
+            "free_kick_accuracy",
+            "curve",
+            "gk_diving"
+          ]
+        },
+        "missing_data": {
+          "checks": 2400,
+          "violations_any_value": 295,
+          "high_value_checks": 1093,
+          "violations_high_value": 0,
+          "max_gain_when_hidden": 0.019192,
+          "note": "violation = hiding a published value RAISES C_lo; possible only when the published value is below the charged quantile"
+        }
+      }
+    },
+    "CAM": {
+      "discrimination": {
+        "counts_balanced": {
+          "pool": 12101,
+          "ranked": 7556,
+          "excluded": 4545,
+          "not_evaluable": 0,
+          "kappa": {
+            "p01": 1.0,
+            "p10": 1.0,
+            "p50": 1.0,
+            "p90": 1.0,
+            "p99": 1.0
+          },
+          "score": {
+            "p01": 0.494202,
+            "p10": 0.574165,
+            "p50": 0.674834,
+            "p90": 0.785657,
+            "p99": 0.872014
+          },
+          "top10": [
+            [
+              "Alexia Putellas",
+              0.9411,
+              91
+            ],
+            [
+              "Lionel Messi",
+              0.928,
+              89
+            ],
+            [
+              "Lamine Yamal",
+              0.9256,
+              90
+            ],
+            [
+              "Michael Olise",
+              0.9252,
+              90
+            ],
+            [
+              "Vitinha",
+              0.9236,
+              90
+            ],
+            [
+              "Ousmane Demb\u00e9l\u00e9",
+              0.9224,
+              90
+            ],
+            [
+              "Caroline Graham Hansen",
+              0.9201,
+              89
+            ],
+            [
+              "Khvicha Kvaratskhelia",
+              0.9175,
+              89
+            ],
+            [
+              "Jude Bellingham",
+              0.9174,
+              90
+            ],
+            [
+              "Mariona",
+              0.9174,
+              89
+            ]
+          ]
+        },
+        "mean_pairwise_top10_overlap": 5.0,
+        "opposed_overlap": {
+          "HIGH_PRESS|LOW_BLOCK": 4,
+          "POSSESSION|COUNTER_ATTACK": 5
+        },
+        "rho_R_OVR": {
+          "BALANCED": 0.9526,
+          "POSSESSION": 0.9541,
+          "HIGH_PRESS": 0.9039,
+          "LOW_BLOCK": 0.7779,
+          "COUNTER_ATTACK": 0.9227,
+          "DIRECT_PLAY": 0.9389
+        },
+        "rho_spread": 0.1762,
+        "near_tie_rate_top10": 0.9074,
+        "top10_by_profile": {
+          "BALANCED": [
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "fdf36997-75b0-5e04-b22e-2d1872e214f7",
+            "093fad60-ff4a-56fa-9591-bb7362947a9e",
+            "2716e790-be7b-568e-8652-66cf351d124c",
+            "2bdd746b-58a2-58a5-ab60-c1717b025051",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc"
+          ],
+          "POSSESSION": [
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "62e5fd29-f57f-5315-8b15-5924a2d5e2b4",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "2716e790-be7b-568e-8652-66cf351d124c",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "73fc0513-b076-5520-8516-93f0bbc66da4",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "2bdd746b-58a2-58a5-ab60-c1717b025051",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915"
+          ],
+          "HIGH_PRESS": [
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "6e843afa-57f2-55b2-8ae4-b9fe73d31184",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "62e5fd29-f57f-5315-8b15-5924a2d5e2b4",
+            "2bdd746b-58a2-58a5-ab60-c1717b025051"
+          ],
+          "LOW_BLOCK": [
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "cf49df09-7f9e-5461-a243-9e07756739b1",
+            "4ecb13d6-ae73-5142-bec2-dc7b16647dcc",
+            "6ad51a1b-2905-510a-976b-d727a48833eb",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "194168f6-5fd3-5991-b1c3-ce2f4d1ffd0b",
+            "51f42d27-0cef-576b-92cb-d3b5d4103441",
+            "f3f7a020-d314-580a-a87e-1596f97249d0",
+            "43d594c5-a320-51a8-a68b-aee238365854"
+          ],
+          "COUNTER_ATTACK": [
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "32c0ff3d-3353-5e2f-b1c4-2669ac8a9b98",
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31"
+          ],
+          "DIRECT_PLAY": [
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "7ee091f7-31d9-5cb5-a36d-16cc796d4270",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "4683e887-f012-51a4-8d33-34038efea9d0",
+            "76b81d0a-4be5-561e-9097-651e2f12d37d"
+          ]
+        }
+      },
+      "invariants": {
+        "probe_players": 200,
+        "profile": "BALANCED",
+        "monotonicity": {
+          "checks": 2200,
+          "violations": 0
+        },
+        "pareto": {
+          "checks": 200,
+          "violations": 0
+        },
+        "irrelevance": {
+          "checks": 800,
+          "violations": 0,
+          "attributes_probed": [
+            "volleys",
+            "penalties",
+            "free_kick_accuracy",
+            "gk_diving"
+          ]
+        },
+        "missing_data": {
+          "checks": 2200,
+          "violations_any_value": 323,
+          "high_value_checks": 1002,
+          "violations_high_value": 0,
+          "max_gain_when_hidden": 0.035683,
+          "note": "violation = hiding a published value RAISES C_lo; possible only when the published value is below the charged quantile"
+        }
+      }
+    },
+    "CB": {
+      "discrimination": {
+        "counts_balanced": {
+          "pool": 7639,
+          "ranked": 7023,
+          "excluded": 616,
+          "not_evaluable": 0,
+          "kappa": {
+            "p01": 1.0,
+            "p10": 1.0,
+            "p50": 1.0,
+            "p90": 1.0,
+            "p99": 1.0
+          },
+          "score": {
+            "p01": 0.489106,
+            "p10": 0.575306,
+            "p50": 0.668445,
+            "p90": 0.76416,
+            "p99": 0.846796
+          },
+          "top10": [
+            [
+              "Virgil van Dijk",
+              0.9024,
+              88
+            ],
+            [
+              "Mapi Le\u00f3n",
+              0.9011,
+              88
+            ],
+            [
+              "Marquinhos",
+              0.8976,
+              87
+            ],
+            [
+              "Nico Schlotterbeck",
+              0.8949,
+              87
+            ],
+            [
+              "Pau Cubars\u00ed",
+              0.8932,
+              86
+            ],
+            [
+              "William Saliba",
+              0.8931,
+              88
+            ],
+            [
+              "Gabriel",
+              0.8928,
+              89
+            ],
+            [
+              "Willian Pacho",
+              0.8921,
+              89
+            ],
+            [
+              "Eric Garc\u00eda",
+              0.885,
+              85
+            ],
+            [
+              "Alessandro Bastoni",
+              0.8839,
+              86
+            ]
+          ]
+        },
+        "mean_pairwise_top10_overlap": 3.933,
+        "opposed_overlap": {
+          "HIGH_PRESS|LOW_BLOCK": 1,
+          "POSSESSION|COUNTER_ATTACK": 5
+        },
+        "rho_R_OVR": {
+          "BALANCED": 0.9402,
+          "POSSESSION": 0.8548,
+          "HIGH_PRESS": 0.8364,
+          "LOW_BLOCK": 0.9323,
+          "COUNTER_ATTACK": 0.8512,
+          "DIRECT_PLAY": 0.8701
+        },
+        "rho_spread": 0.1038,
+        "near_tie_rate_top10": 0.7963,
+        "top10_by_profile": {
+          "BALANCED": [
+            "3941a08f-bdb4-588b-981e-af692cf1494d",
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "e23fd0dd-2ae1-5846-8ac5-b7ca6ab77ac8",
+            "f1434893-c633-5887-9a40-2f3c44549fa8",
+            "d3fad2c4-715f-5758-8055-e80d33ba892b",
+            "b9e2c650-c7dc-5dfe-b5b1-dfb0853d3f0a",
+            "abf56583-d938-53d4-8922-23326b1f2ec4",
+            "639dbe7b-1458-5608-b23d-60509b9e80cb",
+            "c61636c6-88fe-5f32-9e1a-f825dd7aae55",
+            "9f1de5b6-c0e7-51c2-beeb-f7664648a04d"
+          ],
+          "POSSESSION": [
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "35d87ea4-f642-5356-937b-3e2f015bb413",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "c61636c6-88fe-5f32-9e1a-f825dd7aae55",
+            "d3fad2c4-715f-5758-8055-e80d33ba892b",
+            "02c17c83-3765-553b-9ff6-78dc5fe3a02b",
+            "55fbaddd-eb7b-5357-96cb-dfaf52091017"
+          ],
+          "HIGH_PRESS": [
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "e081727a-9252-5fe6-a1b9-ca29709897de",
+            "e3bee943-9e80-5c08-84da-8726a30c6797",
+            "6ec5e3cb-f280-55c0-a14c-7d2b17bdd73f",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "896d0de7-e37c-5e75-b187-2b7d8c6c2c53"
+          ],
+          "LOW_BLOCK": [
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "e23fd0dd-2ae1-5846-8ac5-b7ca6ab77ac8",
+            "55fbaddd-eb7b-5357-96cb-dfaf52091017",
+            "f3f7a020-d314-580a-a87e-1596f97249d0",
+            "02c17c83-3765-553b-9ff6-78dc5fe3a02b",
+            "3941a08f-bdb4-588b-981e-af692cf1494d",
+            "d3fad2c4-715f-5758-8055-e80d33ba892b",
+            "f1434893-c633-5887-9a40-2f3c44549fa8",
+            "c61636c6-88fe-5f32-9e1a-f825dd7aae55",
+            "cd3e6431-8d49-575f-84f9-7740c735f84d"
+          ],
+          "COUNTER_ATTACK": [
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "0ed25345-1579-52ed-8bd9-32e77dde31e4",
+            "e081727a-9252-5fe6-a1b9-ca29709897de",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "f1434893-c633-5887-9a40-2f3c44549fa8",
+            "63d7d6f7-bf72-5502-8187-b4f81160a370"
+          ],
+          "DIRECT_PLAY": [
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "f1434893-c633-5887-9a40-2f3c44549fa8",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "0ed25345-1579-52ed-8bd9-32e77dde31e4",
+            "02c17c83-3765-553b-9ff6-78dc5fe3a02b",
+            "f3f7a020-d314-580a-a87e-1596f97249d0",
+            "e3bee943-9e80-5c08-84da-8726a30c6797"
+          ]
+        }
+      },
+      "invariants": {
+        "probe_players": 200,
+        "profile": "BALANCED",
+        "monotonicity": {
+          "checks": 2800,
+          "violations": 0
+        },
+        "pareto": {
+          "checks": 200,
+          "violations": 0
+        },
+        "irrelevance": {
+          "checks": 1000,
+          "violations": 0,
+          "attributes_probed": [
+            "volleys",
+            "penalties",
+            "free_kick_accuracy",
+            "curve",
+            "gk_diving"
+          ]
+        },
+        "missing_data": {
+          "checks": 2800,
+          "violations_any_value": 204,
+          "high_value_checks": 1337,
+          "violations_high_value": 0,
+          "max_gain_when_hidden": 0.036168,
+          "note": "violation = hiding a published value RAISES C_lo; possible only when the published value is below the charged quantile"
+        }
+      }
+    },
+    "LB": {
+      "discrimination": {
+        "counts_balanced": {
+          "pool": 7639,
+          "ranked": 6912,
+          "excluded": 727,
+          "not_evaluable": 0,
+          "kappa": {
+            "p01": 1.0,
+            "p10": 1.0,
+            "p50": 1.0,
+            "p90": 1.0,
+            "p99": 1.0
+          },
+          "score": {
+            "p01": 0.508881,
+            "p10": 0.574029,
+            "p50": 0.667275,
+            "p90": 0.757004,
+            "p99": 0.832734
+          },
+          "top10": [
+            [
+              "Nuno Mendes",
+              0.9057,
+              89
+            ],
+            [
+              "Achraf Hakimi",
+              0.9012,
+              88
+            ],
+            [
+              "Ona Batlle",
+              0.8873,
+              87
+            ],
+            [
+              "Marcos Llorente",
+              0.8844,
+              85
+            ],
+            [
+              "Selma Bacha",
+              0.8843,
+              86
+            ],
+            [
+              "Sakina Karchaoui",
+              0.8784,
+              87
+            ],
+            [
+              "Mapi Le\u00f3n",
+              0.8765,
+              88
+            ],
+            [
+              "Esmee Brugts",
+              0.874,
+              84
+            ],
+            [
+              "Steph Catley",
+              0.8739,
+              84
+            ],
+            [
+              "Ellie Carpenter",
+              0.8738,
+              85
+            ]
+          ]
+        },
+        "mean_pairwise_top10_overlap": 5.533,
+        "opposed_overlap": {
+          "HIGH_PRESS|LOW_BLOCK": 2,
+          "POSSESSION|COUNTER_ATTACK": 6
+        },
+        "rho_R_OVR": {
+          "BALANCED": 0.8028,
+          "POSSESSION": 0.7841,
+          "HIGH_PRESS": 0.7306,
+          "LOW_BLOCK": 0.927,
+          "COUNTER_ATTACK": 0.7533,
+          "DIRECT_PLAY": 0.7901
+        },
+        "rho_spread": 0.1964,
+        "near_tie_rate_top10": 0.7037,
+        "top10_by_profile": {
+          "BALANCED": [
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "3af951c2-44d8-5ab6-a2f9-7854ea3334fa",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "a1f3546d-9a5f-5b31-87d3-0e57e3a2bea0",
+            "e081727a-9252-5fe6-a1b9-ca29709897de",
+            "99afaa1a-0b50-59e2-9165-4cde3f0f6a66"
+          ],
+          "POSSESSION": [
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "35d87ea4-f642-5356-937b-3e2f015bb413",
+            "fffae633-afb0-5257-b289-883459f8ceee",
+            "42be12f4-4abc-59fd-a00f-665319c7642a",
+            "6ec5e3cb-f280-55c0-a14c-7d2b17bdd73f"
+          ],
+          "HIGH_PRESS": [
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "3af951c2-44d8-5ab6-a2f9-7854ea3334fa",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "e3bee943-9e80-5c08-84da-8726a30c6797",
+            "6ec5e3cb-f280-55c0-a14c-7d2b17bdd73f",
+            "0ed25345-1579-52ed-8bd9-32e77dde31e4"
+          ],
+          "LOW_BLOCK": [
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "02c17c83-3765-553b-9ff6-78dc5fe3a02b",
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "55fbaddd-eb7b-5357-96cb-dfaf52091017",
+            "e23fd0dd-2ae1-5846-8ac5-b7ca6ab77ac8",
+            "c61636c6-88fe-5f32-9e1a-f825dd7aae55",
+            "42be12f4-4abc-59fd-a00f-665319c7642a",
+            "f1434893-c633-5887-9a40-2f3c44549fa8",
+            "e081727a-9252-5fe6-a1b9-ca29709897de"
+          ],
+          "COUNTER_ATTACK": [
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "0ed25345-1579-52ed-8bd9-32e77dde31e4",
+            "a1f3546d-9a5f-5b31-87d3-0e57e3a2bea0",
+            "63d7d6f7-bf72-5502-8187-b4f81160a370"
+          ],
+          "DIRECT_PLAY": [
+            "db4e392a-39ad-5b6f-847f-3b723e224f3b",
+            "29e7d551-8c5c-5b50-bf87-59f56609db98",
+            "a8b16721-b465-5fff-ace2-589a54cbbd71",
+            "df435288-f327-5f11-8ee7-aed908a2cfb7",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "748dbc28-03ea-53cb-8680-8d493310c0c8",
+            "42be12f4-4abc-59fd-a00f-665319c7642a",
+            "0ed25345-1579-52ed-8bd9-32e77dde31e4",
+            "e3bee943-9e80-5c08-84da-8726a30c6797"
+          ]
+        }
+      },
+      "invariants": {
+        "probe_players": 200,
+        "profile": "BALANCED",
+        "monotonicity": {
+          "checks": 2400,
+          "violations": 0
+        },
+        "pareto": {
+          "checks": 200,
+          "violations": 0
+        },
+        "irrelevance": {
+          "checks": 1000,
+          "violations": 0,
+          "attributes_probed": [
+            "volleys",
+            "penalties",
+            "free_kick_accuracy",
+            "curve",
+            "gk_diving"
+          ]
+        },
+        "missing_data": {
+          "checks": 2400,
+          "violations_any_value": 176,
+          "high_value_checks": 1094,
+          "violations_high_value": 0,
+          "max_gain_when_hidden": 0.033636,
+          "note": "violation = hiding a published value RAISES C_lo; possible only when the published value is below the charged quantile"
+        }
+      }
+    },
+    "ST": {
+      "discrimination": {
+        "counts_balanced": {
+          "pool": 7062,
+          "ranked": 4479,
+          "excluded": 2583,
+          "not_evaluable": 0,
+          "kappa": {
+            "p01": 1.0,
+            "p10": 1.0,
+            "p50": 1.0,
+            "p90": 1.0,
+            "p99": 1.0
+          },
+          "score": {
+            "p01": 0.526435,
+            "p10": 0.598997,
+            "p50": 0.690675,
+            "p90": 0.785211,
+            "p99": 0.870331
+          },
+          "top10": [
+            [
+              "Kylian Mbapp\u00e9",
+              0.9315,
+              91
+            ],
+            [
+              "Ewa Pajor",
+              0.9286,
+              89
+            ],
+            [
+              "Ousmane Demb\u00e9l\u00e9",
+              0.916,
+              90
+            ],
+            [
+              "Sophia Wilson",
+              0.9084,
+              88
+            ],
+            [
+              "Melchie Dumornay",
+              0.908,
+              88
+            ],
+            [
+              "Alessia Russo",
+              0.9062,
+              88
+            ],
+            [
+              "Erling Haaland",
+              0.9054,
+              91
+            ],
+            [
+              "Alexia Putellas",
+              0.9039,
+              91
+            ],
+            [
+              "Vivianne Miedema",
+              0.9033,
+              87
+            ],
+            [
+              "Caroline Graham Hansen",
+              0.9026,
+              89
+            ]
+          ]
+        },
+        "mean_pairwise_top10_overlap": 5.267,
+        "opposed_overlap": {
+          "HIGH_PRESS|LOW_BLOCK": 5,
+          "POSSESSION|COUNTER_ATTACK": 5
+        },
+        "rho_R_OVR": {
+          "BALANCED": 0.9541,
+          "POSSESSION": 0.9477,
+          "HIGH_PRESS": 0.8784,
+          "LOW_BLOCK": 0.8703,
+          "COUNTER_ATTACK": 0.8974,
+          "DIRECT_PLAY": 0.9306
+        },
+        "rho_spread": 0.0838,
+        "near_tie_rate_top10": 0.7593,
+        "top10_by_profile": {
+          "BALANCED": [
+            "bf357d9a-9236-59cc-bc6d-33b942488ab1",
+            "6d97797e-fc6b-54c8-ba9b-5fdb1c10dfc1",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "d40db90f-5854-5aca-a7f5-d8619ce114e2",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "98fa37c9-b0ff-5965-91d7-f162031868cd",
+            "e4769961-b343-5633-b557-39a85954f5b3",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "2951bd24-7fed-5039-af70-c050cda11480",
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31"
+          ],
+          "POSSESSION": [
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31",
+            "bf357d9a-9236-59cc-bc6d-33b942488ab1",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "fdf36997-75b0-5e04-b22e-2d1872e214f7",
+            "2951bd24-7fed-5039-af70-c050cda11480",
+            "093fad60-ff4a-56fa-9591-bb7362947a9e"
+          ],
+          "HIGH_PRESS": [
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "4683e887-f012-51a4-8d33-34038efea9d0",
+            "29534543-2d67-52ec-bb76-006f93c92277",
+            "d40db90f-5854-5aca-a7f5-d8619ce114e2",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "be50eb2d-c766-562d-a095-179be1e5a92e"
+          ],
+          "LOW_BLOCK": [
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "51f42d27-0cef-576b-92cb-d3b5d4103441",
+            "8db072d8-d6fa-528b-90c9-75cf8d6ab8f9",
+            "8b797ffd-97cc-5c0c-9df1-588af7f6fcfa",
+            "47b9f00b-da4f-5e16-8227-faade61897a4",
+            "8200f5f7-5bd7-5b2e-938d-17dd53f0fd09",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "4683e887-f012-51a4-8d33-34038efea9d0"
+          ],
+          "COUNTER_ATTACK": [
+            "bf357d9a-9236-59cc-bc6d-33b942488ab1",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "d40db90f-5854-5aca-a7f5-d8619ce114e2",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "6d97797e-fc6b-54c8-ba9b-5fdb1c10dfc1",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "4683e887-f012-51a4-8d33-34038efea9d0",
+            "9b130b7e-a399-5638-bfc1-cc1b11f1c696",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878"
+          ],
+          "DIRECT_PLAY": [
+            "bf357d9a-9236-59cc-bc6d-33b942488ab1",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "d40db90f-5854-5aca-a7f5-d8619ce114e2",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "6d97797e-fc6b-54c8-ba9b-5fdb1c10dfc1",
+            "7d8cb858-be1d-5f9a-a57f-0281b4e1f878",
+            "4683e887-f012-51a4-8d33-34038efea9d0",
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090"
+          ]
+        }
+      },
+      "invariants": {
+        "probe_players": 200,
+        "profile": "BALANCED",
+        "monotonicity": {
+          "checks": 2800,
+          "violations": 0
+        },
+        "pareto": {
+          "checks": 200,
+          "violations": 0
+        },
+        "irrelevance": {
+          "checks": 800,
+          "violations": 0,
+          "attributes_probed": [
+            "penalties",
+            "free_kick_accuracy",
+            "curve",
+            "gk_diving"
+          ]
+        },
+        "missing_data": {
+          "checks": 2800,
+          "violations_any_value": 264,
+          "high_value_checks": 1355,
+          "violations_high_value": 0,
+          "max_gain_when_hidden": 0.050314,
+          "note": "violation = hiding a published value RAISES C_lo; possible only when the published value is below the charged quantile"
+        }
+      }
+    },
+    "LW": {
+      "discrimination": {
+        "counts_balanced": {
+          "pool": 7062,
+          "ranked": 5819,
+          "excluded": 1243,
+          "not_evaluable": 0,
+          "kappa": {
+            "p01": 1.0,
+            "p10": 1.0,
+            "p50": 1.0,
+            "p90": 1.0,
+            "p99": 1.0
+          },
+          "score": {
+            "p01": 0.515882,
+            "p10": 0.593154,
+            "p50": 0.696299,
+            "p90": 0.79393,
+            "p99": 0.872648
+          },
+          "top10": [
+            [
+              "Caroline Graham Hansen",
+              0.9326,
+              89
+            ],
+            [
+              "Ousmane Demb\u00e9l\u00e9",
+              0.9285,
+              90
+            ],
+            [
+              "Kylian Mbapp\u00e9",
+              0.9255,
+              91
+            ],
+            [
+              "Lamine Yamal",
+              0.9231,
+              90
+            ],
+            [
+              "Claudia Pina",
+              0.9228,
+              89
+            ],
+            [
+              "Vini Jr.",
+              0.9203,
+              89
+            ],
+            [
+              "Raphinha",
+              0.9175,
+              88
+            ],
+            [
+              "Melchie Dumornay",
+              0.9132,
+              88
+            ],
+            [
+              "Khvicha Kvaratskhelia",
+              0.9094,
+              89
+            ],
+            [
+              "Juli\u00e1n Alvarez",
+              0.9057,
+              86
+            ]
+          ]
+        },
+        "mean_pairwise_top10_overlap": 5.067,
+        "opposed_overlap": {
+          "HIGH_PRESS|LOW_BLOCK": 4,
+          "POSSESSION|COUNTER_ATTACK": 6
+        },
+        "rho_R_OVR": {
+          "BALANCED": 0.8146,
+          "POSSESSION": 0.906,
+          "HIGH_PRESS": 0.828,
+          "LOW_BLOCK": 0.8451,
+          "COUNTER_ATTACK": 0.86,
+          "DIRECT_PLAY": 0.9061
+        },
+        "rho_spread": 0.0915,
+        "near_tie_rate_top10": 0.8333,
+        "top10_by_profile": {
+          "BALANCED": [
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "bf357d9a-9236-59cc-bc6d-33b942488ab1",
+            "093fad60-ff4a-56fa-9591-bb7362947a9e",
+            "0103855e-d932-5e03-a33c-838db2cfefbe",
+            "8b5bf884-2c79-5ce9-853b-7f4d47f65928",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "4683e887-f012-51a4-8d33-34038efea9d0"
+          ],
+          "POSSESSION": [
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "093fad60-ff4a-56fa-9591-bb7362947a9e",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "fdf36997-75b0-5e04-b22e-2d1872e214f7",
+            "bf357d9a-9236-59cc-bc6d-33b942488ab1",
+            "0103855e-d932-5e03-a33c-838db2cfefbe",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e"
+          ],
+          "HIGH_PRESS": [
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "4683e887-f012-51a4-8d33-34038efea9d0",
+            "a2494ef3-2e3f-5126-bdd6-a49d19c1ad93",
+            "29534543-2d67-52ec-bb76-006f93c92277",
+            "d894aaf0-b5d5-5372-8d74-2882387eda7c"
+          ],
+          "LOW_BLOCK": [
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "42be12f4-4abc-59fd-a00f-665319c7642a",
+            "999611ac-b12a-5995-a052-d51643e56b7a",
+            "80e57da4-8736-5b87-ac8b-4f5accc3653e",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "47b9f00b-da4f-5e16-8227-faade61897a4",
+            "fffae633-afb0-5257-b289-883459f8ceee",
+            "a1f3546d-9a5f-5b31-87d3-0e57e3a2bea0",
+            "be008ea2-a857-560e-8a05-3fdc60b09c7c",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f"
+          ],
+          "COUNTER_ATTACK": [
+            "bf357d9a-9236-59cc-bc6d-33b942488ab1",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "4683e887-f012-51a4-8d33-34038efea9d0",
+            "d40db90f-5854-5aca-a7f5-d8619ce114e2",
+            "9b130b7e-a399-5638-bfc1-cc1b11f1c696",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05"
+          ],
+          "DIRECT_PLAY": [
+            "bf357d9a-9236-59cc-bc6d-33b942488ab1",
+            "f0690054-a101-5bc5-9270-41ab5dd4d915",
+            "70f4e519-81ab-5fca-ab8b-f0aeeff93a31",
+            "b0ca8830-32f3-5d18-ac40-57bfe7d1fc5f",
+            "c73a52e3-65ec-5ff7-ab38-e013a0caa090",
+            "ae61da8c-f2fb-5f9c-96da-84dff47f841b",
+            "4683e887-f012-51a4-8d33-34038efea9d0",
+            "cac2a2c1-a467-5c42-a24f-c0ab67914c05",
+            "d40db90f-5854-5aca-a7f5-d8619ce114e2",
+            "7229eefe-14cc-5f84-bee7-b2355a83adc4"
+          ]
+        }
+      },
+      "invariants": {
+        "probe_players": 200,
+        "profile": "BALANCED",
+        "monotonicity": {
+          "checks": 2400,
+          "violations": 0
+        },
+        "pareto": {
+          "checks": 200,
+          "violations": 0
+        },
+        "irrelevance": {
+          "checks": 800,
+          "violations": 0,
+          "attributes_probed": [
+            "volleys",
+            "penalties",
+            "free_kick_accuracy",
+            "gk_diving"
+          ]
+        },
+        "missing_data": {
+          "checks": 2400,
+          "violations_any_value": 150,
+          "high_value_checks": 1345,
+          "violations_high_value": 0,
+          "max_gain_when_hidden": 0.030612,
+          "note": "violation = hiding a published value RAISES C_lo; possible only when the published value is below the charged quantile"
+        }
+      }
+    },
+    "GK": {
+      "discrimination": {
+        "counts_balanced": {
+          "pool": 2204,
+          "ranked": 2204,
+          "excluded": 0,
+          "not_evaluable": 0,
+          "kappa": {
+            "p01": 1.0,
+            "p10": 1.0,
+            "p50": 1.0,
+            "p90": 1.0,
+            "p99": 1.0
+          },
+          "score": {
+            "p01": 0.502525,
+            "p10": 0.554141,
+            "p50": 0.650606,
+            "p90": 0.751616,
+            "p99": 0.830404
+          },
+          "top10": [
+            [
+              "David Raya",
+              0.8784,
+              88
+            ],
+            [
+              "Thibaut Courtois",
+              0.8764,
+              90
+            ],
+            [
+              "Hannah Hampton",
+              0.8659,
+              87
+            ],
+            [
+              "Jan Oblak",
+              0.8638,
+              88
+            ],
+            [
+              "Alisson",
+              0.8626,
+              87
+            ],
+            [
+              "Gianluigi Donnarumma",
+              0.8604,
+              89
+            ],
+            [
+              "Ann-Katrin Berger",
+              0.8565,
+              87
+            ],
+            [
+              "Joan Garc\u00eda",
+              0.8562,
+              86
+            ],
+            [
+              "Mike Maignan",
+              0.8558,
+              87
+            ],
+            [
+              "Diogo Costa",
+              0.8535,
+              86
+            ]
+          ]
+        },
+        "mean_pairwise_top10_overlap": 9.4,
+        "opposed_overlap": {
+          "HIGH_PRESS|LOW_BLOCK": 10,
+          "POSSESSION|COUNTER_ATTACK": 10
+        },
+        "rho_R_OVR": {
+          "BALANCED": 0.9956,
+          "POSSESSION": 0.9931,
+          "HIGH_PRESS": 0.9951,
+          "LOW_BLOCK": 0.9952,
+          "COUNTER_ATTACK": 0.9934,
+          "DIRECT_PLAY": 0.9928
+        },
+        "rho_spread": 0.0028,
+        "near_tie_rate_top10": 0.8333,
+        "top10_by_profile": {
+          "BALANCED": [
+            "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+            "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+            "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+            "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+            "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+            "47849ebd-8c0e-5332-8fa8-ded01ee7b2ab",
+            "12fd2d4a-229e-5074-a764-a4bfaf930363",
+            "36a19433-4ed4-5589-a5e2-d68671287cbb",
+            "035ce5ba-eb36-56bc-9925-67623698a8c4",
+            "3b97cb47-ff8a-5c30-b7b8-407a71733f16"
+          ],
+          "POSSESSION": [
+            "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+            "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+            "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+            "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+            "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+            "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+            "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+            "12fd2d4a-229e-5074-a764-a4bfaf930363",
+            "035ce5ba-eb36-56bc-9925-67623698a8c4",
+            "36a19433-4ed4-5589-a5e2-d68671287cbb"
+          ],
+          "HIGH_PRESS": [
+            "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+            "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+            "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+            "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+            "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+            "47849ebd-8c0e-5332-8fa8-ded01ee7b2ab",
+            "12fd2d4a-229e-5074-a764-a4bfaf930363",
+            "36a19433-4ed4-5589-a5e2-d68671287cbb",
+            "035ce5ba-eb36-56bc-9925-67623698a8c4",
+            "3b97cb47-ff8a-5c30-b7b8-407a71733f16"
+          ],
+          "LOW_BLOCK": [
+            "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+            "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+            "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+            "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+            "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+            "47849ebd-8c0e-5332-8fa8-ded01ee7b2ab",
+            "12fd2d4a-229e-5074-a764-a4bfaf930363",
+            "36a19433-4ed4-5589-a5e2-d68671287cbb",
+            "035ce5ba-eb36-56bc-9925-67623698a8c4",
+            "3b97cb47-ff8a-5c30-b7b8-407a71733f16"
+          ],
+          "COUNTER_ATTACK": [
+            "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+            "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+            "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+            "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+            "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+            "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+            "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+            "12fd2d4a-229e-5074-a764-a4bfaf930363",
+            "035ce5ba-eb36-56bc-9925-67623698a8c4",
+            "36a19433-4ed4-5589-a5e2-d68671287cbb"
+          ],
+          "DIRECT_PLAY": [
+            "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+            "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+            "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+            "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+            "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+            "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+            "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+            "12fd2d4a-229e-5074-a764-a4bfaf930363",
+            "035ce5ba-eb36-56bc-9925-67623698a8c4",
+            "36a19433-4ed4-5589-a5e2-d68671287cbb"
+          ]
+        }
+      },
+      "invariants": {
+        "probe_players": 200,
+        "profile": "BALANCED",
+        "monotonicity": {
+          "checks": 1000,
+          "violations": 0
+        },
+        "pareto": {
+          "checks": 200,
+          "violations": 0
+        },
+        "irrelevance": {
+          "checks": 800,
+          "violations": 0,
+          "attributes_probed": [
+            "volleys",
+            "penalties",
+            "free_kick_accuracy",
+            "curve"
+          ]
+        },
+        "missing_data": {
+          "checks": 1000,
+          "violations_any_value": 92,
+          "high_value_checks": 538,
+          "violations_high_value": 0,
+          "max_gain_when_hidden": 0.022222,
+          "note": "violation = hiding a published value RAISES C_lo; possible only when the published value is below the charged quantile"
+        }
+      }
+    }
+  },
+  "data_status": "RESEARCH_ONLY",
+  "candidates": 19789,
+  "seconds": 44.1
+}

@@ -1,0 +1,6 @@
+# PHASE 42 Handoff Blueprint
+
+1. **Interactive Decision Training Simulator:** Build a full interactive drill runner in Training Academy powered by `GET /api/phase41/scenarios` (`DecisionTrainingScenario` items with `hide_outcome_by_default=True`, multi-answer `defensible_option_ids`, and utility margins) connected to Bayesian Knowledge Tracing (`bkt_update`).
+2. **Empirical EPV & xG Calibration Cohort (Unlock Stage 3):** Ingest $\ge 25$ full-length user-owned EA FC26/FC27 gameplay videos + PyTorch/ONNX detector weights (`backend/models/fc_detector.onnx`), fit zone transitions & shot conversion probabilities with temporally split Brier reliability checks ($\le 0.20$), and unlock `CalibratedEPVInterface`.
+3. **Gameplay Controller Telemetry Sync:** Optionally synchronize local controller input timestamps with recorded match frames to upgrade `ControllerAttribution` from `UNKNOWN` to verified manual switch / manual pass / off-ball L1 trigger signals.
+4. **Learning-to-Rank Calibration (`xgboost.XGBRanker` `rank:ndcg`):** Train pairwise/listwise candidate ranking models grouped by `window_id` once sufficient human-annotated blind-review scenarios (`phase41_decision_annotation`) accumulate.

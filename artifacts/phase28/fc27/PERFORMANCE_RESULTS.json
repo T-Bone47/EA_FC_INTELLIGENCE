@@ -1,0 +1,49 @@
+{
+  "population": 19789,
+  "workload": "FC27 4-3-3 CDM high press, both published divisions",
+  "position_candidates": [
+    12101
+  ],
+  "cache_hits": 19,
+  "response_size_bytes": 864713,
+  "first_candidate_load_ms": 2187.66,
+  "scope_count": {
+    "n": 20,
+    "p50_ms": 105.38,
+    "p95_ms": 135.07
+  },
+  "concurrent_four_workers": {
+    "n": 12,
+    "p50_ms": 3993.98,
+    "p95_ms": 4730.12
+  },
+  "warm_timings": {
+    "reference": {
+      "n": 19,
+      "p50_ms": 0.2,
+      "p95_ms": 1.39
+    },
+    "candidates": {
+      "n": 19,
+      "p50_ms": 15.32,
+      "p95_ms": 20.59
+    },
+    "engine": {
+      "n": 19,
+      "p50_ms": 946.58,
+      "p95_ms": 1129.18
+    },
+    "explanation_and_api_assembly": {
+      "n": 19,
+      "p50_ms": 23.79,
+      "p95_ms": 28.22
+    },
+    "json_encoding": {
+      "n": 19,
+      "p50_ms": 4.46,
+      "p95_ms": 5.46
+    }
+  },
+  "percentiles": "p95 for fewer than 20 samples uses the sample maximum. p99 omitted.",
+  "environment": "Isolated loopback PostgreSQL. Timings exclude browser rendering and WAN transfer."
+}

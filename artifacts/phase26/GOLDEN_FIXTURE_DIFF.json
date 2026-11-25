@@ -1,0 +1,149 @@
+{
+  "status": "PASS",
+  "drift": [],
+  "profiles": {
+    "v3-2026-09-17-r1": {
+      "no_playstyle_evidence": {
+        "actual": "130251999957660ecfe542872b105d30cfcf61fab78094b072bf61d8d15729cb",
+        "expected": "130251999957660ecfe542872b105d30cfcf61fab78094b072bf61d8d15729cb"
+      },
+      "playstyle_relevance": {
+        "actual": "ffc08f34e65deb2c01cc99ce64c972445668a1fd978d7932adaeb72bee6cde08",
+        "expected": "ffc08f34e65deb2c01cc99ce64c972445668a1fd978d7932adaeb72bee6cde08"
+      },
+      "pool_ordering_a": {
+        "actual": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+        "expected": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27"
+      },
+      "pool_ordering_b": {
+        "actual": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+        "expected": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27"
+      },
+      "position_mismatch": {
+        "actual": "c82ff648f7064293db36cfb85b6c48dad407d593d7a7704f00ac5ca5f445c802",
+        "expected": "c82ff648f7064293db36cfb85b6c48dad407d593d7a7704f00ac5ca5f445c802"
+      },
+      "same_attributes_different_ovr": {
+        "actual": "ff27035f4d5ed292068bc1260af4451552d7d5417f7712a241a9b505822da65a",
+        "expected": "ff27035f4d5ed292068bc1260af4451552d7d5417f7712a241a9b505822da65a"
+      },
+      "same_ovr_different_attributes": {
+        "actual": "25afffa37582b7fbabf531bceeeb38031c7aec1de1287f2ec382f762f0c0ce78",
+        "expected": "25afffa37582b7fbabf531bceeeb38031c7aec1de1287f2ec382f762f0c0ce78"
+      },
+      "same_player_two_tactics.high_press": {
+        "actual": "7269460345777dbfc4ce855cd9dea1328eb64686afc7410e344609b88fc5d645",
+        "expected": "7269460345777dbfc4ce855cd9dea1328eb64686afc7410e344609b88fc5d645"
+      },
+      "same_player_two_tactics.low_block": {
+        "actual": "8af1330c3bd921ceceb3f0bcb686ed09148bbd3227845fcae751b4682a5202fb",
+        "expected": "8af1330c3bd921ceceb3f0bcb686ed09148bbd3227845fcae751b4682a5202fb"
+      },
+      "tactical_BALANCED": {
+        "actual": "732338774f01df83dd264dc21186e9e93fc093e904ede0d6b6cea159df2bbb14",
+        "expected": "732338774f01df83dd264dc21186e9e93fc093e904ede0d6b6cea159df2bbb14"
+      },
+      "tactical_DIRECT_PLAY": {
+        "actual": "23300dc9fd9e25bcb2143f9bf7348eb3677f4e33c16fa52b092e390e7014d375",
+        "expected": "23300dc9fd9e25bcb2143f9bf7348eb3677f4e33c16fa52b092e390e7014d375"
+      },
+      "tactical_HIGH_PRESS": {
+        "actual": "24a513f8c91fa077463d83e6e161e16136fab0fcecb81d020338b720bcaf7189",
+        "expected": "24a513f8c91fa077463d83e6e161e16136fab0fcecb81d020338b720bcaf7189"
+      },
+      "tactical_LOW_BLOCK": {
+        "actual": "e1a3b05aa327b442ac9ae80f494a2fbdbdc0ea9acd79de267ab8db7955480da6",
+        "expected": "e1a3b05aa327b442ac9ae80f494a2fbdbdc0ea9acd79de267ab8db7955480da6"
+      },
+      "tactical_PACE_ABUSER": {
+        "actual": "a69df29952d798d2fd80014cf79c5a3205035761bfe4f1226eb490004e4e30be",
+        "expected": "a69df29952d798d2fd80014cf79c5a3205035761bfe4f1226eb490004e4e30be"
+      },
+      "tactical_POSSESSION": {
+        "actual": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+        "expected": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27"
+      },
+      "thin_evidence": {
+        "actual": "a106f8ca2ae5f5185e2e66a17db2f5222687cd471cc2ae9f761a22e460de6c0e",
+        "expected": "a106f8ca2ae5f5185e2e66a17db2f5222687cd471cc2ae9f761a22e460de6c0e"
+      }
+    },
+    "v3.2-2026-09-30-r1": {
+      "no_playstyle_evidence": {
+        "actual": "1df8a897fb7011e7c0800ca736b99e5341f3cb88bf2ead1c3c9d2ec819521ada",
+        "expected": "1df8a897fb7011e7c0800ca736b99e5341f3cb88bf2ead1c3c9d2ec819521ada"
+      },
+      "playstyle_relevance": {
+        "actual": "6135f30ce904efe6b569c0a78a66d76b30c351582ef5bb83faf57dddbd3d47d8",
+        "expected": "6135f30ce904efe6b569c0a78a66d76b30c351582ef5bb83faf57dddbd3d47d8"
+      },
+      "pool_ordering_a": {
+        "actual": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+        "expected": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27"
+      },
+      "pool_ordering_b": {
+        "actual": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+        "expected": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27"
+      },
+      "position_mismatch": {
+        "actual": "392d824e24cf47a797e47ac0d16f76aaf943194a5fd9b6e73e4c675adbf6e217",
+        "expected": "392d824e24cf47a797e47ac0d16f76aaf943194a5fd9b6e73e4c675adbf6e217"
+      },
+      "same_attributes_different_ovr": {
+        "actual": "f0298281b31ec746f9191a386d999a7230c167abd868ee930687904bb1ba5917",
+        "expected": "f0298281b31ec746f9191a386d999a7230c167abd868ee930687904bb1ba5917"
+      },
+      "same_ovr_different_attributes": {
+        "actual": "cd63dc51e33f0951a721a62eb429ad3e7aaa1b1cd6a7a8aeaba8e5cfd6da22ef",
+        "expected": "cd63dc51e33f0951a721a62eb429ad3e7aaa1b1cd6a7a8aeaba8e5cfd6da22ef"
+      },
+      "same_player_two_tactics.high_press": {
+        "actual": "e8927257f4e52e9d2f0554b071825b2b97f48e56cb646ef9aea69f98a6283267",
+        "expected": "e8927257f4e52e9d2f0554b071825b2b97f48e56cb646ef9aea69f98a6283267"
+      },
+      "same_player_two_tactics.low_block": {
+        "actual": "2c166e6670068e5fe7f42ff14222aade11f87f4c334824dfbb11c6708b778c10",
+        "expected": "2c166e6670068e5fe7f42ff14222aade11f87f4c334824dfbb11c6708b778c10"
+      },
+      "tactical_BALANCED": {
+        "actual": "732338774f01df83dd264dc21186e9e93fc093e904ede0d6b6cea159df2bbb14",
+        "expected": "732338774f01df83dd264dc21186e9e93fc093e904ede0d6b6cea159df2bbb14"
+      },
+      "tactical_DIRECT_PLAY": {
+        "actual": "23300dc9fd9e25bcb2143f9bf7348eb3677f4e33c16fa52b092e390e7014d375",
+        "expected": "23300dc9fd9e25bcb2143f9bf7348eb3677f4e33c16fa52b092e390e7014d375"
+      },
+      "tactical_HIGH_PRESS": {
+        "actual": "24a513f8c91fa077463d83e6e161e16136fab0fcecb81d020338b720bcaf7189",
+        "expected": "24a513f8c91fa077463d83e6e161e16136fab0fcecb81d020338b720bcaf7189"
+      },
+      "tactical_LOW_BLOCK": {
+        "actual": "e1a3b05aa327b442ac9ae80f494a2fbdbdc0ea9acd79de267ab8db7955480da6",
+        "expected": "e1a3b05aa327b442ac9ae80f494a2fbdbdc0ea9acd79de267ab8db7955480da6"
+      },
+      "tactical_PACE_ABUSER": {
+        "actual": "a69df29952d798d2fd80014cf79c5a3205035761bfe4f1226eb490004e4e30be",
+        "expected": "a69df29952d798d2fd80014cf79c5a3205035761bfe4f1226eb490004e4e30be"
+      },
+      "tactical_POSSESSION": {
+        "actual": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27",
+        "expected": "fb84f7905820d6ab4759f11ee12b29ffcbe708833a350a4416153a80b14f7f27"
+      },
+      "thin_evidence": {
+        "actual": "9aec36b8b2cf611a640bc222bd347195988eb77358aa1474ca82a29e1f588cbf",
+        "expected": "9aec36b8b2cf611a640bc222bd347195988eb77358aa1474ca82a29e1f588cbf"
+      }
+    }
+  },
+  "changed_across_versions": [
+    "no_playstyle_evidence",
+    "playstyle_relevance",
+    "position_mismatch",
+    "same_attributes_different_ovr",
+    "same_ovr_different_attributes",
+    "same_player_two_tactics.high_press",
+    "same_player_two_tactics.low_block",
+    "thin_evidence"
+  ],
+  "historical_baselines_written": false
+}

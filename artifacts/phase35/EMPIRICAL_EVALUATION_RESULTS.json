@@ -1,0 +1,430 @@
+{
+  "report_title": "EA FC Intelligence Phase 35 Empirical Evaluation & Statistical Testing",
+  "phase": "Phase 35",
+  "engine_version": "V3.2.1",
+  "dataset_release": "fc27-card-items-local-r1",
+  "staging_database_status": {
+    "database_schema": "fc27_staging",
+    "accepted_live_match_records": 0,
+    "status": "INSUFFICIENT_GAMEPLAY_EVIDENCE",
+    "epistemic_notice": "Accepted live match records in staging currently stand at 0. All tactical weights remain formally categorized as MODELED_HEURISTIC until the N >= 30 paired trials threshold is achieved."
+  },
+  "pilot_match_sheet_status": {
+    "file_path": "artifacts/striker_pilot/MATCH_SHEET.csv",
+    "matches_logged": 0,
+    "evidence_status": "NO_DATA",
+    "note": "Pilot match sheet on disk is preserved in clean blank state awaiting observer telemetry entry."
+  },
+  "controlled_calibration_benchmark": {
+    "experiment_id": "EXP-ST-PRESS-001",
+    "protocol_key": "fc27-st-press-counter-r1",
+    "prediction_sha256": "10dfc5b8ff6d92ae07ece3de855ab316b294b2fc287ba7f626eef8c18be2dcae",
+    "total_matches_evaluated": 8,
+    "evidence_status": "DESCRIPTIVE_EVALUATION_COMPLETE",
+    "tactical_evaluations": {
+      "HIGH_PRESS": {
+        "primary_metric": "tackles_won",
+        "predicted_leader": "A",
+        "predicted_card_name": "Ousmane Demb\u00e9l\u00e9",
+        "status": "DESCRIPTIVE_PAIRED_RESULTS",
+        "strata": [
+          {
+            "context": {
+              "game_patch": "1.2.0",
+              "formation": "4-3-3",
+              "slot": "ST",
+              "position": "ST",
+              "role": "advanced forward",
+              "tactical_profile": "HIGH_PRESS",
+              "game_mode": "friendly",
+              "controller": "HUMAN"
+            },
+            "rows": 4,
+            "primary_metric": "tackles_won",
+            "evidence": {
+              "complete_pairs": 2,
+              "first_card_first": 1,
+              "second_card_first": 1,
+              "disputed_match_reports": 0,
+              "independent_sessions": 2,
+              "metric": "tackles_won",
+              "matching_strata": 1,
+              "observed_per_90": {
+                "ec2091c7-93c6-5bb8-8bba-59009b186700": 3.0,
+                "97aaac8f-1616-50a0-afea-fd8aeff337ce": 1.0
+              },
+              "paired_difference_per_90": 2.0,
+              "status": "DESCRIPTIVE_PAIRED_RESULTS"
+            },
+            "direction": "A",
+            "prediction_agreement": "AGREES",
+            "predicted_leader": "A",
+            "predicted_delta": 0.01324,
+            "observed_delta_per_90": 2.0,
+            "effect_size": {
+              "n_pairs": 2,
+              "mean_diff": 2.0,
+              "std_diff": 0.0,
+              "cohens_d": null
+            },
+            "bootstrap_95ci": {
+              "ci_lower": 2.0,
+              "ci_upper": 2.0,
+              "confidence_level": 0.95
+            },
+            "paired_t_test": {
+              "t_statistic": null,
+              "degrees_of_freedom": 1,
+              "p_value": 0.0
+            },
+            "wilcoxon_test": {
+              "w_statistic": null,
+              "z_statistic": null,
+              "p_value": null,
+              "non_zero_pairs": 2
+            },
+            "session_outcomes": {
+              "s1": {
+                "direction": "A",
+                "a_minus_b_per_90": 2.0
+              },
+              "s2": {
+                "direction": "A",
+                "a_minus_b_per_90": 2.0
+              }
+            },
+            "secondary_metrics": {
+              "goals": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "goals",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 0.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 0.0
+                  },
+                  "paired_difference_per_90": 0.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": 0.0,
+                  "std_diff": 0.0,
+                  "cohens_d": 0.0
+                },
+                "direction": "TIED"
+              },
+              "shots": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "shots",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 2.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 2.0
+                  },
+                  "paired_difference_per_90": 0.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": 0.0,
+                  "std_diff": 0.0,
+                  "cohens_d": 0.0
+                },
+                "direction": "TIED"
+              },
+              "shots_on_target": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "shots_on_target",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 1.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 1.0
+                  },
+                  "paired_difference_per_90": 0.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": 0.0,
+                  "std_diff": 0.0,
+                  "cohens_d": 0.0
+                },
+                "direction": "TIED"
+              },
+              "tackles_won": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "tackles_won",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 3.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 1.0
+                  },
+                  "paired_difference_per_90": 2.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": 2.0,
+                  "std_diff": 0.0,
+                  "cohens_d": null
+                },
+                "direction": "A"
+              },
+              "interceptions": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "interceptions",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 2.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 0.0
+                  },
+                  "paired_difference_per_90": 2.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": 2.0,
+                  "std_diff": 0.0,
+                  "cohens_d": null
+                },
+                "direction": "A"
+              }
+            }
+          }
+        ]
+      },
+      "COUNTER_ATTACK": {
+        "primary_metric": "shots_on_target",
+        "predicted_leader": "B",
+        "predicted_card_name": "Kylian Mbapp\u00e9",
+        "status": "DESCRIPTIVE_PAIRED_RESULTS",
+        "strata": [
+          {
+            "context": {
+              "game_patch": "1.2.0",
+              "formation": "4-3-3",
+              "slot": "ST",
+              "position": "ST",
+              "role": "advanced forward",
+              "tactical_profile": "COUNTER_ATTACK",
+              "game_mode": "friendly",
+              "controller": "HUMAN"
+            },
+            "rows": 4,
+            "primary_metric": "shots_on_target",
+            "evidence": {
+              "complete_pairs": 2,
+              "first_card_first": 1,
+              "second_card_first": 1,
+              "disputed_match_reports": 0,
+              "independent_sessions": 2,
+              "metric": "shots_on_target",
+              "matching_strata": 1,
+              "observed_per_90": {
+                "ec2091c7-93c6-5bb8-8bba-59009b186700": 1.0,
+                "97aaac8f-1616-50a0-afea-fd8aeff337ce": 3.0
+              },
+              "paired_difference_per_90": -2.0,
+              "status": "DESCRIPTIVE_PAIRED_RESULTS"
+            },
+            "direction": "B",
+            "prediction_agreement": "AGREES",
+            "predicted_leader": "B",
+            "predicted_delta": -0.01162,
+            "observed_delta_per_90": -2.0,
+            "effect_size": {
+              "n_pairs": 2,
+              "mean_diff": -2.0,
+              "std_diff": 0.0,
+              "cohens_d": null
+            },
+            "bootstrap_95ci": {
+              "ci_lower": -2.0,
+              "ci_upper": -2.0,
+              "confidence_level": 0.95
+            },
+            "paired_t_test": {
+              "t_statistic": null,
+              "degrees_of_freedom": 1,
+              "p_value": 0.0
+            },
+            "wilcoxon_test": {
+              "w_statistic": null,
+              "z_statistic": null,
+              "p_value": null,
+              "non_zero_pairs": 2
+            },
+            "session_outcomes": {
+              "s1": {
+                "direction": "B",
+                "a_minus_b_per_90": -2.0
+              },
+              "s2": {
+                "direction": "B",
+                "a_minus_b_per_90": -2.0
+              }
+            },
+            "secondary_metrics": {
+              "goals": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "goals",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 0.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 1.0
+                  },
+                  "paired_difference_per_90": -1.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": -1.0,
+                  "std_diff": 0.0,
+                  "cohens_d": null
+                },
+                "direction": "B"
+              },
+              "shots": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "shots",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 2.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 4.0
+                  },
+                  "paired_difference_per_90": -2.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": -2.0,
+                  "std_diff": 0.0,
+                  "cohens_d": null
+                },
+                "direction": "B"
+              },
+              "shots_on_target": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "shots_on_target",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 1.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 3.0
+                  },
+                  "paired_difference_per_90": -2.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": -2.0,
+                  "std_diff": 0.0,
+                  "cohens_d": null
+                },
+                "direction": "B"
+              },
+              "tackles_won": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "tackles_won",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 0.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 0.0
+                  },
+                  "paired_difference_per_90": 0.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": 0.0,
+                  "std_diff": 0.0,
+                  "cohens_d": 0.0
+                },
+                "direction": "TIED"
+              },
+              "interceptions": {
+                "evidence": {
+                  "complete_pairs": 2,
+                  "first_card_first": 1,
+                  "second_card_first": 1,
+                  "disputed_match_reports": 0,
+                  "independent_sessions": 2,
+                  "metric": "interceptions",
+                  "matching_strata": 1,
+                  "observed_per_90": {
+                    "ec2091c7-93c6-5bb8-8bba-59009b186700": 2.0,
+                    "97aaac8f-1616-50a0-afea-fd8aeff337ce": 0.0
+                  },
+                  "paired_difference_per_90": 2.0,
+                  "status": "DESCRIPTIVE_PAIRED_RESULTS"
+                },
+                "effect_size": {
+                  "n_pairs": 2,
+                  "mean_diff": 2.0,
+                  "std_diff": 0.0,
+                  "cohens_d": null
+                },
+                "direction": "A"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "statistical_methodology": {
+    "paired_t_test": "Exact numerical integration of Student's t distribution with df = N - 1",
+    "wilcoxon_signed_rank": "Non-parametric signed-rank test with continuity correction and erfc p-value",
+    "bootstrap_ci": "1,000 resamples non-parametric bootstrap at alpha = 0.05",
+    "effect_size": "Cohen's d within-pair standardized difference"
+  },
+  "promotion_gate_decision": {
+    "v3_3_promotion_eligible": false,
+    "decision_code": "BLOCKED_BY_SAMPLE_SIZE",
+    "reason": "Controlled trial demonstrates directional agreement with V3.2.1 predictions (High Press Demb\u00e9l\u00e9 +2.0, Counterattack Mbapp\u00e9 +2.0), but full statistical promotion to V3.3 requires N >= 30 peer-reviewed paired sessions in staging. Frozen V3.2.1 engine remains active production baseline."
+  }
+}

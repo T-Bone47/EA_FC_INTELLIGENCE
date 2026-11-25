@@ -1,0 +1,265 @@
+{
+  "shortlist_metadata": {
+    "card_release": "fc27-card-items-local-r1",
+    "total_candidates": 16,
+    "starters_count": 11,
+    "bench_count": 5
+  },
+  "scenarios": {
+    "scenario_1_baseline_433_high_press": {
+      "formation": "4-3-3",
+      "tactical_profile": "HIGH_PRESS",
+      "striker": "Ousmane Demb\u00e9l\u00e9",
+      "st_score": 0.8451815449,
+      "total_fit": 8.2678576291,
+      "alignment_index": 78.5,
+      "alerts_count": 1
+    },
+    "scenario_2_one_card_sub_dembele_to_mbappe": {
+      "formation": "4-3-3",
+      "tactical_profile": "HIGH_PRESS",
+      "striker": "Kylian Mbapp\u00e9",
+      "st_score": 0.8319367674,
+      "total_fit": 8.2546128516,
+      "st_delta": -0.0132,
+      "total_fit_delta": -0.0132,
+      "alignment_index": 75.9,
+      "alerts": [
+        {
+          "rule_id": "RULE-HP-FWD-DEF",
+          "rule_version": "1.0.0",
+          "slot": "LW",
+          "position": "LW",
+          "card_item_id": "bb2ac9ee-59fe-59ff-ae8c-2592936aab60",
+          "card_name": "Vin\u00edcius Jos\u00e9 de Oliveira J\u00fanior",
+          "tactical_context": "HIGH_PRESS",
+          "evaluated_capability": "High-turnover defensive disruption",
+          "attribute_name": "defending",
+          "attribute_value": 31,
+          "threshold": 40,
+          "evidence_classification": "EMPIRICALLY_SUPPORTED",
+          "friction_penalty": 0.025,
+          "explanation": "Forward defending attribute (31) is below 40, significantly reducing turnover winning rates in opponent third.",
+          "recommended_action": "Deploy a pressing forward specialist (e.g. Demb\u00e9l\u00e9, Alvarez) or transition team tactical profile to COUNTER_ATTACK.",
+          "empirical_reference": "Phase 33 Experiment 001: Demb\u00e9l\u00e9 (55 Def) produced +2.0 tackles/90 and +2.0 interceptions/90 vs Mbapp\u00e9 (29 Def).",
+          "missing_data_limitation": null
+        },
+        {
+          "rule_id": "RULE-HP-FWD-DEF",
+          "rule_version": "1.0.0",
+          "slot": "ST",
+          "position": "ST",
+          "card_item_id": "97aaac8f-1616-50a0-afea-fd8aeff337ce",
+          "card_name": "Kylian Mbapp\u00e9",
+          "tactical_context": "HIGH_PRESS",
+          "evaluated_capability": "High-turnover defensive disruption",
+          "attribute_name": "defending",
+          "attribute_value": 29,
+          "threshold": 40,
+          "evidence_classification": "EMPIRICALLY_SUPPORTED",
+          "friction_penalty": 0.025,
+          "explanation": "Forward defending attribute (29) is below 40, significantly reducing turnover winning rates in opponent third.",
+          "recommended_action": "Deploy a pressing forward specialist (e.g. Demb\u00e9l\u00e9, Alvarez) or transition team tactical profile to COUNTER_ATTACK.",
+          "empirical_reference": "Phase 33 Experiment 001: Demb\u00e9l\u00e9 (55 Def) produced +2.0 tackles/90 and +2.0 interceptions/90 vs Mbapp\u00e9 (29 Def).",
+          "missing_data_limitation": null
+        }
+      ]
+    },
+    "scenario_3_two_card_sub_mbappe_and_yamal": {
+      "formation": "4-3-3",
+      "tactical_profile": "HIGH_PRESS",
+      "striker": "Kylian Mbapp\u00e9",
+      "right_wing": "Lamine Yamal",
+      "total_fit": 8.2373102872,
+      "total_fit_delta_vs_baseline": -0.0305,
+      "alignment_index": 73.3
+    },
+    "scenario_4_formation_transform_433_to_4231": {
+      "target_formation": "4-2-3-1",
+      "current_formation": "4-3-3",
+      "changes_count": 11,
+      "slot_changes": [
+        {
+          "slot": "GK",
+          "position": "GK",
+          "player_name": "Thibaut Courtois",
+          "score": null,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "LB",
+          "position": "LB",
+          "player_name": "Nuno Alexandre Tavares Mendes",
+          "score": 0.8685541148,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "LCB",
+          "position": "CB",
+          "player_name": "Gabriel dos S. Magalh\u00e3es",
+          "score": 0.7685695908,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "RCB",
+          "position": "CB",
+          "player_name": "Virgil van Dijk",
+          "score": 0.7813184745,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "RB",
+          "position": "RB",
+          "player_name": "Achraf Hakimi",
+          "score": 0.8733269983,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "LDM",
+          "position": "CDM",
+          "player_name": "Joshua Kimmich",
+          "score": 0.8357914355,
+          "is_new_to_starting_xi": true
+        },
+        {
+          "slot": "RDM",
+          "position": "CDM",
+          "player_name": "Jude Bellingham",
+          "score": 0.8527197828,
+          "is_new_to_starting_xi": true
+        },
+        {
+          "slot": "LAM",
+          "position": "LM",
+          "player_name": "Vin\u00edcius Jos\u00e9 de Oliveira J\u00fanior",
+          "score": 0.8107800015,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "CAM",
+          "position": "CAM",
+          "player_name": "Alexia Putellas Segura",
+          "score": 0.8534234951,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "RAM",
+          "position": "RM",
+          "player_name": "Caroline Graham Hansen",
+          "score": 0.8281559664,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "ST",
+          "position": "ST",
+          "player_name": "Ousmane Demb\u00e9l\u00e9",
+          "score": 0.8451815449,
+          "is_new_to_starting_xi": false
+        }
+      ],
+      "current_total_fit": null,
+      "target_total_fit": 8.3178214046
+    },
+    "scenario_5_tactical_reversal_mbappe_in_counter": {
+      "formation": "4-3-3",
+      "tactical_profile": "COUNTER_ATTACK",
+      "striker": "Kylian Mbapp\u00e9",
+      "st_score_in_counter": 0.8731691722,
+      "st_score_in_press": 0.8319367674,
+      "st_gain_from_tactic_switch": 0.0412,
+      "alerts_in_counter": 0
+    },
+    "scenario_6_formation_transform_433_to_442": {
+      "target_formation": "4-4-2",
+      "changes_count": 11,
+      "slot_changes": [
+        {
+          "slot": "GK",
+          "position": "GK",
+          "player_name": "Thibaut Courtois",
+          "score": null,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "LB",
+          "position": "LB",
+          "player_name": "Nuno Alexandre Tavares Mendes",
+          "score": 0.8683868239,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "LCB",
+          "position": "CB",
+          "player_name": "Gabriel dos S. Magalh\u00e3es",
+          "score": 0.7685695908,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "RCB",
+          "position": "CB",
+          "player_name": "Virgil van Dijk",
+          "score": 0.7813184745,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "RB",
+          "position": "RB",
+          "player_name": "Achraf Hakimi",
+          "score": 0.8724180761,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "LM",
+          "position": "LM",
+          "player_name": "Jude Bellingham",
+          "score": 0.8480801426,
+          "is_new_to_starting_xi": true
+        },
+        {
+          "slot": "LCM",
+          "position": "CM",
+          "player_name": "Joshua Kimmich",
+          "score": 0.8408774058,
+          "is_new_to_starting_xi": true
+        },
+        {
+          "slot": "RCM",
+          "position": "CM",
+          "player_name": "Aitana Bonmat\u00ed Conca",
+          "score": 0.8333815944,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "RM",
+          "position": "RM",
+          "player_name": "Caroline Graham Hansen",
+          "score": 0.8288903845,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "LST",
+          "position": "ST",
+          "player_name": "Ousmane Demb\u00e9l\u00e9",
+          "score": 0.8451815449,
+          "is_new_to_starting_xi": false
+        },
+        {
+          "slot": "RST",
+          "position": "ST",
+          "player_name": "Alexia Putellas Segura",
+          "score": 0.8415397551,
+          "is_new_to_starting_xi": false
+        }
+      ],
+      "target_total_fit": 8.3286437926
+    }
+  },
+  "invariants_verified": {
+    "affected_slots_recalculated": true,
+    "vacated_positions_accounted": true,
+    "locked_positions_respected": true,
+    "footballer_uniqueness_enforced": true,
+    "correct_reference_distribution_used": true,
+    "production_firewall_intact": true
+  }
+}

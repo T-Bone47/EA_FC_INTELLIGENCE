@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-11-22T18:55:02.302Z",
+  "node": "v26.12.1",
+  "browser": null,
+  "checks": [
+    {
+      "scenario": "startup",
+      "name": "infrastructure",
+      "ok": false,
+      "severity": "BLOCKER",
+      "detail": "TimeoutError: Timed out after waiting 18000ms\n    at file:///C:/Users/dream/Downloads/EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25/PROJECT/EA_FC_INTELLIGENCE-main/scripts/browser_qa/node_modules/puppeteer-core/lib/esm/puppeteer/common/util.js:225:19\n    at file:///C:/Users/dream/Downloads/EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25/PROJECT/EA_FC_INTELLIGENCE-main/scripts/browser_qa/node_modules/puppeteer-core/lib/esm/third_party/rxjs/rxjs.js:1944:31\n    at OperatorSubscriber2._this._next (file:///C:/Users/dream/Downloads/EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25/PROJECT/EA_FC_INTELLIGENCE-main/scripts/browser_qa/node_modules/puppeteer-core/lib/esm/third_party/rxjs/rxjs.js:1001:9)\n    at Subscriber2.next (file:///C:/Users/dream/Downloads/EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25/PROJECT/EA_FC_INTELLIGENCE-main/scripts/browser_qa/node_modules/puppeteer-core/lib/esm/third_party/rxjs/rxjs.js:704:12)\n    at AsyncAction2.<anonymous> (file:///C:/Users/dream/Downloads/EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25/PROJECT/EA_FC_INTELLIGENCE-main/scripts/browser_qa/node_modules/puppeteer-core/lib/esm/third_party/rxjs/rxjs.js:2288:20)\n    at AsyncAction2._execute (file:///C:/Users/dream/Downloads/EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25/PROJECT/EA_FC_INTELLIGENCE-main/scripts/browser_qa/node_modules/puppeteer-core/lib/esm/third_party/rxjs/rxjs.js:1368:12)\n    at AsyncAction2.execute (file:///C:/Users/dream/Downloads/EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25/PROJECT/EA_FC_INTELLIGENCE-main/scripts/browser_qa/node_modules/puppeteer-core/lib/esm/third_party/rxjs/rxjs.js:1357:22)\n    at AsyncScheduler2.flush (file:///C:/Users/dream/Downloads/EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25/PROJECT/EA_FC_INTELLIGENCE-main/scripts/browser_qa/node_modules/puppeteer-core/lib/esm/third_party/rxjs/rxjs.js:1435:26)\n    at listOnTimeout (node:internal/timers:685:17)\n    at process.processTimers (node:internal/timers:618:7)"
+    }
+  ],
+  "exitCode": 1,
+  "status": "FAIL"
+}

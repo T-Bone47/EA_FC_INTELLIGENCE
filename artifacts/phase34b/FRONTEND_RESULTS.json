@@ -1,0 +1,47 @@
+{
+  "test_suite": "EA FC Intelligence Frontend Vitest & Production Build Audit",
+  "phase": "34B",
+  "timestamp": "2026-11-24T10:34:00Z",
+  "vitest_version": "2.1.9",
+  "vite_version": "5.4.21",
+  "node_version": "26.12.1",
+  "test_summary": {
+    "test_files_passed": 16,
+    "test_files_skipped": 1,
+    "total_test_files": 17,
+    "tests_passed": 92,
+    "tests_skipped": 3,
+    "tests_failed": 0,
+    "total_tests": 95,
+    "duration_seconds": 6.75
+  },
+  "modules_tested": [
+    { "name": "src/api/client.test.ts", "passed": 9 },
+    { "name": "src/lib/format.test.ts", "passed": 8 },
+    { "name": "src/lib/useApi.test.tsx", "passed": 6 },
+    { "name": "src/components/DataQuality.test.tsx", "passed": 4 },
+    { "name": "src/components/common.test.tsx", "passed": 8 },
+    { "name": "src/state/session.test.tsx", "passed": 4 },
+    { "name": "src/intelligence/Card.test.tsx", "passed": 6 },
+    { "name": "src/pages/Recommend.results.test.tsx", "passed": 5 },
+    { "name": "src/intelligence/WhatIfPanel.test.tsx", "passed": 5 },
+    { "name": "src/intelligence/api.test.ts", "passed": 3 },
+    { "name": "src/intelligence/Ladder.test.tsx", "passed": 5 },
+    { "name": "src/intelligence/ComparePanel.test.tsx", "passed": 4 },
+    { "name": "src/intelligence/ErrorBoundary.test.tsx", "passed": 2 },
+    { "name": "src/intelligence/noRanking.test.ts", "passed": 2 },
+    { "name": "src/intelligence/route.test.tsx", "passed": 1 },
+    { "name": "src/intelligence/Intelligence.test.tsx", "passed": 20 }
+  ],
+  "production_build": {
+    "command": "tsc --noEmit && vite build",
+    "status": "SUCCESS",
+    "duration_seconds": 1.02,
+    "bundle_assets": {
+      "dist/index.html": { "size_kb": 0.60, "gzip_kb": 0.38 },
+      "dist/assets/index.css": { "size_kb": 68.55, "gzip_kb": 14.06 },
+      "dist/assets/index.js": { "size_kb": 405.85, "gzip_kb": 119.13 }
+    },
+    "typescript_typecheck": "0 ERRORS"
+  }
+}

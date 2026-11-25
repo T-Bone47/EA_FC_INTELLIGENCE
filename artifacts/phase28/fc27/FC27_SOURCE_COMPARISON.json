@@ -1,0 +1,42 @@
+{
+  "distinct_csv_tables": 3,
+  "duplicate_player_rows": 19789,
+  "player_divisions": {
+    "Women's Football": 1940,
+    "Men's Football": 17849
+  },
+  "goalkeepers": 2204,
+  "october_distinct_base_ids": 9907,
+  "october_distinct_item_ids": 10762,
+  "october_item_differs_from_base": 880,
+  "matched_item_ids": 7698,
+  "matched_item_ratings": 7698,
+  "direct_id_conflicts": 14,
+  "identity_status": {
+    "AMBIGUOUS": 9021,
+    "UNMATCHED": 408,
+    "PROVISIONAL": 519,
+    "CONFLICTED": 14
+  },
+  "rarities": {
+    "Base Icon": 136,
+    "Rare": 9384,
+    "Destined for Glory": 36,
+    "Team of the week": 138,
+    "Future Stars": 60,
+    "POTM LaLiga EA Sports": 1,
+    "POTM Liga F": 1,
+    "Base Hero": 88,
+    "Debut International Icon": 18,
+    "Star Performer": 6,
+    "Base Hall of FUT": 21,
+    "POTM Bundesliga": 1,
+    "Partnerships": 5,
+    "Ones to Watch": 21,
+    "FC Heritage": 20,
+    "POTM Serie A": 1,
+    "POTM Ligue 1": 1,
+    "POTM Premier League": 1,
+    "Squad Foundations": 23
+  }
+}

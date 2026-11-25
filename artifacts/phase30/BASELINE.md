@@ -1,0 +1,4 @@
+# Phase 30 baseline
+The Windows project is an exported source tree without Git metadata. The Phase 29 update ZIP has SHA-256 3220e5abb70a0e9e225f6e098fdbc401b4e1669e3a580cc5c68a2bb9a409d11b. Migrations 002 through 012, including release membership 011, are present. Development uses the disposable eafc_ci PostgreSQL instance on loopback.
+ 
+The starting UI exposes player squads, card search, compare and what-if. The optimizer accepts game-player IDs. Card routes use the pinned fc27-card-items-local-r1 release. A direct query of its identity_review status returned 9,021 ambiguous, 519 provisional, 408 unmatched and 14 conflicted items. The release has zero confirmed underlying footballers. Historical Phase 29 results and the four-archive inventory are in artifacts/phase29. Phase 30 before/after outcomes are recorded in VERIFICATION.json.

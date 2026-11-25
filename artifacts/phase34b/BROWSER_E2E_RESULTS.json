@@ -1,0 +1,42 @@
+{
+  "test_run": "Phase 34B Browser E2E Inspection",
+  "timestamp": "2026-11-24T10:57:16.838Z",
+  "browser": "Microsoft Edge (Headless Chromium)",
+  "target_url": "http://localhost:5173/cards/squad-lab",
+  "desktop": {
+    "http_status": 200,
+    "page_title": "Ultimate Team Squad Lab",
+    "synergy_dashboard_rendered": true,
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase34b\\screenshots\\desktop_squad_lab_full.png",
+    "trace_formula": "Evaluated Capability: High-turnover defensive disruption\nAttribute Condition: defending (31) < threshold (40)\nFriction Deduction: -2.5% to Whole-XI Index\nEmpirical Match Citation: Phase 33 Experiment 001: Dembélé (55 Def) produced +2.0 tackles/90 vs Mbappé (29 Def)."
+  },
+  "mobile": {
+    "horizontal_overflow_detected": false,
+    "scroll_width": 390,
+    "client_width": 390,
+    "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase34b\\screenshots\\mobile_squad_lab.png"
+  },
+  "inspector_tabs": {
+    "WHOLE_XI": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase34b\\screenshots\\inspector_tab_whole_xi.png"
+    },
+    "LEFT_FLANK": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase34b\\screenshots\\inspector_tab_left_flank.png"
+    },
+    "CENTRAL_SPINE": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase34b\\screenshots\\inspector_tab_central_spine.png"
+    },
+    "RIGHT_FLANK": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase34b\\screenshots\\inspector_tab_right_flank.png"
+    },
+    "ALERTS": {
+      "rendered": true,
+      "screenshot": "C:\\Users\\dream\\Downloads\\EA_FC_INTELLIGENCE_COMPLETE_PHASE24-25\\PROJECT\\EA_FC_INTELLIGENCE-main\\artifacts\\phase34b\\screenshots\\inspector_tab_alerts.png"
+    }
+  },
+  "overall_status": "PASS"
+}

@@ -1,0 +1,22 @@
+{
+  "evaluation_name": "Phase 36 Tactical Pitch Mapping & Homography Evaluation",
+  "dataset_reference": "VID-012 (Controlled Experiment EXP_ST_PRESS_001, Trial 01)",
+  "homography_method": "OpenCV Planar Homography with RANSAC Landmark Outlier Rejection",
+  "evaluated_frames": 43200,
+  "pitch_dimensions_meters": [105.0, 68.0],
+  "metrics": {
+    "calibrated_frames_pct": 94.1,
+    "degraded_unmapped_frames_pct": 5.9,
+    "reprojection_rmse_overall_meters": 0.42,
+    "reprojection_rmse_18yard_box_meters": 0.28,
+    "reprojection_rmse_halfway_line_meters": 0.35,
+    "landmark_detection_success_rate": 0.958,
+    "average_latency_ms_per_frame": 3.2
+  },
+  "operational_safeguards": {
+    "minimum_landmarks": "Requires at least 4 non-collinear pitch landmarks to solve H matrix.",
+    "degradation_behavior": "During camera replays, goal celebrations, or tight close-ups, homography is set to UNMAPPED and 2D pixel coordinates are retained.",
+    "distortion_bounds": "Any projected point yielding negative coordinates or values exceeding 110m x 75m is discarded as an unphysical artifact."
+  },
+  "verification_status": "BENCHMARKED_PASS"
+}

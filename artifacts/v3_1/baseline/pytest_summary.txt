@@ -1,0 +1,10 @@
+FAILED backend/tests/test_integration_production.py::TestExplanationConsistency::test_confidence_v2_additive
+FAILED backend/tests/test_integration_production.py::TestFormationIntegration::test_433_formation
+FAILED backend/tests/test_integration_production.py::TestFormationIntegration::test_4231_formation
+FAILED backend/tests/test_integration_production.py::TestFormationIntegration::test_3421_formation
+FAILED backend/tests/test_integration_production.py::TestTacticalCombinationIntegration::test_outfield_combo_pressing_fast_build_up
+FAILED backend/tests/test_integration_production.py::TestAdversarialProduction::test_version_mismatch_rejected
+FAILED backend/tests/test_integration_production.py::TestAdversarialProduction::test_budget_unverified_not_enforced
+FAILED backend/tests/test_integration_production.py::TestSecurity::test_sql_injection_inert
+FAILED backend/tests/test_integration_production.py::TestSecurity::test_rate_limiting
+23 failed, 468 passed, 1 skipped, 13 warnings in 72.93s (0:01:12)

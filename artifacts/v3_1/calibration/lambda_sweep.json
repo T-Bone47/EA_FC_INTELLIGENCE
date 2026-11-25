@@ -1,0 +1,332 @@
+[
+  {
+    "lam": 0.0,
+    "CB": {
+      "mean_overlap": 10.0,
+      "opposed": 10,
+      "rho_lo": 0.9095872020959954,
+      "rho_hi": 0.9095872020959954,
+      "spread": 0.0
+    },
+    "ST": {
+      "mean_overlap": 10.0,
+      "opposed": 10,
+      "rho_lo": 0.9282815326299628,
+      "rho_hi": 0.9282815326299628,
+      "spread": 0.0
+    },
+    "CM": {
+      "mean_overlap": 10.0,
+      "opposed": 10,
+      "rho_lo": 0.8824998054179709,
+      "rho_hi": 0.8824998054179709,
+      "spread": 0.0
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": false,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.1,
+    "CB": {
+      "mean_overlap": 9.6,
+      "opposed": 9,
+      "rho_lo": 0.911856531821641,
+      "rho_hi": 0.927639115476042,
+      "spread": 0.015782583654401106
+    },
+    "ST": {
+      "mean_overlap": 9.4,
+      "opposed": 9,
+      "rho_lo": 0.9295933614792011,
+      "rho_hi": 0.9419371642017231,
+      "spread": 0.012343802722522002
+    },
+    "CM": {
+      "mean_overlap": 9.6,
+      "opposed": 9,
+      "rho_lo": 0.8727000564239465,
+      "rho_hi": 0.8928938376250128,
+      "spread": 0.020193781201066296
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": false,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.2,
+    "CB": {
+      "mean_overlap": 7.9,
+      "opposed": 8,
+      "rho_lo": 0.913430576075298,
+      "rho_hi": 0.9377844675109891,
+      "spread": 0.02435389143569111
+    },
+    "ST": {
+      "mean_overlap": 8.8,
+      "opposed": 8,
+      "rho_lo": 0.9302748064982865,
+      "rho_hi": 0.9521022720130249,
+      "spread": 0.021827465514738353
+    },
+    "CM": {
+      "mean_overlap": 9.2,
+      "opposed": 8,
+      "rho_lo": 0.8607106661430899,
+      "rho_hi": 0.9019933426881355,
+      "spread": 0.04128267654504558
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": false,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.3,
+    "CB": {
+      "mean_overlap": 7.5,
+      "opposed": 7,
+      "rho_lo": 0.9143600500241945,
+      "rho_hi": 0.9381036301377637,
+      "spread": 0.02374358011356914
+    },
+    "ST": {
+      "mean_overlap": 8.2,
+      "opposed": 7,
+      "rho_lo": 0.9287065023845251,
+      "rho_hi": 0.9587113653872823,
+      "spread": 0.030004863002757176
+    },
+    "CM": {
+      "mean_overlap": 8.5,
+      "opposed": 7,
+      "rho_lo": 0.8467202955858405,
+      "rho_hi": 0.9094405587901585,
+      "spread": 0.062720263204318
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": true,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.4,
+    "CB": {
+      "mean_overlap": 6.9,
+      "opposed": 6,
+      "rho_lo": 0.9145692658316824,
+      "rho_hi": 0.9274103689096086,
+      "spread": 0.012841103077926186
+    },
+    "ST": {
+      "mean_overlap": 7.2,
+      "opposed": 5,
+      "rho_lo": 0.9133534216543712,
+      "rho_hi": 0.9616981850068391,
+      "spread": 0.048344763352467957
+    },
+    "CM": {
+      "mean_overlap": 8.0,
+      "opposed": 7,
+      "rho_lo": 0.8307246451391355,
+      "rho_hi": 0.9146305551758664,
+      "spread": 0.08390591003673098
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": true,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.5,
+    "CB": {
+      "mean_overlap": 5.6,
+      "opposed": 4,
+      "rho_lo": 0.8973652669784277,
+      "rho_hi": 0.9141095093618896,
+      "spread": 0.01674424238346195
+    },
+    "ST": {
+      "mean_overlap": 6.0,
+      "opposed": 4,
+      "rho_lo": 0.890805459233866,
+      "rho_hi": 0.961145414149786,
+      "spread": 0.07033995491592004
+    },
+    "CM": {
+      "mean_overlap": 7.1,
+      "opposed": 6,
+      "rho_lo": 0.8129741242360027,
+      "rho_hi": 0.9182331052509644,
+      "spread": 0.10525898101496167
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": true,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.6,
+    "CB": {
+      "mean_overlap": 4.8,
+      "opposed": 3,
+      "rho_lo": 0.8615605515231479,
+      "rho_hi": 0.9129599345711991,
+      "spread": 0.05139938304805114
+    },
+    "ST": {
+      "mean_overlap": 4.7,
+      "opposed": 3,
+      "rho_lo": 0.8623378827087308,
+      "rho_hi": 0.957156416171202,
+      "spread": 0.09481853346247116
+    },
+    "CM": {
+      "mean_overlap": 6.3,
+      "opposed": 5,
+      "rho_lo": 0.7936498776783943,
+      "rho_hi": 0.9220640418076507,
+      "spread": 0.12841416412925633
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": true,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.7,
+    "CB": {
+      "mean_overlap": 4.6,
+      "opposed": 3,
+      "rho_lo": 0.8173514166005165,
+      "rho_hi": 0.911112045697602,
+      "spread": 0.09376062909708549
+    },
+    "ST": {
+      "mean_overlap": 4.4,
+      "opposed": 2,
+      "rho_lo": 0.8294930174853525,
+      "rho_hi": 0.9500625232277694,
+      "spread": 0.12056950574241687
+    },
+    "CM": {
+      "mean_overlap": 5.7,
+      "opposed": 4,
+      "rho_lo": 0.7732212085980478,
+      "rho_hi": 0.924607875385637,
+      "spread": 0.15138666678758927
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": true,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.8,
+    "CB": {
+      "mean_overlap": 4.6,
+      "opposed": 2,
+      "rho_lo": 0.7674372381047619,
+      "rho_hi": 0.9085765844649523,
+      "spread": 0.14113934636019032
+    },
+    "ST": {
+      "mean_overlap": 4.2,
+      "opposed": 2,
+      "rho_lo": 0.7936030465749551,
+      "rho_hi": 0.9401969101633041,
+      "spread": 0.14659386358834903
+    },
+    "CM": {
+      "mean_overlap": 5.4,
+      "opposed": 3,
+      "rho_lo": 0.7517636202702542,
+      "rho_hi": 0.9257329563014898,
+      "spread": 0.17396933603123554
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": true,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 0.9,
+    "CB": {
+      "mean_overlap": 5.3,
+      "opposed": 3,
+      "rho_lo": 0.7142987889473146,
+      "rho_hi": 0.9054024336211834,
+      "spread": 0.19110364467386887
+    },
+    "ST": {
+      "mean_overlap": 3.8,
+      "opposed": 1,
+      "rho_lo": 0.7562845873386991,
+      "rho_hi": 0.9279556507600976,
+      "spread": 0.17167106342139848
+    },
+    "CM": {
+      "mean_overlap": 4.9,
+      "opposed": 2,
+      "rho_lo": 0.7296802461092557,
+      "rho_hi": 0.9253319166686369,
+      "spread": 0.19565167055938115
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": true,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  },
+  {
+    "lam": 1.0,
+    "CB": {
+      "mean_overlap": 5.1,
+      "opposed": 2,
+      "rho_lo": 0.6604245999600304,
+      "rho_hi": 0.9015476068223308,
+      "spread": 0.24112300686230037
+    },
+    "ST": {
+      "mean_overlap": 3.3,
+      "opposed": 1,
+      "rho_lo": 0.718820807489282,
+      "rho_hi": 0.9138209010682701,
+      "spread": 0.19500009357898807
+    },
+    "CM": {
+      "mean_overlap": 4.1,
+      "opposed": 2,
+      "rho_lo": 0.7071964684080881,
+      "rho_hi": 0.923521803188534,
+      "spread": 0.2163253347804459
+    },
+    "guards": {
+      "G-B1_low_block_wants_Block": true,
+      "G-B2_high_press_wants_Pacey": true,
+      "G-J2_guard_quality_wins": true,
+      "G-J3_guard_level_wins": true
+    }
+  }
+]

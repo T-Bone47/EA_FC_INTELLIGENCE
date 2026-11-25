@@ -1,0 +1,6 @@
+# PHASE 41: Decision Evaluation & Stability Summary
+
+1. **Counterfactual Pre-Action Consistency:** Paired positive-outcome (`GOAL`) vs negative-outcome (`TURNOVER`) runs across all 220 benchmark scenarios produced identical candidate rankings and regret estimates (`100.0%` invariance).
+2. **Uncertainty Sensitivity Validation (`test_monte_carlo_uncertainty_widens_under_partial_coverage_and_non_negative_regret`):** Reducing observation coverage from `92%` (`GOOD` calibration) to `54%` (`PARTIAL` calibration) measurably widens the Monte Carlo `[q_p10, q_p90]` credibility interval without altering non-negative Decision Regret guarantees (`R(s, a) >= 0`).
+3. **Pass-Speed Sensitivity (`test_passing_corridor_interception_margin_and_speed_sensitivity`):** Central blocked ground corridors accurately transition from negative/low dynamic arrival margins toward wider driven-pass margins while scoring open diagonal wing switches with higher point-to-segment clearance (`ev_lw > ev_st`).
+4. **Defensive & Shooting Conservatism (`test_defensive_team_shape_framing_and_crowd_shot_heuristic`):** Defensive counterfactual evaluation avoids recommending reckless ball-carrier lunges (`DEF-5`) when central Zone-14 cover is exposed, and blocked long-range shots correctly surface pass/cutback alternatives while preserving `is_calibrated_xg = False`.

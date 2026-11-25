@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-10-05T10:26:02.746283+00:00",
+  "engine_version": "3.2.0",
+  "config_version": "v3.2-2026-09-30-r1",
+  "load_avg_1m": 0.70947265625,
+  "note": "single shared CPU sandbox; relative stage shares matter, absolute ms do not transfer",
+  "profiles": {
+    "FC26:CM": {
+      "db_load_ms": 17.3,
+      "engine_ms": 415.8,
+      "serialise_ms": 15.2,
+      "total_ms": 481.0,
+      "n_candidates": 10275,
+      "repeats": 3
+    },
+    "FC26:GK": {
+      "db_load_ms": 15.4,
+      "engine_ms": 58.0,
+      "serialise_ms": 2.2,
+      "total_ms": 128.3,
+      "n_candidates": 1816,
+      "repeats": 3
+    },
+    "FC27:CM": {
+      "db_load_ms": 20.7,
+      "engine_ms": 616.6,
+      "serialise_ms": 23.0,
+      "total_ms": 659.5,
+      "n_candidates": 12101,
+      "repeats": 3
+    },
+    "FC27:GK": {
+      "db_load_ms": 17.7,
+      "engine_ms": 72.5,
+      "serialise_ms": 4.3,
+      "total_ms": 94.5,
+      "n_candidates": 2204,
+      "repeats": 3
+    }
+  }
+}

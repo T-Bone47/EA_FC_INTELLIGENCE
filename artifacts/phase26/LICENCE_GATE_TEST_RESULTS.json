@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "scope": "reference selection and licence gate",
+  "command": "python -m unittest -v backend.tests.test_phase26_policy",
+  "test_methods": 3,
+  "matrix_subcases": 24,
+  "http_and_constructor_tests": "BLOCKED"
+}

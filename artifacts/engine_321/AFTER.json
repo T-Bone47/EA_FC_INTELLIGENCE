@@ -1,0 +1,1339 @@
+{
+  "engine": "3.2.1",
+  "config": "v3.2-2026-09-30-r1",
+  "releases": {
+    "players": {
+      "version": "fc27-players-2026-09-r1",
+      "hash": "224e4474dc0e0b54e7a422774d536d3962e4ebc6a224ebe7143872a759ec305e",
+      "records": 19789,
+      "division_counts": {
+        "Women's Football": 1940,
+        "Men's Football": 17849
+      }
+    },
+    "cards": {
+      "version": "fc27-card-items-local-r1",
+      "hash": "54e60afe5b60c4db28a425b266153c5dd320773887188a5bac821268526239ff",
+      "records": 9962
+    }
+  },
+  "staging_observations_by_schema": [
+    {
+      "schema": "card-item-v1",
+      "observations": 9962
+    },
+    {
+      "schema": "october-item-v1",
+      "observations": 10762
+    }
+  ],
+  "accepted_shared_match_records": 0,
+  "context_count": 144,
+  "median_context_ms": 242.78,
+  "preference_checks": {
+    "neutral_weight_1_matches_default": true,
+    "focused_weight_2_default_finishing_weight": 0.04528301886792453,
+    "focused_weight_2_new_finishing_weight": 0.09074573225516622,
+    "focused_weight_2_changed_top10": true,
+    "low_preference_minimum_demand_weight": 0.013186891305893221,
+    "messy_playstyle_equals_canonical": true
+  },
+  "contexts": {
+    "Men's Football/CAM/BALANCED": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 4140,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "e72a23a3a03d14bc84289abbc44ec5ce6ab17e43fd236f5b8cbcd610b0276ce6",
+      "engine_ms": 774.25
+    },
+    "Men's Football/CAM/HIGH_PRESS": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 4140,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "470c1f270ef7bbea100da4ae19c936d9558912c0fb7508ef0f4d348c528debd7",
+      "engine_ms": 933.23
+    },
+    "Men's Football/CAM/LOW_BLOCK": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 4140,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "5669fc016a12281c3d52839aadfc589ff1d93b9635eb381b4f16c649cea8e6dd",
+      "engine_ms": 823.68
+    },
+    "Men's Football/CAM/POSSESSION": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 4140,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "b315990a671914f303f137298362ddab4037a51e10e7f1cf62ea246c26bc00c6",
+      "engine_ms": 968.77
+    },
+    "Women's Football/CAM/BALANCED": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 405,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "c5cfe526b09942317d72c8bb6325fb1aa00c524a753c940dc70dc12754f4b071",
+      "engine_ms": 61.51
+    },
+    "Women's Football/CAM/HIGH_PRESS": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 405,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "a3a60594071c908662b4b5b9824e103dce52cf6ef5759b7fb9ecc0ba7b328d5e",
+      "engine_ms": 80.58
+    },
+    "Women's Football/CAM/LOW_BLOCK": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 405,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "f28406af2445437a82d4945dc2e7c2719c9c7cfa39c281c81f4867600baa42f8",
+      "engine_ms": 86.82
+    },
+    "Women's Football/CAM/POSSESSION": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 405,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "eabd6057b6290f82ca05db2b423c3a45f9985c00f5b43aa8ea80939cbb9947c3",
+      "engine_ms": 243.7
+    },
+    "UT cards/CAM/BALANCED": {
+      "candidates": 2399,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "a5ab2f0b3c7840a239f848448fd90b864d3aa798d9be5579ae06ad370eee3c30",
+      "engine_ms": 275.13
+    },
+    "UT cards/CAM/HIGH_PRESS": {
+      "candidates": 2399,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "fda5a91852e778024de20528047c7a9b1f52637750da1152e3203de60a71575a",
+      "engine_ms": 252.98
+    },
+    "UT cards/CAM/LOW_BLOCK": {
+      "candidates": 2399,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "86d5e3e5f7a1da17d0e8437c5a4a33f960450605061e4881fc3364cb28f68f9b",
+      "engine_ms": 218.81
+    },
+    "UT cards/CAM/POSSESSION": {
+      "candidates": 2399,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "5ffcb3f541512fd112b173fb30241a0e15a8d9ffe520b34a3051df6a9b77566b",
+      "engine_ms": 229.87
+    },
+    "Men's Football/CB/BALANCED": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 544,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "6b8ce5326a7fe65da925ec0f5f15444c341f9ed63c2baeefd7579c77ed732aec",
+      "engine_ms": 682.58
+    },
+    "Men's Football/CB/HIGH_PRESS": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 544,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "1df78af7d326b100351077cd96114b3e8a3ec21f34cd173d97c2d6a11381eefb",
+      "engine_ms": 846.4
+    },
+    "Men's Football/CB/LOW_BLOCK": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 544,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "3b1e6df125e6e65d421c3fcfbdca54740d8c4a31c4ea55dadc98c2974e07c7ca",
+      "engine_ms": 684.81
+    },
+    "Men's Football/CB/POSSESSION": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 544,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "bfb6104dfe57b99f3628d44009ee98b4f9bd277f8bff0af30ccfddca23b58cca",
+      "engine_ms": 992.22
+    },
+    "Women's Football/CB/BALANCED": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 72,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "219e378b8b790586333d1f5d8ec5bf7b79d51ff18ca14315be4d63c13e4fef09",
+      "engine_ms": 81.86
+    },
+    "Women's Football/CB/HIGH_PRESS": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 72,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "dd1f40d9ccbdaf37d6e30aec3b04c4f1c274bf990227b0f42eb8f78ccbabdc8b",
+      "engine_ms": 86.76
+    },
+    "Women's Football/CB/LOW_BLOCK": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 72,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "8df700a3ce303412e7179131446643eafa99566a28eec12133045746809ad265",
+      "engine_ms": 70.81
+    },
+    "Women's Football/CB/POSSESSION": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 72,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "b55c1586e57cf3ea46c1da2e1f0a9823c02853339b46a414f87b1135ff5e5aea",
+      "engine_ms": 113.66
+    },
+    "UT cards/CB/BALANCED": {
+      "candidates": 1692,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "68496bc0d8ca1e2222d57c272f30c50cc1a8b43bc42bb558b78964697fa3a991",
+      "engine_ms": 327.77
+    },
+    "UT cards/CB/HIGH_PRESS": {
+      "candidates": 1692,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "b0015aea000ff92f406222be4d702ebf29ef68d97d86c3f75e9b3e7eab310193",
+      "engine_ms": 221.97
+    },
+    "UT cards/CB/LOW_BLOCK": {
+      "candidates": 1692,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "ac68134d56529d9b315164002d8cbb594df6f33571c83fac61829b478ca9ac4a",
+      "engine_ms": 185.44
+    },
+    "UT cards/CB/POSSESSION": {
+      "candidates": 1692,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "72bb755024117293b3554068641173d64623c85b8cf45a6caf31d35df99c86d3",
+      "engine_ms": 226.17
+    },
+    "Men's Football/CDM/BALANCED": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 6440,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "6cbdf68f15c4e641ec96ebfb6921cc8f101540ea7042db0b9b7f241916426163",
+      "engine_ms": 669.57
+    },
+    "Men's Football/CDM/HIGH_PRESS": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 6440,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "35a7ed3c0c7faf0a64d47f0397747e9d507a86181c3be7545393de568f9e217a",
+      "engine_ms": 608.57
+    },
+    "Men's Football/CDM/LOW_BLOCK": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 6440,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "96852f16437dadfbc723cf0429b7a3b8b171507e6165457ef7a440ea179373ae",
+      "engine_ms": 738.99
+    },
+    "Men's Football/CDM/POSSESSION": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 6440,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d30cc409179947d689a3e987fa414ac0a7195a725a39c415707b26bd7da19387",
+      "engine_ms": 624.49
+    },
+    "Women's Football/CDM/BALANCED": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 659,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "4acaf492bb57132a170117dc0e464bb22b176eb8da5c62c6e54c4f8920e41876",
+      "engine_ms": 59.76
+    },
+    "Women's Football/CDM/HIGH_PRESS": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 659,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "cbf3a0b9ce2248975338c7d47cab9f87f6006f0888c2e5cc62a622454e69bdb7",
+      "engine_ms": 67.42
+    },
+    "Women's Football/CDM/LOW_BLOCK": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 659,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "f9b9795e5672e3f8efea6be2ac91a51be66f99b0710e8d927344a090e32d1854",
+      "engine_ms": 66.96
+    },
+    "Women's Football/CDM/POSSESSION": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 659,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "8db6deed2c4098fd7ba886c0551502d28933d1a52380e65394e7f44da6c2c583",
+      "engine_ms": 70.98
+    },
+    "UT cards/CDM/BALANCED": {
+      "candidates": 2411,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "6883ccebf363ce27bbdde011f544be9cbdac0b67b460675a3f7c54b32c0541aa",
+      "engine_ms": 241.16
+    },
+    "UT cards/CDM/HIGH_PRESS": {
+      "candidates": 2411,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "381137975bd3af579b7711347547e4cf92e62f677e8cdc844389fb3e9fda9984",
+      "engine_ms": 445.98
+    },
+    "UT cards/CDM/LOW_BLOCK": {
+      "candidates": 2411,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "c1e6fdba5ff885dfb3915182b2e4a0762750edecbaea2d9bb28b9f467c7c5a39",
+      "engine_ms": 254.89
+    },
+    "UT cards/CDM/POSSESSION": {
+      "candidates": 2411,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "2aad522952f9eb46a772cc74ecf5767584261801774a8d0859d90731fc5c4457",
+      "engine_ms": 330.53
+    },
+    "Men's Football/CM/BALANCED": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3813,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d8b95e2cefc6978b66521415f2aa9196f17d08eb26f15da3928d2ba48ae27b9c",
+      "engine_ms": 1021.87
+    },
+    "Men's Football/CM/HIGH_PRESS": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3813,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "721d3fa237baa92dff9a452ab11de15b63cf958449530878e54c495618847027",
+      "engine_ms": 1189.08
+    },
+    "Men's Football/CM/LOW_BLOCK": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3813,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "4876edb29a75acb1f0168cfd55b81f95e10519cdb7b8243c5b27d03ec9073486",
+      "engine_ms": 791.67
+    },
+    "Men's Football/CM/POSSESSION": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3813,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "1fcdea89312a236f42d9cf6353ea6ed5ec2114a40ba57b11b2268c5febcabe65",
+      "engine_ms": 1040.65
+    },
+    "Women's Football/CM/BALANCED": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 406,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "4fe048da877e5cadfff169427c72e1c49e6317e5520e0cb42429a5bd8fe62ce6",
+      "engine_ms": 81.98
+    },
+    "Women's Football/CM/HIGH_PRESS": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 406,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "c3b3dbe9234756504a20b424f99c0abf4b8a69e8fba7c4781d6db6a8c19d1e7e",
+      "engine_ms": 94.89
+    },
+    "Women's Football/CM/LOW_BLOCK": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 406,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "26410e2340d0a9f4b9f566f8db9c3dbc5f74c48d1a91c70f78433a86d8c3f5ce",
+      "engine_ms": 78.05
+    },
+    "Women's Football/CM/POSSESSION": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 406,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "1f59e7ce66a0a9227f4b7f3ae0528893b92b1041d643e205f1fbf308f9927ff3",
+      "engine_ms": 89.33
+    },
+    "UT cards/CM/BALANCED": {
+      "candidates": 3136,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 2,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "16a680343ac0c181e3d934a9298e5aae98e7908a3e367e3e2f5cb3072e8c090b",
+      "engine_ms": 342.11
+    },
+    "UT cards/CM/HIGH_PRESS": {
+      "candidates": 3136,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 2,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d9d3c5f25c8b4163d72fedd4ba52d22a47b3ed0b5a709993974b5aeb1d605639",
+      "engine_ms": 526.42
+    },
+    "UT cards/CM/LOW_BLOCK": {
+      "candidates": 3136,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 2,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "4f5174fb4fa3b23ae939a8d902d1b7b344e4969fd5e377a94bb72f6c5fac3ec7",
+      "engine_ms": 319.25
+    },
+    "UT cards/CM/POSSESSION": {
+      "candidates": 3136,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 2,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "cd54b7097835daca9af019356151b59cef837c7dc4a3fbfe08d156158157f402",
+      "engine_ms": 396.93
+    },
+    "Men's Football/GK/BALANCED": {
+      "candidates": 1971,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "c38537b8ec83a9d1dcc7cf94072ae76aa5cf237c28d14eb28d916201189456bb",
+      "engine_ms": 136.0
+    },
+    "Men's Football/GK/HIGH_PRESS": {
+      "candidates": 1971,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "596371f5a13e386884b8eeeb5236fd2cc00147edb20704c96a2ecb5358cd4dff",
+      "engine_ms": 260.54
+    },
+    "Men's Football/GK/LOW_BLOCK": {
+      "candidates": 1971,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "5ee79c50027c44b51e31b972f7a84ac6483b7d1f2ea6832a10bead7c5e6ebeaf",
+      "engine_ms": 138.95
+    },
+    "Men's Football/GK/POSSESSION": {
+      "candidates": 1971,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d30ea41daee7efc5b233b6a966913ffbab29872b4ec3532865e05a2e1d3149db",
+      "engine_ms": 135.79
+    },
+    "Women's Football/GK/BALANCED": {
+      "candidates": 233,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "5aa237dddda454c4c4389b2814cb707bbc04e0f01583f8097d52ecea00032c07",
+      "engine_ms": 16.43
+    },
+    "Women's Football/GK/HIGH_PRESS": {
+      "candidates": 233,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "a37f974f81cc8fb489664f4f1d26fa1a66bbaf17965f6d26b92757738c824e43",
+      "engine_ms": 17.24
+    },
+    "Women's Football/GK/LOW_BLOCK": {
+      "candidates": 233,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "82fc3fa478ab9afa4c2a92f160f8c3373e93025c6f397c17e3ae045f6e7e63b5",
+      "engine_ms": 17.73
+    },
+    "Women's Football/GK/POSSESSION": {
+      "candidates": 233,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d18091a894f78d803e6806ccc83c0e9015fec2bb908572a1bd3da61f15f7b55c",
+      "engine_ms": 16.13
+    },
+    "UT cards/GK/BALANCED": {
+      "candidates": 1102,
+      "ranked": 0,
+      "excluded": 2,
+      "not_evaluable": 1100,
+      "min_top10_coverage": null,
+      "baseline_fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "engine_ms": 39.39
+    },
+    "UT cards/GK/HIGH_PRESS": {
+      "candidates": 1102,
+      "ranked": 0,
+      "excluded": 2,
+      "not_evaluable": 1100,
+      "min_top10_coverage": null,
+      "baseline_fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "engine_ms": 45.93
+    },
+    "UT cards/GK/LOW_BLOCK": {
+      "candidates": 1102,
+      "ranked": 0,
+      "excluded": 2,
+      "not_evaluable": 1100,
+      "min_top10_coverage": null,
+      "baseline_fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "engine_ms": 40.72
+    },
+    "UT cards/GK/POSSESSION": {
+      "candidates": 1102,
+      "ranked": 0,
+      "excluded": 2,
+      "not_evaluable": 1100,
+      "min_top10_coverage": null,
+      "baseline_fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "engine_ms": 38.38
+    },
+    "Men's Football/LB/BALANCED": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 657,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "61037b1313b0ab27a8c53217bdda727a25a62924c832470ccb84d4a01eece000",
+      "engine_ms": 642.43
+    },
+    "Men's Football/LB/HIGH_PRESS": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 657,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "1f4c3fe90b54c959b33bec471a6caec72c9ee5bc00de59d52ba2a6e3fddb4057",
+      "engine_ms": 946.27
+    },
+    "Men's Football/LB/LOW_BLOCK": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 657,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "9979dd8835f382ffad27c9232931f5b61bdffe3cd3846219a37e331e4fdbb1b3",
+      "engine_ms": 866.05
+    },
+    "Men's Football/LB/POSSESSION": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 657,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "3af6c7595b99ac776491afed8987c0d07cb9c5a96f973ad044358a6c76cf7a8e",
+      "engine_ms": 741.25
+    },
+    "Women's Football/LB/BALANCED": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 70,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "272c302dd1320c080cbaa5f808774c0e459f712160070d7550a46a4679d53170",
+      "engine_ms": 69.4
+    },
+    "Women's Football/LB/HIGH_PRESS": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 70,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d274001404a531378a5fb6af7685cbb7e743521eb0972009ff94a666d39540f3",
+      "engine_ms": 198.71
+    },
+    "Women's Football/LB/LOW_BLOCK": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 70,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "0bedcb681db7bd8957df6a1b04a19ab6cbd5d4436e955b23edb393ca4e0f9ecf",
+      "engine_ms": 71.62
+    },
+    "Women's Football/LB/POSSESSION": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 70,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "c9a0b3c4f118deca8b0f55eb3747d3572d752d28749d9b643a1149e2797815e3",
+      "engine_ms": 73.76
+    },
+    "UT cards/LB/BALANCED": {
+      "candidates": 1225,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "545f9de84b30a196d7de181c5ee675aff2c2066b7db665601ff93b9f65f6ae2d",
+      "engine_ms": 104.3
+    },
+    "UT cards/LB/HIGH_PRESS": {
+      "candidates": 1225,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "68fedfe879f06a6a7e046837536321eac342d220f31244b8932f5a13bf8cb76f",
+      "engine_ms": 137.56
+    },
+    "UT cards/LB/LOW_BLOCK": {
+      "candidates": 1225,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "bcb4359f4c19b4249ae8991aca2afcc4633b1ce12afb6754bf6e127419c56089",
+      "engine_ms": 139.73
+    },
+    "UT cards/LB/POSSESSION": {
+      "candidates": 1225,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "beac0fb31f60eb18495a08f0130c79c14e59251c6e99ca20488479abd9a9fdf6",
+      "engine_ms": 147.89
+    },
+    "Men's Football/LM/BALANCED": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3704,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "a53d27f4e345ccce374a951196ec272703708ce5d74dd5d036229fe54a8592b7",
+      "engine_ms": 906.89
+    },
+    "Men's Football/LM/HIGH_PRESS": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3704,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "b874ab67af7034ffcca5c8dbde8c1997447f93fdc54e22625c28f25de03b2952",
+      "engine_ms": 1084.01
+    },
+    "Men's Football/LM/LOW_BLOCK": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3704,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "fe74c4d8c755b506830ef7fb0b83fee3eea365a0d2aa8a4b43f5478d7b4e236f",
+      "engine_ms": 979.68
+    },
+    "Men's Football/LM/POSSESSION": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3704,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "02cf0c334de7000c08916423718ef86862a8d3ebdb3dff132e1ecf6977e57d68",
+      "engine_ms": 1092.06
+    },
+    "Women's Football/LM/BALANCED": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 371,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "2362d10327df4c3a2d311350104d6272bf74dae079e467eb02802f14bea2f2ed",
+      "engine_ms": 89.87
+    },
+    "Women's Football/LM/HIGH_PRESS": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 371,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "a3fe1256628766ab2b9d79b9adb175b821068e34095bac354445311a10fb8f02",
+      "engine_ms": 119.1
+    },
+    "Women's Football/LM/LOW_BLOCK": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 371,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "6f75c87787e6c2d9b73692b160426a97b0b8bfc7dbe84e026f99cb2eb6393326",
+      "engine_ms": 245.76
+    },
+    "Women's Football/LM/POSSESSION": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 371,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "1890b9a58fb8de18b7fa6b682fcb6dd07f238370e8f6b2d4e1bf346d3dff2ccc",
+      "engine_ms": 105.76
+    },
+    "UT cards/LM/BALANCED": {
+      "candidates": 2708,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "37f109dc9a5f38d307a348479185fe298c186453ad97396923c8647dcfcc1da3",
+      "engine_ms": 261.24
+    },
+    "UT cards/LM/HIGH_PRESS": {
+      "candidates": 2708,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d20103ec2a3967d966e8d6156e4f85a773ecf9d6774c557071d540abe005a0de",
+      "engine_ms": 349.4
+    },
+    "UT cards/LM/LOW_BLOCK": {
+      "candidates": 2708,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "8788c655a0b1771bf4cea64cb0fa9cff826e63e7ca36890a495aaa41846e0c4b",
+      "engine_ms": 495.69
+    },
+    "UT cards/LM/POSSESSION": {
+      "candidates": 2708,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "a9ad188c77364ee47be29a01587b5932e969487e69f8f16cd8599fe40dd27dd4",
+      "engine_ms": 356.21
+    },
+    "Men's Football/LW/BALANCED": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 1112,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "c262d61c693fe190b18b1932fbcb5e9472efd98901dbf2cb8c6b4854b2830871",
+      "engine_ms": 526.31
+    },
+    "Men's Football/LW/HIGH_PRESS": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 1112,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "7f9769906b00d1be9061892a5e67a370d7e0a9b767ed9875158f9414c0afd8e9",
+      "engine_ms": 821.74
+    },
+    "Men's Football/LW/LOW_BLOCK": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 1112,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "6d663edffd7ddab1e9a25488a416627f2ac9305807c54b2da37adefb08605268",
+      "engine_ms": 659.57
+    },
+    "Men's Football/LW/POSSESSION": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 1112,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "ded45106fd32a8781e38c699f09cb80cabcb914d064c92aa779d7cf5f501d3d6",
+      "engine_ms": 769.34
+    },
+    "Women's Football/LW/BALANCED": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 131,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "eaddfae18c7b2b6ba75ac8ee41de643e3d14edbd054e46a00f202258d2476a8e",
+      "engine_ms": 49.4
+    },
+    "Women's Football/LW/HIGH_PRESS": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 131,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "c3f1c0c723f1d9617ee43d70a2abaad3a2ddcde494273cdbd89599a2a4bc4e39",
+      "engine_ms": 65.7
+    },
+    "Women's Football/LW/LOW_BLOCK": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 131,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "3fbab90ed8486b30fad5f98ec908f378da94eca0c869d704926a3099bf2af68c",
+      "engine_ms": 80.76
+    },
+    "Women's Football/LW/POSSESSION": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 131,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "e5cf89414fde38e988c7c3a88b36b399a94e431f6fdbcac58feaa0d40a6f216f",
+      "engine_ms": 60.48
+    },
+    "UT cards/LW/BALANCED": {
+      "candidates": 2071,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "4282a4a17cc879a868849025417ab6bdc8539a31be5d666510bab65929f4656e",
+      "engine_ms": 175.39
+    },
+    "UT cards/LW/HIGH_PRESS": {
+      "candidates": 2071,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "15403a5e5a21e678c692ce406af6df148c0c2e3584cc3f746a5d78966f3b8e1c",
+      "engine_ms": 333.85
+    },
+    "UT cards/LW/LOW_BLOCK": {
+      "candidates": 2071,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "3823cdd507d2b2023f4d113d674d22eaf59273fff4641a0ce2b69dbb7e52bda5",
+      "engine_ms": 236.28
+    },
+    "UT cards/LW/POSSESSION": {
+      "candidates": 2071,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "0f1cfad42c1644b468c67456b1db19e3e4ae441a2ebd965a5455134ecc488686",
+      "engine_ms": 265.75
+    },
+    "Men's Football/RB/BALANCED": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 621,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "8174025830af26735b4f0749d40cd3cdd9c472a1153dba4f47cd26899b855aad",
+      "engine_ms": 749.96
+    },
+    "Men's Football/RB/HIGH_PRESS": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 621,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "3f1e792078ba38a593630b28c04f159c0f719032a202cfbeebf72624e4da1519",
+      "engine_ms": 740.2
+    },
+    "Men's Football/RB/LOW_BLOCK": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 621,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "5ab4cbbbc9d77b8569a15cb17df2a82506081a644aab3a1e944370209da1c253",
+      "engine_ms": 805.3
+    },
+    "Men's Football/RB/POSSESSION": {
+      "candidates": 6885,
+      "ranked": 10,
+      "excluded": 621,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "09e1303913dfeb8003d69ddce070c170b62d6c611c3d5cd0dec248a4d0d3fed9",
+      "engine_ms": 822.11
+    },
+    "Women's Football/RB/BALANCED": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 74,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "8d590d23cd3bae14d5c2bc8b2359691768145ee295c771144e6f1727a2b28941",
+      "engine_ms": 61.93
+    },
+    "Women's Football/RB/HIGH_PRESS": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 74,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "2eb2e97f590f9f6dee25ac55a268a42787769ec95068a38ddbafb75c9fe26e87",
+      "engine_ms": 74.48
+    },
+    "Women's Football/RB/LOW_BLOCK": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 74,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d441b644c78793eb5c9cbb7fcefd937542d081278d5569f94a667a4479800af5",
+      "engine_ms": 70.03
+    },
+    "Women's Football/RB/POSSESSION": {
+      "candidates": 754,
+      "ranked": 10,
+      "excluded": 74,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "81b2960dc0defa4444dfa37d678badaf268d48cc621964b5fb227c1027af1813",
+      "engine_ms": 69.58
+    },
+    "UT cards/RB/BALANCED": {
+      "candidates": 1255,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "3425a7a6b458986820961266c1b7ca3eb613480edae16b0caf49add1701ed74b",
+      "engine_ms": 104.69
+    },
+    "UT cards/RB/HIGH_PRESS": {
+      "candidates": 1255,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "5abb571c5ec7ac44d1ffca2f0094cf83d4b2fe529512b8ef512d654e5147efd2",
+      "engine_ms": 134.41
+    },
+    "UT cards/RB/LOW_BLOCK": {
+      "candidates": 1255,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "07e656419821142c901cd54dc476707be8a2124ab77753a77592e55f830c1c43",
+      "engine_ms": 137.77
+    },
+    "UT cards/RB/POSSESSION": {
+      "candidates": 1255,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "3ddca7b604a61a6446fe1e39afd9657439fc74a7b929db9c718c04279c30a5f0",
+      "engine_ms": 134.24
+    },
+    "Men's Football/RM/BALANCED": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3716,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "720542ef9718a015cb422ddf30910fbc863fbc7aa85c94b9607de237e8891842",
+      "engine_ms": 765.35
+    },
+    "Men's Football/RM/HIGH_PRESS": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3716,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "c3c1b9bf83e76fed2d890dc7d1847ce36e5600d902ba5e84d0508cf7152a7f08",
+      "engine_ms": 968.66
+    },
+    "Men's Football/RM/LOW_BLOCK": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3716,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "8d04df10f45f9952c518ef719b25480eadabfe60cdc44f305c33e66340710a5e",
+      "engine_ms": 1163.04
+    },
+    "Men's Football/RM/POSSESSION": {
+      "candidates": 10936,
+      "ranked": 10,
+      "excluded": 3716,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "6a59527413df8482e6fe4e7aefe64dc39dd81b229d4370cde9ad05d8a5b53b6f",
+      "engine_ms": 1009.97
+    },
+    "Women's Football/RM/BALANCED": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 386,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "1c7e97f09f1aa31f78dae42335f11141cbf6cb17943736ab9e05a60c59d3823b",
+      "engine_ms": 71.8
+    },
+    "Women's Football/RM/HIGH_PRESS": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 386,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "ec282dda2737eee71821209c450a2c9578e918767db7cae3264093a1b152e764",
+      "engine_ms": 97.32
+    },
+    "Women's Football/RM/LOW_BLOCK": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 386,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "b48d00cc2bd60f1851d862208ac494ae6134239a9bace5b28c614c5e5971cbf0",
+      "engine_ms": 89.58
+    },
+    "Women's Football/RM/POSSESSION": {
+      "candidates": 1165,
+      "ranked": 10,
+      "excluded": 386,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "646f70ec1dd1bf52995573cf3d2bbd91f80170c01bce36da87c2e76683bebbca",
+      "engine_ms": 111.41
+    },
+    "UT cards/RM/BALANCED": {
+      "candidates": 2584,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "6b8ca4b4865075f25e2120ac1a45afdb1c981382e976be673e34a2cdcd3a6076",
+      "engine_ms": 259.15
+    },
+    "UT cards/RM/HIGH_PRESS": {
+      "candidates": 2584,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "9908036c6dc1e2835df4184766883d29703dd6a5564373561c4efad67165087f",
+      "engine_ms": 400.25
+    },
+    "UT cards/RM/LOW_BLOCK": {
+      "candidates": 2584,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "3dd5eefdbcb6f8d7faaa0a0578f7a145c4e81a56d82a5badefea7e61be1d1b6f",
+      "engine_ms": 328.0
+    },
+    "UT cards/RM/POSSESSION": {
+      "candidates": 2584,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "dfbbc0aa60c76d160b90999321d98676eb70026d9a7d40cb6a30fba672197f47",
+      "engine_ms": 296.86
+    },
+    "Men's Football/RW/BALANCED": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 1105,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "2f7d9c405ba2f5c3108b6f8e6ff8cc37a09f6c1bbc634b73270542a93d9eb7f9",
+      "engine_ms": 673.56
+    },
+    "Men's Football/RW/HIGH_PRESS": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 1105,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "92dc2298c6c59a0bbbcfedbf715f448a7fc894525f96a050800bb9bb4e003f75",
+      "engine_ms": 650.44
+    },
+    "Men's Football/RW/LOW_BLOCK": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 1105,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "9bf60483584d93ead4573b2dbdf4adc9fc8e7770288b144bd4850c2eae5a1da3",
+      "engine_ms": 794.14
+    },
+    "Men's Football/RW/POSSESSION": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 1105,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "231cbabd71f404b5f2d9a2198ae411a2f1d1412c758db7389b0212d94e0552ce",
+      "engine_ms": 664.23
+    },
+    "Women's Football/RW/BALANCED": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 134,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "f8eb1631cd0b2a0b15a7ec98c5bd0bff445871d7bf876b06bb3b15a23e5ab0e4",
+      "engine_ms": 61.55
+    },
+    "Women's Football/RW/HIGH_PRESS": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 134,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "34c6d3ff9268d2ed91111de7c46d37f9992b57fffc41715e0625612307ad1ac4",
+      "engine_ms": 67.26
+    },
+    "Women's Football/RW/LOW_BLOCK": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 134,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "7a3b1fc11638e8ae47d0aee485002175d490767dc06d91fdc89be4e34f5d3c07",
+      "engine_ms": 206.37
+    },
+    "Women's Football/RW/POSSESSION": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 134,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d8387f6a9662671393da7a9aba38635b38062c77ca9ae6e222135e885c5b268a",
+      "engine_ms": 71.18
+    },
+    "UT cards/RW/BALANCED": {
+      "candidates": 1958,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "e8c9bc54b8a4d7497d22007dc33a69345412da9d74ce66b58b2b42206f0f9d03",
+      "engine_ms": 183.14
+    },
+    "UT cards/RW/HIGH_PRESS": {
+      "candidates": 1958,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "58af57a61582517df0b54eb7148a203c0b512aadb972cf53c73d3c5d0cb2cae6",
+      "engine_ms": 247.68
+    },
+    "UT cards/RW/LOW_BLOCK": {
+      "candidates": 1958,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "230a4e84ba85817260d35a706d7581d901969d8efd23cf88c5b109d6d6afba70",
+      "engine_ms": 241.86
+    },
+    "UT cards/RW/POSSESSION": {
+      "candidates": 1958,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "b488d8c7c50bb104b8c123aa599454e3d1a281a7fe418cc6d50aa82df6d2a471",
+      "engine_ms": 228.13
+    },
+    "Men's Football/ST/BALANCED": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 2372,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "d2030f3bcf4f5810b546995082912a0721b42ef5df8464394e561c1bc7a88d3c",
+      "engine_ms": 577.37
+    },
+    "Men's Football/ST/HIGH_PRESS": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 2372,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "83c7f1ecf35b869a1a72469e061d4c94388a40664a6768f93ae14f94031af5c0",
+      "engine_ms": 498.82
+    },
+    "Men's Football/ST/LOW_BLOCK": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 2372,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "f6588a9a05d859aafab30df8f7d89d28ed16d99542c3fcd295824557e9065ed0",
+      "engine_ms": 739.22
+    },
+    "Men's Football/ST/POSSESSION": {
+      "candidates": 6384,
+      "ranked": 10,
+      "excluded": 2372,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "ad7a7ea1eb9d56be18cd38f9c1d37e526b2129ad5d2a96eab21ce0452ed7642e",
+      "engine_ms": 492.08
+    },
+    "Women's Football/ST/BALANCED": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 211,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "7c51e33292e2e11eed8572a3aedd98d3c33fad1a18eb04613e035c58a32bd189",
+      "engine_ms": 43.05
+    },
+    "Women's Football/ST/HIGH_PRESS": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 211,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "bc00e472a2367e9f5107e089870c88d1ddfce3bd66cf331c69758258f56ae3cd",
+      "engine_ms": 58.13
+    },
+    "Women's Football/ST/LOW_BLOCK": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 211,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "6a1e69cb51808052a64861235a6face4e73b594be7a3ffe9d8d66f7e6e4a412b",
+      "engine_ms": 60.45
+    },
+    "Women's Football/ST/POSSESSION": {
+      "candidates": 678,
+      "ranked": 10,
+      "excluded": 211,
+      "not_evaluable": 0,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "1541b5c7541672d1801dc12b41a08a7b77d05f228c4651faa163e076c9069171",
+      "engine_ms": 55.68
+    },
+    "UT cards/ST/BALANCED": {
+      "candidates": 2279,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 2,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "2018a7b94c1f1e5c25a6a3fdb137ccf046b360669c47537c1e10acc543a7d763",
+      "engine_ms": 400.78
+    },
+    "UT cards/ST/HIGH_PRESS": {
+      "candidates": 2279,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 2,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "0a5cdc8e75477ff2c81dca3e9c66e9ba499b25c8c55358febecd2d7e6d0df00e",
+      "engine_ms": 310.51
+    },
+    "UT cards/ST/LOW_BLOCK": {
+      "candidates": 2279,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 2,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "4dcd70fa58de71028f6a52d862062e367271077398eca22a8fe5677db7a5f67f",
+      "engine_ms": 301.71
+    },
+    "UT cards/ST/POSSESSION": {
+      "candidates": 2279,
+      "ranked": 10,
+      "excluded": 0,
+      "not_evaluable": 2,
+      "min_top10_coverage": 1.0,
+      "baseline_fingerprint": "5935343719a6d6f2302912e06e0f694f753674bdb3de0cd31a3c8f4060f8368b",
+      "engine_ms": 266.96
+    }
+  }
+}

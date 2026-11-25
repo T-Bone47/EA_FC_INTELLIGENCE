@@ -1,0 +1,654 @@
+{
+  "FC26|V3.1-baseline": {
+    "counts_balanced": {
+      "pool": 1816,
+      "ranked": 1816,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "kappa": {
+        "p01": 1.0,
+        "p10": 1.0,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p99": 1.0
+      },
+      "score": {
+        "p01": 0.494343,
+        "p10": 0.552626,
+        "p50": 0.646465,
+        "p90": 0.743232,
+        "p99": 0.829495
+      },
+      "top10": [
+        [
+          "Alisson",
+          0.8786,
+          89
+        ],
+        [
+          "Thibaut Courtois",
+          0.8675,
+          89
+        ],
+        [
+          "David Raya",
+          0.8665,
+          87
+        ],
+        [
+          "Jan Oblak",
+          0.8624,
+          88
+        ],
+        [
+          "Yann Sommer",
+          0.8611,
+          87
+        ],
+        [
+          "Mike Maignan",
+          0.8574,
+          87
+        ],
+        [
+          "Marc-Andr\u00e9 ter Stegen",
+          0.857,
+          86
+        ],
+        [
+          "Gianluigi Donnarumma",
+          0.8552,
+          89
+        ],
+        [
+          "Ederson",
+          0.8451,
+          85
+        ],
+        [
+          "Emiliano Mart\u00ednez",
+          0.8444,
+          85
+        ]
+      ]
+    },
+    "mean_pairwise_top10_overlap": 9.067,
+    "opposed_overlap": {
+      "HIGH_PRESS|LOW_BLOCK": 10,
+      "POSSESSION|COUNTER_ATTACK": 10
+    },
+    "rho_R_OVR": {
+      "BALANCED": 0.9949,
+      "POSSESSION": 0.992,
+      "HIGH_PRESS": 0.9944,
+      "LOW_BLOCK": 0.9944,
+      "COUNTER_ATTACK": 0.9923,
+      "DIRECT_PLAY": 0.9916
+    },
+    "rho_spread": 0.0033,
+    "near_tie_rate_top10": 0.7222,
+    "top10_by_profile": {
+      "BALANCED": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "ddec1563-3cbb-5946-a7ab-a8b636b04f3a",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "cc6283bc-57ed-56c8-9607-1fabe0296e48"
+      ],
+      "POSSESSION": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "f0f716b6-a2b6-54c8-9de2-db4760b7e049",
+        "e72ace8e-0a25-51ee-9f11-6c2f889bf628"
+      ],
+      "HIGH_PRESS": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "ddec1563-3cbb-5946-a7ab-a8b636b04f3a",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "f0f716b6-a2b6-54c8-9de2-db4760b7e049"
+      ],
+      "LOW_BLOCK": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "ddec1563-3cbb-5946-a7ab-a8b636b04f3a",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "f0f716b6-a2b6-54c8-9de2-db4760b7e049"
+      ],
+      "COUNTER_ATTACK": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "f0f716b6-a2b6-54c8-9de2-db4760b7e049",
+        "e72ace8e-0a25-51ee-9f11-6c2f889bf628"
+      ],
+      "DIRECT_PLAY": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "f0f716b6-a2b6-54c8-9de2-db4760b7e049",
+        "e72ace8e-0a25-51ee-9f11-6c2f889bf628"
+      ]
+    }
+  },
+  "FC26|V3.2-cand-gk-signed-poles": {
+    "counts_balanced": {
+      "pool": 1816,
+      "ranked": 1816,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "kappa": {
+        "p01": 1.0,
+        "p10": 1.0,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p99": 1.0
+      },
+      "score": {
+        "p01": 0.494343,
+        "p10": 0.552626,
+        "p50": 0.646465,
+        "p90": 0.743232,
+        "p99": 0.829495
+      },
+      "top10": [
+        [
+          "Alisson",
+          0.8786,
+          89
+        ],
+        [
+          "Thibaut Courtois",
+          0.8675,
+          89
+        ],
+        [
+          "David Raya",
+          0.8665,
+          87
+        ],
+        [
+          "Jan Oblak",
+          0.8624,
+          88
+        ],
+        [
+          "Yann Sommer",
+          0.8611,
+          87
+        ],
+        [
+          "Mike Maignan",
+          0.8574,
+          87
+        ],
+        [
+          "Marc-Andr\u00e9 ter Stegen",
+          0.857,
+          86
+        ],
+        [
+          "Gianluigi Donnarumma",
+          0.8552,
+          89
+        ],
+        [
+          "Ederson",
+          0.8451,
+          85
+        ],
+        [
+          "Emiliano Mart\u00ednez",
+          0.8444,
+          85
+        ]
+      ]
+    },
+    "mean_pairwise_top10_overlap": 8.133,
+    "opposed_overlap": {
+      "HIGH_PRESS|LOW_BLOCK": 7,
+      "POSSESSION|COUNTER_ATTACK": 9
+    },
+    "rho_R_OVR": {
+      "BALANCED": 0.9949,
+      "POSSESSION": 0.9862,
+      "HIGH_PRESS": 0.9853,
+      "LOW_BLOCK": 0.9948,
+      "COUNTER_ATTACK": 0.9809,
+      "DIRECT_PLAY": 0.9722
+    },
+    "rho_spread": 0.0227,
+    "near_tie_rate_top10": 0.8148,
+    "top10_by_profile": {
+      "BALANCED": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "ddec1563-3cbb-5946-a7ab-a8b636b04f3a",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "cc6283bc-57ed-56c8-9607-1fabe0296e48"
+      ],
+      "POSSESSION": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "e72ace8e-0a25-51ee-9f11-6c2f889bf628",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "cc6283bc-57ed-56c8-9607-1fabe0296e48"
+      ],
+      "HIGH_PRESS": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "e72ace8e-0a25-51ee-9f11-6c2f889bf628",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "f0f716b6-a2b6-54c8-9de2-db4760b7e049",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "5db7c047-6e42-5a08-8c99-381cf181241a"
+      ],
+      "LOW_BLOCK": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "056f650d-2bb3-5516-8702-d6c98ab4ddbc",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "ddec1563-3cbb-5946-a7ab-a8b636b04f3a",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "81a1be6b-f325-5d24-aa0a-7937eb60ad4b",
+        "a8982c82-6bff-5731-a38a-312f47146086"
+      ],
+      "COUNTER_ATTACK": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "f0f716b6-a2b6-54c8-9de2-db4760b7e049",
+        "e72ace8e-0a25-51ee-9f11-6c2f889bf628",
+        "5db7c047-6e42-5a08-8c99-381cf181241a",
+        "cc6283bc-57ed-56c8-9607-1fabe0296e48"
+      ],
+      "DIRECT_PLAY": [
+        "ae185b82-c8fd-5a30-9a83-d410abb23fcd",
+        "5a4e3fd8-6c88-55eb-8646-61b8e478a624",
+        "875ab8c9-4111-564b-8597-125c2aa597b9",
+        "68187bf8-aefe-5012-9a3b-ce679244a158",
+        "e72ace8e-0a25-51ee-9f11-6c2f889bf628",
+        "10e9f8d1-e798-5e08-a7d2-3ff17a677e99",
+        "dbd9bef7-d9e9-583b-825a-3854b8e83eaa",
+        "f0f716b6-a2b6-54c8-9de2-db4760b7e049",
+        "cc6283bc-57ed-56c8-9607-1fabe0296e48",
+        "5db7c047-6e42-5a08-8c99-381cf181241a"
+      ]
+    }
+  },
+  "FC27|V3.1-baseline": {
+    "counts_balanced": {
+      "pool": 2204,
+      "ranked": 2204,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "kappa": {
+        "p01": 1.0,
+        "p10": 1.0,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p99": 1.0
+      },
+      "score": {
+        "p01": 0.502525,
+        "p10": 0.554141,
+        "p50": 0.650606,
+        "p90": 0.751616,
+        "p99": 0.830404
+      },
+      "top10": [
+        [
+          "David Raya",
+          0.8784,
+          88
+        ],
+        [
+          "Thibaut Courtois",
+          0.8764,
+          90
+        ],
+        [
+          "Hannah Hampton",
+          0.8659,
+          87
+        ],
+        [
+          "Jan Oblak",
+          0.8638,
+          88
+        ],
+        [
+          "Alisson",
+          0.8626,
+          87
+        ],
+        [
+          "Gianluigi Donnarumma",
+          0.8604,
+          89
+        ],
+        [
+          "Ann-Katrin Berger",
+          0.8565,
+          87
+        ],
+        [
+          "Joan Garc\u00eda",
+          0.8562,
+          86
+        ],
+        [
+          "Mike Maignan",
+          0.8558,
+          87
+        ],
+        [
+          "Diogo Costa",
+          0.8535,
+          86
+        ]
+      ]
+    },
+    "mean_pairwise_top10_overlap": 9.4,
+    "opposed_overlap": {
+      "HIGH_PRESS|LOW_BLOCK": 10,
+      "POSSESSION|COUNTER_ATTACK": 10
+    },
+    "rho_R_OVR": {
+      "BALANCED": 0.9956,
+      "POSSESSION": 0.9931,
+      "HIGH_PRESS": 0.9951,
+      "LOW_BLOCK": 0.9952,
+      "COUNTER_ATTACK": 0.9934,
+      "DIRECT_PLAY": 0.9928
+    },
+    "rho_spread": 0.0028,
+    "near_tie_rate_top10": 0.8333,
+    "top10_by_profile": {
+      "BALANCED": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "47849ebd-8c0e-5332-8fa8-ded01ee7b2ab",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "36a19433-4ed4-5589-a5e2-d68671287cbb",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16"
+      ],
+      "POSSESSION": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+        "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "36a19433-4ed4-5589-a5e2-d68671287cbb"
+      ],
+      "HIGH_PRESS": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "47849ebd-8c0e-5332-8fa8-ded01ee7b2ab",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "36a19433-4ed4-5589-a5e2-d68671287cbb",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16"
+      ],
+      "LOW_BLOCK": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "47849ebd-8c0e-5332-8fa8-ded01ee7b2ab",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "36a19433-4ed4-5589-a5e2-d68671287cbb",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16"
+      ],
+      "COUNTER_ATTACK": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+        "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "36a19433-4ed4-5589-a5e2-d68671287cbb"
+      ],
+      "DIRECT_PLAY": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+        "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "36a19433-4ed4-5589-a5e2-d68671287cbb"
+      ]
+    }
+  },
+  "FC27|V3.2-cand-gk-signed-poles": {
+    "counts_balanced": {
+      "pool": 2204,
+      "ranked": 2204,
+      "excluded": 0,
+      "not_evaluable": 0,
+      "kappa": {
+        "p01": 1.0,
+        "p10": 1.0,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p99": 1.0
+      },
+      "score": {
+        "p01": 0.502525,
+        "p10": 0.554141,
+        "p50": 0.650606,
+        "p90": 0.751616,
+        "p99": 0.830404
+      },
+      "top10": [
+        [
+          "David Raya",
+          0.8784,
+          88
+        ],
+        [
+          "Thibaut Courtois",
+          0.8764,
+          90
+        ],
+        [
+          "Hannah Hampton",
+          0.8659,
+          87
+        ],
+        [
+          "Jan Oblak",
+          0.8638,
+          88
+        ],
+        [
+          "Alisson",
+          0.8626,
+          87
+        ],
+        [
+          "Gianluigi Donnarumma",
+          0.8604,
+          89
+        ],
+        [
+          "Ann-Katrin Berger",
+          0.8565,
+          87
+        ],
+        [
+          "Joan Garc\u00eda",
+          0.8562,
+          86
+        ],
+        [
+          "Mike Maignan",
+          0.8558,
+          87
+        ],
+        [
+          "Diogo Costa",
+          0.8535,
+          86
+        ]
+      ]
+    },
+    "mean_pairwise_top10_overlap": 8.0,
+    "opposed_overlap": {
+      "HIGH_PRESS|LOW_BLOCK": 6,
+      "POSSESSION|COUNTER_ATTACK": 10
+    },
+    "rho_R_OVR": {
+      "BALANCED": 0.9956,
+      "POSSESSION": 0.989,
+      "HIGH_PRESS": 0.9873,
+      "LOW_BLOCK": 0.9955,
+      "COUNTER_ATTACK": 0.9834,
+      "DIRECT_PLAY": 0.9767
+    },
+    "rho_spread": 0.0189,
+    "near_tie_rate_top10": 0.7963,
+    "top10_by_profile": {
+      "BALANCED": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "47849ebd-8c0e-5332-8fa8-ded01ee7b2ab",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "36a19433-4ed4-5589-a5e2-d68671287cbb",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16"
+      ],
+      "POSSESSION": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "64a35f97-9f54-5148-9385-6e1d184a1a22"
+      ],
+      "HIGH_PRESS": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+        "ba630ee2-b529-5f69-82b1-8a6f8f821765",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "64a35f97-9f54-5148-9385-6e1d184a1a22"
+      ],
+      "LOW_BLOCK": [
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e",
+        "47849ebd-8c0e-5332-8fa8-ded01ee7b2ab",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "36a19433-4ed4-5589-a5e2-d68671287cbb",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "4c55cd2f-d63b-56c4-8e50-0b2c2c6fd9ef"
+      ],
+      "COUNTER_ATTACK": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "64a35f97-9f54-5148-9385-6e1d184a1a22",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "1e11df7e-39a4-5db9-ac6d-913b7fa5db9e"
+      ],
+      "DIRECT_PLAY": [
+        "99a0d5ed-ac09-5de8-ae7c-d18fbe36024d",
+        "bdbd59a8-8c91-580f-9aa5-821a0a5fb316",
+        "56aa8d55-78e4-59a7-b1f2-f7ecef8a9aca",
+        "3b97cb47-ff8a-5c30-b7b8-407a71733f16",
+        "64a35f97-9f54-5148-9385-6e1d184a1a22",
+        "c1052f76-42b7-5dd7-9a32-de2f6f1f87ee",
+        "12fd2d4a-229e-5074-a764-a4bfaf930363",
+        "035ce5ba-eb36-56bc-9925-67623698a8c4",
+        "12d195dd-694b-50a9-bb20-b85cfd78e05d",
+        "ba630ee2-b529-5f69-82b1-8a6f8f821765"
+      ]
+    }
+  }
+}

@@ -94,7 +94,7 @@ def test_player_page(client):
     gp = d["game_player"]
     assert gp["display_name"] == "Kylian Mbappé"
     assert d["attributes"]["finishing"] is not None
-    assert d["provenance"]["usage_status"] == "LICENSED"
+    assert d["provenance"]["usage_status"] == "UNKNOWN"  # FC26 chain is unverified
     assert d["freshness"]["last_observed"]
     # card list exists but real cards are not ingested
     assert d["cards"] == []

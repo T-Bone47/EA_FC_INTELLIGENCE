@@ -284,17 +284,27 @@ class TestSourceConflicts:
         assert res.winner.value == 91     # recency does not beat authority
 
     def test_equal_authority_conflict_recorded_deterministically(self):
+        # UPDATED for v3 (FC26_CONFLICT_RESOLUTION_SPEC.md S1, IMPLEMENTATION_BASELINE.md
+        # defect V2-defect "conflict resolver could never emit UNRESOLVED"): this test
+        # previously asserted the resolver picks src_a deterministically by alphabetical
+        # source_id whenever two equal-tier sources disagree. That was the defect, not a
+        # feature -- a genuine equal-authority, equal-recency, material disagreement is a
+        # deadlock, and settling it alphabetically while reporting "src_a beats src_b" is
+        # exactly the kind of manufactured confidence the project's own rules forbid
+        # ("no UNKNOWN -> inferred value"). The behaviour is still fully deterministic
+        # (the same inputs always produce UNRESOLVED, and the conflict is still logged in
+        # full, both claims retained) -- only the specific alphabetical pick is removed.
         a = _source("src_a", 3)
         b = _source("src_b", 3)
         r = ConflictResolver([a, b])
         res = r.resolve("ut_card", "card-2", "price_coins",
                         [Claim_(a, 10000, NOW), Claim_(b, 12000, NOW)],
                         game_version="FC26")
-        assert res.conflict is not None
-        assert res.winner is not None            # deterministic pick
-        assert res.winner.source.source_id == "src_a"   # tie-break: source_id
-        # confidence-relevant: the conflict is logged, not swallowed
-        assert "beats" in res.conflict.resolution_note
+        assert res.conflict is not None                          # still logged, never swallowed
+        assert res.conflict.resolution == "UNRESOLVED"
+        assert res.winner is None                                 # value is UNKNOWN, not a guess
+        assert res.conflict.value_a == 10000 and res.conflict.value_b == 12000  # both claims retained
+        assert "UNKNOWN" in res.conflict.resolution_note or "tie" in res.conflict.resolution_note.lower()
 
     def test_field_authority_beats_tier(self):
         market = _source("market_feed", 3, fields=("price_coins",))

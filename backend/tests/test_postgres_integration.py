@@ -172,7 +172,8 @@ def test_card_page_flags_synthetic_cards():
     assert row is not None
     from backend.repositories.player_repository import PlayerRepository
     gvid = PlayerRepository().game_version_id("FC26")
-    page = PlayerRepository().card_page(gvid, row["id"])
+    assert PlayerRepository().card_page(gvid, row["id"]) is None
+    page = PlayerRepository().card_page(gvid, row["id"], include_synthetic=True)
     assert page is not None and page["card"]["is_synthetic"] is True
     # a FC27-scoped lookup of the same card finds nothing (version isolation)
     gvid27 = PlayerRepository().game_version_id("FC27")

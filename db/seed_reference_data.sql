@@ -46,14 +46,14 @@ VALUES
    'Canonical authority for the fields EA publishes. Bulk table data is not exposed to a standard page fetch (JS-rendered / undocumented endpoints) so direct bulk ingestion is NOT performed. Accessed only for field-level schema confirmation.'),
 
   ('kaggle_justdhia_ea_fc26_player_ratings', 'EA Sports FC 26 Player Ratings (Kaggle carrier)', 'CARRIER_DATASET', 3,
-   'https://www.kaggle.com/datasets/justdhia/ea-sports-fc-26-player-ratings', 'CC0 1.0 Public Domain',
-   'LICENSED', 'CLEARED', 'project-owner-license-review', TIMESTAMPTZ '2026-09-14 00:00:00+00',
+   'https://www.kaggle.com/datasets/justdhia/ea-sports-fc-26-player-ratings', 'Unverified licence chain (FC26_DATA_GAPS.md G-10)',
+   'UNKNOWN', 'CLEARED', 'local packaged snapshot processing only', NULL,
    ARRAY['overall_rating','pace','shooting','passing','dribbling','defending','physicality',
          'position_primary','position_secondary','nation','club','league','date_of_birth',
          'height_cm','weight_kg','preferred_foot','weak_foot_stars','skill_moves_stars',
          'gk_diving','gk_handling','gk_kicking','gk_positioning','gk_reflexes',
          'playstyles','playstyles_plus','detailed_attributes'],
-   'CC0-licensed carrier of values scraped from the official EA ratings page (men''s universe, scraped March 2026). CC0 permits commercial use and redistribution. 16,228 players; forensics in docs/DATASET_FORENSICS_FC26.md. Authority is derived from EA; conflicts defer to ea_official_ratings.'),
+   'Packaged FC26 fixture for local validation only. The claimed CC0 chain is unverified. No production serving, commercial use, or redistribution approval is recorded. See docs/FC26_DATA_GAPS.md G-10.'),
 
   ('synthetic_fixtures', 'Synthetic test fixtures (project-generated)', 'SYNTHETIC_FIXTURE', 5,
    NULL, 'project-internal', 'SYNTHETIC_TEST', 'NOT_REQUIRED', NULL, NULL, ARRAY[]::TEXT[],
@@ -63,7 +63,7 @@ VALUES
    'PUBLIC_REFERENCE', 'REQUIRED', NULL, NULL, ARRAY[]::TEXT[],
    'Not ingested. Reference-only for card-structure/schema discovery. No scraping performed.'),
 
-  ('futgg', 'FUT.GG', 'COMMUNITY_DB', 4, 'https://www.fut.gg', 'proprietary', 'UNKNOWN', 'REQUIRED',
+  ('futgg', 'FUT.GG', 'COMMUNITY_DB', 4, 'https://www.fut.gg', 'proprietary', 'NOT_PERMITTED', 'REQUIRED',
    NULL, NULL, ARRAY[]::TEXT[], 'Not ingested. No access attempted.'),
 
   ('futwiz', 'FUTWIZ', 'COMMUNITY_DB', 4, 'https://www.futwiz.com', 'proprietary', 'UNKNOWN',
@@ -79,7 +79,11 @@ ON CONFLICT (source_id) DO UPDATE
   SET name = EXCLUDED.name, source_type = EXCLUDED.source_type,
       authority_tier = EXCLUDED.authority_tier, url = EXCLUDED.url,
       license = EXCLUDED.license, usage_status = EXCLUDED.usage_status,
-      legal_gate = EXCLUDED.legal_gate, canonical_fields = EXCLUDED.canonical_fields,
+      legal_gate = EXCLUDED.legal_gate,
+      cleared_by = CASE WHEN source_registry.source_id = 'kaggle_justdhia_ea_fc26_player_ratings'
+                        THEN EXCLUDED.cleared_by ELSE source_registry.cleared_by END,
+      cleared_at = CASE WHEN source_registry.source_id = 'kaggle_justdhia_ea_fc26_player_ratings'
+                        THEN EXCLUDED.cleared_at ELSE source_registry.cleared_at END, canonical_fields = EXCLUDED.canonical_fields,
       notes = EXCLUDED.notes;
 
 -- FC26 card rarities (reference table; card-level data still NOT ingested) -------
@@ -97,7 +101,7 @@ ON CONFLICT (game_version_id, rarity_code) DO NOTHING;
 -- (max observed plus-per-player across all 119 PlayStyle+ holders is exactly 1).
 INSERT INTO playstyle_plus_cap (game_version_id, scope, max_plus, evidence_note)
 SELECT id, 'player_base', 1,
-       'Observed maximum PlayStyle+ count per player = 1 across all 119 holders in the CC0 FC26 foundation (docs/DATASET_FORENSICS_FC26.md). Card-scope cap for promo cards is UNKNOWN and intentionally not seeded.'
+       'Observed maximum PlayStyle+ count per player = 1 across all 119 holders in the unverified FC26 foundation (docs/DATASET_FORENSICS_FC26.md). Card-scope cap for promo cards is UNKNOWN and intentionally not seeded.'
 FROM game_version WHERE code = 'FC26'
 ON CONFLICT (game_version_id, scope) DO UPDATE SET max_plus = EXCLUDED.max_plus,
        evidence_note = EXCLUDED.evidence_note;

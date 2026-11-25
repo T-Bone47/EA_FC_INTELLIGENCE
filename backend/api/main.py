@@ -14,6 +14,7 @@ import logging
 import uuid as uuid_lib
 from pathlib import Path
 
+from starlette.middleware.gzip import GZipMiddleware
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -86,12 +87,16 @@ def create_app() -> FastAPI:
 
     # ------------------------------------------------------------ routes
     from backend.api.routes import (
-        auth, cards, compare, feedback, health, meta, players,
-        recommendations, squads,
+        auth, cards, compare, feedback, health, meta, players, research_cards,
+        recommendations, squads, card_squad_lab, performance_lab, video_research,
+        phase40_coach, phase41_decisions,
     )
     for module in (health, meta, auth, players, cards, recommendations,
-                   compare, squads, feedback):
+                 compare, squads, feedback, research_cards, card_squad_lab, performance_lab,
+                 video_research, phase40_coach, phase41_decisions):
         app.include_router(module.router)
+
+    from backend.services.data_license_gate import Environment, environment_from_settings
 
     @app.get("/api")
     def api_root() -> dict:
@@ -100,12 +105,21 @@ def create_app() -> FastAPI:
             "version": "2.0.0",
             "docs": "/api/docs",
             "canonical_endpoints": [
-                "POST /api/recommendations",
-                "POST /api/recommendations/parse-intent",
-                "POST /api/compare",
+                *(["POST /api/recommendations", "POST /api/compare",
+                    "POST /api/recommendations/parse-intent"]
+                   if environment_from_settings(settings.environment) == Environment.LOCAL else []),
+                "POST /api/v3/recommendations",
+                "POST /api/v3/compare",
+                "POST /api/v3/what-if",
+                "GET  /api/v3/options",
+                "POST /api/v3/parse-intent",
                 "GET  /api/players",
                 "GET  /api/players/{id}",
                 "GET  /api/cards/{id}",
+                "POST /api/cards/compare",
+                "POST /api/cards/recommendations",
+                "GET  /api/squads/{id}/tactical-analysis",
+                "GET  /api/squads/{id}/tactical-replacements/{slot_index}",
                 "GET  /api/meta/reference",
                 "POST /api/auth/signup | /api/auth/login",
                 "CRUD /api/squads",
@@ -125,10 +139,13 @@ def create_app() -> FastAPI:
         def spa(full_path: str):
             if full_path.startswith("api/"):
                 return JSONResponse(status_code=404, content={"detail": "Not found."})
-            candidate = Path(dist) / full_path
+            candidate = (Path(dist) / full_path).resolve()
+            if not candidate.is_relative_to(Path(dist).resolve()):
+                return JSONResponse(status_code=404, content={"detail": "Not found."})
             if full_path and candidate.is_file():
                 return FileResponse(candidate)
             return FileResponse(Path(dist) / "index.html")
+    app.add_middleware(GZipMiddleware, minimum_size=1024)  # 786 KB -> ~142 KB on a v3 recommendation
     return app
 
 

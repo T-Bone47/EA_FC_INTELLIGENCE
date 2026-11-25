@@ -374,6 +374,28 @@ def find_slot(formation: Optional[str], slot_name: Optional[str]) -> Optional[Fo
     return None
 
 
+def require_formation_slot(formation: str | None, slot: str | None, position: str) -> FormationSlot | None:
+    """Validate an explicitly selected assignment without inferring an ambiguous slot."""
+    if formation is None and slot is None:
+        return None
+    assignment = find_slot(formation, slot)
+    if assignment is None:
+        raise ValueError("Select a supported formation and a slot from that formation.")
+    if assignment.position != position:
+        raise ValueError(f"Slot {assignment.slot} requires position {assignment.position}.")
+    return assignment
+
+
+def validate_tactical_combination(primary: str, secondary: str | None) -> None:
+    if secondary is None:
+        return
+    pair = {primary, secondary}
+    if ("LOW_BLOCK" in pair and pair.intersection({"HIGH_PRESS", "PRESSING"})) or pair == {
+        "FAST_BUILD_UP", "SLOW_BUILD_UP"
+    }:
+        raise ValueError(f"{primary} and {secondary} are conflicting tactical instructions.")
+
+
 def slot_for_position(formation: Optional[str], position: str) -> Optional[FormationSlot]:
     """First slot matching a base position (deterministic: declaration order)."""
     if not formation or not position:

@@ -17,7 +17,7 @@ RUN pip install -r backend/requirements.txt gunicorn
 COPY backend/ backend/
 COPY scripts/ scripts/
 COPY db/ db/
-COPY data/ data/
+# Approved release distributions are mounted separately at /app/data.
 COPY --from=frontend /fe/dist /app/frontend/dist
 USER eafc
 EXPOSE 8000

@@ -40,11 +40,57 @@ class TokenResponse(BaseModel):
     user: dict
 
 
+class StatedFootballStyle(BaseModel):
+    """Explicit user preferences. These values carry no gameplay-skill inference."""
+    model_config = ConfigDict(extra="forbid")
+    position: Literal["GK", "CB", "LB", "RB", "CDM", "CM", "CAM", "LM", "RM", "LW", "RW", "ST"] | None = None
+    tactical_profile: Literal["BALANCED", "POSSESSION", "HIGH_PRESS", "LOW_BLOCK",
+                              "COUNTER_ATTACK", "DIRECT_PLAY"] | None = None
+
+
+class StatedSquadPreferences(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    formation: str | None = Field(default=None, max_length=12)
+    preferred_slot: str | None = Field(default=None, max_length=8)
+    playstyle_plus: str | None = Field(default=None, max_length=60)
+    continuity: bool = True
+    upgrade: Literal["one","two","minimum"] | None = None
+
+    @field_validator("formation")
+    @classmethod
+    def known_formation(cls, value):
+        from backend.services.formations import slots_for
+        if value and not slots_for(value):
+            raise ValueError("Choose a supported formation.")
+        return value
+
+    @field_validator("preferred_slot")
+    @classmethod
+    def known_slot(cls, value, info):
+        from backend.services.formations import find_slot
+        if value and not find_slot(info.data.get("formation"), value):
+            raise ValueError("Choose a slot in your preferred formation.")
+        return value
+
+
 class ProfileUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
     display_name: Optional[str] = Field(default=None, max_length=80)
     preferred_game_version: Optional[str] = Field(default=None, max_length=10)
     preferences: Optional[dict[str, Any]] = None
+
+
+    @field_validator("preferences")
+    @classmethod
+    def validate_stated_football_style(cls, preferences):
+        if preferences and preferences.get("card_squad") is not None:
+            preferences = {**preferences, "card_squad": StatedSquadPreferences.model_validate(preferences["card_squad"]).model_dump()}
+        if preferences is None or "football_style" not in preferences:
+            return preferences
+        style = preferences["football_style"]
+        if style is None:
+            return preferences
+        return {**preferences, "football_style": StatedFootballStyle.model_validate(style).model_dump()}
 
 
 # ------------------------------------------------------------------ recommendations
@@ -248,6 +294,7 @@ class FeedbackIn(BaseModel):
     game_version: str = Field(default="FC26", max_length=10)
     reason: Optional[str] = Field(default=None, max_length=500)
     request_context: dict[str, Any] = Field(default_factory=dict)
+    receipt: str | None = Field(default=None, max_length=10000)
 
 
 # ------------------------------------------------------------------ saved

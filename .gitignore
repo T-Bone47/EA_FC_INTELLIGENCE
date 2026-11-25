@@ -6,16 +6,24 @@ __pycache__/
 .ruff_cache/
 .coverage
 htmlcov/
+.venv/
+venv/
+env/
 
 # Node
 node_modules/
 frontend/dist/
 frontend/.vite/
+playwright-report/
+test-results/
+qa-results/
 
-# Environment / secrets
+# Environment / secrets (never commit real API keys or local secrets)
 .env
 .env.*
 !.env.example
+*.pem
+*.key
 
 # OS / editors
 .DS_Store
@@ -23,9 +31,29 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Runtime
+# Runtime, scratch & logs
 *.log
+.phase27-runtime/
+.arena/
+.playwright/
+.superpowers/
 
-# Local databases
+# Local databases & dumps
 *.sqlite
 *.sqlite3
+*.dump
+*.sql.gz
+
+# Non-redistributable research snapshots & uploaded/test video files
+data/fc27_research/raw/
+data/video_research/
+*.mp4
+*.mov
+*.mkv
+*.avi
+
+# Large local model weights (reproduce via backend/cv_training)
+backend/models/*.onnx
+backend/models/*.pt
+backend/models/*.pth
+backend/models/runs/

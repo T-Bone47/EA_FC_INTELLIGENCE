@@ -15,7 +15,7 @@ from datetime import date, datetime, timezone
 from typing import Optional
 
 from backend.core.db import get_conn
-from backend.domain.card_model import ALL_ATTRS, GamePlayer, UTCard
+from backend.domain.card_model import ALL_ATTRS, DataStatus, GamePlayer, UTCard
 from backend.ingestion.normalizer import normalize_name
 
 _STG_COLS = ("id,real_player_id,source_player_id,first_name,last_name,common_name,"
@@ -38,6 +38,7 @@ class PostgresCanonicalRepository:
         self.game_version = game_version.upper()
         self._players: list[GamePlayer] = []
         self._cards: list[tuple[UTCard, dict]] = []
+        self.last_observation_id: Optional[uuid.UUID] = None
 
     # ------------------------------------------------------------------ buffering
     def upsert_game_player(self, gp: GamePlayer, playstyles_base: list[str],
@@ -55,11 +56,18 @@ class PostgresCanonicalRepository:
         self._cards.append((card, version_payload))
 
     # ------------------------------------------------------------------ flush
-    def flush(self, observation_note: Optional[str] = None) -> dict:
+    def flush(self, observation_note: Optional[str] = None,
+              observation_meta: Optional[dict] = None,
+              *, bind_fc27_research: bool = False) -> dict:
+        """observation_meta (optional) is merged into the snapshot
+        observation's raw_payload; its 'snapshot_date' (ISO date), when
+        given, is recorded instead of today's date."""
         with get_conn() as conn:
             with conn.transaction():
                 gv_id = self._game_version_id(conn)
-                obs_id = self._record_observation(conn, gv_id, observation_note)
+                obs_id = self._record_observation(conn, gv_id, observation_note,
+                                                  observation_meta)
+                self.last_observation_id = obs_id
                 counts = {"players": 0, "attributes": 0, "secondary": 0,
                           "playstyles": 0, "clubs": 0, "affiliations": 0,
                           "cards": 0, "card_versions": 0, "prices": 0}
@@ -67,12 +75,31 @@ class PostgresCanonicalRepository:
                     self._flush_players(conn, gv_id, counts)
                 if self._cards:
                     self._flush_cards(conn, gv_id, obs_id, counts)
+                if bind_fc27_research:
+                    self._bind_fc27_snapshot(conn, gv_id, obs_id, observation_meta)
         n_players, n_cards = len(self._players), len(self._cards)
         self._players.clear()
         self._cards.clear()
         counts["players"] = n_players
         counts["cards"] = n_cards
         return counts
+
+    def _bind_fc27_snapshot(self, conn, version_id, observation_id, metadata) -> None:
+        from backend.ingestion import fc27_research_profile as profile
+
+        digest = (metadata or {}).get("raw_files", {}).get("raw/extracted/players.csv", {}).get("sha256")
+        if (self.game_version != profile.GAME_VERSION or self.source_id != profile.SOURCE_ID or
+                digest != profile.PLAYERS_CSV_SHA256 or len(self._players) != profile.EXPECTED_ROW_COUNT or
+                any(p.data_status != DataStatus.RESEARCH_ONLY for p in self._players)):
+            raise ValueError("Research membership requires the complete audited FC27 player snapshot")
+        conn.execute(
+            """
+            INSERT INTO catalogue_release_member
+                (entity_scope, entity_id, dataset_version, game_version_id, source_id, source_observation_id)
+            SELECT 'game_player', id, %s, %s, %s, %s FROM _stg_gp
+            """,
+            (profile.REFERENCE_DISTRIBUTION_VERSION, version_id, self.source_id, observation_id),
+        )
 
     # ------------------------------------------------------------------ internals
     def _game_version_id(self, conn) -> uuid.UUID:
@@ -83,16 +110,18 @@ class PostgresCanonicalRepository:
                               "ingest refuses to run for unknown versions")
         return row["id"]
 
-    def _record_observation(self, conn, gv_id, note) -> uuid.UUID:
+    def _record_observation(self, conn, gv_id, note, meta: Optional[dict] = None) -> uuid.UUID:
+        meta = dict(meta or {})
+        snapshot = _d(meta.get("snapshot_date")) or datetime.now(timezone.utc).date()
+        payload = {"players": len(self._players), "cards": len(self._cards),
+                   "note": note or "pipeline flush", **meta}
         row = conn.execute(
             """INSERT INTO source_observation
                  (source_id, game_version_id, entity_type, entity_source_id,
                   snapshot_date, raw_payload, retrieval_context)
                VALUES (%s,%s,'snapshot',%s,%s,%s,'ingestion-pipeline') RETURNING id""",
             (self.source_id, gv_id, f"{self.source_id}:{self.game_version}",
-             datetime.now(timezone.utc).date(),
-             json.dumps({"players": len(self._players), "cards": len(self._cards),
-                         "note": note or "pipeline flush"})),
+             snapshot, json.dumps(payload, default=str)),
         ).fetchone()
         return row["id"]
 
@@ -200,15 +229,21 @@ class PostgresCanonicalRepository:
             LANGUAGE sql IMMUTABLE AS $$
               SELECT lower(regexp_replace(coalesce($1,''), '[^A-Za-z0-9 ]', '', 'g'))
             $$""")
+        # A definition first observed in a RESEARCH_ONLY batch is research-only
+        # vocabulary (fail closed: any research row in the batch marks it).
+        defn_status = ("RESEARCH_ONLY"
+                       if any(gp.data_status.value == "RESEARCH_ONLY" for gp in self._players)
+                       else "CANONICAL")
         conn.execute("""
             INSERT INTO playstyle_definition (game_version_id, playstyle_name,
                                               normalized_name, data_status)
-            SELECT DISTINCT %(gv)s, trim(t.ps), normalize_ps(trim(t.ps)), 'CANONICAL'
+            SELECT DISTINCT %(gv)s, trim(t.ps), normalize_ps(trim(t.ps)), %(st)s
             FROM _stg_gp s
             CROSS JOIN LATERAL unnest(string_to_array(
                 s.playstyles_base || ';' || s.playstyles_plus, ';')) AS t(ps)
             WHERE trim(t.ps) <> ''
-            ON CONFLICT (game_version_id, normalized_name) DO NOTHING""", {"gv": gv_id})
+            ON CONFLICT (game_version_id, normalized_name) DO NOTHING""",
+            {"gv": gv_id, "st": defn_status})
         conn.execute("""
             INSERT INTO game_player_playstyle (game_player_id, playstyle_definition_id, tier)
             SELECT s.id, d.id,

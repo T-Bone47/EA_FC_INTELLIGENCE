@@ -152,7 +152,7 @@ def value_rank(pool: list[Candidate], utilities: dict[uuid.UUID, float],
 def price_history(ut_card_id: uuid.UUID, limit: int = 100) -> dict:
     """§48: only observations that exist. Never interpolated, never
     back-filled. Empty history is reported honestly."""
-    from backend.core.db import query
+    from backend.core.db import catalogue_query as query
     rows = query(
         """SELECT cp.price_coins, cp.platform, cp.observed_at, cp.confidence,
                   cp.source_id, cp.currency, so.source_id AS observation_source,

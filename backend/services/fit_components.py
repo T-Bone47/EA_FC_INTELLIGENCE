@@ -273,7 +273,11 @@ def team_fit(candidate: Candidate, req: UserRequirements,
     for slot in squad_ctx.filled_slots():
         if candidate.club and slot.club and slot.club == candidate.club:
             links["club"] += 1
-        if candidate.league and slot.league and slot.league == slot.league:
+        # FIX (V2-defect V2-6, FC26_DATA_QUALITY_SPEC.md / IMPLEMENTATION_BASELINE.md):
+        # this compared slot.league to itself (`slot.league == slot.league`,
+        # always True), so every filled slot counted as a league match
+        # regardless of the candidate. League link counts were meaningless.
+        if candidate.league and slot.league and slot.league == candidate.league:
             links["league"] += 1
         if candidate.nation and slot.nation and slot.nation == candidate.nation:
             links["nation"] += 1

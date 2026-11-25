@@ -15,8 +15,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Callable, Optional, Protocol
 
-from backend.domain.card_model import GamePlayer, IdentityStatus, UTCard
-from backend.domain.evidence_model import SourceRecord
+from backend.domain.card_model import DataStatus, GamePlayer, IdentityStatus, UTCard
+from backend.domain.evidence_model import SourceRecord, UsageStatus
 from backend.ingestion.adapter import (
     BaseAdapter, DataSourceAdapter, RawPlayStyleRecord, SnapshotMetadata,
 )
@@ -103,6 +103,12 @@ class IngestionPipeline:
                                           "source_player_id": str(raw.source_player_id),
                                           "reason": str(e)})
                 continue
+
+            # Phase 22: data_status follows the source registry, never a
+            # caller flag. A RESEARCH_ONLY source can only produce
+            # RESEARCH_ONLY rows (DB trigger in migration 008 is the backstop).
+            if src.usage_status == UsageStatus.RESEARCH_ONLY:
+                gp.data_status = DataStatus.RESEARCH_ONLY
 
             ps = playstyles_by_player.get(str(raw.source_player_id), {"base": [], "plus": []})
             published = str(raw.source_player_id) in published_players

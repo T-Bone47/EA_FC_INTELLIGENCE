@@ -288,7 +288,7 @@ class RecommendationService:
                    WHERE sr.source_id IN (
                        SELECT DISTINCT gp.source_id FROM game_player gp
                        JOIN game_version g ON g.id = gp.game_version_id
-                       WHERE g.code = %s)""", (gv,))
+                       WHERE g.code = %s AND gp.data_status = 'CANONICAL')""", (gv,))
             meta["authority_tier"] = row["authority_tier"] if row else None
             row = query_one(
                 """SELECT count(*) AS n FROM attribute_conflict_log acl
@@ -314,7 +314,7 @@ class RecommendationService:
                    WHERE sr.source_id IN (
                        SELECT DISTINCT gp.source_id FROM game_player gp
                        JOIN game_version g ON g.id = gp.game_version_id
-                       WHERE g.code = %s)
+                       WHERE g.code = %s AND gp.data_status = 'CANONICAL')
                    ORDER BY sr.authority_tier""", (gv,))
             sources = [dict(r) for r in rows]
         except Exception:

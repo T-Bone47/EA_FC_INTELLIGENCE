@@ -10,12 +10,16 @@ import threading
 import time
 from dataclasses import dataclass, field
 from typing import Optional
+from urllib.parse import urlparse
 
 from fastapi import Depends, Header, HTTPException, Request, status
 
 from backend.api.security import decode_access_token
-from backend.core.config import get_settings
+from backend.core.config import Settings, get_settings
 from backend.repositories.user_repository import UserRepository
+from backend.services.data_license_gate import (
+    Environment, catalogue_releases, environment_from_settings,
+)
 
 _users = UserRepository()
 
@@ -149,3 +153,52 @@ def validate_game_version(code: str) -> str:
                     f"{s.supported_versions()}. Versions are never mixed or "
                     "silently defaulted."))
     return up
+
+def catalogue_environment() -> Environment:
+    return environment_from_settings(get_settings().environment)
+
+
+def is_production_like() -> bool:
+    return catalogue_environment() == Environment.PRODUCTION
+
+
+def can_read_catalogue(game_version: str, entity_scope: str) -> bool:
+    environment = catalogue_environment()
+    return environment == Environment.LOCAL or entity_scope in catalogue_releases(environment).get(game_version, {})
+
+
+def require_catalogue_release(game_version: str, entity_scope: str) -> None:
+    if not can_read_catalogue(game_version, entity_scope):
+        raise HTTPException(403, detail={
+            "error": "DATA_LICENSE_GATE_FAILED",
+            "detail": f"No verified {entity_scope} dataset is available for {game_version}.",
+        })
+
+
+def local_card_research_allowed(request: Request, settings: Settings) -> bool:
+    loopback = {"127.0.0.1", "::1", "localhost", "testclient"}
+    return (
+        settings.fc27_card_research_enabled
+        and environment_from_settings(settings.environment) == Environment.LOCAL
+        and urlparse(settings.database_url).hostname in loopback
+        and request.url.hostname in loopback
+        and request.client is not None and request.client.host in loopback
+        and not any(header == "forwarded" or header.startswith("x-forwarded-") for header in request.headers)
+    )
+
+
+def fc27_research_requested(game_version: str, opt_in: bool) -> bool:
+    if not opt_in:
+        return False
+    if game_version != "FC27":
+        raise HTTPException(422, "The research opt-in is available for FC27 players only.")
+    if catalogue_environment() != Environment.LOCAL:
+        raise HTTPException(403, detail={"error": "DATA_LICENSE_GATE_FAILED",
+                                         "detail": "FC27 research browsing requires an isolated local deployment."})
+    return True
+
+
+def require_legacy_research_environment() -> None:
+    """The frozen V2 services are restricted to isolated local and test deployments."""
+    if catalogue_environment() != Environment.LOCAL:
+        raise HTTPException(410, "Legacy intelligence is disabled here. Use the V3 player intelligence endpoints.")

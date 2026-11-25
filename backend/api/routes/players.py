@@ -13,7 +13,8 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from backend.api.deps import (
-    Pagination, current_user_optional, pagination_params, rate_limit_default,
+    Pagination, can_read_catalogue, fc27_research_requested, is_production_like, pagination_params, rate_limit_default,
+    require_catalogue_release,
     validate_game_version,
 )
 from backend.repositories.player_repository import PlayerRepository
@@ -45,6 +46,7 @@ def _gv_id(game_version: str) -> uuid.UUID:
 @router.get("/players")
 def search_players(
     game_version: str = Query("FC26"),
+    include_research_data: bool = Query(False),
     q: Optional[str] = Query(default=None, max_length=80),
     position: Optional[str] = Query(default=None, max_length=5),
     club: Optional[str] = Query(default=None, max_length=80),
@@ -58,25 +60,34 @@ def search_players(
     pagination: Pagination = Depends(pagination_params),
 ) -> dict:
     gv = validate_game_version(game_version)
+    require_catalogue_release(gv, "game_player")
+    research = fc27_research_requested(gv, include_research_data)
     result = repo.search(
         _gv_id(gv), q=q, position=position.upper() if position else None,
         club=club, nation=nation, league=league,
         ovr_min=ovr_min, ovr_max=ovr_max, playstyle=playstyle,
         sort=sort, sort_dir=sort_dir,
-        page=pagination.page, page_size=pagination.page_size)
-    return {"game_version": gv, **_json_safe(result)}
+        page=pagination.page, page_size=pagination.page_size, research=research)
+    return {"game_version": gv, "research_only": research, **_json_safe(result)}
 
 
 @router.get("/players/facets")
-def facets(game_version: str = Query("FC26")) -> dict:
+def facets(game_version: str = Query("FC26"), include_research_data: bool = Query(False)) -> dict:
     gv = validate_game_version(game_version)
-    return {"game_version": gv, **_json_safe(repo.facets(_gv_id(gv)))}
+    require_catalogue_release(gv, "game_player")
+    research = fc27_research_requested(gv, include_research_data)
+    return {"game_version": gv, **_json_safe(repo.facets(_gv_id(gv), research=research))}
 
 
 @router.get("/players/{player_id}")
-def player_page(player_id: uuid.UUID, game_version: str = Query("FC26")) -> dict:
+def player_page(player_id: uuid.UUID, game_version: str = Query("FC26"),
+                include_research_data: bool = Query(False)) -> dict:
     gv = validate_game_version(game_version)
-    page = repo.player_page(_gv_id(gv), player_id)
+    require_catalogue_release(gv, "game_player")
+    research = fc27_research_requested(gv, include_research_data)
+    page = repo.player_page(_gv_id(gv), player_id, research=research,
+                            include_cards=not research and can_read_catalogue(gv, "ut_card"),
+                            include_other_versions=not research and not is_production_like())
     if page is None:
         raise HTTPException(404, "Player not found in this game version's "
                                  "canonical data (or excluded by the synthetic "
@@ -87,13 +98,8 @@ def player_page(player_id: uuid.UUID, game_version: str = Query("FC26")) -> dict
 @router.get("/cards/{card_id}")
 def card_page(card_id: uuid.UUID, game_version: str = Query("FC26")) -> dict:
     gv = validate_game_version(game_version)
-    page = repo.card_page(_gv_id(gv), card_id)
+    require_catalogue_release(gv, "ut_card")
+    page = repo.card_page(_gv_id(gv), card_id, include_player=can_read_catalogue(gv, "game_player"))
     if page is None:
         raise HTTPException(404, "Card not found in this game version.")
-    card = page["card"]
-    # synthetic cards are visible ONLY with an explicit debug flag and are
-    # loudly labelled; default production surface hides them entirely.
-    if card.get("is_synthetic"):
-        raise HTTPException(404, "Card not found (synthetic test data is not "
-                                 "exposed through production endpoints).")
     return _json_safe(page)

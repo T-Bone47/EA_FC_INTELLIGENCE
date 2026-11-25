@@ -175,9 +175,23 @@ class Normalizer:
                 self.game_version.value, f"sp:{str(player_ref).strip()}",
                 card_type, (rarity_raw or "").lower() or None,
                 (raw.position_raw or "").upper(), release_group)
-            identity_status = IdentityStatus.RESOLVED
-            identity_rule = ("canonical_card_id = uuid5(version|source_player_ref|"
-                             "card_type|rarity|position|release_group)")
+            if canonical_id is not None:
+                identity_status = IdentityStatus.RESOLVED
+                identity_rule = ("canonical_card_id = uuid5(version|source_player_ref|"
+                                 "card_type|rarity|position|release_group)")
+            else:
+                # FIX: neither card_type nor rarity was published for this
+                # card. compute_canonical_id now returns None rather than
+                # silently assuming "BASE" (see card_model.py S4.1 docstring)
+                # -- asserting identity from absent evidence is exactly the
+                # collision risk the identity spec calls out. The observation
+                # is retained; no canonical card is created for it, so it
+                # cannot merge with an unrelated card that happens to share
+                # the same player/position/release_group.
+                identity_status = IdentityStatus.REVIEW_REQUIRED
+                identity_rule = ("canonical_card_id withheld: neither card_type nor "
+                                 "rarity was published, so a discriminator cannot be "
+                                 "asserted without guessing")
 
         card = UTCard(
             id=UTCard.deterministic_id(self.source_id, self.game_version.value,

@@ -7,11 +7,24 @@ import json
 import uuid
 from typing import Optional
 
-from backend.core.db import execute, get_conn, query, query_one
+from backend.core.db import catalogue_query, execute, get_catalogue_conn, get_conn, query, query_one
 from backend.domain.user_model import SquadContext, SquadSlot
 
 
 class SquadRepository:
+    def create_lineup_copy(self, user_id, name, game_version_id, plan):
+        with get_conn() as conn:
+            new_id = conn.execute("""INSERT INTO user_squad (user_profile_id, name, formation, game_version_id, tactics)
+                VALUES (%s,%s,%s,%s,%s) RETURNING id""",
+                (user_id, name, plan["formation"], game_version_id, json.dumps(plan["tactics"]))).fetchone()["id"]
+            with conn.cursor() as cursor:
+                cursor.executemany("""INSERT INTO user_squad_slot
+                    (user_profile_id,squad_id,formation,slot_index,slot_position,game_player_id)
+                    VALUES (%s,%s,%s,%s,%s,%s)""",
+                    [(user_id, new_id, plan["formation"], s["slot_index"], s["position"], s["player"]["entity_id"])
+                     for s in plan["slots"] if s["player"]])
+        return new_id
+
     # ------------------------------------------------------------------ squads
     def create_squad(self, user_id: uuid.UUID, name: str, formation: str,
                      game_version_id: uuid.UUID, tactics: Optional[dict] = None) -> dict:
@@ -25,12 +38,16 @@ class SquadRepository:
         return dict(row)  # type: ignore[arg-type]
 
     def list_squads(self, user_id: uuid.UUID) -> list[dict]:
-        rows = query(
+        rows = catalogue_query(
             """SELECT s.id, s.name, s.formation, gv.code AS game_version,
                       s.tactics, s.created_at, s.updated_at,
                       (SELECT count(*) FROM user_squad_slot sl
                         WHERE sl.squad_id = s.id AND
-                              (sl.game_player_id IS NOT NULL OR sl.ut_card_id IS NOT NULL)
+                            (EXISTS (SELECT 1 FROM game_player gp WHERE gp.id = sl.game_player_id
+                                AND gp.game_version_id = s.game_version_id AND gp.data_status = 'CANONICAL')
+                             OR EXISTS (SELECT 1 FROM ut_card uc WHERE uc.id = sl.ut_card_id
+                                AND uc.game_version_id = s.game_version_id AND uc.data_status = 'CANONICAL'
+                                AND NOT uc.is_synthetic))
                       ) AS filled_slots
                FROM user_squad s JOIN game_version gv ON gv.id = s.game_version_id
                WHERE s.user_profile_id = %s ORDER BY s.created_at""", (str(user_id),))
@@ -86,19 +103,26 @@ class SquadRepository:
             """DELETE FROM user_squad_slot WHERE squad_id=%s AND slot_index=%s
                AND user_profile_id=%s""", (str(squad_id), slot_index, str(user_id)))
 
-    def slots(self, squad_id: uuid.UUID, user_id: uuid.UUID) -> list[dict]:
-        rows = query(
+    def slots(self, squad_id: uuid.UUID, user_id: uuid.UUID, *, research: bool = False) -> list[dict]:
+        with get_catalogue_conn(local_fc27_research=research) as conn:
+            rows = conn.execute(
             """SELECT sl.id, sl.slot_index, sl.slot_position, sl.game_player_id,
                       sl.ut_card_id, gp.display_name AS player_name,
                       gp.overall_rating, gp.position_primary, gp.nation,
                       c.name AS club, c.league_name AS league
                FROM user_squad_slot sl
+               JOIN user_squad s ON s.id = sl.squad_id
                LEFT JOIN game_player gp ON gp.id = sl.game_player_id
+                 AND gp.game_version_id = s.game_version_id AND gp.data_status = %s
+               LEFT JOIN ut_card uc ON uc.id = sl.ut_card_id
+                 AND uc.game_version_id = s.game_version_id AND uc.data_status = 'CANONICAL' AND NOT uc.is_synthetic
                LEFT JOIN club_affiliation ca ON ca.game_player_id = gp.id
                  AND ca.game_version_id = gp.game_version_id
                LEFT JOIN club c ON c.id = ca.club_id
                WHERE sl.squad_id=%s AND sl.user_profile_id=%s
-               ORDER BY sl.slot_index""", (str(squad_id), str(user_id)))
+                 AND (sl.game_player_id IS NULL OR gp.id IS NOT NULL)
+                 AND (sl.ut_card_id IS NULL OR uc.id IS NOT NULL)
+               ORDER BY sl.slot_index""", ("RESEARCH_ONLY" if research else "CANONICAL", str(squad_id), str(user_id))).fetchall()
         return [dict(r) for r in rows]
 
     # ------------------------------------------------------------------ context
@@ -137,15 +161,19 @@ class SquadRepository:
 
     def saved_players(self, user_id: uuid.UUID,
                       game_version: Optional[str] = None) -> list[dict]:
-        rows = query(
+        rows = catalogue_query(
             """SELECT sp.id, sp.entity_type, sp.entity_id, sp.note, sp.created_at,
                       gv.code AS game_version,
                       gp.display_name, gp.overall_rating, gp.position_primary,
                       gp.nation
                FROM user_saved_player sp
                JOIN game_version gv ON gv.id = sp.game_version_id
-               LEFT JOIN game_player gp ON gp.id = sp.entity_id
+               LEFT JOIN game_player gp ON gp.id = sp.entity_id AND sp.entity_type = 'game_player'
+                 AND gp.game_version_id = sp.game_version_id AND gp.data_status = 'CANONICAL'
+               LEFT JOIN ut_card uc ON uc.id = sp.entity_id AND sp.entity_type = 'ut_card'
+                 AND uc.game_version_id = sp.game_version_id AND uc.data_status = 'CANONICAL' AND NOT uc.is_synthetic
                WHERE sp.user_profile_id = %s
+                 AND (gp.id IS NOT NULL OR uc.id IS NOT NULL)
                  AND (%s::text IS NULL OR gv.code = %s)
                ORDER BY sp.created_at DESC""",
             (str(user_id), game_version, game_version))

@@ -13,7 +13,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from backend.core.config import get_settings  # noqa: E402
 from backend.core.db import close_pool, query  # noqa: E402
+from backend.services.data_license_gate import Environment, environment_from_settings, gate_or_raise  # noqa: E402
 from backend.domain.evidence_model import SourceRecord, UsageStatus  # noqa: E402
 from backend.ingestion.identity_resolver import IdentityIndex  # noqa: E402
 from backend.ingestion.local_file_adapter import LocalFileAdapter  # noqa: E402
@@ -55,6 +57,10 @@ def identity_index() -> IdentityIndex:
 
 
 def main() -> None:
+    environment = environment_from_settings(get_settings().environment)
+    gate_or_raise("fc26-players-2026-09-r1", environment=environment,
+                  game_version="FC26", entity_scope="game_player",
+                  allow_unverified=environment != Environment.PRODUCTION)
     src = source_record()
     adapter = LocalFileAdapter(
         src, "FC26",

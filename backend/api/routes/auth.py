@@ -8,7 +8,7 @@ Security properties:
 """
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Header, HTTPException, Request, status
+from fastapi import APIRouter, Depends, Header, HTTPException, Request, Response, status
 
 from backend.api.deps import CurrentUser, current_user_required, rate_limit_auth
 from backend.api.schemas import LoginRequest, ProfileUpdate, SignupRequest, TokenResponse
@@ -63,12 +63,12 @@ def login(body: LoginRequest, request: Request) -> TokenResponse:
               "display_name": row["display_name"], "role": row["role"]})
 
 
-@router.post("/logout", status_code=204)
+@router.post("/logout", status_code=204, response_model=None)
 def logout(user: CurrentUser = Depends(current_user_required)) -> None:
     users.revoke_session(user.jti)
 
 
-@router.post("/logout-all", status_code=204)
+@router.post("/logout-all", status_code=204, response_model=None)
 def logout_all(user: CurrentUser = Depends(current_user_required)) -> None:
     users.revoke_all_for_user(user.id)
 

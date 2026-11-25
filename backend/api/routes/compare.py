@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from backend.api.deps import rate_limit_default, validate_game_version
+from backend.api.deps import rate_limit_default, require_legacy_research_environment, validate_game_version
 from backend.api.schemas import CompareRequest
 from backend.services.comparison_service import ComparisonService
 
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api", tags=["compare"],
 _service = ComparisonService()
 
 
-@router.post("/compare")
+@router.post("/compare", dependencies=[Depends(require_legacy_research_environment)])
 def compare(body: CompareRequest) -> dict:
     gv = validate_game_version(body.game_version)
     req = None

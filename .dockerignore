@@ -1,0 +1,10 @@
+data/
+.phase27-runtime/
+**/node_modules/
+**/__pycache__/
+frontend/dist/
+artifacts/
+reports/
+.git/
+.env
+**/.env

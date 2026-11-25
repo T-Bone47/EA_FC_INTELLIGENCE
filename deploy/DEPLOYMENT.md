@@ -1,7 +1,8 @@
 # Deployment Guide — EA FC Player Intelligence
 
 Target stack: Python 3.13, FastAPI + gunicorn/uvicorn, PostgreSQL 17, built React SPA
-served same-origin by the API. Everything below is reproducible from a clean machine.
+served same-origin by the API. This guide describes the deployment order. Phase 27 verifies PostgreSQL 16.16 locally.
+Production catalogue and ranking data require a verified release for each version and entity scope.
 
 ## 0. What gets deployed
 
@@ -9,7 +10,7 @@ served same-origin by the API. Everything below is reproducible from a clean mac
 |---|---|---|
 | API + SPA | `backend/` + `frontend/dist` | one uvicorn/gunicorn app; SPA mounted when `FRONTEND_DIST` is set |
 | Database | PostgreSQL 17 | schema from `db/DATABASE_SCHEMA_V1.sql` + `db/migrations/*.sql` + `db/seed_reference_data.sql` |
-| Data | `scripts/ingest_*.py` | idempotent; re-runnable on every deploy |
+| Data | Version-scoped releases | The shipped snapshots are for isolated local validation |
 
 No background workers, no cache server, no message queue — deliberately minimal.
 
@@ -44,21 +45,27 @@ set -a; . /opt/eafc/eafc.env; set +a
 python3 scripts/setup_database.py        # idempotent; applies schema + migrations + seed, tracks checksums
 ```
 
-`setup_database.py` records every file in `schema_migrations` with a checksum;
-re-running is a no-op unless a migration changed (changed checksums fail loudly
-instead of half-applying — inspect before forcing).
+Apply migration 010 before starting the API. Candidate reads use its
+generation table, and production readiness checks that the table is accessible.
+The setup command tracks checksums. It skips unchanged files, reapplies an
+updated reference seed, and refuses edits to applied schema migrations.
 
-## 4. Ingest production data (idempotent)
+## 4. Load local validation data
+
+In an isolated local test database, where the packaged fixtures are permitted
+for the validation workflow:
 
 ```bash
-python3 scripts/ingest_fc26_foundation.py    # 16,228 players from the CC0 Kaggle carrier dataset
-python3 scripts/ingest_real_identities.py    # 20 real-player identity links
-# synthetic fixture cards are TEST-ONLY; do NOT run ingest_synthetic_cards.py in production.
+ENVIRONMENT=test python3 scripts/ingest_fc26_foundation.py
+ENVIRONMENT=test python3 scripts/register_fc27_research_source.py
+ENVIRONMENT=test python3 scripts/ingest_fc27_research.py
 ```
 
-Every script is safe to re-run: upserts on natural keys, no duplicates, child rows
-re-pointed at canonical ids. Legal gate: sources with `legal_gate=REQUIRED` and no
-`cleared_by` are refused by the pipeline — this is intentional and must not be bypassed.
+The shipped FC26 release is UNVERIFIED and FC27 is RESEARCH_ONLY. Production-like
+builds refuse both. Production publication requires verified rights evidence
+and a deployment manifest that binds database rows and distribution files to the
+approved release. The Docker build excludes bundled research data and local QA files. Mount only
+approved distributions at `/app/data` after the release is authorized.
 
 ## 5. Build the frontend
 
@@ -87,7 +94,7 @@ Manual smoke after start:
 
 ```bash
 curl -fsS http://127.0.0.1:8000/api/health          # {"status":"ok",...}
-curl -fsS http://127.0.0.1:8000/api/health/ready    # real counts; 503 when DB is down
+curl -fsS http://127.0.0.1:8000/api/health/ready    # database and migration readiness; 503 when unavailable
 curl -fsS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8000/          # 200 (SPA)
 curl -s -X POST http://127.0.0.1:8000/api/recommendations \
   -H 'Content-Type: application/json' \

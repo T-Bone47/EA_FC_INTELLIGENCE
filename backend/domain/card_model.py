@@ -42,6 +42,11 @@ class DataStatus(str, Enum):
     PENDING_REVIEW = "PENDING_REVIEW"
     SYNTHETIC_TEST = "SYNTHETIC_TEST"
     REJECTED = "REJECTED"
+    # Real, provenance-tracked data whose source terms explicitly preclude
+    # production/commercial use. Excluded from every production read path
+    # by the same `data_status = 'CANONICAL'` filter that already excludes
+    # PENDING_REVIEW/SYNTHETIC_TEST. See db/migrations/007_research_only_status.sql.
+    RESEARCH_ONLY = "RESEARCH_ONLY"
 
 
 class IdentityStatus(str, Enum):
@@ -190,18 +195,34 @@ class UTCard:
     @staticmethod
     def compute_canonical_id(game_version: str, player_key: str,
                              card_type: Optional[str], rarity_code: Optional[str],
-                             position: str, release_group: Optional[str]) -> uuid.UUID:
-        """§4 canonical identity rule (documented in docs/CARD_IDENTITY.md).
+                             position: str, release_group: Optional[str]) -> Optional[uuid.UUID]:
+        """S4 canonical identity rule (FC26_IDENTITY_RESOLUTION_SPEC.md S4).
 
         Deliberately NOT name+OVR. Inputs are football facts that distinguish
         one release of a player's card from another:
-        version | player identity | card type (falling back to rarity, then
-        BASE) | position | release group (promo wave).
+        version | player identity | card type (falling back to rarity) |
+        position | release group (promo wave).
         Deterministic: the same card from two sources gets the same id, while
         a Gold base and a TOTW of the same player stay distinct. FC26 and FC27
         can never collide because game_version is part of the preimage.
+
+        Returns None when NEITHER card_type NOR rarity_code is known.
+
+        FIX (V2-defect, FC26_IDENTITY_RESOLUTION_SPEC.md S4.1): the previous
+        version fell back to the literal string "BASE" whenever both
+        discriminators were absent. Two genuinely different promo items for
+        the same player, position and release group, both arriving with
+        card_type=None and rarity_code=None, would silently collide into one
+        canonical card and have their conflicting attributes resolved against
+        each other as if they were the same item -- the worst failure mode
+        identity resolution can have, because it produces a confident, wrong
+        answer rather than an error. Identity may only be asserted from
+        present evidence; callers must treat None as REVIEW_REQUIRED and must
+        NOT invent a discriminator to force a result.
         """
-        kind = (card_type or rarity_code or "BASE").strip().upper()
+        kind = (card_type or rarity_code or "").strip().upper()
+        if not kind:
+            return None
         return uuid.uuid5(
             ID_NAMESPACE,
             "canonical_card|{v}|{p}|{k}|{pos}|{rg}".format(

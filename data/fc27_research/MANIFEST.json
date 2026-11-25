@@ -1,0 +1,32 @@
+{
+  "dataset": "FC27 base-player ratings snapshot (RESEARCH_ONLY)",
+  "game_version": "FC27",
+  "data_status": "RESEARCH_ONLY",
+  "dataset_release_id": "fc27-research-2026-09-12-r1",
+  "source": {
+    "source_id": "kaggle_fc27_player_ratings",
+    "title": "EA SPORTS FC™ 27 Player Ratings",
+    "owner": "MikeDPad",
+    "url": "https://www.kaggle.com/datasets/mikedpad/ea-sports-fc27-player-ratings",
+    "kaggle_version": 4,
+    "kaggle_last_updated": "2026-09-14T08:02:25.99Z",
+    "kaggle_total_bytes": 5037812,
+    "kaggle_licence_field": "Other (specified in description)",
+    "licence_text_quoted_from_readme": "This is an unofficial, non-commercial snapshot for analysis and education, and it includes no imagery.",
+    "upstream": "EA's public ratings API (per README); exported by the ea-fc-player-stats pipeline",
+    "snapshot_date": "2026-09-12",
+    "acquisition": "archive.zip supplied by the project owner (found at the owner's Downloads folder, file time 2026-09-23); copied unmodified into raw/ and hashed on 2026-09-29"
+  },
+  "raw_files": {
+    "raw/archive.zip": {"sha256": "fc1efc564629cbb43008225acd895fa825bb225155d58448be859cbdbdaede5b", "bytes": 1669966},
+    "raw/extracted/players.csv": {"sha256": "e2fe9d848fa21b04f0b76d851a94ad2d44b8a8c695bc202d4e0f1f5843db1264", "bytes": 5031708, "rows": 19789, "columns": 60},
+    "raw/extracted/README.md": {"sha256": "ad4b9459236b7b69736e0817a0a930b5a29504350975f0c0b4cc2603cbc4c0d4", "bytes": 6104}
+  },
+  "redistribution": "NOT redistributed. raw/ is excluded from version control (.gitignore); re-acquire from the Kaggle URL (version 4) and verify the hashes above.",
+  "policy_notes": [
+    "RESEARCH_ONLY: never CANONICAL, never VERIFIED, never served by production read paths.",
+    "GK rows: pace/shooting/passing/dribbling/defending/physicality columns carry GK face stats and are not mapped to canonical outfield facades.",
+    "height_cm and weight_kg are blank on every row (EA has not published them); stored as UNKNOWN.",
+    "Both divisions present: gender column carries EA's labels \"Men's Football\" / \"Women's Football\", stored verbatim."
+  ]
+}

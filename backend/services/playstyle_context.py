@@ -67,6 +67,10 @@ PLUS_DEMAND_WEIGHT = 1.5       # legacy semantics preserved
 BASE_TIER_ONLY_FACTOR = 0.6    # desired + but only base tier held
 
 
+def playstyle_key(label: str) -> str:
+    return " ".join(label.strip().removesuffix("+").casefold().split())
+
+
 def context_value(playstyle: str, profile: Optional[str], position: str) -> tuple[float, str]:
     """How valuable is this PlayStyle in THIS tactical/positional context."""
     is_gk = position == "GK"
@@ -78,10 +82,11 @@ def context_value(playstyle: str, profile: Optional[str], position: str) -> tupl
     else:
         valued = []
     
-    if profile and playstyle in valued:
+    key = playstyle_key(playstyle)
+    if profile and any(playstyle_key(label) == key for label in valued):
         return PROFILE_VALUE, f"explicitly valued by {profile.upper()} tactics"
     aff = POSITION_PLAYSTYLE_AFFINITY.get(position.upper(), ())
-    if playstyle in aff:
+    if any(playstyle_key(label) == key for label in aff):
         return POSITION_VALUE, f"generally useful at {position.upper()}"
     return NEUTRAL_VALUE, "context-neutral (not wrong, just not what this setup demands)"
 

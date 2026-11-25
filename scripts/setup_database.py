@@ -68,7 +68,9 @@ def apply_all(url: str) -> None:
                 print(f"  skip (applied): {f.name}")
                 continue
             if row and row[0] != checksum:
-                print(f"  re-apply (changed): {f.name}")
+                if f.name != "seed_reference_data.sql":
+                    raise RuntimeError(f"Applied SQL changed: {f.name}. Add a new migration.")
+                print(f"  refresh reference seed: {f.name}")
             print(f"  applying: {f.name}")
             conn.execute(sql)
             conn.execute(

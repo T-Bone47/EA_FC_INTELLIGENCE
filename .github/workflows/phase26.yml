@@ -1,0 +1,60 @@
+name: Phase 26 browser QA
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  intelligence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: eafc
+          POSTGRES_PASSWORD: ci_only
+          POSTGRES_DB: eafc_ci
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      DATABASE_URL: postgresql://eafc:ci_only@127.0.0.1:5432/eafc_ci
+      ENVIRONMENT: test
+      QA_OUT: qa-results/results.json
+      QA_SHOTS: qa-results
+      QA_CHROME: /usr/bin/google-chrome
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: node --test scripts/browser_qa/qa.test.mjs
+      - run: pip install -r backend/requirements.txt
+      - run: python scripts/setup_database.py
+      - run: python scripts/setup_database.py
+      - run: python scripts/ingest_fc26_foundation.py
+      - run: python scripts/register_fc27_research_source.py
+      - run: python scripts/ingest_fc27_research.py --artifacts-dir /tmp/eafc-research-validation
+      - run: python scripts/build_reference_distribution_v3.py --game-version FC26 --verify
+      - run: python scripts/build_reference_distribution_v3.py --game-version FC27 --verify
+      - run: python -m unittest backend.tests.test_phase26_policy backend.tests.test_phase26_contract backend.tests.test_phase27_api_policy
+      - run: python -m pytest -q backend/tests/test_phase26_database.py backend/tests/test_phase27_database.py backend/tests/test_phase28_release_membership.py backend/tests/test_phase28_formation.py backend/tests/test_fc27_evidence_and_product.py backend/tests/test_fc27_card_identity_research.py backend/tests/test_pipeline_release_integrity.py
+      - name: Check card squad assignment and Pareto invariants
+        run: python -m pytest -q backend/tests/test_phase30_card_lab.py -k "exhaustive or pareto or joint_release or every_lab_route"
+      - run: npm --prefix frontend ci
+      - run: npm --prefix frontend test
+      - run: npm --prefix frontend run build
+      - run: npm install --prefix scripts/browser_qa --no-save puppeteer-core@24 axe-core@4
+      - name: Run real browser against disposable API and PostgreSQL
+        run: |
+          python -m uvicorn backend.api.main:app --port 8011 > api.log 2>&1 &
+          node scripts/browser_qa/serve.mjs > web.log 2>&1 &
+          curl --retry 15 --retry-connrefused --retry-delay 2 --fail http://127.0.0.1:8011/api
+          node scripts/browser_qa/qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: |
+            qa-results
+            api.log
+            web.log

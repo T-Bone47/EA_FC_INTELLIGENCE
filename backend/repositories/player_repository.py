@@ -1,18 +1,21 @@
 """Production read-side repository: search, player pages, card pages.
 
-SYNTHETIC FIREWALL: every query here filters data_status <> 'SYNTHETIC_TEST'.
-Test fixture data is never visible through production read paths (§13).
-
-All reads are game_version-scoped — FC26 and FC27 records are never mixed.
+Catalogue record queries default to canonical rows and scope them by game
+version. The API applies release permission separately. Local diagnostics can
+count quarantined records or explicitly inspect synthetic fixtures.
 """
 from __future__ import annotations
 
 import uuid
+from contextlib import nullcontext
 from typing import Any, Optional
 
-from backend.core.db import get_conn
+from backend.core.db import get_catalogue_conn as get_conn
 
-PROD_FILTER = "gp.data_status <> 'SYNTHETIC_TEST'"
+# Allow-list, not deny-list: `<> 'SYNTHETIC_TEST'` (the pre-Phase-22 filter)
+# would have served RESEARCH_ONLY and PENDING_REVIEW rows.
+PROD_FILTER = "gp.data_status = 'CANONICAL'"
+CARD_FILTER = "uc.data_status = 'CANONICAL' AND uc.is_synthetic = FALSE"
 
 SORTABLE = {
     "overall_rating": "gp.overall_rating",
@@ -38,10 +41,11 @@ class PlayerRepository:
                sort: str = "overall_rating",
                sort_dir: str = "desc",
                page: int = 1,
-               page_size: int = 25) -> dict[str, Any]:
+               page_size: int = 25, *, research: bool = False) -> dict[str, Any]:
         page = max(1, page)
         page_size = max(1, min(100, page_size))
-        where = ["gp.game_version_id = %(gv)s", PROD_FILTER]
+        player_status = "gp.data_status = 'RESEARCH_ONLY'" if research else PROD_FILTER
+        where = ["gp.game_version_id = %(gv)s", player_status]
         params: dict[str, Any] = {"gv": game_version_id}
 
         if q:
@@ -76,6 +80,7 @@ class PlayerRepository:
             where.append("""EXISTS (SELECT 1 FROM game_player_playstyle gpp
                 JOIN playstyle_definition pd ON pd.id = gpp.playstyle_definition_id
                 WHERE gpp.game_player_id = gp.id
+                  AND pd.game_version_id = gp.game_version_id AND pd.data_status = gp.data_status
                   AND pd.normalized_name = lower(regexp_replace(%(ps)s, '[^A-Za-z0-9 ]','','g')))""")
             params["ps"] = playstyle
 
@@ -91,7 +96,7 @@ class PlayerRepository:
                      AND ca.game_version_id = gp.game_version_id
             LEFT JOIN club c ON c.id = ca.club_id"""
 
-        with get_conn() as conn:
+        with get_conn(local_fc27_research=research) as conn:
             total = conn.execute(
                 f"SELECT count(*) AS n {from_sql} WHERE {where_sql}",
                 params).fetchone()["n"]
@@ -103,14 +108,10 @@ class PlayerRepository:
                        gp.identity_status, gp.preferred_foot, gp.weak_foot_stars,
                        gp.skill_moves_stars, gp.date_of_birth, gp.height_cm, gp.weight_kg,
                        a.pace, a.shooting, a.passing, a.dribbling, a.defending, a.physicality,
-                       coalesce(array_agg(DISTINCT sp.position)
-                                FILTER (WHERE sp.position IS NOT NULL),
-                                '{{}}') AS secondary_positions
+                       ARRAY(SELECT DISTINCT sp.position FROM game_player_position_secondary sp
+                             WHERE sp.game_player_id = gp.id ORDER BY sp.position) AS secondary_positions
                 {from_sql}
-                LEFT JOIN game_player_position_secondary sp ON sp.game_player_id = gp.id
                 WHERE {where_sql}
-                GROUP BY gp.id, c.name, c.league_name, a.pace, a.shooting, a.passing,
-                         a.dribbling, a.defending, a.physicality
                 ORDER BY {sort_col} {direction} {nulls}, gp.display_name ASC
                 LIMIT %(limit)s OFFSET %(offset)s""",
                 {**params, "limit": page_size, "offset": (page - 1) * page_size}).fetchall()
@@ -119,9 +120,11 @@ class PlayerRepository:
 
     # ------------------------------------------------------------------ player page
     def player_page(self, game_version_id: uuid.UUID,
-                    player_id: uuid.UUID) -> Optional[dict]:
+                    player_id: uuid.UUID, *, include_cards: bool = True,
+                    include_other_versions: bool = True, research: bool = False) -> Optional[dict]:
         """Full RealPlayer -> GamePlayer -> UTCard aggregate with provenance."""
-        with get_conn() as conn:
+        player_status = "gp.data_status = 'RESEARCH_ONLY'" if research else PROD_FILTER
+        with get_conn(local_fc27_research=research) as conn:
             gp = conn.execute(f"""
                 SELECT gp.*, c.name AS club, c.league_name AS league,
                        rp.full_name AS real_player_name,
@@ -130,8 +133,8 @@ class PlayerRepository:
                 LEFT JOIN club_affiliation ca ON ca.game_player_id = gp.id
                          AND ca.game_version_id = gp.game_version_id
                 LEFT JOIN club c ON c.id = ca.club_id
-                LEFT JOIN real_player rp ON rp.id = gp.real_player_id
-                WHERE gp.id = %(id)s AND gp.game_version_id = %(gv)s AND {PROD_FILTER}""",
+                LEFT JOIN real_player rp ON rp.id = gp.real_player_id AND rp.data_status = 'CANONICAL'
+                WHERE gp.id = %(id)s AND gp.game_version_id = %(gv)s AND {player_status}""",
                 {"id": player_id, "gv": game_version_id}).fetchone()
             if gp is None:
                 return None
@@ -146,17 +149,19 @@ class PlayerRepository:
                 """SELECT pd.playstyle_name, gpp.tier
                    FROM game_player_playstyle gpp
                    JOIN playstyle_definition pd ON pd.id = gpp.playstyle_definition_id
-                   WHERE gpp.game_player_id=%s ORDER BY gpp.tier, pd.playstyle_name""",
-                (player_id,)).fetchall()
+                   WHERE gpp.game_player_id=%s AND pd.game_version_id=%s
+                     AND pd.data_status = %s
+                   ORDER BY gpp.tier, pd.playstyle_name""",
+                (player_id, game_version_id, gp["data_status"])).fetchall()
             cards = conn.execute(
-                """SELECT uc.id, uc.card_name, uc.position, uc.overall_rating,
+                f"""SELECT uc.id, uc.card_name, uc.position, uc.overall_rating,
                           uc.data_status, uc.source_card_id, cr.rarity_code,
                           uc.created_at
                    FROM ut_card uc
                    LEFT JOIN card_rarity cr ON cr.id = uc.rarity_id
-                   WHERE uc.game_player_id=%s AND uc.game_version_id=%s
+                   WHERE uc.game_player_id=%s AND uc.game_version_id=%s AND {CARD_FILTER}
                    ORDER BY uc.overall_rating DESC NULLS LAST, uc.card_name""",
-                (player_id, game_version_id)).fetchall()
+                (player_id, game_version_id)).fetchall() if include_cards else []
             versions = conn.execute(
                 """SELECT gv.code FROM game_version gv WHERE gv.id=%s""",
                 (game_version_id,)).fetchone()
@@ -173,11 +178,12 @@ class PlayerRepository:
                 (player_id, game_version_id)).fetchone()
             # sibling game versions of the same real player (never mixed, listed only)
             siblings = []
-            if gp.get("real_player_id"):
+            if include_other_versions and gp.get("real_player_id"):
                 siblings = conn.execute(
                     """SELECT g2.id, g2.display_name, gv2.code AS game_version
                        FROM game_player g2 JOIN game_version gv2 ON gv2.id = g2.game_version_id
-                       WHERE g2.real_player_id=%s AND g2.id <> %s""",
+                       WHERE g2.real_player_id=%s AND g2.id <> %s
+                         AND g2.data_status = 'CANONICAL'""",
                     (gp["real_player_id"], player_id)).fetchall()
 
         return {
@@ -195,12 +201,16 @@ class PlayerRepository:
         }
 
     # ------------------------------------------------------------------ card page
-    def card_page(self, game_version_id: uuid.UUID, card_id: uuid.UUID) -> Optional[dict]:
-        with get_conn() as conn:
+    def card_page(self, game_version_id: uuid.UUID, card_id: uuid.UUID, *,
+                  include_player: bool = True, include_synthetic: bool = False, connection=None) -> Optional[dict]:
+        visible = CARD_FILTER
+        if include_synthetic:
+            visible = f"({CARD_FILTER} OR (uc.data_status = 'SYNTHETIC_TEST' AND uc.is_synthetic))"
+        with (get_conn() if connection is None else nullcontext(connection)) as conn:
             card = conn.execute(
-                """SELECT uc.*, cr.rarity_code, cr.rarity_name
+                f"""SELECT uc.*, cr.rarity_code, cr.rarity_name
                    FROM ut_card uc LEFT JOIN card_rarity cr ON cr.id = uc.rarity_id
-                   WHERE uc.id=%s AND uc.game_version_id=%s""",
+                   WHERE uc.id=%s AND uc.game_version_id=%s AND {visible}""",
                 (card_id, game_version_id)).fetchone()
             if card is None:
                 return None
@@ -220,10 +230,14 @@ class PlayerRepository:
                    FROM card_price WHERE ut_card_id=%s
                    ORDER BY observed_at DESC LIMIT 1""", (card_id,)).fetchone()
             player = None
-            if card.get("game_player_id"):
+            if include_player and card.get("game_player_id"):
                 player = conn.execute(
-                    "SELECT id, display_name, position_primary, overall_rating "
-                    "FROM game_player WHERE id=%s", (card["game_player_id"],)).fetchone()
+                    f"""SELECT id, display_name, position_primary, overall_rating
+                        FROM game_player gp WHERE id=%s AND game_version_id=%s AND {PROD_FILTER}""",
+                    (card["game_player_id"], game_version_id)).fetchone()
+            card = dict(card)
+            if player is None:
+                card["game_player_id"] = None
         return {
             "card": dict(card),
             "attribute_overrides": {r["attribute_code"]: r["value"] for r in overrides},
@@ -232,6 +246,11 @@ class PlayerRepository:
             "price": dict(price) if price else None,   # None => UNKNOWN, never 0
             "game_player": dict(player) if player else None,
         }
+
+    def card_pair(self, game_version_id: uuid.UUID, ids: tuple[uuid.UUID, uuid.UUID]) -> list[dict | None]:
+        with get_conn() as conn:
+            return [self.card_page(game_version_id, card_id, include_player=False, connection=conn)
+                    for card_id in ids]
 
     # ------------------------------------------------------------------ card search (§49)
     _CARD_SORTS = {
@@ -242,6 +261,7 @@ class PlayerRepository:
     }
 
     def card_search(self, game_version_id: uuid.UUID, *,
+                    include_player: bool = True,
                     q: Optional[str] = None,
                     position: Optional[str] = None,
                     rarity: Optional[str] = None,
@@ -255,8 +275,8 @@ class PlayerRepository:
         firewall). Unknown filters match nothing — never everything."""
         sort_col = self._CARD_SORTS.get(sort, "uc.overall_rating")
         direction = "ASC" if sort_dir == "asc" else "DESC"
-        where = ["uc.game_version_id = %(gv)s", "uc.is_synthetic = FALSE"]
-        params: dict = {"gv": game_version_id}
+        where = ["uc.game_version_id = %(gv)s", CARD_FILTER]
+        params: dict = {"gv": game_version_id, "include_player": include_player}
         if q:
             where.append("uc.card_name ILIKE %(q)s")
             params["q"] = f"%{q}%"
@@ -305,6 +325,8 @@ class PlayerRepository:
                     FROM ut_card uc
                     LEFT JOIN card_rarity cr ON cr.id = uc.rarity_id
                     LEFT JOIN game_player gp ON gp.id = uc.game_player_id
+                        AND gp.game_version_id = uc.game_version_id
+                        AND %(include_player)s AND {PROD_FILTER}
                     LEFT JOIN LATERAL (
                         SELECT cp.price_coins, cp.observed_at FROM card_price cp
                         WHERE cp.ut_card_id = uc.id AND cp.currency = 'COINS'
@@ -317,27 +339,50 @@ class PlayerRepository:
         return {"total": total, "page": page, "page_size": page_size,
                 "items": [dict(r) for r in rows]}
 
+    def scoped_card_status(self, game_version_id: uuid.UUID) -> dict:
+        with get_conn() as conn:
+            row = conn.execute(
+                """
+                SELECT count(*) AS total,
+                       count(*) FILTER (WHERE EXISTS (
+                           SELECT 1 FROM ut_card_attribute_override a
+                           WHERE a.ut_card_id = uc.id AND a.value IS NOT NULL
+                       )) AS with_attributes
+                FROM ut_card uc
+                WHERE uc.game_version_id = %s
+                """,
+                (game_version_id,),
+            ).fetchone()
+        total, count = row["total"], row["with_attributes"]
+        status = "NO_DATA" if not count else "PARTIAL" if count < total else "AVAILABLE"
+        return {
+            "production_cards": total,
+            "cards_with_attributes": count,
+            "availability": {"card_attributes": status},
+        }
+
     def card_data_status(self, game_version_id: uuid.UUID) -> dict:
         """§44 data-quality surface: what card data exists, and what does not."""
         with get_conn() as conn:
             cards = conn.execute(
-                """SELECT count(*) FILTER (WHERE NOT is_synthetic) AS production,
+                """SELECT count(*) FILTER (WHERE data_status = 'CANONICAL' AND NOT is_synthetic) AS production,
                           count(*) FILTER (WHERE is_synthetic) AS synthetic,
-                          count(*) FILTER (WHERE NOT is_synthetic
+                          count(*) FILTER (WHERE data_status = 'CANONICAL' AND NOT is_synthetic
                                            AND playstyle_data_published) AS ps_published,
-                          count(*) FILTER (WHERE identity_status = 'RESOLVED') AS resolved,
-                          max(updated_at) FILTER (WHERE NOT is_synthetic) AS last_update
+                          count(*) FILTER (WHERE data_status = 'CANONICAL' AND NOT is_synthetic
+                                                 AND identity_status = 'RESOLVED') AS resolved,
+                          max(updated_at) FILTER (WHERE data_status = 'CANONICAL' AND NOT is_synthetic) AS last_update
                    FROM ut_card WHERE game_version_id = %s""",
                 (game_version_id,)).fetchone()
             prices = conn.execute(
                 """SELECT count(DISTINCT cp.ut_card_id) AS priced
                    FROM card_price cp JOIN ut_card uc ON uc.id = cp.ut_card_id
-                   WHERE uc.game_version_id = %s AND NOT uc.is_synthetic""",
+                   WHERE uc.game_version_id = %s AND uc.data_status = 'CANONICAL' AND NOT uc.is_synthetic""",
                 (game_version_id,)).fetchone()
             roles = conn.execute(
                 """SELECT count(*) AS n FROM ut_card_role ucr
                    JOIN ut_card uc ON uc.id = ucr.ut_card_id
-                   WHERE uc.game_version_id = %s AND NOT uc.is_synthetic""",
+                   WHERE uc.game_version_id = %s AND uc.data_status = 'CANONICAL' AND NOT uc.is_synthetic""",
                 (game_version_id,)).fetchone()
             chem = conn.execute(
                 """SELECT count(*) AS n FROM chemistry_rule cr
@@ -399,20 +444,24 @@ class PlayerRepository:
                                (code.upper(),)).fetchone()
         return row["id"] if row else None
 
-    def facets(self, game_version_id: uuid.UUID) -> dict:
-        with get_conn() as conn:
+    def facets(self, game_version_id: uuid.UUID, *, research: bool = False) -> dict:
+        player_status = "gp.data_status = 'RESEARCH_ONLY'" if research else PROD_FILTER
+        with get_conn(local_fc27_research=research) as conn:
             nations = conn.execute(
                 f"""SELECT nation, count(*) n FROM game_player gp
-                    WHERE game_version_id=%s AND {PROD_FILTER} AND nation IS NOT NULL
+                    WHERE game_version_id=%s AND {player_status} AND nation IS NOT NULL
                     GROUP BY nation ORDER BY n DESC""", (game_version_id,)).fetchall()
             leagues = conn.execute(
-                """SELECT c.league_name, count(*) n FROM club_affiliation ca
+                f"""SELECT c.league_name, count(*) n FROM club_affiliation ca
                    JOIN club c ON c.id = ca.club_id
-                   WHERE ca.game_version_id=%s AND c.league_name IS NOT NULL
+                   JOIN game_player gp ON gp.id = ca.game_player_id
+                   WHERE ca.game_version_id=%s AND gp.game_version_id=ca.game_version_id
+                     AND c.league_name IS NOT NULL
+                     AND {player_status}
                    GROUP BY c.league_name ORDER BY n DESC""", (game_version_id,)).fetchall()
             positions = conn.execute(
                 f"""SELECT position_primary, count(*) n FROM game_player gp
-                    WHERE game_version_id=%s AND {PROD_FILTER}
+                    WHERE game_version_id=%s AND {player_status}
                     GROUP BY position_primary ORDER BY n DESC""",
                 (game_version_id,)).fetchall()
         return {"nations": [dict(r) for r in nations],

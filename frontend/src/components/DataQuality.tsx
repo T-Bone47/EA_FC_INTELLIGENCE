@@ -26,8 +26,8 @@ function AvailabilityPill({ status }: { status: string }) {
 export function DataQualityPanel({ status }: { status: CardDataStatus | null }) {
   if (!status) return null
   const a = status.availability
-  const rows: [string, string, number | string][] = [
-    ['Card attributes', a.card_attributes, status.production_cards],
+  const rows: [string, string | undefined, number | undefined][] = [
+    ['Card attributes', a.card_attributes, status.cards_with_attributes ?? status.production_cards],
     ['Market prices', a.card_prices, status.cards_with_price],
     ['Card Roles', a.card_roles, status.card_roles_rows],
     ['Chemistry rules', a.chemistry_rules, status.verified_chemistry_rules],
@@ -41,7 +41,7 @@ export function DataQualityPanel({ status }: { status: CardDataStatus | null }) 
           <tr><th>Dimension</th><th>Status</th><th>Rows</th></tr>
         </thead>
         <tbody>
-          {rows.map(([label, st, n]) => (
+          {rows.map(([label, st, n]) => st != null && n != null && (
             <tr key={label}>
               <td>{label}</td>
               <td><AvailabilityPill status={st} /></td>
@@ -50,19 +50,17 @@ export function DataQualityPanel({ status }: { status: CardDataStatus | null }) 
           ))}
         </tbody>
       </table>
-      <div className="tiny faint mt1">
+      {status.synthetic_cards_firewalled != null && <div className="tiny faint mt1">
         Synthetic test cards firewalled: {status.synthetic_cards_firewalled} ·
         identity resolved: {status.identity_resolved_cards} ·
         quarantined rows: {status.quarantined_rows} ·
         last card update: {status.last_card_update
           ? new Date(status.last_card_update).toISOString().slice(0, 16).replace('T', ' ')
           : UNKNOWN_LABEL}
-      </div>
+      </div>}
       {status.production_cards === 0 && (
         <div className="callout mt1">
-          No production UT card data is ingested for {status.game_version}.
-          The card pipeline is DATA-READY; nothing is fabricated. Player-level
-          intelligence remains fully available.
+          No approved UT card records are available for {status.game_version}.
         </div>
       )}
     </div>

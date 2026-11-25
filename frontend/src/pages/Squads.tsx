@@ -51,6 +51,7 @@ export default function Squads() {
         </button>
       </div>
 
+      {gameVersion === 'FC27' && <p><Link to="/cards/squad-lab">Open Ultimate Team Squad Lab</Link></p>}
       {showForm && (
         <div className="card mb2">
           <div className="row" style={{ alignItems: 'flex-end' }}>

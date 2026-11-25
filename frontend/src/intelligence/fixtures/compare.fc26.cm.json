@@ -1,0 +1,713 @@
+{
+ "request_id": "d38aa8fb-65cf-47b6-b2e2-0e5e2e159c9d",
+ "request": {
+  "game_version": "FC26",
+  "position": "CM",
+  "tactical_profile": "BALANCED",
+  "secondary_tactical_profile": null,
+  "limit": 5,
+  "lam": null,
+  "division": null,
+  "include_research_data": false
+ },
+ "dataset": {
+  "game_version": "FC26",
+  "data_status": "CANONICAL",
+  "research_only": false,
+  "reference_distribution": {
+   "version": "fc26-players-2026-09-r1",
+   "universe": "RATINGS_SITE_PLAYERS",
+   "content_hash": "ac52f46dc8a2433db57daf51cea02936605a38d07dde00fd9176966ea6609f22"
+  },
+  "notice": null
+ },
+ "players": [
+  {
+   "rank": 1,
+   "entity_id": "43b0c808-dfab-5c17-ad3b-83a5b57493b0",
+   "entity_type": "game_player",
+   "name": "Jude Bellingham",
+   "score": 0.8805663013,
+   "score_upper_bound": 0.8805663013,
+   "score_interval": {
+    "low": 0.8805663013,
+    "high": 0.8805663013,
+    "ranked_on": "low (C_lo x modifier)"
+   },
+   "coverage": 1.0,
+   "confidence_note": "high coverage",
+   "confidence": {
+    "level": "HIGH",
+    "score": 1.0,
+    "reasons": [
+     "legacy component/data confidence: 1.00",
+     "freshness: UNKNOWN — excluded from composition (not treated as bad)",
+     "source_authority: UNKNOWN — excluded from composition (not treated as bad)",
+     "identity: UNKNOWN — excluded from composition (not treated as bad)"
+    ],
+    "composition": {
+     "legacy_confidence": 1.0,
+     "freshness": null,
+     "source_authority": null,
+     "identity": null
+    },
+    "reporting_only": true
+   },
+   "position_eligibility": 0.85,
+   "playstyle_contribution": 0.0,
+   "key_strengths": [
+    {
+     "attribute": "short_passing",
+     "value": 90,
+     "weight": 0.12766,
+     "contribution": 0.114378
+    },
+    {
+     "attribute": "vision",
+     "value": 90,
+     "weight": 0.117021,
+     "contribution": 0.104846
+    },
+    {
+     "attribute": "stamina",
+     "value": 94,
+     "weight": 0.106383,
+     "contribution": 0.098216
+    }
+   ],
+   "key_weaknesses": [],
+   "tactical_fit": {
+    "position": "CM",
+    "tactical_profile": "BALANCED",
+    "secondary_tactical_profile": null,
+    "lambda": 0.7,
+    "demand_stages": [
+     {
+      "stage": "position_base",
+      "inputs": {
+       "position": "CM"
+      }
+     },
+     {
+      "stage": "tactical_blend",
+      "inputs": {
+       "tactical_profile": "BALANCED",
+       "secondary": null,
+       "lambda": 0.7
+      }
+     },
+     {
+      "stage": "role_modifier",
+      "inputs": {
+       "status": "UNAVAILABLE - no Role data ingested"
+      }
+     }
+    ],
+    "top_demanded": [
+     {
+      "attribute": "short_passing",
+      "value": 90,
+      "weight": 0.12766,
+      "contribution": 0.114378
+     },
+     {
+      "attribute": "vision",
+      "value": 90,
+      "weight": 0.117021,
+      "contribution": 0.104846
+     },
+     {
+      "attribute": "stamina",
+      "value": 94,
+      "weight": 0.106383,
+      "contribution": 0.098216
+     },
+     {
+      "attribute": "long_passing",
+      "value": 89,
+      "weight": 0.106383,
+      "contribution": 0.094939
+     },
+     {
+      "attribute": "ball_control",
+      "value": 91,
+      "weight": 0.095745,
+      "contribution": 0.086122
+     }
+    ],
+    "capability": {
+     "low": 0.8805663013,
+     "high": 0.8805663013
+    }
+   },
+   "evidence": {
+    "coverage": 1.0,
+    "demanded_attributes": 12,
+    "published_attributes": 12,
+    "missing_attributes": [],
+    "interval": {
+     "low": 0.8805663013,
+     "high": 0.8805663013,
+     "width": 0.0
+    },
+    "playstyle": {
+     "published": true,
+     "modifier_applied": 0.0,
+     "reason": "no PlayStyle preference stated"
+    }
+   },
+   "explanation": {
+    "reasons": [
+     "short passing (90) contributes 0.114 of the BALANCED demand at CM",
+     "vision (90) contributes 0.105 of the BALANCED demand at CM",
+     "stamina (94) contributes 0.098 of the BALANCED demand at CM"
+    ],
+    "trade_offs": [
+     "playstyle modifier did not apply: no PlayStyle preference stated",
+     "interaction modifier did not apply: DEFERRED in v3.0 -- not validated for monotonicity under partial evidence in this session; see V3_MIGRATION_REPORT.md known limitations"
+    ],
+    "unknowns": [],
+    "reconstructed_score_matches_ranking": true
+   },
+   "player": {
+    "overall_rating": 90,
+    "overall_rating_note": "EA OVR as published -- not an input to the intelligence score",
+    "position_primary": "CAM",
+    "secondary_positions": [
+     "CM"
+    ],
+    "nation": "England",
+    "club": "Real Madrid",
+    "league": "LALIGA EA SPORTS",
+    "division": "male",
+    "preferred_foot": "Right",
+    "weak_foot_stars": 4,
+    "skill_moves_stars": 4,
+    "face_stats": {
+     "pace": 80,
+     "shooting": 86,
+     "passing": 83,
+     "dribbling": 90,
+     "defending": 78,
+     "physicality": 85
+    },
+    "playstyles": {
+     "published": true,
+     "base": [
+      "Gamechanger",
+      "First Touch",
+      "Inventive",
+      "Technical",
+      "Low Driven Shot",
+      "Slide Tackle"
+     ],
+     "plus": [
+      "Relentless"
+     ]
+    },
+    "data_status": "CANONICAL"
+   },
+   "scoring_context": {
+    "demand_vector": {
+     "ball_control": 0.09574468085106383,
+     "long_shots": 0.05319148936170213,
+     "composure": 0.07446808510638298,
+     "short_passing": 0.1276595744680851,
+     "dribbling_detail": 0.06382978723404255,
+     "vision": 0.1170212765957447,
+     "strength": 0.05319148936170213,
+     "stamina": 0.10638297872340426,
+     "defensive_awareness": 0.07446808510638298,
+     "positioning": 0.06382978723404255,
+     "interceptions": 0.06382978723404255,
+     "long_passing": 0.10638297872340426
+    },
+    "coverage_kappa": 1.0,
+    "missing_attributes": [],
+    "c_lo": 0.8805663013,
+    "c_hi": 0.8805663013,
+    "modifier_total": 1.0
+   },
+   "near_tie_with_next": {
+    "next_entity_id": "ab8435bd-6f32-5e52-83d6-9e999dc216fd",
+    "score_gap": 0.003895,
+    "within_noise_threshold": true,
+    "intervals_overlap": false,
+    "why_ahead": [
+     "Jude Bellingham is ahead on positioning by 0.008 of R",
+     "Jude Bellingham is behind on defensive awareness by 0.008 of R",
+     "Jude Bellingham is ahead on vision by 0.006 of R"
+    ]
+   }
+  },
+  {
+   "rank": 2,
+   "entity_id": "ab8435bd-6f32-5e52-83d6-9e999dc216fd",
+   "entity_type": "game_player",
+   "name": "Rodri",
+   "score": 0.876670965,
+   "score_upper_bound": 0.876670965,
+   "score_interval": {
+    "low": 0.876670965,
+    "high": 0.876670965,
+    "ranked_on": "low (C_lo x modifier)"
+   },
+   "coverage": 1.0,
+   "confidence_note": "high coverage",
+   "confidence": {
+    "level": "HIGH",
+    "score": 1.0,
+    "reasons": [
+     "legacy component/data confidence: 1.00",
+     "freshness: UNKNOWN — excluded from composition (not treated as bad)",
+     "source_authority: UNKNOWN — excluded from composition (not treated as bad)",
+     "identity: UNKNOWN — excluded from composition (not treated as bad)"
+    ],
+    "composition": {
+     "legacy_confidence": 1.0,
+     "freshness": null,
+     "source_authority": null,
+     "identity": null
+    },
+    "reporting_only": true
+   },
+   "position_eligibility": 0.85,
+   "playstyle_contribution": 0.0,
+   "key_strengths": [
+    {
+     "attribute": "short_passing",
+     "value": 93,
+     "weight": 0.12766,
+     "contribution": 0.115732
+    },
+    {
+     "attribute": "vision",
+     "value": 84,
+     "weight": 0.117021,
+     "contribution": 0.099291
+    },
+    {
+     "attribute": "stamina",
+     "value": 91,
+     "weight": 0.106383,
+     "contribution": 0.097088
+    }
+   ],
+   "key_weaknesses": [],
+   "tactical_fit": {
+    "position": "CM",
+    "tactical_profile": "BALANCED",
+    "secondary_tactical_profile": null,
+    "lambda": 0.7,
+    "demand_stages": [
+     {
+      "stage": "position_base",
+      "inputs": {
+       "position": "CM"
+      }
+     },
+     {
+      "stage": "tactical_blend",
+      "inputs": {
+       "tactical_profile": "BALANCED",
+       "secondary": null,
+       "lambda": 0.7
+      }
+     },
+     {
+      "stage": "role_modifier",
+      "inputs": {
+       "status": "UNAVAILABLE - no Role data ingested"
+      }
+     }
+    ],
+    "top_demanded": [
+     {
+      "attribute": "short_passing",
+      "value": 93,
+      "weight": 0.12766,
+      "contribution": 0.115732
+     },
+     {
+      "attribute": "vision",
+      "value": 84,
+      "weight": 0.117021,
+      "contribution": 0.099291
+     },
+     {
+      "attribute": "stamina",
+      "value": 91,
+      "weight": 0.106383,
+      "contribution": 0.097088
+     },
+     {
+      "attribute": "long_passing",
+      "value": 91,
+      "weight": 0.106383,
+      "contribution": 0.095691
+     },
+     {
+      "attribute": "ball_control",
+      "value": 90,
+      "weight": 0.095745,
+      "contribution": 0.085783
+     }
+    ],
+    "capability": {
+     "low": 0.876670965,
+     "high": 0.876670965
+    }
+   },
+   "evidence": {
+    "coverage": 1.0,
+    "demanded_attributes": 12,
+    "published_attributes": 12,
+    "missing_attributes": [],
+    "interval": {
+     "low": 0.876670965,
+     "high": 0.876670965,
+     "width": 0.0
+    },
+    "playstyle": {
+     "published": true,
+     "modifier_applied": 0.0,
+     "reason": "no PlayStyle preference stated"
+    }
+   },
+   "explanation": {
+    "reasons": [
+     "short passing (93) contributes 0.116 of the BALANCED demand at CM",
+     "vision (84) contributes 0.099 of the BALANCED demand at CM",
+     "stamina (91) contributes 0.097 of the BALANCED demand at CM"
+    ],
+    "trade_offs": [
+     "playstyle modifier did not apply: no PlayStyle preference stated",
+     "interaction modifier did not apply: DEFERRED in v3.0 -- not validated for monotonicity under partial evidence in this session; see V3_MIGRATION_REPORT.md known limitations"
+    ],
+    "unknowns": [],
+    "reconstructed_score_matches_ranking": true
+   },
+   "player": {
+    "overall_rating": 90,
+    "overall_rating_note": "EA OVR as published -- not an input to the intelligence score",
+    "position_primary": "CDM",
+    "secondary_positions": [
+     "CM"
+    ],
+    "nation": "Spain",
+    "club": "Manchester City",
+    "league": "Premier League",
+    "division": "male",
+    "preferred_foot": "Right",
+    "weak_foot_stars": 4,
+    "skill_moves_stars": 3,
+    "face_stats": {
+     "pace": 65,
+     "shooting": 80,
+     "passing": 86,
+     "dribbling": 84,
+     "defending": 86,
+     "physicality": 85
+    },
+    "playstyles": {
+     "published": true,
+     "base": [
+      "Bruiser",
+      "Long Ball Pass",
+      "Power Shot",
+      "Aerial Fortress",
+      "Press Proven"
+     ],
+     "plus": [
+      "Tiki Taka"
+     ]
+    },
+    "data_status": "CANONICAL"
+   },
+   "scoring_context": {
+    "demand_vector": {
+     "ball_control": 0.09574468085106383,
+     "long_shots": 0.05319148936170213,
+     "composure": 0.07446808510638298,
+     "short_passing": 0.1276595744680851,
+     "dribbling_detail": 0.06382978723404255,
+     "vision": 0.1170212765957447,
+     "strength": 0.05319148936170213,
+     "stamina": 0.10638297872340426,
+     "defensive_awareness": 0.07446808510638298,
+     "positioning": 0.06382978723404255,
+     "interceptions": 0.06382978723404255,
+     "long_passing": 0.10638297872340426
+    },
+    "coverage_kappa": 1.0,
+    "missing_attributes": [],
+    "c_lo": 0.876670965,
+    "c_hi": 0.876670965,
+    "modifier_total": 1.0
+   },
+   "near_tie_with_next": {
+    "next_entity_id": "5802f386-6d34-5749-9708-39febaaf44b4",
+    "score_gap": 0.002208,
+    "within_noise_threshold": true,
+    "intervals_overlap": false,
+    "why_ahead": [
+     "Rodri is behind on positioning by 0.006 of R",
+     "Rodri is ahead on defensive awareness by 0.005 of R",
+     "Rodri is ahead on composure by 0.004 of R"
+    ]
+   }
+  },
+  {
+   "rank": 3,
+   "entity_id": "5802f386-6d34-5749-9708-39febaaf44b4",
+   "entity_type": "game_player",
+   "name": "Federico Valverde",
+   "score": 0.8744627122,
+   "score_upper_bound": 0.8744627122,
+   "score_interval": {
+    "low": 0.8744627122,
+    "high": 0.8744627122,
+    "ranked_on": "low (C_lo x modifier)"
+   },
+   "coverage": 1.0,
+   "confidence_note": "high coverage",
+   "confidence": {
+    "level": "HIGH",
+    "score": 1.0,
+    "reasons": [
+     "legacy component/data confidence: 1.00",
+     "freshness: UNKNOWN — excluded from composition (not treated as bad)",
+     "source_authority: UNKNOWN — excluded from composition (not treated as bad)",
+     "identity: UNKNOWN — excluded from composition (not treated as bad)"
+    ],
+    "composition": {
+     "legacy_confidence": 1.0,
+     "freshness": null,
+     "source_authority": null,
+     "identity": null
+    },
+    "reporting_only": true
+   },
+   "position_eligibility": 1.0,
+   "playstyle_contribution": 0.0,
+   "key_strengths": [
+    {
+     "attribute": "short_passing",
+     "value": 88,
+     "weight": 0.12766,
+     "contribution": 0.113475
+    },
+    {
+     "attribute": "vision",
+     "value": 86,
+     "weight": 0.117021,
+     "contribution": 0.101655
+    },
+    {
+     "attribute": "stamina",
+     "value": 93,
+     "weight": 0.106383,
+     "contribution": 0.09784
+    }
+   ],
+   "key_weaknesses": [],
+   "tactical_fit": {
+    "position": "CM",
+    "tactical_profile": "BALANCED",
+    "secondary_tactical_profile": null,
+    "lambda": 0.7,
+    "demand_stages": [
+     {
+      "stage": "position_base",
+      "inputs": {
+       "position": "CM"
+      }
+     },
+     {
+      "stage": "tactical_blend",
+      "inputs": {
+       "tactical_profile": "BALANCED",
+       "secondary": null,
+       "lambda": 0.7
+      }
+     },
+     {
+      "stage": "role_modifier",
+      "inputs": {
+       "status": "UNAVAILABLE - no Role data ingested"
+      }
+     }
+    ],
+    "top_demanded": [
+     {
+      "attribute": "short_passing",
+      "value": 88,
+      "weight": 0.12766,
+      "contribution": 0.113475
+     },
+     {
+      "attribute": "vision",
+      "value": 86,
+      "weight": 0.117021,
+      "contribution": 0.101655
+     },
+     {
+      "attribute": "stamina",
+      "value": 93,
+      "weight": 0.106383,
+      "contribution": 0.09784
+     },
+     {
+      "attribute": "long_passing",
+      "value": 88,
+      "weight": 0.106383,
+      "contribution": 0.094563
+     },
+     {
+      "attribute": "ball_control",
+      "value": 88,
+      "weight": 0.095745,
+      "contribution": 0.085106
+     }
+    ],
+    "capability": {
+     "low": 0.8744627122,
+     "high": 0.8744627122
+    }
+   },
+   "evidence": {
+    "coverage": 1.0,
+    "demanded_attributes": 12,
+    "published_attributes": 12,
+    "missing_attributes": [],
+    "interval": {
+     "low": 0.8744627122,
+     "high": 0.8744627122,
+     "width": 0.0
+    },
+    "playstyle": {
+     "published": true,
+     "modifier_applied": 0.0,
+     "reason": "no PlayStyle preference stated"
+    }
+   },
+   "explanation": {
+    "reasons": [
+     "short passing (88) contributes 0.113 of the BALANCED demand at CM",
+     "vision (86) contributes 0.102 of the BALANCED demand at CM",
+     "stamina (93) contributes 0.098 of the BALANCED demand at CM"
+    ],
+    "trade_offs": [
+     "playstyle modifier did not apply: no PlayStyle preference stated",
+     "interaction modifier did not apply: DEFERRED in v3.0 -- not validated for monotonicity under partial evidence in this session; see V3_MIGRATION_REPORT.md known limitations"
+    ],
+    "unknowns": [],
+    "reconstructed_score_matches_ranking": true
+   },
+   "player": {
+    "overall_rating": 89,
+    "overall_rating_note": "EA OVR as published -- not an input to the intelligence score",
+    "position_primary": "CM",
+    "secondary_positions": [
+     "CDM",
+     "RB"
+    ],
+    "nation": "Uruguay",
+    "club": "Real Madrid",
+    "league": "LALIGA EA SPORTS",
+    "division": "male",
+    "preferred_foot": "Right",
+    "weak_foot_stars": 4,
+    "skill_moves_stars": 3,
+    "face_stats": {
+     "pace": 88,
+     "shooting": 84,
+     "passing": 84,
+     "dribbling": 84,
+     "defending": 83,
+     "physicality": 85
+    },
+    "playstyles": {
+     "published": true,
+     "base": [
+      "Long Ball Pass",
+      "Rapid",
+      "Power Shot",
+      "Aerial Fortress",
+      "Intercept",
+      "Slide Tackle"
+     ],
+     "plus": [
+      "Relentless"
+     ]
+    },
+    "data_status": "CANONICAL"
+   },
+   "scoring_context": {
+    "demand_vector": {
+     "ball_control": 0.09574468085106383,
+     "long_shots": 0.05319148936170213,
+     "composure": 0.07446808510638298,
+     "short_passing": 0.1276595744680851,
+     "dribbling_detail": 0.06382978723404255,
+     "vision": 0.1170212765957447,
+     "strength": 0.05319148936170213,
+     "stamina": 0.10638297872340426,
+     "defensive_awareness": 0.07446808510638298,
+     "positioning": 0.06382978723404255,
+     "interceptions": 0.06382978723404255,
+     "long_passing": 0.10638297872340426
+    },
+    "coverage_kappa": 1.0,
+    "missing_attributes": [],
+    "c_lo": 0.8744627122,
+    "c_hi": 0.8744627122,
+    "modifier_total": 1.0
+   }
+  }
+ ],
+ "excluded": [],
+ "not_found": [],
+ "pairwise": [
+  {
+   "higher": "43b0c808-dfab-5c17-ad3b-83a5b57493b0",
+   "lower": "ab8435bd-6f32-5e52-83d6-9e999dc216fd",
+   "score_gap": 0.003895,
+   "within_noise_threshold": true,
+   "intervals_overlap": false,
+   "why": [
+    "Jude Bellingham is ahead on positioning by 0.008 of R",
+    "Jude Bellingham is behind on defensive awareness by 0.008 of R",
+    "Jude Bellingham is ahead on vision by 0.006 of R",
+    "Jude Bellingham is ahead on dribbling detail by 0.003 of R"
+   ]
+  },
+  {
+   "higher": "43b0c808-dfab-5c17-ad3b-83a5b57493b0",
+   "lower": "5802f386-6d34-5749-9708-39febaaf44b4",
+   "score_gap": 0.006104,
+   "within_noise_threshold": false,
+   "intervals_overlap": false,
+   "why": [
+    "Jude Bellingham is behind on defensive awareness by 0.004 of R",
+    "Jude Bellingham is ahead on composure by 0.004 of R",
+    "Jude Bellingham is ahead on dribbling detail by 0.003 of R",
+    "Jude Bellingham is ahead on vision by 0.003 of R"
+   ]
+  },
+  {
+   "higher": "ab8435bd-6f32-5e52-83d6-9e999dc216fd",
+   "lower": "5802f386-6d34-5749-9708-39febaaf44b4",
+   "score_gap": 0.002208,
+   "within_noise_threshold": true,
+   "intervals_overlap": false,
+   "why": [
+    "Rodri is behind on positioning by 0.006 of R",
+    "Rodri is ahead on defensive awareness by 0.005 of R",
+    "Rodri is ahead on composure by 0.004 of R",
+    "Rodri is behind on vision by 0.002 of R"
+   ]
+  }
+ ],
+ "note": "Comparison is for THIS request only (position, tactic, preferences). Scores come from the same deterministic engine run as recommendations."
+}

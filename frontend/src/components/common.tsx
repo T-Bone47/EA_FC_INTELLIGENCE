@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { useEffect } from 'react'
+import type { ReactElement, ReactNode } from 'react'
+import { cloneElement, useEffect, useId } from 'react'
 import type { ApiError } from '../api/client'
 import type { FitValue } from '../api/types'
 import { FACADE_LABELS, UNKNOWN_LABEL, isUnknown, num, ovrClass, pct } from '../lib/format'
@@ -168,13 +168,17 @@ export function Modal({ title, onClose, children, wide }: {
 }
 
 export function Field({ label, children, hint }: {
-  label: string; children: ReactNode; hint?: string
+  label: string; children: ReactElement<{ id?: string; 'aria-describedby'?: string }>; hint?: string
 }) {
+  const id = useId()
+  const controlId = children.props.id || id
+  const hintId = id + '-hint'
+  const description = [children.props['aria-describedby'], hint && hintId].filter(Boolean).join(' ')
   return (
     <div className="field">
-      <label>{label}</label>
-      {children}
-      {hint && <span className="tiny faint">{hint}</span>}
+      <label htmlFor={controlId}>{label}</label>
+      {cloneElement(children, { id: controlId, 'aria-describedby': description || undefined })}
+      {hint && <span id={hintId} className="tiny faint">{hint}</span>}
     </div>
   )
 }

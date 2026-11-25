@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSession } from '../state/session'
 import { useAction } from '../lib/useApi'
+import { AccountLayout } from '../components/AccountLayout'
 import { ErrorBox, Field } from '../components/common'
 
 export default function Login() {
@@ -11,21 +12,14 @@ export default function Login() {
   const loc = useLocation() as { state?: { from?: string } }
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [recovery, showRecovery] = useState(false)
   const act = useAction(async () => {
     await login(email, password)
-    nav(loc.state?.from || '/dashboard', { replace: true })
+    nav(accountReturn(loc.state?.from), { replace: true })
   })
 
-  async function forgot() {
-    // No password-reset email infrastructure is deployed; be honest instead of
-    // pretending to send something.
-    act.clear()
-    alert('Password reset is not available in this deployment yet. ' +
-          'Sessions can be revoked from the profile page; accounts are local to this instance.')
-  }
-
   return (
-    <div style={{ maxWidth: 420, margin: '3rem auto' }}>
+    <AccountLayout>
       <h1>Log in</h1>
       <p className="muted small">
         Your account saves squads, saved players and recommendation feedback.
@@ -46,27 +40,15 @@ export default function Login() {
           {act.pending ? 'Logging in…' : 'Log in'}
         </button>
         <div className="row tiny" style={{ justifyContent: 'space-between' }}>
-          <Link to="/signup">Create an account</Link>
-          <button type="button" className="btn ghost sm" onClick={forgot}>Forgot password?</button>
+          <Link to="/signup" state={loc.state}>Create an account</Link>
+          <button type="button" className="btn ghost sm" aria-expanded={recovery} onClick={() => showRecovery(!recovery)}>Forgot password?</button>
         </div>
       </form>
-      <hr className="divider" />
-      <DemoHints />
-    </div>
+      {recovery && <p className="callout info mb0" role="status">Password reset is unavailable on this instance. Contact the instance operator for account recovery.</p>}
+    </AccountLayout>
   )
 }
 
-/** Read-only demo of the public surface — no credentials needed. */
-export function DemoHints() {
-  return (
-    <div className="callout info small">
-      <div className="t">Just exploring?</div>
-      Search, recommendations and comparisons work <strong>without an account</strong>.
-      <div className="row mt1">
-        <Link className="btn ghost sm" to="/search">Open search</Link>
-        <Link className="btn ghost sm" to="/recommend">Open recommendations</Link>
-      </div>
-    </div>
-  )
+export function accountReturn(value?: string): string {
+  return value?.startsWith('/') && !value.startsWith('//') && !value.includes('\\') ? value : '/dashboard'
 }
-

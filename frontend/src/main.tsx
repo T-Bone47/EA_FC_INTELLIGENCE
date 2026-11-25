@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { SessionProvider } from './state/session'
 import './styles.css'
+import './stadium.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

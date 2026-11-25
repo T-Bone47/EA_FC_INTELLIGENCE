@@ -1,0 +1,497 @@
+.lab-search {
+  display: grid;
+  gap: 0.35rem;
+  max-height: 16rem;
+  overflow-y: auto;
+  padding: 0.25rem;
+}
+.lab-search button {
+  justify-content: flex-start;
+  text-align: left;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-elevated);
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.lab-search button:hover:not(:disabled) {
+  border-color: var(--accent-lime);
+  background: var(--surface-hover);
+}
+
+.lab-controls, .lab-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5rem), 1fr));
+  gap: 0.95rem;
+}
+.lab-controls { margin-block: 0.85rem; }
+.lab-slots .card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--field-radius);
+  padding: 0.85rem;
+  transition: background-color 160ms ease, border-color 160ms ease;
+  box-shadow: var(--shadow-sm);
+}
+.lab-slots .card:hover {
+  border-color: var(--accent-cyan);
+  background: var(--surface-hover);
+}
+
+.squad-canvas { grid-column: 2; grid-row: 1; }
+.squad-insights { grid-column: 3; grid-row: 1; }
+.squad-insights .kv { grid-template-columns: 1fr; gap: 0.1rem; }
+.squad-insights .kv dd { margin: 0 0 0.45rem; font-weight: 600; }
+
+.squad-workspace .stadium-pitch {
+  min-height: 25rem;
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.squad-workspace [id] { scroll-margin-top: 5rem; }
+
+/* Slot Buttons within StadiumPitch */
+.pitch-player {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.65rem;
+  min-width: 5.5rem;
+  min-height: 4.2rem;
+  background: rgba(11, 19, 32, 0.92);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), border-color 160ms ease, background-color 160ms ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.pitch-player:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan);
+  background: var(--surface-hover);
+}
+
+.pitch-player.is-active {
+  border-color: var(--accent-lime);
+  background: rgba(182, 242, 121, 0.14);
+}
+
+.pitch-player.is-empty {
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(11, 19, 32, 0.65);
+}
+
+.pitch-player.is-empty:hover {
+  border-color: var(--accent-lime);
+  background: rgba(182, 242, 121, 0.10);
+}
+
+.pitch-player.is-elite {
+  border-color: var(--accent-gold);
+}
+
+.pitch-player.is-weak {
+  border-color: var(--accent-amber);
+}
+
+.pitch-player.is-goalkeeper {
+  border-color: rgba(0, 212, 255, 0.6);
+}
+
+.pitch-player strong {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--accent-lime);
+}
+
+.pitch-player small {
+  font-size: 0.72rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 6.5rem;
+  color: var(--text-secondary);
+}
+
+.slot-lock-badge {
+  font-size: 0.72rem !important;
+  color: var(--accent-amber) !important;
+  font-weight: 600;
+}
+
+.slot-fit-score {
+  font-size: 0.72rem !important;
+  font-weight: 700;
+  color: var(--accent-cyan) !important;
+}
+
+.upgrade-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.upgrade-comparison > div {
+  background: var(--surface-elevated);
+  padding: 0.85rem;
+  border-radius: var(--radius-sm);
+  overflow-wrap: anywhere;
+  border: 1px solid var(--border-subtle);
+}
+.upgrade-comparison strong { color: var(--accent-cyan); }
+.upgrade-col-after {
+  border-color: rgba(182, 242, 121, 0.45) !important;
+  background: rgba(182, 242, 121, 0.06) !important;
+}
+
+.stat-card {
+  flex: 1 1 9.5rem;
+  background: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), border-color 160ms ease, background-color 160ms ease;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card:hover {
+  border-color: var(--accent-cyan);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.stat-val {
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.squad-bench-tray {
+  background: rgba(11, 19, 32, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.85rem;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.upgrade-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease;
+}
+.upgrade-card:hover {
+  border-color: var(--accent-lime);
+}
+
+.squad-dna-slots-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.empty-dna-box, .empty-upgrades-box, .empty-insights-box {
+  padding: 1.25rem;
+  background: rgba(13, 21, 34, 0.5);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+@media (max-width: 1199px) {
+  .squad-insights { grid-column: 1 / -1; grid-row: 2; }
+}
+@media (max-width: 700px) {
+  .squad-canvas, .squad-insights { grid-column: auto; grid-row: auto; }
+  .squad-workspace .stadium-pitch { min-height: 19rem; }
+  .pitch-player { min-width: 4.5rem; min-height: 3.5rem; padding: 0.3rem 0.4rem; }
+}
+
+/* Whole-XI Tactical Synergy & Cohesion Styles */
+.synergy-dashboard {
+  background: rgba(13, 21, 34, 0.7);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-top: 0.85rem;
+}
+
+.synergy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.synergy-node {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.synergy-node:hover {
+  border-color: var(--accent-cyan);
+  transform: translateY(-1px);
+}
+
+.synergy-node-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.synergy-node-val {
+  font-family: var(--mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent-lime);
+}
+
+.synergy-node-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.dissonance-alert {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  margin-top: 0.65rem;
+}
+
+.dissonance-alert-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #F87171;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.dissonance-item {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
+}
+
+.dissonance-suggestion {
+  font-size: 0.75rem;
+  color: var(--accent-lime);
+  font-weight: 500;
+}
+
+/* Interactive Synergy Inspector Styles */
+.synergy-node.selectable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.synergy-node.active {
+  border-color: var(--accent-lime);
+  background: rgba(182, 242, 121, 0.07);
+}
+
+.synergy-submetrics {
+  display: flex;
+  gap: 1.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.85rem;
+  margin-top: 0.65rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.synergy-inspector {
+  margin-top: 1rem;
+  background: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+
+.synergy-tabs {
+  display: flex;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.synergy-tab-btn {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.synergy-tab-btn:hover {
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
+}
+
+.synergy-tab-btn.active {
+  background: var(--accent-lime);
+  color: #080D14;
+  border-color: var(--accent-lime);
+  font-weight: 700;
+}
+
+.synergy-trace-box {
+  background: #0B121B;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #E2E8F0;
+  margin: 0.6rem 0;
+}
+
+.synergy-slot-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+}
+
+.synergy-slot-card:last-child {
+  border-bottom: none;
+}
+
+.alert-card-detailed {
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.alert-card-detailed.clickable {
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.alert-card-detailed.clickable:hover {
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+
+/* Phase 35: Stadium 3.0 Partnership, Stability & Counterfactual Tokens */
+.partnership-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--field-radius);
+  padding: 0.85rem;
+  margin-bottom: 0.75rem;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.partnership-card:hover {
+  border-color: var(--accent-cyan);
+  background: var(--surface-hover);
+}
+.partnership-card.elite {
+  border-color: rgba(182, 242, 121, 0.48);
+  background: rgba(182, 242, 121, 0.04);
+}
+.partnership-card.complementary {
+  border-color: rgba(103, 200, 242, 0.45);
+  background: rgba(103, 200, 242, 0.04);
+}
+.partnership-card.functional {
+  border-color: rgba(242, 187, 101, 0.45);
+  background: rgba(242, 187, 101, 0.04);
+}
+.partnership-card.frictional {
+  border-color: rgba(240, 117, 117, 0.48);
+  background: rgba(240, 117, 117, 0.05);
+}
+
+.stability-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.stability-pill.robust {
+  background: rgba(184, 245, 122, 0.15);
+  color: var(--accent-lime);
+  border: 1px solid rgba(184, 245, 122, 0.35);
+}
+.stability-pill.specialized {
+  background: rgba(0, 212, 255, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+}
+.stability-pill.sensitive {
+  background: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+.stability-pill.unstable {
+  background: rgba(239, 68, 68, 0.15);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.counterfactual-diff-box {
+  background: rgba(11, 18, 27, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--field-radius);
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+}
+.counterfactual-diff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.6rem;
+}

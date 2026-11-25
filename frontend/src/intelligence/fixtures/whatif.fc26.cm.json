@@ -1,0 +1,175 @@
+{
+ "request_id": "c9f6cd91-d68c-40e7-a501-e1fefbd4dc29",
+ "request": {
+  "game_version": "FC26",
+  "position": "CM",
+  "tactical_profile": "BALANCED",
+  "secondary_tactical_profile": null,
+  "limit": 5,
+  "lam": null,
+  "division": null,
+  "include_research_data": false
+ },
+ "dataset": {
+  "game_version": "FC26",
+  "data_status": "CANONICAL",
+  "research_only": false,
+  "reference_distribution": {
+   "version": "fc26-players-2026-09-r1",
+   "universe": "RATINGS_SITE_PLAYERS",
+   "content_hash": "ac52f46dc8a2433db57daf51cea02936605a38d07dde00fd9176966ea6609f22"
+  },
+  "notice": null
+ },
+ "base_top": [
+  {
+   "rank": 1,
+   "entity_id": "43b0c808-dfab-5c17-ad3b-83a5b57493b0",
+   "name": "Jude Bellingham",
+   "score": 0.8805663013
+  },
+  {
+   "rank": 2,
+   "entity_id": "ab8435bd-6f32-5e52-83d6-9e999dc216fd",
+   "name": "Rodri",
+   "score": 0.876670965
+  },
+  {
+   "rank": 3,
+   "entity_id": "5802f386-6d34-5749-9708-39febaaf44b4",
+   "name": "Federico Valverde",
+   "score": 0.8744627122
+  },
+  {
+   "rank": 4,
+   "entity_id": "ca6310db-1fcb-5e02-a015-72153094326f",
+   "name": "Pedri",
+   "score": 0.8684289706
+  },
+  {
+   "rank": 5,
+   "entity_id": "1ae456e6-5660-5d26-a9e2-43ef71620d78",
+   "name": "Joshua Kimmich",
+   "score": 0.8582849774
+  }
+ ],
+ "variants": [
+  {
+   "label": "High press",
+   "changes": {
+    "tactical_profile": "HIGH_PRESS"
+   },
+   "top": [
+    {
+     "rank": 1,
+     "entity_id": "5802f386-6d34-5749-9708-39febaaf44b4",
+     "name": "Federico Valverde",
+     "score": 0.8710140849
+    },
+    {
+     "rank": 2,
+     "entity_id": "43b0c808-dfab-5c17-ad3b-83a5b57493b0",
+     "name": "Jude Bellingham",
+     "score": 0.8676488466
+    },
+    {
+     "rank": 3,
+     "entity_id": "b83bbe9f-8d0b-5ee3-a3b2-d1a6251bb499",
+     "name": "Nicolò Barella",
+     "score": 0.8599822735
+    },
+    {
+     "rank": 4,
+     "entity_id": "ca6310db-1fcb-5e02-a015-72153094326f",
+     "name": "Pedri",
+     "score": 0.852215934
+    },
+    {
+     "rank": 5,
+     "entity_id": "86fba98e-bca0-5dce-bbc2-02a4e5f85072",
+     "name": "Tijjani Reijnders",
+     "score": 0.8459919009
+    }
+   ],
+   "entered_top": [
+    "Nicolò Barella",
+    "Tijjani Reijnders"
+   ],
+   "tracked_from_base": [
+    {
+     "entity_id": "43b0c808-dfab-5c17-ad3b-83a5b57493b0",
+     "name": "Jude Bellingham",
+     "base_rank": 1,
+     "base_score": 0.8805663013,
+     "new_rank": 2,
+     "new_score": 0.8676488466,
+     "score_delta": -0.012917
+    },
+    {
+     "entity_id": "ab8435bd-6f32-5e52-83d6-9e999dc216fd",
+     "name": "Rodri",
+     "base_rank": 2,
+     "base_score": 0.876670965,
+     "new_rank": 15,
+     "new_score": 0.8243263924,
+     "score_delta": -0.052345
+    },
+    {
+     "entity_id": "5802f386-6d34-5749-9708-39febaaf44b4",
+     "name": "Federico Valverde",
+     "base_rank": 3,
+     "base_score": 0.8744627122,
+     "new_rank": 1,
+     "new_score": 0.8710140849,
+     "score_delta": -0.003449
+    },
+    {
+     "entity_id": "ca6310db-1fcb-5e02-a015-72153094326f",
+     "name": "Pedri",
+     "base_rank": 4,
+     "base_score": 0.8684289706,
+     "new_rank": 4,
+     "new_score": 0.852215934,
+     "score_delta": -0.016213
+    },
+    {
+     "entity_id": "1ae456e6-5660-5d26-a9e2-43ef71620d78",
+     "name": "Joshua Kimmich",
+     "base_rank": 5,
+     "base_score": 0.8582849774,
+     "new_rank": 7,
+     "new_score": 0.8413753174,
+     "score_delta": -0.01691
+    }
+   ],
+   "demand_shift": [
+    {
+     "attribute": "acceleration",
+     "weight_delta": 0.123148
+    },
+    {
+     "attribute": "reactions",
+     "weight_delta": 0.112778
+    },
+    {
+     "attribute": "long_passing",
+     "weight_delta": -0.074468
+    },
+    {
+     "attribute": "vision",
+     "weight_delta": -0.068952
+    },
+    {
+     "attribute": "pace",
+     "weight_delta": 0.063519
+    },
+    {
+     "attribute": "short_passing",
+     "weight_delta": -0.062139
+    }
+   ]
+  }
+ ],
+ "ranking_depth": 50,
+ "note": "new_rank is null only when the player is excluded by a gate or ranked beyond depth 50 -- not 'unranked'."
+}

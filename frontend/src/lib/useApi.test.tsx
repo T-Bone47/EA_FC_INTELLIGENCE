@@ -1,7 +1,23 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { useState } from 'react'
-import { useAction } from './useApi'
+import { useAction, useApi } from './useApi'
+
+afterEach(() => vi.restoreAllMocks())
+
+it('ignores an old catalogue response after its request becomes unavailable', async () => {
+  let complete: (response: Response) => void = () => {}
+  vi.spyOn(globalThis, 'fetch').mockImplementationOnce(() => new Promise<Response>(resolve => { complete = resolve }))
+  const initialProps: { path: string | null } = { path: '/api/cards?game_version=FC26' }
+  const { result, rerender } = renderHook(({ path }) => useApi<string[]>(path), {
+    initialProps,
+  })
+  expect(result.current.loading).toBe(true)
+  rerender({ path: null })
+  await act(async () => { complete(new Response('["old card"]')) })
+  expect(result.current.data).toBeNull()
+  expect(result.current.loading).toBe(false)
+})
 
 describe('useAction', () => {
   it('always runs with CURRENT state (regression: stale closure sent old game_version)', async () => {

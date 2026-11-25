@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSession } from '../state/session'
 import { useAction } from '../lib/useApi'
+import { AccountLayout } from '../components/AccountLayout'
+import { accountReturn } from './Login'
 import { ErrorBox, Field } from '../components/common'
 
 export default function Signup() {
   const { signup } = useSession()
   const nav = useNavigate()
+  const { state } = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
@@ -18,16 +21,13 @@ export default function Signup() {
     if (password !== confirm) { setLocalError('Passwords do not match.'); return }
     if (password.length < 8) { setLocalError('Password must be at least 8 characters.'); return }
     await signup(email, password, displayName)
-    nav('/dashboard', { replace: true })
+    nav(accountReturn(state?.from), { replace: true })
   })
 
   return (
-    <div style={{ maxWidth: 440, margin: '3rem auto' }}>
+    <AccountLayout>
       <h1>Create account</h1>
-      <p className="muted small">
-        Free, no email verification infrastructure is deployed — accounts are local to
-        this instance. Nothing you enter is used to fabricate EA FC data.
-      </p>
+      <p className="muted small">Create an account on this instance to save squads and tactical preferences.</p>
       <form className="stack" onSubmit={(e: FormEvent) => { e.preventDefault(); act.run() }}>
         <Field label="Email">
           <input className="input" type="email" autoComplete="email" required
@@ -52,9 +52,9 @@ export default function Signup() {
           {act.pending ? 'Creating account…' : 'Sign up'}
         </button>
         <div className="tiny muted">
-          Already registered? <Link to="/login">Log in</Link>
+          Already registered? <Link to="/login" state={state}>Log in</Link>
         </div>
       </form>
-    </div>
+    </AccountLayout>
   )
 }

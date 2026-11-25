@@ -11,11 +11,17 @@ export class ApiError extends Error {
   status: number
   detail: string
   requestId?: string
-  constructor(status: number, detail: string, requestId?: string) {
+  /** machine-readable server error code (v3 errors carry an object detail) */
+  code?: string
+  /** machine-readable remedy, e.g. "include_research_data" */
+  requires?: string
+  constructor(status: number, detail: string, requestId?: string, extra?: { code?: string; requires?: string }) {
     super(detail)
     this.status = status
     this.detail = detail
     this.requestId = requestId
+    this.code = extra?.code
+    this.requires = extra?.requires
   }
 }
 
@@ -52,12 +58,17 @@ async function request<T>(method: string, path: string, body?: unknown,
   }
   if (!res.ok) {
     let detail = `Request failed (${res.status})`
+    let extra: { code?: string; requires?: string } | undefined
     if (data && typeof data.detail === 'string') detail = data.detail
     else if (data && Array.isArray(data.detail)) {
       detail = data.detail.map((d: any) =>
         `${(d.loc || []).slice(1).join('.') || 'body'}: ${d.msg}`).join('; ')
     }
-    throw new ApiError(res.status, detail, data?.request_id || rid)
+    else if (data && data.detail && typeof data.detail === 'object' && typeof data.detail.detail === 'string') {
+      detail = data.detail.detail   // v3 object detail {error, detail, requires?}
+      extra = { code: data.detail.error, requires: data.detail.requires }
+    }
+    throw new ApiError(res.status, detail, data?.request_id || rid, extra)
   }
   return data as T
 }

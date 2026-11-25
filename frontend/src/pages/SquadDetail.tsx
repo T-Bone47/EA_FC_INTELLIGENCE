@@ -2,15 +2,31 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, qs } from '../api/client'
 import type {
-  PlayerListItem, RecommendationResponse, ReferenceData,
-  SquadDetail as SquadDetailData, SquadEvaluation, SquadSlot,
+  PlayerListItem, ReferenceData,
+  SquadDetail as SquadDetailData, SquadSlot,
 } from '../api/types'
 import { useApi, useAction } from '../lib/useApi'
+import { ResearchControl, useRelease } from '../components/Availability'
 import { useSession } from '../state/session'
 import { Empty, ErrorBox, Loading, Modal, Ovr, Pos } from '../components/common'
 import { UNKNOWN_LABEL } from '../lib/format'
+import { TACTICS } from '../intelligence/Intelligence'
+import LineupOptimizer from './LineupOptimizer'
+import type { Entry } from '../intelligence/types'
 
-/* ------------------------------------------------------------- pitch layout */
+interface TacticalAnalysis {
+  slots: { slot_index: number; slot: string; position: string; status: string;
+    score: number | null; coverage: number | null }[]
+  strong_slots: string[]
+  weak_slots: string[]
+  chemistry: { status: string; reason: string }
+  budget: { status: string; reason: string }
+}
+interface TacticalReplacements {
+  ranked: (Entry & { score_change: number | null })[]
+}
+
+
 const SIDE: Record<string, number> = {
   LW: 0, LM: 0, LB: 0,
   ST: 1, CF: 1, CAM: 1, CM: 1, CDM: 1, CB: 1, GK: 1,
@@ -46,9 +62,21 @@ export default function SquadDetail() {
   const { id } = useParams<{ id: string }>()
   const { gameVersion, notify } = useSession()
   const nav = useNavigate()
-  const squad = useApi<SquadDetailData>(`/api/squads/${id}`, [id])
-  const ref = useApi<ReferenceData>(`/api/meta/reference${qs({ game_version: gameVersion })}`, [gameVersion])
-  const [evalData, setEvalData] = useState<SquadEvaluation | null>(null)
+  const release = useRelease('game_player')
+  const base = useApi<SquadDetailData>(`/api/squads/${id}`)
+  const research = base.data?.game_version_code === 'FC27' && release.active
+  const scope = qs({ include_research_data: research || undefined })
+  const scoped = useApi<SquadDetailData>(research ? `/api/squads/${id}${scope}` : null)
+  const squad = research ? scoped : base
+  const version = base.data?.game_version_code ?? gameVersion
+  const ref = useApi<ReferenceData>(`/api/meta/reference${qs({ game_version: version, include_research_data: research || undefined })}`, [version])
+  const analysis = useApi<TacticalAnalysis>(
+    squad.data ? `/api/squads/${id}/tactical-analysis${scope}` : null, [squad.data])
+  const evalData = analysis.data
+  const saveTactic = useAction(async (tactic: string) => {
+    await api.patch(`/api/squads/${id}`, { tactics: { ...squad.data?.tactics, tactical_profile: tactic } })
+    squad.reload()
+  })
   const [pickerSlot, setPickerSlot] = useState<number | null>(null)
   const [replaceSlot, setReplaceSlot] = useState<number | null>(null)
 
@@ -57,13 +85,6 @@ export default function SquadDetail() {
     return (f && ref.data?.formations?.[f]) || []
   }, [squad.data, ref.data])
   const coords = useMemo(() => slotCoords(layout), [layout])
-
-  const reloadEval = async () => {
-    if (!id) return
-    try { setEvalData(await api.get<SquadEvaluation>(`/api/squads/${id}/evaluation`)) }
-    catch { setEvalData(null) }
-  }
-  useEffect(() => { reloadEval() /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [id, squad.data])
 
   const slotsByIndex = useMemo(() => {
     const m = new Map<number, SquadSlot>()
@@ -74,13 +95,12 @@ export default function SquadDetail() {
   async function assign(slotIndex: number, playerId: string | null) {
     if (!id) return
     try {
-      await api.put(`/api/squads/${id}/slots/${slotIndex}`, {
+      await api.put(`/api/squads/${id}/slots/${slotIndex}${scope}`, {
         slot_index: slotIndex,
         slot_position: layout[slotIndex],
         game_player_id: playerId,
       })
       squad.reload()
-      await reloadEval()
       setPickerSlot(null)
       notify('ok', playerId ? 'Slot assigned.' : 'Slot cleared.')
     } catch (e: any) {
@@ -123,8 +143,18 @@ export default function SquadDetail() {
         <button className="btn ghost sm danger" onClick={removeSquad}>Delete</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 560px) 1fr', gap: '1rem', alignItems: 'start' }}
-           className="recommend-layout">
+      {version === 'FC27' && <ResearchControl scope="game_player" label="Include FC27 research players" />}
+      <label className="field mb2">
+        Tactical style
+        <select className="select" value={String(sq.tactics?.tactical_profile ?? 'BALANCED')}
+                disabled={saveTactic.pending} onChange={e => void saveTactic.run(e.target.value)}>
+          {TACTICS.map(tactic => <option key={tactic}>{tactic}</option>)}
+        </select>
+      </label>
+      <ErrorBox error={saveTactic.error} />
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 560px) minmax(0, 1fr)', gap: '1rem', alignItems: 'start' }}
+           className="recommend-layout squad-layout">
         <div className="card" style={{ padding: '.6rem' }}>
           <div className="pitch" role="group" aria-label={`${sq.formation} squad pitch`}>
             <div className="midline" aria-hidden="true" />
@@ -169,65 +199,34 @@ export default function SquadDetail() {
             ) : <div className="small unknown-val">{UNKNOWN_LABEL}</div>}
           </div>
 
-          <div className="card">
-            <div className="section-title">Link facts (verified)</div>
-            {evalData ? (
-              <>
-                <div className="kv small">
-                  <dt>Clubs</dt>
-                  <dd>{(evalData.links.clubs as string[] | undefined)?.length
-                    ? <div className="chips">{(evalData.links.clubs as string[]).map((c) => <span key={c} className="chip" style={{ cursor: 'default' }}>{c}</span>)}</div>
-                    : <span className="unknown-val">none yet</span>}</dd>
-                  <dt>Leagues</dt>
-                  <dd>{(evalData.links.leagues as string[] | undefined)?.length
-                    ? <div className="chips">{(evalData.links.leagues as string[]).map((c) => <span key={c} className="chip" style={{ cursor: 'default' }}>{c}</span>)}</div>
-                    : <span className="unknown-val">none yet</span>}</dd>
-                  <dt>Nations</dt>
-                  <dd>{(evalData.links.nations as string[] | undefined)?.length
-                    ? <div className="chips">{(evalData.links.nations as string[]).map((c) => <span key={c} className="chip" style={{ cursor: 'default' }}>{c}</span>)}</div>
-                    : <span className="unknown-val">none yet</span>}</dd>
-                  <dt>Filled</dt>
-                  <dd className="mono">{String(evalData.links.filled_slots ?? 0)} / {String(evalData.links.total_slots ?? 11)}</dd>
-                </div>
-              </>
-            ) : <Loading label="Loading evaluation" />}
-          </div>
-
-          <div className="card" style={{ padding: 0, overflowX: 'auto' }}>
-            <div className="section-title" style={{ padding: '1rem 1rem 0' }}>Position checks</div>
-            <table className="data">
-              <thead>
-                <tr><th>Slot</th><th>Expected</th><th>Player</th><th>Plays</th><th>Status</th><th /></tr>
-              </thead>
-              <tbody>
-                {(evalData?.position_checks ?? []).map((c) => {
-                  const slot = slotsByIndex.get(c.slot_index)
-                  return (
-                    <tr key={c.slot_index}>
-                      <td className="mono faint">{c.slot_index + 1}</td>
-                      <td><Pos value={c.expected_position} /></td>
-                      <td className="small">{slot?.player_name
-                        ? <Link to={`/players/${slot.game_player_id}`}>{slot.player_name}</Link>
-                        : <span className="unknown-val">empty</span>}</td>
-                      <td>{slot?.position_primary ? <Pos value={slot.position_primary} /> : <span className="faint">–</span>}</td>
-                      <td>
-                        {!slot?.player_name ? <span className="badge">—</span>
-                         : c.out_of_position ? <span className="badge warn">OUT OF POSITION</span>
-                         : <span className="badge ok">IN POSITION</span>}
-                      </td>
-                      <td className="right nowrap">
-                        <button className="btn ghost sm" onClick={() => setReplaceSlot(c.slot_index)}
-                                title="Recommend replacements using the rest of the squad as context">
-                          ⇄ Replace
-                        </button>
-                        {slot?.player_name && (
-                          <button className="btn ghost sm" onClick={() => assign(c.slot_index, null)}>Clear</button>)}
-                      </td>
-                    </tr>)
-                })}
-                {!evalData && <tr><td colSpan={6}><Loading /></td></tr>}
-              </tbody>
-            </table>
+          <div className="card" style={{ overflowX: 'auto' }}>
+            <h2 className="section-title">Tactical fit by slot</h2>
+            <LineupOptimizer key={JSON.stringify([id,research,sq.formation,sq.tactics,sq.slots])} id={id!} research={research}/>
+            {research && <p className="tiny faint">FC27 player ratings snapshot · research only</p>}
+            {analysis.loading && <Loading label="Evaluating squad" />}
+            <ErrorBox error={analysis.error} onRetry={analysis.reload} />
+            {evalData && <>
+              {evalData.strong_slots.length > 0 && <p>Strongest assignments: {evalData.strong_slots.join(', ')}</p>}
+              {evalData.weak_slots.length > 0 && <p>Review assignments: {evalData.weak_slots.join(', ')}</p>}
+              <table className="data">
+                <thead><tr><th>Slot</th><th>Player</th><th>Fit</th><th>Coverage</th><th /></tr></thead>
+                <tbody>
+                  {evalData.slots.map(c => {
+                    const slot = slotsByIndex.get(c.slot_index)
+                    return <tr key={c.slot_index}>
+                      <td>{c.slot}</td>
+                      <td>{slot?.player_name ?? (slot?.ut_card_id ? 'UT card' : 'Empty')}</td>
+                      <td>{c.score?.toFixed(3) ?? (c.status === 'EMPTY' ? '—' : 'Unavailable')}</td>
+                      <td>{c.coverage == null ? '—' : `${Math.round(c.coverage * 100)}%`}</td>
+                      <td><button className="btn ghost sm" onClick={() => setReplaceSlot(c.slot_index)}>
+                        {slot ? 'Find replacement' : 'Find player'}
+                      </button></td>
+                    </tr>
+                  })}
+                </tbody>
+              </table>
+              <p className="tiny faint mt1">{evalData.budget.reason}</p>
+            </>}
           </div>
         </div>
       </div>
@@ -237,6 +236,7 @@ export default function SquadDetail() {
           slotIndex={pickerSlot}
           slotPosition={layout[pickerSlot]}
           gameVersion={sq.game_version_code}
+          research={research}
           onClose={() => setPickerSlot(null)}
           onAssign={(pid) => assign(pickerSlot, pid)}
           current={slotsByIndex.get(pickerSlot)}
@@ -246,6 +246,8 @@ export default function SquadDetail() {
       {replaceSlot !== null && (
         <ReplacementModal
           squadId={id!}
+          gameVersion={sq.game_version_code}
+          research={research}
           slotIndex={replaceSlot}
           slotPosition={layout[replaceSlot]}
           onClose={() => setReplaceSlot(null)}
@@ -257,10 +259,11 @@ export default function SquadDetail() {
 }
 
 /* ------------------------------------------------------- slot picker modal */
-function SlotPickerModal({ slotIndex, slotPosition, gameVersion, onClose, onAssign, current }: {
+function SlotPickerModal({ slotIndex, slotPosition, gameVersion, research, onClose, onAssign, current }: {
   slotIndex: number
   slotPosition: string
   gameVersion: string
+  research: boolean
   onClose: () => void
   onAssign: (playerId: string | null) => void
   current?: SquadSlot
@@ -273,7 +276,7 @@ function SlotPickerModal({ slotIndex, slotPosition, gameVersion, onClose, onAssi
     return () => clearTimeout(t)
   }, [q])
   const path = debounced.length >= 1
-    ? `/api/players${qs({ game_version: gameVersion, q: debounced,
+    ? `/api/players${qs({ game_version: gameVersion, include_research_data: research || undefined, q: debounced,
         position: onlyPos ? slotPosition : undefined, page_size: 12 })}`
     : null
   const results = useApi<{ items: PlayerListItem[] }>(path, [path])
@@ -295,10 +298,6 @@ function SlotPickerModal({ slotIndex, slotPosition, gameVersion, onClose, onAssi
           <input type="checkbox" checked={onlyPos} onChange={(e) => setOnlyPos(e.target.checked)} />
           {slotPosition} only
         </label>
-      </div>
-      <div className="tiny faint mb1">
-        Assigning a player whose primary position differs from the slot is rejected by
-        the API (secondary positions are not treated as verified slot fitness).
       </div>
       {!path ? <Empty title="Type to search" hint={`Only ${gameVersion} players can be assigned — versions are never mixed.`} />
        : results.loading ? <Loading label="Searching" />
@@ -322,59 +321,38 @@ function SlotPickerModal({ slotIndex, slotPosition, gameVersion, onClose, onAssi
 }
 
 /* --------------------------------------------------- replacement suggestions */
-function ReplacementModal({ squadId, slotIndex, slotPosition, onClose, onAssign }: {
+function ReplacementModal({ squadId, slotIndex, slotPosition, gameVersion, research, onClose, onAssign }: {
   squadId: string
   slotIndex: number
   slotPosition: string
+  gameVersion: string
+  research: boolean
   onClose: () => void
   onAssign: (playerId: string) => void
 }) {
-  const act = useAction(() => api.post<RecommendationResponse>(
-    `/api/squads/${squadId}/recommend-replacement`, { slot_index: slotIndex }))
-  useEffect(() => { act.run() /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [])
-  const res = act.result
-
+  const scope = qs({ include_research_data: research || undefined })
+  const result = useApi<TacticalReplacements>(`/api/squads/${squadId}/tactical-replacements/${slotIndex}${scope}`)
   return (
-    <Modal title={<span>Replace slot {slotIndex + 1} · <Pos value={slotPosition} /></span>} onClose={onClose} wide>
-      <div className="tiny faint mb1">
-        Recommendations use the rest of your squad as context — team_fit evidence shows
-        real shared club/league/nation links, never invented chemistry.
-      </div>
-      {act.pending && <Loading label="Scoring in squad context" />}
-      <ErrorBox error={act.error} onRetry={() => act.run()} />
-      {res && (
-        <div className="col">
-          {res.ranked.length === 0 && (
-            <Empty title="No candidates pass" hint="The engine refuses to pad results." />
-          )}
-          {res.ranked.slice(0, 8).map((r, i) => (
-            <div key={r.entity_id} className="card tight">
-              <div className="row">
-                <span className="mono faint">{i + 1}.</span>
-                <span className="mono" style={{ color: 'var(--accent)', fontWeight: 700 }}>
-                  {r.weighted_score?.toFixed(3) ?? UNKNOWN_LABEL}
-                </span>
-                <Link to={`/players/${r.entity_id}`} style={{ fontWeight: 650 }}>{r.name}</Link>
-                <div className="spacer" />
-                <button className="btn primary sm" onClick={() => { onAssign(r.entity_id); onClose() }}>
-                  Assign
-                </button>
-              </div>
-              {r.components.team_fit?.status === 'KNOWN' && (
-                <div className="tiny faint mt1">
-                  team_fit evidence: {r.components.team_fit.evidence.join(' · ')}
-                </div>
-              )}
-              {r.components.team_fit?.status !== 'KNOWN' && (
-                <div className="tiny faint mt1">
-                  team_fit: {r.components.team_fit?.status.replace(/_/g, ' ') ?? UNKNOWN_LABEL}
-                  {r.components.team_fit?.reason ? ` — ${r.components.team_fit.reason}` : ''}
-                </div>
-              )}
-            </div>
-          ))}
+    <Modal title={<span>Options for slot {slotIndex + 1} <Pos value={slotPosition} /></span>} onClose={onClose} wide>
+      {result.loading && <Loading label="Scoring slot fit" />}
+      <ErrorBox error={result.error} onRetry={result.reload} />
+      {result.data?.ranked.length === 0 && <Empty title="No better eligible players found" />}
+      {result.data?.ranked.map(player => (
+        <div key={player.entity_id} className="card tight mb1">
+          <div className="row">
+            <Link to={`/players/${player.entity_id}${qs({game_version: gameVersion, include_research_data: research || undefined})}`}>
+              {player.name}
+            </Link>
+            <span className="mono">Fit {player.score.toFixed(3)}</span>
+            {player.score_change != null && <span>+{player.score_change.toFixed(3)}</span>}
+            <div className="spacer" />
+            <button className="btn primary sm" onClick={() => { onAssign(player.entity_id); onClose() }}>
+              Assign
+            </button>
+          </div>
+          {player.explanation?.reasons?.[0] && <p className="tiny faint">{player.explanation.reasons[0]}</p>}
         </div>
-      )}
+      ))}
     </Modal>
   )
 }

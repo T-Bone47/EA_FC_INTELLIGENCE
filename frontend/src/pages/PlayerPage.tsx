@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { api, qs } from '../api/client'
 import type { PlayerPage as PlayerPageData } from '../api/types'
 import { useApi } from '../lib/useApi'
+import { ResearchControl, useRelease } from '../components/Availability'
 import { useSession } from '../state/session'
+import { useCopilot, useCopilotRouteContext } from '../state/copilot'
 import {
   ErrorBox, FacadeRadar, Loading, Ovr, Pos, Stars, Unknown,
 } from '../components/common'
+import { PlayerIdentity } from '../components/PlayerIdentity'
+import { StadiumIcon } from '../components/StadiumIcons'
 import { UNKNOWN_LABEL, age, dateShort, dateTime, prettyAttr } from '../lib/format'
 
 const OUTFIELD_GROUPS: [string, string[]][] = [
@@ -59,11 +63,24 @@ function AttrGroup({ title, codes, attrs }: {
 
 export default function PlayerPage() {
   const { id } = useParams<{ id: string }>()
-  const { gameVersion, user, notify } = useSession()
+  const { gameVersion: defaultVersion, setGameVersion, user, notify } = useSession()
+  const [search] = useSearchParams()
+  const gameVersion = search.get('game_version') ?? defaultVersion
+  const scopedLink = gameVersion === 'FC27' && search.get('include_research_data') === 'true'
+  const release = useRelease('game_player', gameVersion)
+  const research = scopedLink && release.active
   const nav = useNavigate()
+  const { openCopilot } = useCopilot()
   const page = useApi<PlayerPageData>(
-    `/api/players/${id}${qs({ game_version: gameVersion })}`, [id, gameVersion])
+    scopedLink && !research ? null : `/api/players/${id}${qs({ game_version: gameVersion, include_research_data: research || undefined })}`)
   const [saved, setSaved] = useState(false)
+
+  useCopilotRouteContext({
+    route_name: 'PLAYER_DETAIL',
+    game_version: gameVersion === 'FC26' ? 'FC26' : 'FC27',
+    selected_card_ids: id ? [id] : [],
+    selected_player_names: page.data?.game_player?.display_name ? [page.data.game_player.display_name] : [],
+  })
 
   useEffect(() => {
     if (!user || !id) { setSaved(false); return }
@@ -72,6 +89,9 @@ export default function PlayerPage() {
       .catch(() => { /* non-critical */ })
   }, [user, id])
 
+  if (scopedLink && !research) return <div className="stack"><h1>FC27 player details</h1>
+    <ResearchControl scope="game_player" label="Include FC27 research players" />
+  </div>
   if (page.loading) return <Loading label="Loading player" />
   if (page.error) return (
     <div>
@@ -79,7 +99,7 @@ export default function PlayerPage() {
       <ErrorBox error={page.error} onRetry={page.reload} />
       {page.error.status === 404 && (
         <div className="callout info mt2 small">
-          404 means: this entity does not exist in <strong>{gameVersion}</strong> canonical
+          404 means: this entity does not exist in <strong>{gameVersion}</strong> scoped
           data. It may exist in another version — versions are never mixed. Try switching
           the version above or search again.
         </div>
@@ -90,7 +110,7 @@ export default function PlayerPage() {
 
   const d = page.data
   const gp = d.game_player
-  const attrs = d.attributes as Record<string, number | null>
+  const attrs = (d.attributes ?? {}) as Record<string, number | null>
   const isGk = gp.position_primary === 'GK'
   const groups = isGk ? GK_GROUPS : OUTFIELD_GROUPS
   const basePs = d.playstyles.filter((p) => p.tier === 'base')
@@ -117,10 +137,12 @@ export default function PlayerPage() {
   return (
     <div>
       <div className="page-head">
-        <div className="row" style={{ gap: '.8rem' }}>
+        <div className="row" style={{ gap: '1rem', alignItems: 'center' }}>
+          <PlayerIdentity name={gp.display_name} />
           <Ovr value={gp.overall_rating} />
           <div>
             <h1 className="mb0">{gp.display_name}</h1>
+            {research && <span className="badge info">FC27 research snapshot</span>}
             <div className="row small muted" style={{ gap: '.5rem' }}>
               <Pos value={gp.position_primary} />
               {(d.secondary_positions ?? []).map((p: string) => (
@@ -135,14 +157,30 @@ export default function PlayerPage() {
         </div>
         <div className="spacer" />
         <div className="row">
-          <button className={`btn ${saved ? 'primary' : 'ghost'} sm`} onClick={toggleSave}>
-            {saved ? '★ Saved' : '☆ Save'}
+          {!research && <><button className={`btn ${saved ? 'primary' : 'ghost'} sm row align-center gap03`} onClick={toggleSave} aria-pressed={saved}>
+            <StadiumIcon name="star" size={13} />
+            <span>{saved ? 'Saved' : 'Save'}</span>
           </button>
           <Link className="btn sm" to={`/compare?ids=${id}`}>Compare…</Link>
-          <Link className="btn sm primary"
-                to={`/recommend?position=${encodeURIComponent(gp.position_primary ?? '')}`}>
-            Find alternatives
+          <Link className="btn sm ghost" to={`/cards/squad-lab?item=${encodeURIComponent(gp.display_name ?? '')}`}>
+            Test in Squad Lab
           </Link>
+          <Link className="btn sm primary"
+                onClick={() => { if (gameVersion === 'FC26' || gameVersion === 'FC27') setGameVersion(gameVersion) }}
+                to={`/intelligence?position=${encodeURIComponent(gp.position_primary ?? '')}`}>
+            Find alternatives
+          </Link></>}
+          <button
+            type="button"
+            className="btn ghost sm"
+            onClick={() => openCopilot({
+              prompt: `Evaluate ${gp.display_name} (${gp.position_primary}) against my tactical profile and suggest roles or alternatives.`,
+            })}
+          >
+            <StadiumIcon name="coach" size={13} />
+            <span>Ask Co-Pilot</span>
+          </button>
+          {research && <Link className="btn primary sm" to="/intelligence">Open tactical studio</Link>}
         </div>
       </div>
 
@@ -247,7 +285,6 @@ export default function PlayerPage() {
           {(d.other_game_versions ?? []).length === 0 ? (
             <div className="callout small mb0">
               No representation in any other ingested version.
-              {gameVersion === 'FC26' && ' FC27 has NO_DATA — when real FC27 records are ingested, they appear here separately, never merged into this row.'}
             </div>
           ) : (
             <div className="row">

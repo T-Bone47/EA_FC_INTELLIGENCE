@@ -1,0 +1,123 @@
+.dlab-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dlab-hero {
+  background: var(--surface-primary, #101823);
+  border: 1px solid var(--border-subtle, #213044);
+  border-radius: 12px;
+  padding: 1.15rem 1.35rem;
+}
+
+.dlab-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1020px) {
+  .dlab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dlab-card {
+  background: rgba(19, 31, 46, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.dlab-pitch-wrap {
+  width: 100%;
+  background: #0a1520;
+  border: 1px solid rgba(184, 245, 122, 0.22);
+  border-radius: 10px;
+  padding: 0.45rem;
+}
+
+.dlab-window-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 290px;
+  overflow-y: auto;
+}
+
+.dlab-window-item {
+  width: 100%;
+  text-align: left;
+  background: rgba(13, 23, 34, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dlab-window-item.active {
+  border-color: #b8f57a;
+  background: rgba(184, 245, 122, 0.08);
+}
+
+.dlab-cand-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.dlab-cand-table th,
+.dlab-cand-table td {
+  padding: 0.48rem 0.55rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  text-align: left;
+}
+
+.dlab-cand-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dlab-cand-row.best {
+  background: rgba(184, 245, 122, 0.08);
+}
+
+.dlab-cand-row.observed {
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.dlab-iq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.65rem;
+}
+
+.dlab-iq-cell {
+  background: rgba(13, 23, 34, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+}
+
+.dlab-math-box {
+  background: rgba(10, 18, 28, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 8px;
+  padding: 0.7rem 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.76rem;
+}

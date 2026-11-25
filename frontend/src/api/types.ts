@@ -293,6 +293,30 @@ export interface VersionInfo {
   config: Record<string, any> | null
 }
 
+export type AvailabilityStatus =
+  | 'DATABASE_NOT_CONNECTED' | 'DATA_NOT_INGESTED' | 'RELEASE_VALIDATION_FAILED'
+  | 'REFERENCE_UNAVAILABLE' | 'RESEARCH_RELEASE_AVAILABLE' | 'RESEARCH_ACCESS_DISABLED'
+  | 'PRODUCTION_NOT_APPROVED' | 'PRODUCTION_RELEASE_AVAILABLE' | 'LOCAL_CATALOGUE_AVAILABLE'
+
+export type EntityScope = 'game_player' | 'ut_card'
+export interface ReleaseAvailability {
+  status: AvailabilityStatus
+  record_count: number | null
+  release_id: string | null
+  reference_ready: boolean | null
+  goalkeeper_reference_ready?: boolean
+}
+export interface ScopeAvailability {
+  production: ReleaseAvailability
+  local: ReleaseAvailability | null
+  research: ReleaseAvailability | null
+}
+export interface DataAvailability {
+  environment: 'local' | 'research' | 'production'
+  database_status: 'CONNECTED' | 'DATABASE_NOT_CONNECTED'
+  versions: Record<string, Record<EntityScope, ScopeAvailability>>
+}
+
 export interface Playstyle {
   playstyle_name: string
   plus_holders: number
@@ -329,22 +353,23 @@ export interface CardListResponse {
 export interface CardDataStatus {
   game_version: GameVersion
   production_cards: number
-  synthetic_cards_firewalled: number
-  playstyle_published_cards: number
-  identity_resolved_cards: number
-  cards_with_price: number
-  card_roles_rows: number
-  verified_chemistry_rules: number
-  evolution_rows: number
-  quarantined_rows: number
-  last_card_update: string | null
-  recent_ingestion_runs: Record<string, unknown>[]
+  cards_with_attributes?: number
+  synthetic_cards_firewalled?: number
+  playstyle_published_cards?: number
+  identity_resolved_cards?: number
+  cards_with_price?: number
+  card_roles_rows?: number
+  verified_chemistry_rules?: number
+  evolution_rows?: number
+  quarantined_rows?: number
+  last_card_update?: string | null
+  recent_ingestion_runs?: Record<string, unknown>[]
   availability: {
     card_attributes: string
-    card_prices: string
-    card_roles: string
-    chemistry_rules: string
-    evolutions: string
+    card_prices?: string
+    card_roles?: string
+    chemistry_rules?: string
+    evolutions?: string
   }
 }
 

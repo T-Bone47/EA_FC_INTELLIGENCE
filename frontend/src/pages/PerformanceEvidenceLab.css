@@ -1,0 +1,8 @@
+.evidence-lab { display: grid; gap: 1rem; }
+.evidence-fields, .evidence-attributes { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+.evidence-fields label { display: grid; gap: .3rem; min-width: 0; align-content: start; }
+.evidence-lab :is(input:not([type="checkbox"]),select,textarea) { max-width: 100%; width: 100%; }
+.evidence-lab :is(.card,table,td,th) { min-width: 0; overflow-wrap: anywhere; }
+.evidence-lab form, .evidence-lab details { margin-block: .7rem; }
+.evidence-attributes dd { margin: 0; font-weight: 650; }
+.evidence-review { max-height: 20rem; overflow: auto; }

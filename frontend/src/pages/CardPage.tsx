@@ -12,6 +12,7 @@ import { useSession } from '../state/session'
 import {
   AttrRows, ErrorBox, Facades, Loading, Ovr, Pos, Unknown,
 } from '../components/common'
+import { PlayerIdentity } from '../components/PlayerIdentity'
 import { UNKNOWN_LABEL, dateTime } from '../lib/format'
 
 const FACADES = ['pace', 'shooting', 'passing', 'dribbling', 'defending', 'physicality']
@@ -67,12 +68,15 @@ export default function CardPage() {
   return (
     <div>
       <div className="page-head">
-        <div>
-          <h1 className="mb0">{card.card_name}</h1>
-          <div className="faint small">
-            {card.card_type ?? 'Card type: ' + UNKNOWN_LABEL}
-            {' · '}rarity {card.rarity_code ?? card.rarity_raw ?? UNKNOWN_LABEL}
-            {card.release_group ? ` · ${card.release_group}` : ''}
+        <div className="row" style={{ gap: '1rem', alignItems: 'center' }}>
+          <PlayerIdentity name={card.card_name} />
+          <div>
+            <h1 className="mb0">{card.card_name}</h1>
+            <div className="faint small">
+              {card.card_type ?? 'Card type: ' + UNKNOWN_LABEL}
+              {' · '}rarity {card.rarity_code ?? card.rarity_raw ?? UNKNOWN_LABEL}
+              {card.release_group ? ` · ${card.release_group}` : ''}
+            </div>
           </div>
         </div>
         <div className="row" style={{ gap: '.8rem', alignItems: 'center' }}>

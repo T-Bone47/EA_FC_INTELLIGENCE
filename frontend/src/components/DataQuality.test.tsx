@@ -33,9 +33,7 @@ describe('DataQualityPanel (§44)', () => {
     expect(screen.getByText('No verified rules')).toBeTruthy()
     // synthetic firewall is visible, not hidden
     expect(screen.getByText(/Synthetic test cards firewalled: 60/)).toBeTruthy()
-    // explicit data-ready notice when nothing is ingested
-    expect(screen.getByText(/No production UT card data is ingested/)).toBeTruthy()
-    expect(screen.getByText(/nothing is fabricated/i)).toBeTruthy()
+    expect(screen.getByText(/No approved UT card records are available for FC26/)).toBeTruthy()
   })
 
   it('renders availability when data exists', () => {
@@ -49,7 +47,18 @@ describe('DataQualityPanel (§44)', () => {
     render(<DataQualityPanel status={withData} />)
     expect(screen.getByText('Available')).toBeTruthy()
     expect(screen.getByText('Partial')).toBeTruthy()
-    expect(screen.queryByText(/No production UT card data/)).toBeNull()
+    expect(screen.queryByText(/No approved UT card records/)).toBeNull()
+  })
+
+  it('keeps approved identity counts distinct from attribute evidence', () => {
+    render(<DataQualityPanel status={{
+      game_version: 'FC26', production_cards: 1, cards_with_attributes: 0,
+      availability: { card_attributes: 'NO_DATA' },
+    }} />)
+    expect(screen.getByText('NO DATA')).toBeVisible()
+    expect(screen.getByText('0')).toBeVisible()
+    expect(screen.queryByText('Market prices')).toBeNull()
+    expect(screen.queryByText(/No approved UT card records/)).toBeNull()
   })
 
   it('renders nothing without status', () => {

@@ -3,9 +3,16 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { api, qs } from '../api/client'
 import type { CompareResponse, PlayerListItem, RecommendationRequest, ReferenceData } from '../api/types'
 import { useApi, useAction } from '../lib/useApi'
+import ResearchCards from './ResearchCards'
+import { PlayerIdentity } from '../components/PlayerIdentity'
+import { ResearchControl, useRelease } from '../components/Availability'
 import { useSession } from '../state/session'
+import { useCopilot, useCopilotRouteContext } from '../state/copilot'
+import { StadiumIcon } from '../components/StadiumIcons'
 import { Empty, ErrorBox, Loading, Ovr, Pos } from '../components/common'
+import { EpistemicChip, PageHeader } from '../components/ui/StadiumPrimitives'
 import { UNKNOWN_LABEL, isUnknown, prettyAttr, prettyEnum } from '../lib/format'
+import { TacticalDeltaMatrix, TacticalRadar } from '../components/Visualizations'
 
 interface Picked { id: string; name: string; position: string; overall: number | null }
 
@@ -17,30 +24,33 @@ function PlayerPicker({ onPick, exclude }: { onPick: (p: Picked) => void; exclud
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (q.trim().length < 2) { setItems([]); return }
+    setItems([])
+    setLoading(false)
+    if (q.trim().length < 2) return
+    let active = true
     const t = window.setTimeout(async () => {
       setLoading(true)
       try {
         const d = await api.get<{ items: PlayerListItem[] }>(
           `/api/players${qs({ game_version: gameVersion, q: q.trim(), page_size: 6 })}`)
-        setItems(d.items.filter((i) => !exclude.includes(i.id)))
-      } catch { setItems([]) } finally { setLoading(false) }
+        if (active) setItems(d.items)
+      } catch { if (active) setItems([]) } finally { if (active) setLoading(false) }
     }, 300)
-    return () => window.clearTimeout(t)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => { active = false; window.clearTimeout(t) }
   }, [q, gameVersion])
 
+  const visibleItems = items.filter(i => !exclude.includes(i.id))
   return (
-    <div style={{ position: 'relative', minWidth: 240 }} className="flex1">
+    <div style={{ position: 'relative', minWidth: 'min(100%, 240px)' }} className="flex1">
       <input className="input" placeholder="Search a player to add…" value={q}
              onChange={(e) => { setQ(e.target.value); setOpen(true) }}
              onFocus={() => setOpen(true)} aria-label="Search player to compare" />
       {open && q.trim().length >= 2 && (
         <div className="card" style={{ position: 'absolute', top: '110%', left: 0, right: 0,
                                         zIndex: 20, padding: 0, boxShadow: 'var(--shadow)' }}>
-          {loading ? <Loading label="Searching" /> : items.length === 0 ? (
+          {loading ? <Loading label="Searching" /> : visibleItems.length === 0 ? (
             <div className="small muted" style={{ padding: '.7rem' }}>No matches in {gameVersion}.</div>
-          ) : items.map((p) => (
+          ) : visibleItems.map((p) => (
             <button key={p.id} className="btn ghost wide" style={{ justifyContent: 'flex-start', borderRadius: 0 }}
                     onClick={() => {
                       onPick({ id: p.id, name: p.display_name,
@@ -59,7 +69,45 @@ function PlayerPicker({ onPick, exclude }: { onPick: (p: Picked) => void; exclud
 }
 
 export default function Compare() {
+  const { gameVersion } = useSession()
+  const [params] = useSearchParams()
+  const cardScope = params.get('scope') === 'cards'
+  const cards = useRelease('ut_card')
+  const players = useRelease('game_player')
+  return <div className="stack">
+    <nav className="stadium-tabs" aria-label="Comparison scope">
+      <Link to="/compare" className={!cardScope ? 'active' : undefined} aria-current={!cardScope ? 'page' : undefined}>Players</Link>
+      <Link to="/compare?scope=cards" className={cardScope ? 'active' : undefined} aria-current={cardScope ? 'page' : undefined}>Card versions</Link>
+    </nav>
+    {cardScope ? <>
+      <PageHeader
+        title="Compare card versions"
+        description="Evaluate FC27 card trait changes, OVR upgrades, and playstyles side by side."
+        statusPill={<EpistemicChip kind={cards.active ? 'hypothetical' : 'neutral'} label={cards.status} />}
+      />
+      {gameVersion === 'FC27' ? <>
+        <ResearchControl scope="ut_card" label="Use local FC27 card research" />
+        {cards.active && <ResearchCards comparison />}
+      </> : <p className="card">Switch to FC27 in the header for card-version diffs, or <Link to="/cards">open the public card catalogue</Link>.</p>}
+    </> : gameVersion === 'FC27' ? <section className="card stack">
+      <PageHeader
+        title="Compare FC27 players"
+        description={`${players.status}. Compare FC27 research candidates within the same formation, position, and tactical profile in Intelligence Studio, or switch to Card versions above.`}
+        statusPill={<EpistemicChip kind="frozen" label="V3.2.1 Pairwise Engine" />}
+        actions={
+          <>
+            <Link className="btn primary sm" to="/intelligence">Open Intelligence Studio</Link>
+            <Link className="btn ghost sm" to="/compare?scope=cards">Compare FC27 Cards</Link>
+          </>
+        }
+      />
+    </section> : <ComparePlayers key={gameVersion} />}
+  </div>
+}
+
+function ComparePlayers() {
   const { gameVersion, notify } = useSession()
+  const { openCopilot } = useCopilot()
   const [params, setParams] = useSearchParams()
   const ref = useApi<ReferenceData>(`/api/meta/reference${qs({ game_version: gameVersion })}`, [gameVersion])
   const [picked, setPicked] = useState<Picked[]>([])
@@ -69,12 +117,10 @@ export default function Compare() {
   const [formation, setFormation] = useState('')
 
   // hydrate from ?ids= (first load only per version)
-  const [hydrated, setHydrated] = useState<string | null>(null)
+  const [initialIds] = useState(() => params.get('ids')?.split(',').filter(Boolean).slice(0, 4) ?? [])
   useEffect(() => {
-    const ids = params.get('ids')
-    if (!ids || hydrated === gameVersion) return
-    setHydrated(gameVersion)
-    const list = ids.split(',').filter(Boolean).slice(0, 4)
+    let active = true
+    const list = initialIds
     if (!list.length) return
     Promise.all(list.map((id) =>
       api.get<{ game_player: any }>(`/api/players/${id}${qs({ game_version: gameVersion })}`)
@@ -82,18 +128,20 @@ export default function Compare() {
                         position: d.game_player.position_primary as string,
                         overall: d.game_player.overall_rating as number | null }))
         .catch(() => null))).then((rows) => {
+      if (!active) return
       const ok = rows.filter((r): r is Picked => !!r)
       if (ok.length < rows.length) notify('info', 'Some ids are not in this game version and were dropped — versions are never mixed.')
       setPicked(ok)
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params, gameVersion])
+    return () => { active = false }
+  }, [initialIds, gameVersion, notify])
 
   useEffect(() => {
     setParams(picked.length ? { ids: picked.map((p) => p.id).join(',') } : {}, { replace: true })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [picked])
 
+  const contextKey = JSON.stringify([gameVersion, picked.map(p => p.id), useCtx, position, tactical, formation])
   const act = useAction(async () => {
     const body: { game_version: string; entity_ids: string[]; user_context?: RecommendationRequest } = {
       game_version: gameVersion,
@@ -108,26 +156,43 @@ export default function Compare() {
         limit: 1,
       }
     }
-    return api.post<CompareResponse>('/api/compare', body)
+    return { contextKey, comparison: await api.post<CompareResponse>('/api/compare', body) }
   })
 
-  useEffect(() => { act.clear(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [gameVersion])
-
-  const res = act.result
+  const res = act.result?.contextKey === contextKey ? act.result.comparison : null
   const detailCodes = res?.columns?.[0]
     ? Object.keys(res.columns[0].details) : []
 
+  useCopilotRouteContext({
+    route_name: 'PLAYER_COMPARE',
+    game_version: gameVersion === 'FC26' ? 'FC26' : 'FC27',
+    selected_card_ids: picked.map(p => p.id),
+    selected_player_names: picked.map(p => p.name),
+    active_formation: formation || null,
+    active_tactical_profile: tactical || null,
+  })
+
   return (
-    <div>
-      <div className="page-head">
-        <div>
-          <h1 className="mb0">Compare players</h1>
-          <div className="sub small">
-            Side-by-side facts for {gameVersion}. With “rank for my context” enabled, the
-            deterministic engine also says <em>why</em> one beats another for your request.
-          </div>
-        </div>
-      </div>
+    <div className="stack">
+      <PageHeader
+        title="Compare players"
+        description={`Side-by-side verified facts for ${gameVersion}. Enable "rank for my context" to run the deterministic engine verdict for your formation and style.`}
+        statusPill={<EpistemicChip kind="frozen" label={`${gameVersion} Comparison`} />}
+        actions={
+          <button
+            type="button"
+            className="btn ghost sm"
+            onClick={() => openCopilot({
+              prompt: picked.length >= 2
+                ? `Compare ${picked.map(p => p.name).join(' vs ')} for my Gamer DNA and ${tactical.toLowerCase().replace(/_/g, ' ')} system.`
+                : 'How should I compare two midfielders or strikers for my Gamer DNA?',
+            })}
+          >
+            <StadiumIcon name="coach" size={14} />
+            <span>Ask Co-Pilot</span>
+          </button>
+        }
+      />
 
       <div className="card mb2">
         <div className="row">
@@ -140,15 +205,14 @@ export default function Compare() {
             {act.pending ? 'Comparing…' : `Compare ${picked.length || ''}`}
           </button>
         </div>
-        <div className="chips mt1">
-          {picked.map((p) => (
-            <span key={p.id} className="chip on">
-              <Link to={`/players/${p.id}`}>{p.name}</Link>{' '}
-              <button aria-label={`Remove ${p.name}`} style={{ background: 'none', border: 0, color: 'inherit', cursor: 'pointer' }}
-                      onClick={() => setPicked(picked.filter((x) => x.id !== p.id))}>×</button>
-            </span>
-          ))}
-          {picked.length === 0 && <span className="tiny faint">Pick 2–4 players…</span>}
+        <div className="comparison-deck mt2">
+          {picked.map(p => <section key={p.id} className="card discovery-tile tight">
+            <div className="row"><Ovr value={p.overall} /><Pos value={p.position} /></div>
+            <PlayerIdentity name={p.name} /><h3><Link to={`/players/${p.id}`}>{p.name}</Link></h3>
+            <button className="btn ghost sm" type="button" aria-label={`Remove ${p.name}`}
+              onClick={() => setPicked(picked.filter(x => x.id !== p.id))}>Remove</button>
+          </section>)}
+          {!picked.length && <span className="muted small">Pick 2–4 players.</span>}
         </div>
         <hr className="divider" />
         <label className="checkbox">
@@ -188,6 +252,36 @@ export default function Compare() {
 
       {res && (
         <div className="stack">
+          {res.columns.length >= 2 && (
+            <div className="row" style={{ alignItems: 'stretch', gap: '1rem', flexWrap: 'wrap' }}>
+              <div className="flex1" style={{ minWidth: 280 }}>
+                <TacticalRadar
+                  title="Tactical profile comparison"
+                  nameA={res.columns[0].name}
+                  facadesA={res.columns[0].facades}
+                  nameB={res.columns[1].name}
+                  facadesB={res.columns[1].facades}
+                />
+              </div>
+              {res.columns.length === 2 && (
+                <div className="flex1" style={{ minWidth: 280 }}>
+                  <TacticalDeltaMatrix
+                    basePlayer={{
+                      name: res.columns[0].name,
+                      facades: res.columns[0].facades,
+                      overall_rating: res.columns[0].overall_rating,
+                    }}
+                    comparePlayer={{
+                      name: res.columns[1].name,
+                      facades: res.columns[1].facades,
+                      overall_rating: res.columns[1].overall_rating,
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+
           {res.verdict.user_context && res.verdict.ranked_for_user && (
             <div className="card" style={{ borderColor: 'var(--accent-dim)' }}>
               <div className="section-title">Engine verdict for YOUR context</div>

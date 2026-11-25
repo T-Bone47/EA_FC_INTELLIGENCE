@@ -1,10 +1,13 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import { useSession } from '../state/session'
-import { useAction } from '../lib/useApi'
+import { useAction, useApi } from '../lib/useApi'
+import { PlayerIdentity } from '../components/PlayerIdentity'
 import { ErrorBox, Field } from '../components/common'
 import { dateTime } from '../lib/format'
+import { POSITIONS, TACTICS } from '../intelligence/Intelligence'
+import type { RecommendationOptions, StatedFootballStyle, StatedSquadPreferences } from '../intelligence/types'
 
 interface Me {
   id: string
@@ -20,17 +23,27 @@ interface Me {
 export default function Profile() {
   const { user, refreshUser, logout, versions, notify } = useSession()
   const nav = useNavigate()
+  const { hash } = useLocation()
+  const settings = useRef<HTMLDivElement>(null)
+  useEffect(() => { if (hash === '#account-settings') settings.current?.scrollIntoView() }, [hash])
   const [displayName, setDisplayName] = useState(user?.display_name ?? '')
   const [preferred, setPreferred] = useState(user?.preferred_game_version ?? '')
   const [favouritePosition, setFavouritePosition] = useState(
     String((user?.preferences as any)?.favourite_position ?? ''))
+
+  const style = user?.preferences?.football_style as StatedFootballStyle | undefined
+  const [stylePosition, setStylePosition] = useState(style?.position ?? '')
+  const [styleTactic, setStyleTactic] = useState(style?.tactical_profile ?? '')
+  const [cardPrefs,setCardPrefs] = useState<StatedSquadPreferences>((user?.preferences?.card_squad as StatedSquadPreferences) ?? {})
+  const options = useApi<RecommendationOptions>('/api/v3/options')
 
   const save = useAction(async () => {
     const me = await api.patch<Me>('/api/auth/me', {
       display_name: displayName.trim() || null,
       preferred_game_version: preferred || null,
       preferences: { ...(user?.preferences ?? {}),
-                     favourite_position: favouritePosition || null },
+                     favourite_position: favouritePosition || null, card_squad:cardPrefs,
+                     football_style: { position: stylePosition || null, tactical_profile: styleTactic || null } },
     })
     await refreshUser()
     notify('ok', 'Profile updated.')
@@ -38,16 +51,19 @@ export default function Profile() {
   })
 
   return (
-    <div style={{ maxWidth: 640 }}>
-      <div className="page-head">
+    <div className="stack profile-workspace">
+      <div className="card profile-hero">
+        <PlayerIdentity name={user?.display_name || user?.email || ''} />
         <div>
           <h1 className="mb0">Profile</h1>
+          {user?.display_name && <strong>{user.display_name}</strong>}
           <div className="sub small">{user?.email}</div>
         </div>
       </div>
 
-      <div className="card mb2">
-        <div className="section-title">Account</div>
+      <div className="overview-detail">
+      <div className="card" id="account-settings" ref={settings}>
+        <h2>Account and tactical preferences</h2>
         <div className="col">
           <Field label="Display name">
             <input className="input" maxLength={80} value={displayName}
@@ -59,7 +75,7 @@ export default function Profile() {
               <option value="">— no preference —</option>
               {versions.map((v) => (
                 <option key={v.code} value={v.code}>
-                  {v.code}{v.status === 'NO_DATA' ? ' (NO_DATA — architecture only)' : ''}
+                  {v.code}
                 </option>))}
             </select>
           </Field>
@@ -68,6 +84,31 @@ export default function Profile() {
                    value={favouritePosition} placeholder="e.g. CM"
                    onChange={(e) => setFavouritePosition(e.target.value.toUpperCase())} />
           </Field>
+          <fieldset className="col">
+            <legend>Stated football preferences</legend>
+            <Field label="Preferred intelligence position">
+              <select aria-label="Preferred intelligence position" value={stylePosition} onChange={e => setStylePosition(e.target.value)}>
+                <option value="">No preference</option>
+                {POSITIONS.map(position => <option key={position}>{position}</option>)}
+              </select>
+            </Field>
+            <Field label="Preferred tactical style">
+              <select aria-label="Preferred tactical style" value={styleTactic} onChange={e => setStyleTactic(e.target.value)}>
+                <option value="">No preference</option>
+                {TACTICS.map(tactic => <option key={tactic}>{tactic}</option>)}
+              </select>
+            </Field>
+          </fieldset>
+          <fieldset className="col"><legend>Card squad preferences</legend>
+            <label>Preferred squad formation <select value={cardPrefs.formation??''} onChange={e=>setCardPrefs({...cardPrefs,formation:e.target.value||null,preferred_slot:null})}>
+              <option value="">No preference</option>{Object.keys(options.data?.formations??{}).map(f=><option key={f}>{f}</option>)}</select></label>
+            <label>Preferred formation slot <select value={cardPrefs.preferred_slot??''} onChange={e=>setCardPrefs({...cardPrefs,preferred_slot:e.target.value||null})}>
+              <option value="">No preference</option>{options.data?.formations[cardPrefs.formation??'']?.map(s=><option key={s.slot}>{s.slot}</option>)}</select></label>
+            <label>Preferred card PlayStyle+ <input maxLength={60} value={cardPrefs.playstyle_plus??''} onChange={e=>setCardPrefs({...cardPrefs,playstyle_plus:e.target.value||null})}/></label>
+            <label>Default upgrade mode <select value={cardPrefs.upgrade??''} onChange={e=>setCardPrefs({...cardPrefs,upgrade:e.target.value||null})}>
+              <option value="">Optimize lineup</option><option value="one">One replacement</option><option value="two">Two replacements</option><option value="minimum">Minimum change</option></select></label>
+            <label><input type="checkbox" checked={cardPrefs.continuity??true} onChange={e=>setCardPrefs({...cardPrefs,continuity:e.target.checked})}/> Retain incumbents on equal fit</label>
+          </fieldset>
           <ErrorBox error={save.error} />
           <div className="row">
             <button className="btn primary" disabled={save.pending} onClick={() => save.run()}>
@@ -77,8 +118,12 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className="card mb2">
-        <div className="section-title">Session & security</div>
+      <div className="stack">
+      <section className="card"><h2>Saved work</h2><div className="row">
+        <Link className="btn ghost" to="/squads">Saved squads</Link><Link className="btn ghost" to="/saved">Saved players</Link>
+        <Link className="btn ghost" to="/cards/squad-lab">Research scenarios</Link></div></section>
+      <div className="card">
+        <h2>Session and security</h2>
         <dl className="kv small">
           <dt>Role</dt><dd><span className="badge">{user?.role ?? 'user'}</span></dd>
           <dt>Member since</dt><dd>{dateTime((user as any)?.created_at)}</dd>
@@ -103,13 +148,11 @@ export default function Profile() {
       </div>
 
       <div className="card">
-        <div className="section-title">Your data & feedback</div>
-        <p className="small muted mb0">
-          Recommendation feedback you record (👍/👎) is stored with the full request
-          context. It is the future training signal for a learning-to-rank stage —
-          which stays disabled until enough real labels exist. No ML model is trained
-          on fabricated data.
-        </p>
+        <h2>Feedback and research</h2>
+        <p className="muted">Record fit feedback on eligible recommendations. Research availability depends on this instance and the workspace opt-in.</p>
+        <div className="row"><Link to="/intelligence">Intelligence Studio</Link><Link to="/cards/performance">Evidence Lab</Link></div>
+      </div>
+      </div>
       </div>
     </div>
   )

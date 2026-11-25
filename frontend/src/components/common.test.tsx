@@ -1,8 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import {
-  Bar, ConfidenceBadge, FacadeRadar, Facades, FitBadge, Ovr, Value,
+  Bar, ConfidenceBadge, FacadeRadar, Facades, Field, FitBadge, Ovr, Value,
 } from './common'
+
+it('associates the visible field label and hint with the form control', () => {
+  render(<Field label="Password" hint="Use at least eight characters"><input type="password" /></Field>)
+  expect(screen.getByLabelText('Password', { exact: true })).toHaveAccessibleDescription('Use at least eight characters')
+})
 
 describe('UNKNOWN rendering contract', () => {
   it('Ovr renders a dash + UNKNOWN title for null, the number for 0-like values', () => {

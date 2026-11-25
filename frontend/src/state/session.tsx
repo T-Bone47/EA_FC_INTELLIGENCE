@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { api, ApiError, getToken, setToken } from '../api/client'
-import type { GameVersion, VersionInfo } from '../api/types'
+import { useApi } from '../lib/useApi'
+import type { DataAvailability, GameVersion, VersionInfo } from '../api/types'
 
 export interface SessionUser {
   id: string
@@ -25,6 +26,11 @@ interface SessionState {
   versions: VersionInfo[]
   gameVersion: GameVersion
   setGameVersion: (v: GameVersion) => void
+  availability: DataAvailability | null
+  availabilityLoading: boolean
+  refreshAvailability: () => void
+  researchOptIn: boolean
+  setResearchOptIn: (enabled: boolean) => void
   login: (email: string, password: string) => Promise<void>
   signup: (email: string, password: string, displayName: string) => Promise<void>
   logout: (all?: boolean) => Promise<void>
@@ -36,6 +42,7 @@ interface SessionState {
 
 const Ctx = createContext<SessionState | null>(null)
 const VERSION_KEY = 'eafc.version'
+const RESEARCH_KEY = 'eafc.research-opt-in'
 
 function initialVersion(versions: VersionInfo[], user: SessionUser | null): GameVersion {
   const fromUser = user?.preferred_game_version
@@ -50,6 +57,24 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [gameVersion, setVersion] = useState<GameVersion>('FC26')
   const [ready, setReady] = useState(false)
   const [toasts, setToasts] = useState<Toast[]>([])
+  const availability = useApi<DataAvailability>('/api/meta/availability')
+  const [researchOptIn, setOptIn] = useState(() => {
+    try { return sessionStorage.getItem(RESEARCH_KEY) === 'true' } catch { return false }
+  })
+  const setResearchOptIn = useCallback((enabled: boolean) => {
+    setOptIn(enabled)
+    try { sessionStorage.setItem(RESEARCH_KEY, String(enabled)) } catch { /* tab state is still available */ }
+  }, [])
+
+  // Auto-poll availability if database is not connected or request errored
+  useEffect(() => {
+    if (availability.data?.database_status === 'DATABASE_NOT_CONNECTED' || availability.error) {
+      const timer = window.setTimeout(() => {
+        availability.reload()
+      }, 3000)
+      return () => window.clearTimeout(timer)
+    }
+  }, [availability.data?.database_status, availability.error, availability.reload])
 
   const dismiss = useCallback((id: number) => {
     setToasts((t) => t.filter((x) => x.id !== id))
@@ -125,8 +150,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<SessionState>(() => ({
     user, ready, versions, gameVersion, setGameVersion,
+    availability: availability.data, availabilityLoading: availability.loading, refreshAvailability: availability.reload,
+    researchOptIn, setResearchOptIn,
     login, signup, logout, refreshUser, toasts, notify, dismiss,
-  }), [user, ready, versions, gameVersion, setGameVersion, login, signup,
+  }), [user, ready, versions, gameVersion, setGameVersion, availability.data, availability.loading,
+       availability.reload, researchOptIn, setResearchOptIn, login, signup,
        logout, refreshUser, toasts, notify, dismiss])
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>

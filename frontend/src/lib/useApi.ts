@@ -11,26 +11,27 @@ export interface ApiState<T> {
 /** Declarative GET with race protection. `key` changes trigger refetch;
  *  pass null key to skip (e.g. until an id exists). */
 export function useApi<T>(path: string | null, deps: unknown[] = []): ApiState<T> {
-  const [data, setData] = useState<T | null>(null)
-  const [loading, setLoading] = useState(!!path)
-  const [error, setError] = useState<ApiError | null>(null)
+  const [response, setResponse] = useState<{
+    path: string; tick: number; data: T | null; error: ApiError | null
+  } | null>(null)
   const [tick, setTick] = useState(0)
-  const seq = useRef(0)
 
   useEffect(() => {
-    if (!path) { setData(null); setLoading(false); setError(null); return }
-    const my = ++seq.current
-    setLoading(true)
-    setError(null)
-    api.get<T>(path).then(
-      (d) => { if (seq.current === my) { setData(d); setLoading(false) } },
-      (e) => { if (seq.current === my) { setError(e as ApiError); setLoading(false) } },
-    )
+    let active = true
+    setResponse(null)
+    if (path) {
+      void api.get<T>(path).then(
+        (data) => { if (active) setResponse({ path, tick, data, error: null }) },
+        (error: ApiError) => { if (active) setResponse({ path, tick, data: null, error }) },
+      )
+    }
+    return () => { active = false }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path, tick, ...deps])
 
   const reload = useCallback(() => setTick((t) => t + 1), [])
-  return { data, loading, error, reload }
+  const current = response?.path === path && response.tick === tick ? response : null
+  return { data: current?.data ?? null, loading: !!path && !current, error: current?.error ?? null, reload }
 }
 
 /** Imperative action runner (POST/PUT/PATCH/DELETE) with pending + error + last result.

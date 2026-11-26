@@ -91,7 +91,14 @@ def phase40_health() -> Dict[str, Any]:
         "phase": "42",
         "frozen_v321_preserved": True,
         "tools_registered": len(CoachToolRegistry.ALL_TOOLS),
-        "agentic_tools_total": len(CoachToolRegistry.ALL_TOOLS) + len(CoachToolRegistry.PHASE41_5_TOOLS),
+        "phase43_tools_registered": len(CoachToolRegistry.PHASE43_TOOLS),
+        "phase44_tools_registered": len(CoachToolRegistry.PHASE44_TOOLS),
+        "agentic_tools_total": (
+            len(CoachToolRegistry.ALL_TOOLS)
+            + len(CoachToolRegistry.PHASE41_5_TOOLS)
+            + len(CoachToolRegistry.PHASE43_TOOLS)
+            + len(CoachToolRegistry.PHASE44_TOOLS)
+        ),
         "tool_names": CoachToolRegistry.ALL_TOOLS,
         "ai_coach_config": s.safe_ai_public_summary(),
         "pro_comparison_enabled": False,
@@ -689,5 +696,7 @@ def get_performance_progression(user: CurrentUser = Depends(current_user_require
 def reset_personal_privacy_data(user: CurrentUser = Depends(current_user_required)) -> Dict[str, Any]:
     deleted = get_phase40_repository().reset_user_intelligence(user.id)
     from backend.repositories.phase41_repository import get_phase41_repository
+    from backend.repositories.phase43_repository import get_phase43_repository
     get_phase41_repository().reset_user_decision_data(user.id)
-    return {"status": "RESET_COMPLETE", "user_id": user.id, **deleted}
+    p43_del = get_phase43_repository().reset_user_phase43_data(user.id)
+    return {"status": "RESET_COMPLETE", "user_id": user.id, **deleted, **p43_del}

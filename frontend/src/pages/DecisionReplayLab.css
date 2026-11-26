@@ -67,7 +67,7 @@
 }
 
 .dlab-window-item.active {
-  border-color: #b8f57a;
+  border-color: var(--accent-lime, #B6F279);
   background: rgba(184, 245, 122, 0.08);
 }
 

@@ -37,7 +37,7 @@ export default function Signup() {
           <input className="input" maxLength={80} autoComplete="nickname"
                  value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
         </Field>
-        <Field label="Password" hint="At least 8 characters. Stored as a bcrypt hash — never in plain text.">
+        <Field label="Password" hint="Use at least eight characters.">
           <input className="input" type="password" autoComplete="new-password" required
                  minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} />
         </Field>
@@ -51,8 +51,9 @@ export default function Signup() {
           {act.pending ? <span className="spinner" aria-hidden /> : null}
           {act.pending ? 'Creating account…' : 'Sign up'}
         </button>
-        <div className="tiny muted">
-          Already registered? <Link to="/login" state={state}>Log in</Link>
+        <div className="row space-between align-center flex-wrap gap05">
+          <span className="tiny muted">Already registered?</span>
+          <Link className="btn ghost sm" to="/login" state={state}>Log in</Link>
         </div>
       </form>
     </AccountLayout>

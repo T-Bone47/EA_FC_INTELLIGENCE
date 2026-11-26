@@ -2100,3 +2100,594 @@ input[type="radio"] {
     transform: none !important;
   }
 }
+
+
+/* ==========================================================================
+   STADIUM 3.0 — UNIFIED DESIGN SYSTEM OVERRIDES, UTILITIES & MOBILE POLISH
+   ========================================================================== */
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --accent-amber: #F2BB65;
+  --accent-coral: #F07575;
+}
+
+/* Native dark styling + smooth scrollbars + branded text selection */
+html {
+  color-scheme: dark;
+  scrollbar-color: #2B3B4E #0B1018;
+  scrollbar-width: thin;
+}
+
+/* Accessible focus-visible discipline (never show click ring on buttons/links) */
+:where(button, a, summary, [role="button"], input, select, textarea):focus:not(:focus-visible) {
+  outline: none;
+}
+
+:where(button, a, summary, [role="button"]):focus-visible {
+  outline: 2px solid var(--accent-cyan, #67C8F2);
+  outline-offset: 2px;
+}
+
+/* Emil Kowalski tactile button press & hover-capability gating */
+.btn,
+button.tab-btn,
+.stadium-tabs > button,
+.coach-tab-btn,
+.tlab-tab-btn,
+.studio-nav-btn,
+.coach-option-btn,
+.archetype-quick-chip,
+.chip {
+  transition:
+    background-color 140ms var(--ease-out),
+    border-color 140ms var(--ease-out),
+    color 140ms var(--ease-out),
+    transform 120ms var(--ease-out);
+}
+
+.btn:active:not(:disabled),
+button.tab-btn:active:not(:disabled),
+.stadium-tabs > button:active:not(:disabled),
+.coach-tab-btn:active:not(:disabled),
+.tlab-tab-btn:active:not(:disabled),
+.coach-option-btn:active:not(:disabled),
+.archetype-quick-chip:active:not(:disabled),
+.chip:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .card.hover:hover,
+  .football-card:hover {
+    transform: none !important;
+  }
+}
+
+/* Modal & Overlay containment */
+.modal-backdrop,
+.copilot-modal-backdrop,
+.st3-cmdk-backdrop {
+  overscroll-behavior: contain;
+}
+
+.modal,
+.copilot-drawer,
+.st3-cmdk {
+  overscroll-behavior: contain;
+}
+
+/* Unified Dark Form Controls across EVERY route (/profile, /tactical-lab, /coach, /squads, Co-Pilot) */
+:where(.stadium-main, .copilot-drawer, .modal)
+  select:not(.stadium-native-select-proxy),
+select.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--field-bg, #152233);
+  color: var(--field-text, #EDF2F7);
+  border: 1px solid var(--field-border, #31445C);
+  border-radius: var(--radius-sm, 6px);
+  padding: 0.55rem 2.25rem 0.55rem 0.75rem;
+  min-height: 44px;
+  font-size: 0.88rem;
+  line-height: 1.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.72rem center;
+  background-size: 14px 14px;
+  cursor: pointer;
+}
+
+:where(.stadium-main, .copilot-drawer, .modal) select::picker-icon,
+select.select::picker-icon,
+select::-ms-expand {
+  display: none;
+}
+
+:where(.stadium-main, .copilot-drawer, .modal)
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+:where(.stadium-main, .copilot-drawer, .modal) textarea {
+  background-color: var(--field-bg, #152233);
+  color: var(--field-text, #EDF2F7);
+  border: 1px solid var(--field-border, #31445C);
+  border-radius: var(--radius-sm, 6px);
+  padding: 0.55rem 0.75rem;
+  min-height: 44px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+:where(.stadium-main, .copilot-drawer, .modal) select.sm,
+:where(.stadium-main, .copilot-drawer, .modal) input.sm {
+  min-height: 40px;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  font-size: 0.84rem;
+}
+
+:where(.stadium-main, .copilot-drawer, .modal)
+  :is(select:not(.stadium-native-select-proxy), input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), textarea):focus-visible {
+  border-color: var(--accent-cyan, #67C8F2);
+  outline: 2px solid rgba(103, 200, 242, 0.28);
+  outline-offset: 0;
+}
+
+:where(.stadium-main, .copilot-drawer, .modal) select option {
+  background-color: #121B27;
+  color: #EDF2F7;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--accent-lime, #B6F279);
+}
+
+/* Unified Progress Bars (Pitch Lime instead of legacy #00e08a) */
+.bar > span {
+  background: linear-gradient(90deg, var(--accent-cyan, #67C8F2), var(--accent-lime, #B6F279));
+}
+
+/* Complete Missing Shared Layout, Spacing & Color Utilities */
+.space-between,
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.align-center { align-items: center; }
+.align-end { align-items: flex-end; }
+.flex-wrap { flex-wrap: wrap; }
+.w-full { width: 100%; }
+.min-w-0 { min-width: 0; }
+.strong,
+.font-semibold { font-weight: 600; }
+.font-mono { font-family: var(--font-mono, "IBM Plex Mono", monospace); font-variant-numeric: tabular-nums; }
+.font-display { font-family: var(--font-display, "Barlow Semi Condensed", sans-serif); }
+.text-center { text-align: center; }
+.text-white,
+.text-primary { color: var(--text-primary, #EDF2F7); }
+.text-secondary { color: var(--text-secondary, #94A3B8); }
+.text-muted { color: var(--text-muted, #7D91A8); }
+.text-lime { color: var(--accent-lime, #B6F279); }
+.text-cyan { color: var(--accent-cyan, #67C8F2); }
+.text-warn,
+.text-warning,
+.text-amber { color: var(--accent-amber, #F2BB65); }
+.text-danger { color: var(--accent-coral, #F07575); }
+
+.gap01 { gap: 0.25rem; }
+.gap02 { gap: 0.35rem; }
+.gap03 { gap: 0.5rem; }
+.gap04 { gap: 0.65rem; }
+.gap05 { gap: 0.75rem; }
+.gap08 { gap: 1rem; }
+.gap1 { gap: 1rem; }
+.gap2 { gap: 1.5rem; }
+.m0 { margin: 0; }
+.p1 { padding: 0.9rem; }
+.p2 { padding: 1.25rem; }
+.pl1 { padding-left: 1.15rem; }
+.pt07 { padding-top: 0.75rem; }
+.mt01 { margin-top: 0.25rem; }
+.mt04 { margin-top: 0.65rem; }
+.mb04 { margin-bottom: 0.75rem; }
+.mb07 { margin-bottom: 0.9rem; }
+.ml02 { margin-left: 0.35rem; }
+
+/* Unified Badge System across ALL pages & CoachCopilotDrawer */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  border-radius: 5px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.badge.sm {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.48rem;
+}
+
+.badge.tiny {
+  font-size: 0.68rem;
+  padding: 0.14rem 0.4rem;
+}
+
+.badge.lime,
+.badge.success,
+.badge.positive {
+  color: var(--accent-lime, #B6F279);
+  background: rgba(182, 242, 121, 0.12);
+  border: 1px solid rgba(182, 242, 121, 0.35);
+}
+
+.badge.cyan {
+  color: var(--accent-cyan, #67C8F2);
+  background: rgba(103, 200, 242, 0.12);
+  border: 1px solid rgba(103, 200, 242, 0.35);
+}
+
+.badge.warning,
+.badge.warn,
+.badge.gold {
+  color: var(--accent-amber, #F2BB65);
+  background: rgba(242, 187, 101, 0.12);
+  border: 1px solid rgba(242, 187, 101, 0.35);
+}
+
+.badge.danger {
+  color: var(--accent-coral, #F07575);
+  background: rgba(240, 117, 117, 0.12);
+  border: 1px solid rgba(240, 117, 117, 0.35);
+}
+
+.badge.outline {
+  background: transparent;
+  border: 1px solid var(--border-strong, rgba(148, 163, 184, 0.3));
+  color: var(--text-secondary, #94A3B8);
+}
+
+.badge.outline.lime {
+  color: var(--accent-lime, #B6F279);
+  border-color: rgba(182, 242, 121, 0.45);
+}
+
+.badge.outline.cyan {
+  color: var(--accent-cyan, #67C8F2);
+  border-color: rgba(103, 200, 242, 0.45);
+}
+
+/* Flat Inset Panel (Replaces forbidden nested cards inside cards per DESIGN.md) */
+.st3-inset-panel {
+  background: var(--surface-inset, #080D14);
+  border: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.14));
+  border-radius: var(--radius-md, 8px);
+  padding: 0.78rem 0.9rem;
+}
+
+/* Global coach-option-btn so CoachCopilotDrawer renders crisply on every route */
+.coach-option-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.48rem 0.78rem;
+  border-radius: 7px;
+  border: 1px solid var(--field-border, #31445C);
+  background: var(--surface-elevated, #1B2735);
+  color: var(--text-primary, #EDF2F7);
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.coach-option-btn:hover:not(:disabled) {
+  border-color: rgba(182, 242, 121, 0.45);
+  background: var(--surface-hover, #223142);
+}
+
+/* Uniform Stadium Tab Bar parity for TacticalLab & PersonalCoach */
+.tlab-tabs,
+.coach-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.3rem;
+  background: var(--surface-inset, #080D14);
+  border: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.16));
+  border-radius: 9px;
+}
+
+.tlab-tab-btn,
+.coach-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 38px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary, #94A3B8);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tlab-tab-btn:hover:not(:disabled),
+.coach-tab-btn:hover:not(:disabled) {
+  color: var(--text-primary, #EDF2F7);
+  background: var(--surface-elevated, #1B2735);
+}
+
+.tlab-tab-btn.active,
+.coach-tab-btn.active {
+  background: var(--accent-lime, #B6F279);
+  color: #080D14;
+  border-color: transparent;
+  font-weight: 700;
+}
+
+/* Archetype Quick Chips icon/text alignment */
+.archetype-quick-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 40px;
+}
+
+.archetype-quick-chip svg {
+  flex-shrink: 0;
+}
+
+/* Profile Identity Header overflow protection */
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.profile-hero-meta {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.profile-hero-email {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Mobile Sidebar Backdrop Scrim */
+.stadium-nav-scrim {
+  display: none;
+}
+
+@media (max-width: 950px) {
+  .stadium-app.menu-open .stadium-nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 59;
+    background: rgba(6, 10, 16, 0.72);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Compact single-bar top header on narrow phones */
+  .stadium-header {
+    padding: 0.5rem 0.75rem;
+    gap: 0.45rem;
+  }
+
+  .stadium-header-row {
+    min-height: 44px;
+    gap: 0.4rem;
+  }
+
+  .cmd-search-kbd,
+  .workspace-search-submit {
+    display: none !important;
+  }
+
+  /* Ensure 44x44px comfortable mobile touch targets across controls, chips, radios, checkboxes */
+  .stadium-header .btn,
+  .version-switch button,
+  .pos-pills .chip,
+  .stadium-tabs > button,
+  .tlab-tab-btn,
+  .coach-tab-btn,
+  .coach-option-btn,
+  .archetype-quick-chip,
+  .chip {
+    min-height: 44px;
+  }
+
+  .pos-pills .chip {
+    min-width: 44px;
+    justify-content: center;
+  }
+
+  .radio-pill {
+    min-height: 44px;
+    padding: 0.45rem 0.85rem;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Prevent card/grid children from forcing horizontal scroll on 390px screens */
+  .stadium-main,
+  .card,
+  .panel,
+  .ix-main,
+  .ix-rail,
+  .profile-workspace {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .stadium-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+
+/* Sidebar brand + close row + mobile drawer stacking & compact header polish */
+.sidebar-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sidebar-brand-row .brand {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.sidebar-close-btn {
+  display: none;
+}
+
+.cmd-search-kbd {
+  min-height: 24px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  padding: 0 0.35rem;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 950px) {
+  .stadium-nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 64;
+    background: rgba(6, 10, 16, 0.74);
+    backdrop-filter: blur(4px);
+    overscroll-behavior: contain;
+  }
+
+  .stadium-sidebar.menu-open {
+    z-index: 70;
+    overscroll-behavior: contain;
+  }
+
+  .stadium-sidebar.menu-open .sidebar-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .stadium-header {
+    padding: 0.45rem 0.65rem;
+    gap: 0.4rem 0.5rem;
+    row-gap: 0.4rem;
+    z-index: 40;
+  }
+
+  .stadium-header .mobile-menu {
+    min-height: 44px;
+    padding: 0.45rem 0.7rem;
+  }
+
+  .stadium-header .workspace-data {
+    gap: 0.3rem;
+  }
+
+  .stadium-header .workspace-data .dataset-status,
+  .stadium-header .workspace-data .badge {
+    display: none;
+  }
+
+  .stadium-header .version-switch button,
+  .stadium-header .workspace-data .chip {
+    padding: 0 0.52rem;
+    min-height: 44px;
+  }
+
+  .stadium-header .workspace-account {
+    gap: 0.3rem;
+    margin-left: auto;
+  }
+
+  .stadium-header .workspace-account .account-name {
+    max-width: 68px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .stadium-header .workspace-account .btn {
+    min-height: 44px;
+    padding: 0.4rem 0.55rem;
+  }
+
+  [aria-label="Position filter"] .chip,
+  .pos-pills .chip {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .stadium-header .workspace-search {
+    order: 4;
+    flex: 1 0 100%;
+    min-width: 0;
+  }
+
+  .stadium-header .workspace-search input {
+    min-height: 42px;
+  }
+
+  .stadium-header .workspace-releases {
+    order: 5;
+    padding: 0.38rem 0.55rem;
+    gap: 0.35rem 0.6rem;
+    font-size: 0.74rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .stadium-header .mobile-menu {
+    order: 1;
+  }
+  .stadium-header .workspace-data {
+    order: 2;
+  }
+  .stadium-header .workspace-account {
+    order: 3;
+    margin-left: auto;
+  }
+  .stadium-header .workspace-account .account-name {
+    display: none;
+  }
+  .stadium-header .workspace-account .btn[aria-label*="Co-Pilot"] {
+    min-width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+  .stadium-header .workspace-account .btn[aria-label*="Co-Pilot"] span {
+    display: none;
+  }
+  .stadium-header .workspace-releases {
+    display: none;
+  }
+}
+
+/* Uniform Account Actions footer inside Auth pages */
+.account-form .btn.ghost.sm,
+.account-form a.btn.ghost.sm {
+  min-height: 44px;
+}

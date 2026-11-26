@@ -90,6 +90,10 @@ class TrainingRecipeSpec(BaseModel):
     grad_accumulation_steps: int = 4
     fp16_mixed_precision: bool = True
     epochs: int = 60
+    early_stopping_patience_epochs: int = 8
+    early_stopping_min_delta: float = 0.003
+    camera_stream: Literal["BROADCAST", "MINIMAP_ROI"] = "BROADCAST"
+    resume_checkpoint_path: Optional[str] = None
     onnx_opset: int = 12
     target_onnx_path: str
     classes: Dict[int, str] = Field(default_factory=lambda: dict(EA_FC_CLASSES))

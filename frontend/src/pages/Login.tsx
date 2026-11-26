@@ -39,8 +39,8 @@ export default function Login() {
           {act.pending ? <span className="spinner" aria-hidden /> : null}
           {act.pending ? 'Logging in…' : 'Log in'}
         </button>
-        <div className="row tiny" style={{ justifyContent: 'space-between' }}>
-          <Link to="/signup" state={loc.state}>Create an account</Link>
+        <div className="row space-between align-center flex-wrap gap05">
+          <Link className="btn ghost sm" to="/signup" state={loc.state}>Create an account</Link>
           <button type="button" className="btn ghost sm" aria-expanded={recovery} onClick={() => showRecovery(!recovery)}>Forgot password?</button>
         </div>
       </form>

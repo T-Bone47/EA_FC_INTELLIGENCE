@@ -9,6 +9,7 @@
 }
 
 .copilot-drawer {
+  overscroll-behavior: contain;
   width: min(460px, 100vw);
   height: 100vh;
   background: #0b111c;
@@ -32,6 +33,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .copilot-drawer {
+  overscroll-behavior: contain;
     animation: none;
   }
 }
@@ -87,7 +89,7 @@
 }
 
 .copilot-chip-btn:hover {
-  border-color: var(--accent-lime, #b8f57a);
+  border-color: var(--accent-lime, #B6F279);
 }
 
 .copilot-chip-btn:active {
@@ -148,6 +150,7 @@
 
 @media (max-width: 640px) {
   .copilot-drawer {
+  overscroll-behavior: contain;
     width: 100vw;
     height: 92vh;
     margin-top: auto;

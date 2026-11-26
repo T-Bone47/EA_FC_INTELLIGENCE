@@ -10,13 +10,15 @@ import { EpistemicChip } from '../components/ui/StadiumPrimitives'
 import { recentAnalyses } from '../lib/recentAnalyses'
 import type { RecommendationOptions, StatedFootballStyle } from '../intelligence/types'
 
-const modules: { step: string; title: string; detail: string; to: string; icon: StadiumIconName; badge: string }[] = [
-  { step: '01', title: 'Discover players', detail: 'Search the verified player and card catalogues with 6-facet attributes and PlayStyles.', to: '/search', icon: 'search', badge: 'Scouting' },
-  { step: '02', title: 'Tactical intelligence', detail: 'Find eligible players ranked deterministically for your formation and tactical profile.', to: '/intelligence', icon: 'intelligence', badge: 'V3.2.1 Engine' },
-  { step: '03', title: 'Optimize my squad', detail: 'Test full 11-player lineups, smart slot upgrades, and tactical pitch replacements.', to: '/cards/squad-lab', icon: 'squad', badge: 'Squad Lab' },
-  { step: '04', title: 'Compare card versions', detail: 'Inspect radar facet polygons, attribute delta matrices, and evidence coverage.', to: '/compare?scope=cards', icon: 'compare', badge: 'Head-to-Head' },
-  { step: '05', title: 'Personal AI coach', detail: 'Ask evidence-grounded tactical questions, view Gamer DNA, and follow structured drills.', to: '/coach', icon: 'coach', badge: 'Coach & DNA' },
-  { step: '06', title: 'Gameplay & Decision Lab', detail: 'Process recorded FC26/FC27 matches, track telemetry, and audit Football IQ decisions.', to: '/research/gameplay-studio', icon: 'video', badge: 'Match Vision' },
+const modules: { title: string; detail: string; to: string; icon: StadiumIconName; badge: string }[] = [
+  { title: 'Discover players', detail: 'Search the verified player and card catalogues with 6-facet attributes and PlayStyles.', to: '/search', icon: 'search', badge: 'Scouting' },
+  { title: 'Tactical intelligence', detail: 'Find eligible players ranked deterministically for your formation and tactical profile.', to: '/intelligence', icon: 'intelligence', badge: 'Suitability' },
+  { title: 'Optimize my squad', detail: 'Test full 11-player lineups, smart slot upgrades, and tactical pitch replacements.', to: '/cards/squad-lab', icon: 'squad', badge: 'Squad Lab' },
+  { title: 'Compare card versions', detail: 'Inspect radar facet polygons, attribute delta matrices, and evidence coverage.', to: '/compare?scope=cards', icon: 'compare', badge: 'Head-to-Head' },
+  { title: 'Personal AI coach', detail: 'Ask evidence-grounded tactical questions, view Gamer DNA, and follow structured drills.', to: '/coach', icon: 'coach', badge: 'Coach & DNA' },
+  { title: 'Tactical Experiment Lab', detail: 'Run Bayesian single-variable experiments, inspect formation shape deltas, and triage roles.', to: '/tactical-lab', icon: 'sliders', badge: 'Experiments' },
+  { title: 'Gameplay Studio', detail: 'Process recorded FC26/FC27 matches, inspect 2D radar replay, and calibrate parameters.', to: '/research/gameplay-studio', icon: 'video', badge: 'Match Vision' },
+  { title: 'Decision Replay Lab', detail: 'Review key pre-action frames, blind tactical quizzes, and counterfactual Football IQ alternatives.', to: '/research/decision-lab', icon: 'decision', badge: 'Football IQ' },
 ]
 
 const QUICK_ARCHETYPES = [
@@ -45,8 +47,8 @@ export default function Dashboard() {
             <span className="badge info">{gameVersion} Workspace</span>
           </div>
           <h1>Build a smarter squad. Play your football.</h1>
-          <p className="muted" style={{ fontSize: '0.98rem', lineHeight: 1.55 }}>
-            Find players who fit your tactics and inspect exact empirical evidence behind each decision. Zero fabricated market prices, zero silent fallbacks, full deterministic verification.
+          <p className="muted" style={{ fontSize: '0.98rem', lineHeight: 1.55, maxWidth: '64ch' }}>
+            Identify players built for your tactical setup and verify the real ratings, PlayStyles, and empirical match evidence behind every ranking.
           </p>
           <div className="row mt2" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <Link className="btn primary" to="/intelligence">Find my best fit</Link>
@@ -65,7 +67,7 @@ export default function Dashboard() {
                 <Link
                   key={arc.profile}
                   to={`/intelligence?tactical_profile=${arc.profile}`}
-                  className="chip"
+                  className="chip archetype-quick-chip"
                   title={`Launch Intelligence Studio with ${arc.label}`}
                 >
                   <StadiumIcon name="zap" size={12} />
@@ -214,7 +216,7 @@ export default function Dashboard() {
             {availability?.database_status === 'CONNECTED' ? (
               <div className="col gap05">
                 {Object.entries(availability.versions).map(([version, scopes]) => (
-                  <div key={version} className="card tight" style={{ background: 'var(--surface-primary)' }}>
+                  <div key={version} className="st3-inset-panel">
                     <div className="row" style={{ justifyContent: 'space-between', marginBottom: '0.25rem' }}>
                       <strong className="mono" style={{ color: 'var(--accent-cyan)' }}>{version}</strong>
                       <span className="tiny faint">{version === 'FC26' ? 'Production Canonical' : 'Research Cohort'}</span>
@@ -240,7 +242,7 @@ export default function Dashboard() {
               <Link to="/profile" className="tiny faint">Edit</Link>
             </div>
             {style && (style.position || style.tactical_profile) ? (
-              <div className="card tight" style={{ background: 'var(--surface-primary)' }}>
+              <div className="st3-inset-panel">
                 <div className="row align-center gap05">
                   <span className="badge accent">{style.position ?? 'Any'}</span>
                   <strong style={{ fontSize: '0.9rem' }}>{style.tactical_profile?.replace(/_/g, ' ')}</strong>

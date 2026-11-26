@@ -103,20 +103,64 @@ class PersonalCoachOrchestrator:
             health=health,
         )
 
-    def classify_intent(self, q_lower: str, has_image: bool = False) -> TaskIntent:
+    def classify_intent(
+        self,
+        q_lower: str,
+        has_image: bool = False,
+        verified_ctx: Optional[Dict[str, Any]] = None,
+    ) -> TaskIntent:
         if has_image:
             return TaskIntent.IMAGE_SCREENSHOT
-        if any(k in q_lower for k in ("compare ", " vs ", "better than", "between ")):
+        vctx = verified_ctx or {}
+        route_up = str(vctx.get("source_route") or "").upper()
+        in_discovery = route_up in ("PLAYER_DISCOVERY", "/SEARCH", "PLAYER_COMPARE", "/COMPARE", "PLAYER_DETAIL")
+        has_filters = bool(any(v for k, v in (vctx.get("active_filters") or {}).items() if k != "selection_mode" and v not in (None, "", [])))
+        has_cards = len(vctx.get("verified_cards") or []) >= 1 or len(vctx.get("selected_player_names") or []) >= 1
+
+        tactical_compare = any(
+            k in q_lower
+            for k in (
+                "experiment",
+                "fingerprint",
+                "personal meta",
+                "patch meta",
+                "in-possession",
+                "out-of-possession",
+                "tactical config",
+                "formation",
+                "arm a",
+                "arm b",
+                "4-3-3",
+                "4-2-3-1",
+                "4-4-2",
+                "3-5-2",
+            )
+        )
+        if (route_up in ("GAMER_DNA", "/GAMER-DNA")) or any(
+            k in q_lower for k in ("pro player", "play like", "style match", "archetype", "skill gap", "style evolution", "playing style", "style sandbox")
+        ):
+            return TaskIntent.GAMER_DNA
+        if (route_up in ("TACTICAL_LAB", "/TACTICAL-LAB") or tactical_compare) and len(vctx.get("verified_cards") or []) < 2 and not in_discovery:
+            return TaskIntent.TACTICAL_RECOMMENDATION
+        if any(k in q_lower for k in ("compare ", " vs ", "better than", "between ", "which one")):
+            return TaskIntent.PLAYER_COMPARISON
+        if in_discovery and (len(vctx.get("verified_cards") or []) >= 2 or len(vctx.get("selected_player_names") or []) >= 2) and any(
+            k in q_lower for k in ("better", "compare", "pick", "choose", "prefer", "which")
+        ):
             return TaskIntent.PLAYER_COMPARISON
         if any(k in q_lower for k in ("decision", "regret", "football iq", "counterfactual", "passed to", "should i have", "passing option")):
             return TaskIntent.DECISION_ANALYSIS
+        if any(k in q_lower for k in ("experiment", "fingerprint", "personal meta", "patch meta", "in-possession", "out-of-possession")) or route_up in ("TACTICAL_LAB", "/TACTICAL-LAB"):
+            return TaskIntent.TACTICAL_RECOMMENDATION
         if any(k in q_lower for k in ("build me", "optimize", "rebuild", "4-3-3", "4-2-3-1", "4-4-2", "partnership", "upgrade", "replace", "weakest", "squad")):
             if any(k in q_lower for k in ("build me", "optimize", "using my existing")):
                 return TaskIntent.TEAM_BUILDING
             if any(k in q_lower for k in ("formation", "tactics", "defensively stable", "aggressive pressing")):
                 return TaskIntent.TACTICAL_RECOMMENDATION
             return TaskIntent.SQUAD_OPTIMIZATION
-        if any(k in q_lower for k in ("find me", "recommend", "alternative", "buy", "striker", "cdm", "midfielder", "winger", "cb", "gk", "card")):
+        if any(k in q_lower for k in ("find me", "recommend", "alternative", "buy", "striker", "cdm", "midfielder", "winger", "cb", "gk", "card")) or (
+            in_discovery and (has_filters or has_cards) and any(k in q_lower for k in ("fit", "filter", "which", "best", "player", "style", "suit", "target"))
+        ):
             return TaskIntent.PLAYER_DISCOVERY
         if any(k in q_lower for k in ("losing", "conced", "mistake", "clip", "transition", "midfield", "timestamp", "defence", "defense")):
             return TaskIntent.GAMEPLAY_ANALYSIS
@@ -126,7 +170,7 @@ class PersonalCoachOrchestrator:
             return TaskIntent.TRAINING
         if any(k in q_lower for k in ("fc iq", "playstyle", "chemistry", "patch", "how does", "role+", "mechanic")):
             return TaskIntent.GAME_MECHANICS
-        return TaskIntent.GENERAL_FOOTBALL
+        return TaskIntent.PLAYER_DISCOVERY if (in_discovery and (has_filters or has_cards)) else TaskIntent.GENERAL_FOOTBALL
 
     def _authorize_and_hydrate_context(
         self,
@@ -136,13 +180,27 @@ class PersonalCoachOrchestrator:
     ) -> Dict[str, Any]:
         """Independently validates all client-supplied context_envelope IDs against backend ownership."""
         env = req.context_envelope
+        clean_filters: Dict[str, Any] = {}
+        if env and isinstance(env.active_filters, dict):
+            for k, v in env.active_filters.items():
+                if v not in (None, "", []):
+                    clean_filters[sanitize_untrusted_text(str(k), 40)] = (
+                        sanitize_untrusted_text(str(v), 80) if isinstance(v, str) else v
+                    )
         ctx: Dict[str, Any] = {
-            "source_route": env.source_route if env else "/coach",
+            "source_route": env.normalized_route() if env else "/coach",
             "game_version": req.game_version,
             "verified_squad_id": None,
             "verified_match_id": None,
             "verified_decision_id": None,
             "verified_cards": [],
+            "selected_player_names": [sanitize_untrusted_text(n, 80) for n in (env.selected_player_names if env else [])[:6] if str(n).strip()],
+            "active_filters": clean_filters,
+            "active_formation": sanitize_untrusted_text(env.active_formation, 16) if (env and env.active_formation) else None,
+            "active_tactical_profile": sanitize_untrusted_text(env.active_tactical_profile, 32) if (env and env.active_tactical_profile) else None,
+            "tactical_snapshot_id": sanitize_untrusted_text(env.tactical_snapshot_id, 64) if (env and env.tactical_snapshot_id) else None,
+            "experiment_id": sanitize_untrusted_text(env.experiment_id, 64) if (env and env.experiment_id) else None,
+            "visible_timestamp_sec": (env.visible_timestamp_sec if (env and env.visible_timestamp_sec is not None) else (env.video_timestamp_sec if env else None)),
             "squad_summary": None,
         }
         cand_squad_id = (env.squad_id if env and env.squad_id else None) or req.squad_id
@@ -185,21 +243,39 @@ class PersonalCoachOrchestrator:
 
         if env and env.selected_card_ids:
             try:
+                import uuid as _uuid_mod
                 gvid = self.tools.players.game_version_id(req.game_version)
                 if gvid:
-                    for cid in env.selected_card_ids[:4]:
+                    for cid in env.selected_card_ids[:6]:
                         try:
-                            pl = self.tools.players.get_player(
+                            page = self.tools.players.player_page(
                                 gvid,
-                                __import__("uuid").UUID(str(cid)),
+                                _uuid_mod.UUID(str(cid)),
+                                include_cards=False,
+                                include_other_versions=False,
                                 research=(req.game_version == "FC27"),
                             )
-                            if pl:
+                            if page and page.get("game_player"):
+                                gp = page["game_player"]
+                                attrs = page.get("attributes") or {}
+                                clean_attrs = {k: v for k, v in attrs.items() if isinstance(v, (int, float)) and k != "game_player_id"}
+                                pstyles = [f"{ps.get('playstyle_name')}{'+' if ps.get('tier') == 'PLUS' else ''}" for ps in (page.get("playstyles") or [])]
                                 ctx["verified_cards"].append({
-                                    "entity_id": str(pl["id"]),
-                                    "name": pl.get("common_name") or pl.get("full_name"),
-                                    "position": pl.get("position_primary"),
-                                    "ovr": pl.get("overall_rating"),
+                                    "id": str(gp["id"]),
+                                    "entity_id": str(gp["id"]),
+                                    "name": gp.get("display_name") or gp.get("common_name") or gp.get("full_name"),
+                                    "position": gp.get("position_primary"),
+                                    "secondary_positions": page.get("secondary_positions") or [],
+                                    "ovr": gp.get("overall_rating"),
+                                    "overall_rating": gp.get("overall_rating"),
+                                    "nation": gp.get("nation"),
+                                    "club": gp.get("club"),
+                                    "league": gp.get("league"),
+                                    "weak_foot_stars": gp.get("weak_foot_stars"),
+                                    "skill_moves_stars": gp.get("skill_moves_stars"),
+                                    "preferred_foot": gp.get("preferred_foot"),
+                                    "playstyles": pstyles,
+                                    "attributes": clean_attrs,
                                     "game_version": req.game_version,
                                 })
                         except Exception:
@@ -292,22 +368,22 @@ class PersonalCoachOrchestrator:
         if on_progress:
             on_progress("stage", {"stage": "CONTEXT_VALIDATED", "source_route": verified_ctx["source_route"]})
 
-        intent = self.classify_intent(q_lower, has_image=has_valid_image)
+        intent = self.classify_intent(q_lower, has_image=has_valid_image, verified_ctx=verified_ctx)
         if on_progress:
             on_progress("stage", {"stage": "INTENT_CLASSIFIED", "intent": intent.value})
             on_progress("stage", {"stage": "PREFETCHING_EVIDENCE", "intent": intent.value})
 
         # 3. Execute deterministic baseline tools first for preflight evidence integrity checks & fallback safety
-        selected_tools = self._select_tools(q_lower, req)
+        selected_tools = self._select_tools(q_lower, req, verified_ctx=verified_ctx)
         tool_outputs, tool_trace = self._execute_tool_batch(uid, selected_tools[: self.MAX_TOOLS_PER_TURN], on_progress=on_progress)
-        if verified_ctx.get("verified_cards") or verified_ctx.get("verified_squad_id") or verified_ctx.get("verified_match_id") or verified_ctx.get("verified_decision_id"):
+        if verified_ctx.get("verified_cards") or verified_ctx.get("verified_squad_id") or verified_ctx.get("verified_match_id") or verified_ctx.get("verified_decision_id") or verified_ctx.get("active_filters") or verified_ctx.get("source_route") not in ("/coach", "GENERAL", ""):
             tool_outputs["verified_context_envelope"] = verified_ctx
             tool_trace.append({
                 "tool": "authorize_context_envelope",
                 "status": "OK",
                 "elapsed_ms": 0.0,
                 "provenance": "SERVER_AUTHORIZED_CONTEXT",
-                "summary": f"Route {verified_ctx['source_route']} verified",
+                "summary": f"Route {verified_ctx['source_route']} verified ({len(verified_ctx.get('verified_cards') or [])} card(s), {len(verified_ctx.get('active_filters') or {})} filter(s))",
             })
 
         dna = tool_outputs.get("get_gamer_dna") or self._run_single_tool(uid, "get_gamer_dna", {}, tool_outputs, tool_trace)
@@ -319,7 +395,8 @@ class PersonalCoachOrchestrator:
         synthetic_excluded = max(synthetic_excluded, int(iq_pre.get("synthetic_excluded_count", 0)))
 
         # 4. Strict Abstention Guard for ungrounded personal-history questions (never waste LLM calls fabricating clips)
-        needs_personal_footage = any(
+        in_player_discovery = str(verified_ctx.get("source_route") or "").upper() in ("PLAYER_DISCOVERY", "/SEARCH", "PLAYER_COMPARE", "/COMPARE", "PLAYER_DETAIL")
+        needs_personal_footage = (not in_player_discovery) and any(
             kw in q_lower
             for kw in (
                 "losing", "conced", "weakness", "clip", "mistake",
@@ -370,18 +447,28 @@ class PersonalCoachOrchestrator:
         det["limitations"].extend(media_notes)
 
         # 6. Determine whether to execute Hybrid Agentic LLM Orchestration (Gemini Free -> OpenRouter Free)
+        # Provider choice is strictly separated from external-LLM data sharing consent.
         pref_up = (req.preferred_provider or "AUTO").upper()
         explicit_external = pref_up in ("GEMINI", "OPENROUTER", "OPENROUTER_FREE")
         legacy_external = pref_up in ("OLLAMA_LOCAL", "OPENAI_COMPATIBLE")
+        consent_granted = bool(req.consent_external_llm)
         should_use_agentic_llm = (
             self.settings.ai_coach_enabled
-            and (req.consent_external_llm or explicit_external)
+            and consent_granted
             and pref_up not in ("DETERMINISTIC", "OLLAMA_LOCAL", "OPENAI_COMPATIBLE")
         )
 
         if legacy_external:
             det["limitations"].append(
-                f"Legacy provider {pref_up} is disabled under Phase 41.5 free-only Gemini/OpenRouter policy; returned grounded deterministic analysis."
+                f"Legacy provider {pref_up} is disabled under free-only Gemini/OpenRouter policy; returned grounded deterministic analysis."
+            )
+        elif explicit_external and not consent_granted:
+            sec_flags.append("CONSENT_REQUIRED_FOR_EXTERNAL_LLM")
+            det["limitations"].append(
+                f"External provider {pref_up} selected without external-LLM data sharing consent (consent_external_llm=False); executed locally using grounded deterministic coaching."
+            )
+            det.setdefault("provider_notes", []).append(
+                f"Provider {pref_up} skipped: external-LLM data sharing consent not granted."
             )
         elif should_use_agentic_llm:
             fallback_notes: List[str] = []
@@ -516,11 +603,43 @@ class PersonalCoachOrchestrator:
             on_progress("tool_done", {"trace": tool_trace[-len(unique_calls):]})
         return tool_outputs, tool_trace
 
-    def _select_tools(self, q_lower: str, req: CoachQuestionRequest) -> List[tuple[str, Dict[str, Any]]]:
+    def _select_tools(
+        self,
+        q_lower: str,
+        req: CoachQuestionRequest,
+        verified_ctx: Optional[Dict[str, Any]] = None,
+    ) -> List[tuple[str, Dict[str, Any]]]:
         selected: List[tuple[str, Dict[str, Any]]] = [
             ("get_gamer_dna", {}),
             ("find_recurring_mistakes", {}),
         ]
+        vctx = verified_ctx or {}
+        filters = vctx.get("active_filters") or {}
+        route_up = str(vctx.get("source_route") or "").upper()
+        in_discovery = route_up in ("PLAYER_DISCOVERY", "/SEARCH", "PLAYER_COMPARE", "/COMPARE", "PLAYER_DETAIL")
+        v_cards = vctx.get("verified_cards") or []
+        v_names = vctx.get("selected_player_names") or []
+
+        search_kw: Dict[str, Any] = {"game_version": req.game_version, "limit": 6}
+        if filters.get("q"):
+            search_kw["query_name"] = str(filters["q"])[:80]
+        if filters.get("position"):
+            search_kw["position"] = str(filters["position"]).upper()[:6]
+        if filters.get("nation"):
+            search_kw["nation"] = str(filters["nation"])[:80]
+        if filters.get("league"):
+            search_kw["league"] = str(filters["league"])[:80]
+        if filters.get("club"):
+            search_kw["club"] = str(filters["club"])[:80]
+        if filters.get("playstyle"):
+            search_kw["playstyle"] = str(filters["playstyle"])[:60]
+        for ok in ("ovr_min", "ovr_max"):
+            if filters.get(ok) not in (None, ""):
+                try:
+                    search_kw[ok] = int(filters[ok])
+                except (TypeError, ValueError):
+                    pass
+
         if any(k in q_lower for k in ("decision", "regret", "football iq", "counterfactual", "alternative", "pass", "passing", "option")):
             selected.append(("get_football_iq_profile", {}))
             selected.append(("get_decision_regret_summary", {}))
@@ -535,11 +654,50 @@ class PersonalCoachOrchestrator:
         if any(k in q_lower for k in ("buy", "replace", "coins", "upgrade", "squad", "midfield", "cdm", "st", "cb", "build me")):
             selected.append(("recommend_squad_changes", {"game_version": req.game_version}))
             selected.append(("recommend_players", {"game_version": req.game_version, "text_query": req.question[:180], "limit": 5}))
-        if any(k in q_lower for k in ("card", "suitable", "find me", "recommend", "compare", " vs ", "price", "market", "coin")):
-            selected.append(("search_player_cards", {"game_version": req.game_version, "limit": 4}))
-        if any(k in q_lower for k in ("improved", "progress", "compare", "previous")):
+        is_tactical_ctx = route_up in ("TACTICAL_LAB", "/TACTICAL-LAB") or any(
+            k in q_lower for k in ("experiment", "fingerprint", "personal meta", "patch meta", "out-of-possession", "in-possession", "trade-off", "tradeoff", "formation")
+        )
+        if (in_discovery or not is_tactical_ctx) and (
+            in_discovery or any(k in q_lower for k in ("card", "suitable", "find me", "recommend", "compare", " vs ", "which one", "better", "price", "market", "coin", "filter"))
+        ):
+            selected.append(("search_player_cards", search_kw))
+            selected.append(("search_players", search_kw))
+            cmp_names = [c["name"] for c in v_cards if c.get("name")] or list(v_names)
+            if len(cmp_names) >= 2:
+                selected.append(("compare_player_cards", {"names": cmp_names[:4], "game_version": req.game_version}))
+        if any(k in q_lower for k in ("improved", "progress", "previous")) or ("compare" in q_lower and not in_discovery and not is_tactical_ctx):
             selected.append(("evaluate_improvement", {}))
             selected.append(("compare_match_performance", {}))
+        if is_tactical_ctx:
+            p_patch = str(filters.get("game_patch") or req.game_patch or "PATCH_1.04")
+            selected.append(("get_formation_suitability", {"game_version": req.game_version, "game_patch": p_patch}))
+            if any(k in q_lower for k in ("compare", " vs ", "4-3-3", "4-2-3-1")):
+                selected.append(("compare_formations", {"formation_a": "4-3-3", "formation_b": "4-2-3-1", "game_version": req.game_version, "game_patch": p_patch}))
+                selected.append(("compare_tactical_configurations", {"experiment_id": vctx.get("experiment_id")}))
+            if any(k in q_lower for k in ("suggest", "design", "preview")):
+                selected.append(("suggest_tactical_experiment", {"game_version": req.game_version, "game_patch": p_patch}))
+            selected.append(("get_personal_meta_profile", {"game_version": req.game_version, "game_patch": p_patch}))
+            selected.append(("get_tactical_fingerprint", {"match_id": vctx.get("verified_match_id"), "snapshot_id": vctx.get("tactical_snapshot_id")}))
+            if vctx.get("experiment_id"):
+                selected.append(("get_experiment_results", {"experiment_id": vctx["experiment_id"]}))
+                selected.append(("explain_experiment_uncertainty", {"experiment_id": vctx["experiment_id"]}))
+            else:
+                selected.append(("get_experiment_status", {}))
+        if any(k in q_lower for k in ("optimize", "multi-objective", "best xi")):
+            selected.append(("optimize_personal_squad", {"game_version": req.game_version, "game_patch": str(filters.get("game_patch") or req.game_patch or "PATCH_1.04")}))
+        if route_up in ("GAMER_DNA", "/GAMER-DNA") or any(
+            k in q_lower for k in ("pro player", "play like", "style match", "archetype", "skill gap", "style evolution", "playing style", "style sandbox")
+        ):
+            p_patch = str(filters.get("game_patch") or req.game_patch or "ALL")
+            selected.append(("get_gamer_style_profile", {"game_version": req.game_version, "game_patch": p_patch}))
+            selected.append(("get_professional_style_matches", {"game_version": req.game_version, "game_patch": p_patch}))
+            selected.append(("get_elite_skill_gap", {"game_version": req.game_version, "game_patch": p_patch}))
+            if any(k in q_lower for k in ("evol", "drift", "shift", "change")):
+                selected.append(("get_style_evolution", {"game_version": req.game_version}))
+            if any(k in q_lower for k in ("formation", "shape")):
+                selected.append(("recommend_style_compatible_formations", {"game_version": req.game_version}))
+            if any(k in q_lower for k in ("train", "drill", "improve")):
+                selected.append(("recommend_elite_training_plan", {"game_version": req.game_version}))
         if any(k in q_lower for k in ("practise", "practice", "train", "improve", "weekend league")):
             selected.append(("generate_training_plan", {"game_version": req.game_version}))
         selected.append(("get_official_gameplay_knowledge", {"query": req.question[:120], "game_version": req.game_version}))
@@ -615,7 +773,7 @@ class PersonalCoachOrchestrator:
                     if all(str(p.get("entity_id")) != str(item.get("entity_id")) for p in player_recs):
                         player_recs.append(item)
 
-        if "improved" in q_lower or "progress" in q_lower or "compare" in q_lower:
+        if "improved" in q_lower or "progress" in q_lower or ("compare" in q_lower and str((tool_outputs.get("verified_context_envelope") or {}).get("source_route") or "").upper() not in ("PLAYER_DISCOVERY", "/SEARCH", "PLAYER_COMPARE", "/COMPARE", "PLAYER_DETAIL")):
             prog = tool_outputs.get("evaluate_improvement") or self._run_single_tool(uid, "evaluate_improvement", {}, tool_outputs, tool_trace)
             claims["progression"] = "STATISTICAL_ESTIMATE"
             if prog.get("trend_notes"):
@@ -623,6 +781,120 @@ class PersonalCoachOrchestrator:
             elif prog.get("total_eligible_matches", 0) < 2:
                 answer_parts.append(f"Only {prog.get('total_eligible_matches', 0)} real match recorded so far; at least 2 matches are required to compare performance over time.")
             limitations.extend(prog.get("comparability_warnings", []))
+
+        vctx = tool_outputs.get("verified_context_envelope") or {}
+        search_out = tool_outputs.get("search_player_cards") or tool_outputs.get("search_players") or {}
+        cmp_out = tool_outputs.get("compare_player_cards") or {}
+        verified_cards = vctx.get("verified_cards") or []
+        for source_list in (cmp_out.get("compared") or [], verified_cards, search_out.get("items") or []):
+            for item in source_list[:6]:
+                if isinstance(item, dict) and item.get("name"):
+                    eid = str(item.get("entity_id") or item.get("id") or "")
+                    if all(str(p.get("entity_id") or p.get("id") or "") != eid or not eid for p in player_recs):
+                        player_recs.append({
+                            "id": eid,
+                            "entity_id": eid,
+                            "name": item.get("name"),
+                            "position": item.get("position"),
+                            "ovr": item.get("overall_rating") or item.get("ovr"),
+                            "overall_rating": item.get("overall_rating") or item.get("ovr"),
+                            "club": item.get("club"),
+                            "nation": item.get("nation"),
+                            "league": item.get("league"),
+                            "playstyles": item.get("playstyles") or [],
+                            "game_version": item.get("game_version") or req.game_version,
+                            "verdict_label": "Selected" if any(str(c.get("entity_id")) == eid for c in verified_cards) else "Filter Match",
+                        })
+
+        route_up = str(vctx.get("source_route") or "").upper()
+        active_filters = {k: v for k, v in (vctx.get("active_filters") or {}).items() if k != "selection_mode" and v not in (None, "", [])}
+        if cmp_out.get("compared"):
+            compared_rows = cmp_out["compared"]
+            claims["player_comparison"] = "OBSERVED_USER_EVIDENCE"
+            summaries = []
+            for cr in compared_rows[:4]:
+                ps_list = [
+                    f"{p.get('name') or p.get('playstyle_name')}{'+' if p.get('tier') == 'PLUS' else ''}"
+                    if isinstance(p, dict) and (p.get("name") or p.get("playstyle_name"))
+                    else str(p)
+                    for p in (cr.get("playstyles") or [])
+                ][:4]
+                ps_str = ", ".join(ps_list) if ps_list else "no published PlayStyles"
+                summaries.append(f"{cr.get('name')} ({cr.get('position')} · {cr.get('overall_rating')} OVR; {ps_str})")
+            key_findings.append("Compared active selection: " + " vs ".join(summaries) + ".")
+            best_cand = max(compared_rows, key=lambda r: int(r.get("overall_rating") or 0))
+            answer_parts.append(
+                f"Across your active {req.game_version} selection ({' vs '.join(r.get('name', '') for r in compared_rows[:3])}), "
+                f"{best_cand.get('name')} ({best_cand.get('position')}, OVR {best_cand.get('overall_rating')}) leads the baseline rating profile "
+                f"for your {dna['archetype']['primary_archetype']} style. Inspect PlayStyle+ triggers and role familiarity before choosing."
+            )
+        elif search_out.get("items") and (route_up in ("PLAYER_DISCOVERY", "/SEARCH", "PLAYER_DETAIL", "PLAYER_COMPARE", "/COMPARE") or active_filters):
+            items = search_out["items"]
+            claims["player_discovery"] = "OBSERVED_USER_EVIDENCE"
+            f_desc = ", ".join(f"{k}={v}" for k, v in active_filters.items()) or f"{req.game_version} catalogue"
+            top_names = ", ".join(f"{it.get('name')} ({it.get('position')} {it.get('overall_rating')})" for it in items[:3])
+            key_findings.append(f"Active filters [{f_desc}] matched {search_out.get('total', len(items))} {req.game_version} player(s): top candidates {top_names}.")
+            answer_parts.append(
+                f"Matching your active search filters ({f_desc}), top {req.game_version} candidates are {top_names}. "
+                f"For your {dna['archetype']['primary_archetype']} profile ({dna['archetype']['summary']}), "
+                f"{items[0].get('name')} ({items[0].get('position')}, OVR {items[0].get('overall_rating')}) stands out first — select 2+ players to compare PlayStyles and key attributes directly."
+            )
+        elif route_up in ("PLAYER_DISCOVERY", "/SEARCH") and active_filters:
+            f_desc = ", ".join(f"{k}={v}" for k, v in active_filters.items())
+            answer_parts.append(
+                f"No canonical {req.game_version} players matched active filters ({f_desc}). Relax one constraint (e.g. OVR range, PlayStyle, or league) to widen candidates."
+            )
+
+        exp_res = tool_outputs.get("get_experiment_results")
+        form_suit = tool_outputs.get("get_formation_suitability")
+        fp_out = tool_outputs.get("get_tactical_fingerprint")
+        meta_out = tool_outputs.get("get_personal_meta_profile")
+        if exp_res and exp_res.get("experiment_id"):
+            claims["tactical_experiment"] = str(exp_res.get("evidence_grade") or "OBSERVED_ASSOCIATION")
+            key_findings.append(f"Experiment {exp_res['experiment_id']}: verdict={exp_res.get('verdict')} ({exp_res.get('interpretation', '')[:160]})")
+            if not answer_parts:
+                answer_parts.append(exp_res.get("interpretation") or "")
+        elif form_suit and (form_suit.get("ranked_formations") or []):
+            top_f = form_suit["ranked_formations"][0]
+            claims["formation_suitability"] = str(top_f.get("evidence_grade") or "THEORETICAL_SUITABILITY")
+            tactical_sugs.extend(top_f.get("recommended_roles", [])[:3])
+            if not answer_parts and route_up in ("TACTICAL_LAB", "/TACTICAL-LAB"):
+                fp_note = f" Observed shape: {fp_out.get('observed_out_of_possession_shape')}." if (fp_out and fp_out.get("observed_out_of_possession_shape")) else ""
+                meta_note = f" Personal Meta ({meta_out.get('game_patch')}): {meta_out.get('eligible_match_count')} verified match(es)." if meta_out else ""
+                answer_parts.append(
+                    f"Top advisory formation in {req.game_version} for your profile is {top_f['formation']} ({top_f['tactical_profile']}, score={top_f['theoretical_score']:.2f}, grade={top_f['evidence_grade']}).{fp_note}{meta_note}"
+                )
+
+        dna_v2_out = tool_outputs.get("get_gamer_style_profile")
+        pro_match_out = tool_outputs.get("get_professional_style_matches")
+        gap_out = tool_outputs.get("get_elite_skill_gap")
+        if dna_v2_out:
+            arch_info = dna_v2_out.get("archetype") or {}
+            claims["gamer_dna_v2"] = "GAMER_DNA_V2_ENGINE"
+            key_findings.append(
+                f"Gamer DNA V2 ({dna_v2_out.get('game_version')}): {arch_info.get('primary_archetype')} "
+                f"({dna_v2_out.get('eligible_match_count', 0)} real matches, coverage={float(dna_v2_out.get('overall_coverage') or 0):.0%})."
+            )
+            if pro_match_out:
+                if pro_match_out.get("abstained"):
+                    claims["pro_similarity"] = "ABSTAINED_NO_AUTHORIZED_REFERENCES"
+                    limitations.append(str(pro_match_out.get("abstention_reason") or "Zero authorized pro profiles available."))
+                    if not answer_parts:
+                        answer_parts.append(
+                            f"Your Gamer DNA V2 playing identity is {arch_info.get('primary_archetype')} ({dna_v2_out.get('eligible_match_count', 0)} match(es)). "
+                            f"Pro style comparison abstained honestly: {pro_match_out.get('abstention_reason')}"
+                        )
+                elif pro_match_out.get("matches"):
+                    top_p = pro_match_out["matches"][0]
+                    claims["pro_similarity"] = "STATISTICAL_ESTIMATE"
+                    if not answer_parts:
+                        answer_parts.append(
+                            f"Top governed style match in {req.game_version}: {top_p.get('public_alias')} "
+                            f"(index {top_p.get('interpretable_similarity_index'):.1f}/100; style similarity only, not equal skill)."
+                        )
+            if gap_out and gap_out.get("gaps"):
+                top_gap = gap_out["gaps"][0]
+                rec_actions.append(f"Priority execution gap ({top_gap.get('dimension')}): {top_gap.get('suggested_training_objective')}")
 
         iq_out = tool_outputs.get("get_football_iq_profile") or tool_outputs.get("get_football_iq")
         reg_out = tool_outputs.get("get_decision_regret_summary") or tool_outputs.get("get_decision_regret")
@@ -811,7 +1083,10 @@ class PersonalCoachOrchestrator:
             for round_idx in range(max_rounds + 1):
                 if cancel_event and cancel_event.is_set():
                     provider_notes.append("Generation stopped by user request.")
-                    break
+                    return None
+                if budget.is_deadline_exceeded():
+                    provider_notes.append(f"Total turn deadline ({budget.deadline_seconds:.1f}s) reached; finalized with deterministic synthesis.")
+                    return None
                 is_final_round = round_idx >= max_rounds
                 use_tools = None if is_final_round else tool_specs
                 use_schema = schema_dict if is_final_round else None

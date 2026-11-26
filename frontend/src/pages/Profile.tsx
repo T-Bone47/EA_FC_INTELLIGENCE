@@ -5,6 +5,7 @@ import { useSession } from '../state/session'
 import { useAction, useApi } from '../lib/useApi'
 import { PlayerIdentity } from '../components/PlayerIdentity'
 import { ErrorBox, Field } from '../components/common'
+import { StadiumField, StadiumSelect } from '../components/StadiumControls'
 import { dateTime } from '../lib/format'
 import { POSITIONS, TACTICS } from '../intelligence/Intelligence'
 import type { RecommendationOptions, StatedFootballStyle, StatedSquadPreferences } from '../intelligence/types'
@@ -54,10 +55,10 @@ export default function Profile() {
     <div className="stack profile-workspace">
       <div className="card profile-hero">
         <PlayerIdentity name={user?.display_name || user?.email || ''} />
-        <div>
+        <div className="profile-hero-meta">
           <h1 className="mb0">Profile</h1>
           {user?.display_name && <strong>{user.display_name}</strong>}
-          <div className="sub small">{user?.email}</div>
+          <div className="sub small profile-hero-email">{user?.email}</div>
         </div>
       </div>
 
@@ -69,16 +70,17 @@ export default function Profile() {
             <input className="input" maxLength={80} value={displayName}
                    onChange={(e) => setDisplayName(e.target.value)} />
           </Field>
-          <Field label="Preferred game version"
-                 hint="Used as the default when you open the app. Versions are never mixed.">
-            <select className="select" value={preferred} onChange={(e) => setPreferred(e.target.value)}>
+          <StadiumField label="Preferred game version"
+                        hint="Used as the default when you open the app. Versions are never mixed.">
+            <StadiumSelect aria-label="Preferred game version" value={preferred} onChange={setPreferred}>
               <option value="">— no preference —</option>
               {versions.map((v) => (
                 <option key={v.code} value={v.code}>
                   {v.code}
-                </option>))}
-            </select>
-          </Field>
+                </option>
+              ))}
+            </StadiumSelect>
+          </StadiumField>
           <Field label="Favourite position" hint="Stored as a free preference; the engine never infers facts from it.">
             <input className="input" maxLength={5} style={{ maxWidth: 120 }}
                    value={favouritePosition} placeholder="e.g. CM"
@@ -86,28 +88,40 @@ export default function Profile() {
           </Field>
           <fieldset className="col">
             <legend>Stated football preferences</legend>
-            <Field label="Preferred intelligence position">
-              <select aria-label="Preferred intelligence position" value={stylePosition} onChange={e => setStylePosition(e.target.value)}>
+            <StadiumField label="Preferred intelligence position">
+              <StadiumSelect aria-label="Preferred intelligence position" value={stylePosition} onChange={setStylePosition}>
                 <option value="">No preference</option>
                 {POSITIONS.map(position => <option key={position}>{position}</option>)}
-              </select>
-            </Field>
-            <Field label="Preferred tactical style">
-              <select aria-label="Preferred tactical style" value={styleTactic} onChange={e => setStyleTactic(e.target.value)}>
+              </StadiumSelect>
+            </StadiumField>
+            <StadiumField label="Preferred tactical style">
+              <StadiumSelect aria-label="Preferred tactical style" value={styleTactic} onChange={setStyleTactic}>
                 <option value="">No preference</option>
                 {TACTICS.map(tactic => <option key={tactic}>{tactic}</option>)}
-              </select>
-            </Field>
+              </StadiumSelect>
+            </StadiumField>
           </fieldset>
-          <fieldset className="col"><legend>Card squad preferences</legend>
-            <label>Preferred squad formation <select value={cardPrefs.formation??''} onChange={e=>setCardPrefs({...cardPrefs,formation:e.target.value||null,preferred_slot:null})}>
-              <option value="">No preference</option>{Object.keys(options.data?.formations??{}).map(f=><option key={f}>{f}</option>)}</select></label>
-            <label>Preferred formation slot <select value={cardPrefs.preferred_slot??''} onChange={e=>setCardPrefs({...cardPrefs,preferred_slot:e.target.value||null})}>
-              <option value="">No preference</option>{options.data?.formations[cardPrefs.formation??'']?.map(s=><option key={s.slot}>{s.slot}</option>)}</select></label>
-            <label>Preferred card PlayStyle+ <input maxLength={60} value={cardPrefs.playstyle_plus??''} onChange={e=>setCardPrefs({...cardPrefs,playstyle_plus:e.target.value||null})}/></label>
-            <label>Default upgrade mode <select value={cardPrefs.upgrade??''} onChange={e=>setCardPrefs({...cardPrefs,upgrade:e.target.value||null})}>
-              <option value="">Optimize lineup</option><option value="one">One replacement</option><option value="two">Two replacements</option><option value="minimum">Minimum change</option></select></label>
-            <label><input type="checkbox" checked={cardPrefs.continuity??true} onChange={e=>setCardPrefs({...cardPrefs,continuity:e.target.checked})}/> Retain incumbents on equal fit</label>
+          <fieldset className="col gap04"><legend>Card squad preferences</legend>
+            <StadiumField label="Preferred squad formation">
+              <StadiumSelect aria-label="Preferred squad formation" value={cardPrefs.formation??''} onChange={val=>setCardPrefs({...cardPrefs,formation:val||null,preferred_slot:null})}>
+                <option value="">No preference</option>{Object.keys(options.data?.formations??{}).map(f=><option key={f}>{f}</option>)}
+              </StadiumSelect>
+            </StadiumField>
+            <StadiumField label="Preferred formation slot">
+              <StadiumSelect aria-label="Preferred formation slot" value={cardPrefs.preferred_slot??''} onChange={val=>setCardPrefs({...cardPrefs,preferred_slot:val||null})}>
+                <option value="">No preference</option>{options.data?.formations[cardPrefs.formation??'']?.map(s=><option key={s.slot}>{s.slot}</option>)}
+              </StadiumSelect>
+            </StadiumField>
+            <div className="field">
+              <label htmlFor="pref-card-ps">Preferred card PlayStyle+</label>
+              <input id="pref-card-ps" className="input" maxLength={60} value={cardPrefs.playstyle_plus??''} onChange={e=>setCardPrefs({...cardPrefs,playstyle_plus:e.target.value||null})} placeholder="e.g. Finesse Shot+" />
+            </div>
+            <StadiumField label="Default upgrade mode">
+              <StadiumSelect aria-label="Default upgrade mode" value={cardPrefs.upgrade??''} onChange={val=>setCardPrefs({...cardPrefs,upgrade:val||null})}>
+                <option value="">Optimize lineup</option><option value="one">One replacement</option><option value="two">Two replacements</option><option value="minimum">Minimum change</option>
+              </StadiumSelect>
+            </StadiumField>
+            <label className="checkbox"><input type="checkbox" checked={cardPrefs.continuity??true} onChange={e=>setCardPrefs({...cardPrefs,continuity:e.target.checked})}/> Retain incumbents on equal fit</label>
           </fieldset>
           <ErrorBox error={save.error} />
           <div className="row">
@@ -142,15 +156,15 @@ export default function Profile() {
           </button>
         </div>
         <div className="tiny faint mt1">
-          Passwords are stored as bcrypt hashes; sessions are server-side revocable JWTs.
-          Password reset email is not deployed on this instance.
+          Sessions are protected with signed revocable tokens; sign out across all devices anytime above.
+          Self-service password reset email is not enabled on this instance.
         </div>
       </div>
 
       <div className="card">
         <h2>Feedback and research</h2>
         <p className="muted">Record fit feedback on eligible recommendations. Research availability depends on this instance and the workspace opt-in.</p>
-        <div className="row"><Link to="/intelligence">Intelligence Studio</Link><Link to="/cards/performance">Evidence Lab</Link></div>
+        <div className="row gap05 flex-wrap"><Link className="btn ghost sm" to="/intelligence">Intelligence Studio</Link><Link className="btn ghost sm" to="/cards/performance">Evidence Lab</Link></div>
       </div>
       </div>
       </div>

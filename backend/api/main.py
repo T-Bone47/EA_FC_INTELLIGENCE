@@ -89,11 +89,12 @@ def create_app() -> FastAPI:
     from backend.api.routes import (
         auth, cards, compare, feedback, health, meta, players, research_cards,
         recommendations, squads, card_squad_lab, performance_lab, video_research,
-        phase40_coach, phase41_decisions,
+        phase40_coach, phase41_decisions, phase43_tactical_lab, phase44_gamer_dna,
     )
     for module in (health, meta, auth, players, cards, recommendations,
                  compare, squads, feedback, research_cards, card_squad_lab, performance_lab,
-                 video_research, phase40_coach, phase41_decisions):
+                 video_research, phase40_coach, phase41_decisions, phase43_tactical_lab,
+                 phase44_gamer_dna):
         app.include_router(module.router)
 
     from backend.services.data_license_gate import Environment, environment_from_settings

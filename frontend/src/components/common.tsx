@@ -210,7 +210,7 @@ export function FacadeRadar({ values, size = 168 }: {
         const [x, y] = pt(i, 1)
         return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="var(--line)" strokeWidth={1} />
       })}
-      {poly && <polygon points={poly} fill="rgba(0,224,138,.22)" stroke="var(--accent)" strokeWidth={1.6} />}
+      {poly && <polygon points={poly} fill="rgba(182, 242, 121, 0.2)" stroke="var(--accent)" strokeWidth={1.6} />}
       {keys.map((k, i) => {
         const [x, y] = pt(i, 1.2)
         const v = values[k]

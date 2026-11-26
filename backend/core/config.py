@@ -61,9 +61,10 @@ class Settings(BaseSettings):
     ai_coach_token_budget_per_turn: int = 16000
     ai_coach_cooldown_seconds: int = 60
     ai_coach_concurrent_request_limit: int = 3
-    ai_coach_provider_timeout_seconds: float = 16.0
-    ai_coach_gemini_timeout_seconds: float = 14.0
-    ai_coach_openrouter_timeout_seconds: float = 16.0
+    ai_coach_provider_timeout_seconds: float = 12.0
+    ai_coach_gemini_timeout_seconds: float = 10.0
+    ai_coach_openrouter_timeout_seconds: float = 12.0
+    ai_coach_total_deadline_seconds: float = 24.0
     ai_coach_catalog_refresh_seconds: int = 1800
     ai_coach_circuit_breaker_failures: int = 2
     ai_coach_circuit_breaker_cooldown_seconds: float = 120.0
@@ -115,6 +116,7 @@ class Settings(BaseSettings):
             "max_provider_requests_per_turn": int(self.ai_coach_max_provider_requests_per_turn),
             "gemini_timeout_seconds": float(self.ai_coach_gemini_timeout_seconds),
             "openrouter_timeout_seconds": float(self.ai_coach_openrouter_timeout_seconds),
+            "total_deadline_seconds": float(self.ai_coach_total_deadline_seconds),
             "shared_quota_backend": "redis" if bool(self.redis_url and self.redis_url.strip()) else "in_process_single_worker",
         }
 

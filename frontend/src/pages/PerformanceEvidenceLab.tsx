@@ -34,7 +34,8 @@ type Comparison = { predictions: Record<string, {score:number; coverage:number;s
   direction_agreement:string|null }
 
 export default function PerformanceEvidenceLab() {
-  const { active: enabled } = useRelease('ut_card')
+  const { gameVersion, setGameVersion, setResearchOptIn } = useSession()
+  const { active: enabled, canOptIn, status } = useRelease('ut_card')
   const dataset = useApi<Dataset>(enabled ? root + qs(optIn) : null)
   return <div className="evidence-lab">
     <header className="card evidence-header">
@@ -54,8 +55,8 @@ export default function PerformanceEvidenceLab() {
           V3.2.1 Deterministic Core Active
         </span>
       </div>
-      <p className="tiny text-secondary mb02" style={{ maxWidth: '60ch' }}>
-        Strict Honest Data Policy: Zero accepted match gameplay observations currently exist in <code>fc27_staging</code>. All tactical scoring weights remain formally categorized as <strong>MODELED_HEURISTIC</strong> until the minimum statistical power threshold (<em>N ≥ 30 paired sessions</em>) is achieved under Protocol <code>EXP-ST-PRESS-001</code>.
+      <p className="tiny text-secondary mb02" style={{ maxWidth: '64ch' }}>
+        Evidence Policy: Zero approved live match observations are recorded yet. Tactical suitability weights remain calibrated heuristics until N ≥ 30 paired sessions meet completion, Tactical Defending, Latency (≤ 80ms), and checksum integrity gates.
       </p>
       <div className="row gap05 flex-wrap tiny">
         <span className="badge sm outline">Quality Gate: ≥75 Min Completed</span>
@@ -67,8 +68,31 @@ export default function PerformanceEvidenceLab() {
     <ResearchControl scope="ut_card" label="Enable local FC27 performance research" />
     {dataset.loading && <Loading label="Loading research cohort" />}
     <ErrorBox error={dataset.error} onRetry={dataset.reload} />
-    {dataset.data?.cards.length ? <Workspace dataset={dataset.data} /> : !dataset.loading && !dataset.error &&
-      <section className="card"><h2>Gameplay evidence workspace</h2><p className="muted mb0">Enable local research to check the cohort, source ledger and available observations.</p></section>}
+    {dataset.data?.cards.length ? <Workspace dataset={dataset.data} /> : !dataset.loading && !dataset.error && (
+      <section className="card">
+        <div className="row space-between align-center flex-wrap gap05">
+          <div>
+            <h2>Gameplay evidence workspace</h2>
+            <p className="muted mb0">
+              {gameVersion !== 'FC27'
+                ? 'Switch to FC27 and enable local card research to inspect the cohort, source ledger and submitted match observations.'
+                : canOptIn
+                  ? 'Enable local FC27 research to inspect the cohort, source ledger and available observations.'
+                  : `FC27 research dataset status: ${status}.`}
+            </p>
+          </div>
+          {gameVersion !== 'FC27' ? (
+            <button type="button" className="btn primary sm" onClick={() => setGameVersion('FC27')}>
+              Switch to FC27
+            </button>
+          ) : canOptIn ? (
+            <button type="button" className="btn primary sm" onClick={() => setResearchOptIn(true)}>
+              Enable local research
+            </button>
+          ) : null}
+        </div>
+      </section>
+    )}
   </div>
 }
 
@@ -265,7 +289,7 @@ function Intake({card, context, sources, isAdmin, updated}:{card:Card;context:Re
       <button className="btn primary" disabled={intake.pending}>Submit report</button>
     </form>
     <details><summary>Import structured reports or controlled comparisons</summary>
-      <p>Paste an array of up to 50 Phase 31 records. Controlled experiments use two independent counterbalanced sessions with explicit protocol, block and setup keys.</p>
+      <p>Paste an array of up to 50 structured evidence records. Controlled experiments use two independent counterbalanced sessions with explicit protocol, block and setup keys.</p>
       <label>Evidence JSON<textarea value={batch} onChange={e=>setBatch(e.target.value)} rows={6} /></label>
       <button className="btn" disabled={intake.pending} onClick={async()=>{
         setImportError('')

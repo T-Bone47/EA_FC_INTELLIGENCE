@@ -173,8 +173,19 @@ class FreeUsageGuard:
 class TurnBudgetTracker:
     max_provider_requests: int
     max_tokens: int
+    deadline_seconds: float = 24.0
     requests_used: int = 0
     tokens_used: int = 0
+    started_mono: float = field(default_factory=time.monotonic)
+
+    def elapsed_seconds(self) -> float:
+        return max(0.0, time.monotonic() - self.started_mono)
+
+    def remaining_seconds(self, reserve_seconds: float = 0.0) -> float:
+        return max(0.0, float(self.deadline_seconds) - self.elapsed_seconds() - float(reserve_seconds))
+
+    def is_deadline_exceeded(self) -> bool:
+        return self.remaining_seconds() <= 1.0
 
     def reserve_request(self, provider: str) -> None:
         if self.requests_used >= self.max_provider_requests:
@@ -376,6 +387,7 @@ class QuotaManager:
         return TurnBudgetTracker(
             max_provider_requests=max(1, int(self.settings.ai_coach_max_provider_requests_per_turn)),
             max_tokens=max(1024, int(self.settings.ai_coach_token_budget_per_turn)),
+            deadline_seconds=max(6.0, float(getattr(self.settings, "ai_coach_total_deadline_seconds", 24.0))),
         )
 
     def snapshot(self) -> Dict[str, Any]:

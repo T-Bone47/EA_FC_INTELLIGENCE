@@ -155,16 +155,32 @@ export default function Search() {
     return list
   }, [debouncedQ, position, ovrMin, ovrMax, nation, league, playstyle])
 
+  const selectedPlayerNames = useMemo(() => {
+    const items = results.data?.items ?? []
+    return compareIds
+      .map((cid) => items.find((p) => p.id === cid)?.display_name)
+      .filter((name): name is string => Boolean(name))
+  }, [compareIds, results.data])
+
+  const topVisiblePlayerNames = useMemo(
+    () => (results.data?.items ?? []).slice(0, 5).map((p) => p.display_name),
+    [results.data],
+  )
+
   useCopilotRouteContext({
     route_name: 'PLAYER_DISCOVERY',
     game_version: gameVersion === 'FC26' ? 'FC26' : 'FC27',
-    selected_card_ids: compareIds,
+    selected_card_ids: compareIds.length > 0 ? compareIds : (results.data?.items ?? []).slice(0, 4).map((p) => p.id),
+    selected_player_names: selectedPlayerNames.length > 0 ? selectedPlayerNames : topVisiblePlayerNames,
     active_filters: {
       q: debouncedQ || null,
       position: position || null,
       ovr_min: ovrMin || null,
       ovr_max: ovrMax || null,
+      nation: nation || null,
+      league: league || null,
       playstyle: playstyle || null,
+      selection_mode: compareIds.length > 0 ? 'EXPLICIT_COMPARE_SELECTION' : 'VISIBLE_FILTER_TOP',
     },
   })
 
@@ -290,9 +306,8 @@ export default function Search() {
           {/* OVR Range */}
           <div className="mt1">
             <label className="section-title">Overall Rating Range</label>
-            <div className="row mt05 align-center gap05">
+            <div className="mt05" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto minmax(0, 1fr)', alignItems: 'center', gap: '0.5rem' }}>
               <StadiumInput
-                style={{ width: 88 }}
                 type="number"
                 min={1}
                 max={99}
@@ -303,7 +318,6 @@ export default function Search() {
               />
               <span className="faint">–</span>
               <StadiumInput
-                style={{ width: 88 }}
                 type="number"
                 min={1}
                 max={99}

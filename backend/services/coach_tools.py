@@ -157,6 +157,37 @@ class CoachToolRegistry(Phase415ExtendedToolsMixin):
         "get_football_iq",
     ]
 
+    PHASE43_TOOLS = [
+        "get_tactical_fingerprint",
+        "get_formation_suitability",
+        "compare_formations",
+        "compare_tactical_configurations",
+        "suggest_tactical_experiment",
+        "preview_tactical_experiment",
+        "get_experiment_status",
+        "get_experiment_results",
+        "explain_experiment_uncertainty",
+        "evaluate_player_replacement",
+        "optimize_personal_squad",
+        "get_personal_meta_profile",
+    ]
+
+    PHASE44_TOOLS = [
+        "get_gamer_style_profile",
+        "get_style_archetypes",
+        "get_professional_style_matches",
+        "compare_reference_profiles",
+        "explain_style_similarity",
+        "get_style_feature_breakdown",
+        "get_elite_skill_gap",
+        "get_style_evolution",
+        "recommend_style_compatible_players",
+        "recommend_style_compatible_formations",
+        "preview_style_based_squad",
+        "recommend_elite_training_plan",
+        "suggest_style_experiment",
+    ]
+
     def __init__(
         self,
         repo: Optional[Phase40Repository] = None,
@@ -259,6 +290,36 @@ class CoachToolRegistry(Phase415ExtendedToolsMixin):
             "get_patch_information": self.get_official_gameplay_knowledge,
             "get_formation_information": self.preview_formation_change,
             "get_football_iq": self.get_football_iq_profile,
+            # Phase 43 Tactical Experimentation Lab tools (12 core + confirmation/tradeoff aliases)
+            "get_tactical_fingerprint": self.get_tactical_fingerprint,
+            "get_formation_suitability": self.get_formation_suitability,
+            "compare_formations": self.compare_formations,
+            "compare_tactical_configurations": self.compare_tactical_configurations,
+            "suggest_tactical_experiment": self.suggest_tactical_experiment,
+            "preview_tactical_experiment": self.preview_tactical_experiment,
+            "create_tactical_experiment": self.create_tactical_experiment,
+            "get_experiment_status": self.get_experiment_status,
+            "get_experiment_results": self.get_experiment_results,
+            "explain_experiment_uncertainty": self.explain_experiment_uncertainty,
+            "explain_tactical_tradeoffs": self.explain_tactical_tradeoffs,
+            "recommend_tactical_adjustments": self.recommend_tactical_adjustments,
+            "evaluate_player_replacement": self.evaluate_player_replacement,
+            "optimize_personal_squad": self.optimize_personal_squad,
+            "get_personal_meta_profile": self.get_personal_meta_profile,
+            # Phase 44 Professional Gamer DNA & Style Matching tools (13 tools)
+            "get_gamer_style_profile": self.get_gamer_style_profile,
+            "get_style_archetypes": self.get_style_archetypes,
+            "get_professional_style_matches": self.get_professional_style_matches,
+            "compare_reference_profiles": self.compare_reference_profiles,
+            "explain_style_similarity": self.explain_style_similarity,
+            "get_style_feature_breakdown": self.get_style_feature_breakdown,
+            "get_elite_skill_gap": self.get_elite_skill_gap,
+            "get_style_evolution": self.get_style_evolution,
+            "recommend_style_compatible_players": self.recommend_style_compatible_players,
+            "recommend_style_compatible_formations": self.recommend_style_compatible_formations,
+            "preview_style_based_squad": self.preview_style_based_squad,
+            "recommend_elite_training_plan": self.recommend_elite_training_plan,
+            "suggest_style_experiment": self.suggest_style_experiment,
         }
 
     def select_tool_specs_for_intent(self, intent: Any) -> list:
@@ -421,6 +482,12 @@ class CoachToolRegistry(Phase415ExtendedToolsMixin):
         *,
         query_name: Optional[str] = None,
         position: Optional[str] = None,
+        club: Optional[str] = None,
+        nation: Optional[str] = None,
+        league: Optional[str] = None,
+        playstyle: Optional[str] = None,
+        ovr_min: Optional[int] = None,
+        ovr_max: Optional[int] = None,
         game_version: str = "FC27",
         limit: int = 5,
     ) -> Dict[str, Any]:
@@ -430,21 +497,45 @@ class CoachToolRegistry(Phase415ExtendedToolsMixin):
             if not gvid:
                 return {"items": [], "provenance": "CATALOGUE_UNAVAILABLE", "_summary": "No game_version row"}
             res = self.players.search(
-                gvid, q=query_name, position=position.upper() if position else None,
-                sort="overall_rating", sort_dir="desc", page=1, page_size=limit, research=(gv == "FC27"),
+                gvid,
+                q=query_name,
+                position=position.upper() if position else None,
+                club=club,
+                nation=nation,
+                league=league,
+                playstyle=playstyle,
+                ovr_min=int(ovr_min) if ovr_min is not None else None,
+                ovr_max=int(ovr_max) if ovr_max is not None else None,
+                sort="overall_rating",
+                sort_dir="desc",
+                page=1,
+                page_size=limit,
+                research=(gv == "FC27"),
             )
             items = [
                 {
                     "id": str(r.get("id")),
+                    "entity_id": str(r.get("id")),
                     "name": r.get("display_name"),
                     "position": r.get("position_primary"),
+                    "secondary_positions": r.get("secondary_positions") or [],
                     "overall_rating": r.get("overall_rating"),
+                    "ovr": r.get("overall_rating"),
                     "nation": r.get("nation"),
+                    "club": r.get("club"),
+                    "league": r.get("league"),
+                    "pace": r.get("pace"),
+                    "shooting": r.get("shooting"),
+                    "passing": r.get("passing"),
+                    "dribbling": r.get("dribbling"),
+                    "defending": r.get("defending"),
+                    "physicality": r.get("physicality"),
                     "playstyles": r.get("playstyles") or [],
+                    "game_version": gv,
                 }
                 for r in res.get("items", [])
             ]
-            return {"items": items, "game_version": gv, "provenance": "CANONICAL_POSTGRES_CATALOGUE", "_summary": f"Found {len(items)} {gv} candidates"}
+            return {"total": res.get("total", len(items)), "items": items, "game_version": gv, "provenance": "CANONICAL_POSTGRES_CATALOGUE", "_summary": f"Found {len(items)} {gv} candidates"}
         except Exception as exc:
             return {"items": [], "error": str(exc), "provenance": "CATALOGUE_ERROR", "_summary": "Catalogue lookup unavailable"}
 
@@ -469,7 +560,7 @@ class CoachToolRegistry(Phase415ExtendedToolsMixin):
         return {"position": position, "recommended_roles": roles, "official_role_notes": kb["entries"], "provenance": "DNA_PLUS_OFFICIAL_KB", "_summary": f"Role suitability for {position}"}
 
     def evaluate_squad_cohesion(self, user_id: str, formation: str = "4-3-3", tactical_profile: str = "BALANCED", slot_scores: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
-        synergy = compute_whole_xi_synergy(formation=formation, tactical_profile=tactical_profile, slots_data=slot_scores or [])
+        synergy = compute_whole_xi_synergy(formation=formation, tactical_profile=tactical_profile, slots_data=slot_scores or [], cards_by_id={})
         return {"provenance": "PHASE34B_SYNERGY_ENGINE", "_summary": f"Cohesion for {formation}", **synergy}
 
     def evaluate_player_partnership(self, user_id: str, slot_1: str = "LCM", slot_2: str = "CDM", card_1: Optional[Dict[str, Any]] = None, card_2: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:

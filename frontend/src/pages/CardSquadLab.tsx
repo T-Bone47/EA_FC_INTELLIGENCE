@@ -100,9 +100,9 @@ const label = (c:Item) => c.name+' · '+c.rarity+' · '+c.source_item_id
 const fmt = (score:number|null) => score == null ? 'Unavailable' : score.toFixed(4)
 
 export default function CardSquadLab() {
-  const {user} = useSession()
+  const { user, gameVersion, setGameVersion, setResearchOptIn } = useSession()
   const { openCopilot } = useCopilot()
-  const { active: enabled, data } = useRelease('ut_card')
+  const { active: enabled, canOptIn, data, status } = useRelease('ut_card')
 
   return (
     <section className="stack">
@@ -131,7 +131,6 @@ export default function CardSquadLab() {
         <a href="#squad-editor" className="active">Squad Lab</a>
         <a href="#squad-dna">Squad DNA</a>
         <a href="#upgrade-studio">Upgrade Studio</a>
-        <Link to="/squads">Saved player squads</Link>
       </nav>
 
       <ResearchControl scope="ut_card" label="Use local FC27 card research" />
@@ -145,8 +144,26 @@ export default function CardSquadLab() {
       <div className="squad-lab-main">
         {!enabled && (
           <div className="callout info mb1" role="status">
-            <strong>Interactive Pitch Ready:</strong> Explore formation geometries and slot duties below, or jump to{' '}
-            <Link to="/squads">Saved Player Squads</Link>. Enable <em>Use local FC27 card research</em> above to unlock UT card shortlist search and optimizer scoring.
+            <div className="row space-between align-center flex-wrap gap05">
+              <span>
+                <strong>Interactive Pitch Ready:</strong> Explore formation geometries and slot duties below, or jump to{' '}
+                <Link to="/squads">Saved Player Squads</Link>.{' '}
+                {gameVersion !== 'FC27'
+                  ? 'Card research cohorts are isolated to FC27 — switch game version to access UT card shortlists and optimizer scoring.'
+                  : canOptIn
+                    ? 'Enable local FC27 card research to unlock UT card shortlist search and optimizer scoring.'
+                    : `Local FC27 card research status: ${status}.`}
+              </span>
+              {gameVersion !== 'FC27' ? (
+                <button type="button" className="btn primary sm" onClick={() => setGameVersion('FC27')}>
+                  Switch to FC27
+                </button>
+              ) : canOptIn ? (
+                <button type="button" className="btn primary sm" onClick={() => setResearchOptIn(true)}>
+                  Enable FC27 Card Research
+                </button>
+              ) : null}
+            </div>
           </div>
         )}
         <LibraryOfSquads key={user?.id ?? 'guest'} enabled={enabled} />
@@ -337,14 +354,13 @@ function Editor({saved, onSave, enabled = true}:{saved:Saved|null; onSave:()=>vo
       {/* Left Sidebar: Shortlist & Tactical Controls */}
       <aside className="workspace-rail" aria-label="Squad controls">
         <section className="card">
-          <h2>Squad Controls</h2>
-          <h3>Card Shortlist</h3>
+          <h2 className="mb02">Card Shortlist</h2>
           <StadiumField label="Search card items" hint="Search verified cards by name, club or item ID">
             <StadiumInput
               aria-label="Search card items"
               value={query}
               maxLength={80}
-              placeholder="Yamal, Bellingham, 67386507…"
+              placeholder="Name, club or item ID…"
               onChange={e => { setQuery(e.target.value); setOffset(0) }}
               disabled={!enabled}
               clearable
@@ -869,7 +885,7 @@ function Evaluation({plan,initialResult,apply,onSave,onPreview,enabled=true}:{pl
         >
           Preview card squad
         </button>
-        {action.pending && <Loading label="Scoring formation slots with Phase 30 optimizer"/>}
+        {action.pending && <Loading label="Scoring formation slots…"/>}
         <ErrorBox error={action.error}/>
         {dna ? (
           <dl className="kv">
@@ -1218,11 +1234,11 @@ function WholeXISynergyDashboard({
       </div>
 
       <div className="synergy-grid">
-        <div
+        <button
+          type="button"
           className={`synergy-node selectable ${activeTab === 'LEFT_FLANK' ? 'active' : ''}`}
           onClick={() => setActiveTab('LEFT_FLANK')}
-          role="button"
-          tabIndex={0}
+          aria-pressed={activeTab === 'LEFT_FLANK'}
           aria-label="Inspect Left Flank Unit"
         >
           <div className="synergy-node-title">
@@ -1236,13 +1252,13 @@ function WholeXISynergyDashboard({
               : 'Moderate left flank synergy; inspect width and transition support.'}
           </span>
           <span className="tiny text-cyan mt02">Click to inspect unit →</span>
-        </div>
+        </button>
 
-        <div
+        <button
+          type="button"
           className={`synergy-node selectable ${activeTab === 'CENTRAL_SPINE' ? 'active' : ''}`}
           onClick={() => setActiveTab('CENTRAL_SPINE')}
-          role="button"
-          tabIndex={0}
+          aria-pressed={activeTab === 'CENTRAL_SPINE'}
           aria-label="Inspect Central Spine Unit"
         >
           <div className="synergy-node-title">
@@ -1256,13 +1272,13 @@ function WholeXISynergyDashboard({
               : 'Central spine vulnerable to central counter-pressure or low pivot suitability.'}
           </span>
           <span className="tiny text-cyan mt02">Click to inspect unit →</span>
-        </div>
+        </button>
 
-        <div
+        <button
+          type="button"
           className={`synergy-node selectable ${activeTab === 'RIGHT_FLANK' ? 'active' : ''}`}
           onClick={() => setActiveTab('RIGHT_FLANK')}
-          role="button"
-          tabIndex={0}
+          aria-pressed={activeTab === 'RIGHT_FLANK'}
           aria-label="Inspect Right Flank Unit"
         >
           <div className="synergy-node-title">
@@ -1276,7 +1292,7 @@ function WholeXISynergyDashboard({
               : 'Right wing width requires greater physical engagement or passing support.'}
           </span>
           <span className="tiny text-cyan mt02">Click to inspect unit →</span>
-        </div>
+        </button>
       </div>
 
       {activeAlerts.length > 0 && (
@@ -1800,7 +1816,7 @@ function PersonalSquadCoachTab({
               {decisionSupport?.squad_decision_support && (
                 <div className="synergy-trace-box">
                   <div className="row space-between align-center mb02">
-                    <strong className="text-cyan">Phase 41 Squad Decision Support Simulation</strong>
+                    <strong className="text-cyan">Squad Decision Support Simulation</strong>
                     <Link className="tiny text-lime" to="/research/decision-lab">Open Decision Replay Lab →</Link>
                   </div>
                   <div className="row gap1 flex-wrap tiny font-mono mb02">

@@ -27,6 +27,16 @@ def test_auth_rate_limit_returns_429(client, strict_rate_limits):
     assert body["detail"].startswith("Rate limit exceeded")
 
 
+def test_auth_me_uses_general_rate_limit_not_login_cap(client, strict_rate_limits):
+    res = _signup(client)
+    assert res.status_code == 201
+    token = res.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    # Bursting GET /api/auth/me must not exhaust the strict login/signup rate cap
+    statuses = [client.get("/api/auth/me", headers=headers).status_code for _ in range(4)]
+    assert all(code == 200 for code in statuses), statuses
+
+
 def test_general_rate_limit_returns_429(client, strict_rate_limits):
     # health is intentionally UNLIMITED (liveness probes); protected routes are limited
     assert client.get("/api/health").status_code == 200

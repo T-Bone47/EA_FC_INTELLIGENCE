@@ -19,6 +19,14 @@ from backend.cv_training.evaluator import (
     FramePrediction,
     evaluate_detection_and_tracking,
 )
+from backend.cv_training.dataset_tools import (
+    compute_detector_ece_and_brier,
+    export_manifest_to_yolo_dataset,
+    get_cv_pipeline_status,
+    list_cv_checkpoints,
+    parse_yolo_label_lines,
+    register_cv_checkpoint_record,
+)
 from backend.cv_training.manifest import (
     EA_FC_CLASSES,
     BoundingBoxLabel,
@@ -38,8 +46,14 @@ __all__ = [
     "MatchSplitResult",
     "TrainingRecipeSpec",
     "build_training_recipe",
+    "compute_detector_ece_and_brier",
     "evaluate_detection_and_tracking",
+    "export_manifest_to_yolo_dataset",
+    "get_cv_pipeline_status",
+    "list_cv_checkpoints",
+    "parse_yolo_label_lines",
     "probe_local_cv_environment",
+    "register_cv_checkpoint_record",
     "split_by_match_group",
     "validate_manifest",
 ]

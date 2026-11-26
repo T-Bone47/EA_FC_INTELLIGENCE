@@ -347,8 +347,8 @@ export function Intelligence({ initialVersion = 'FC27', initialPosition, onVersi
 
           <h2>Game</h2>
           <div className="ix-row">
-            {(['FC27', 'FC26'] as const).map(v => (
-              <label key={v} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', cursor: 'pointer' }}>
+            {(['FC26', 'FC27'] as const).map(v => (
+              <label key={v} className="radio-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
                 <input
                   type="radio"
                   name="gv"
@@ -543,7 +543,7 @@ export function Intelligence({ initialVersion = 'FC27', initialPosition, onVersi
                 <strong>How recommendations work:</strong> Candidates are scored on tactical fit, position suitability, and published PlayStyles with zero fabricated market prices or chemistry offsets.
               </p>
 
-              <button className="btn primary row align-center gap05" disabled={!req || busy} onClick={submit} style={{ alignSelf: 'flex-start' }}>
+              <button className="btn ghost row align-center gap05" disabled={!req || busy} onClick={submit} style={{ alignSelf: 'flex-start' }}>
                 <StadiumIcon name="zap" size={14} />
                 <span>Score Eligible Candidates</span>
               </button>

@@ -499,3 +499,72 @@ class PartnershipIntelligenceEngine:
                 f"Defensive Unit Complementarity: {complementarity*100:.1f}%.",
             ],
         )
+
+    @staticmethod
+    def evaluate_partnership(
+        slot_1: str,
+        card_1: Any,
+        card_1_score: float,
+        slot_2: str,
+        card_2: Any,
+        card_2_score: float,
+        tactical_profile: str = "BALANCED",
+    ) -> PartnershipEvaluation:
+        """Route a pair of squad slots to the matching specialized partnership evaluator."""
+        s1 = (slot_1 or "").upper()
+        s2 = (slot_2 or "").upper()
+        cb_slots = {"CB", "LCB", "RCB"}
+        st_slots = {"ST", "LST", "RST", "CF"}
+        cam_slots = {"CAM", "LAM", "RAM"}
+        wing_slots = {"LW", "RW", "LM", "RM", "LF", "RF"}
+        fb_slots = {"LB", "RB", "LWB", "RWB"}
+
+        if s1 in cb_slots and s2 in cb_slots:
+            return PartnershipIntelligenceEngine.evaluate_cb_cb(
+                card_cb1=card_1, score_cb1=card_1_score,
+                card_cb2=card_2, score_cb2=card_2_score,
+                tactical_profile=tactical_profile,
+                slot_cb1=slot_1, slot_cb2=slot_2,
+            )
+        if s1 in st_slots and s2 in st_slots:
+            return PartnershipIntelligenceEngine.evaluate_two_strikers(
+                card_st1=card_1, score_st1=card_1_score,
+                card_st2=card_2, score_st2=card_2_score,
+                tactical_profile=tactical_profile,
+                slot_st1=slot_1, slot_st2=slot_2,
+            )
+        if (s1 in st_slots and s2 in cam_slots) or (s2 in st_slots and s1 in cam_slots):
+            if s1 in st_slots:
+                st_c, st_sc, st_sl, cam_c, cam_sc, cam_sl = card_1, card_1_score, slot_1, card_2, card_2_score, slot_2
+            else:
+                st_c, st_sc, st_sl, cam_c, cam_sc, cam_sl = card_2, card_2_score, slot_2, card_1, card_1_score, slot_1
+            return PartnershipIntelligenceEngine.evaluate_st_cam(
+                card_st=st_c, score_st=st_sc,
+                card_cam=cam_c, score_cam=cam_sc,
+                tactical_profile=tactical_profile,
+                slot_st=st_sl, slot_cam=cam_sl,
+            )
+        if (s1 in wing_slots and s2 in fb_slots) or (s2 in wing_slots and s1 in fb_slots):
+            if s1 in wing_slots:
+                w_c, w_sc, w_sl, fb_c, fb_sc, fb_sl = card_1, card_1_score, slot_1, card_2, card_2_score, slot_2
+            else:
+                w_c, w_sc, w_sl, fb_c, fb_sc, fb_sl = card_2, card_2_score, slot_2, card_1, card_1_score, slot_1
+            return PartnershipIntelligenceEngine.evaluate_winger_fullback(
+                card_winger=w_c, score_winger=w_sc,
+                card_fullback=fb_c, score_fullback=fb_sc,
+                tactical_profile=tactical_profile,
+                slot_winger=w_sl, slot_fullback=fb_sl,
+            )
+        if "CDM" in s1 and "CDM" not in s2:
+            return PartnershipIntelligenceEngine.evaluate_cm_cdm(
+                card_cm=card_2, score_cm=card_2_score,
+                card_cdm=card_1, score_cdm=card_1_score,
+                tactical_profile=tactical_profile,
+                slot_cm=slot_2, slot_cdm=slot_1,
+            )
+        return PartnershipIntelligenceEngine.evaluate_cm_cdm(
+            card_cm=card_1, score_cm=card_1_score,
+            card_cdm=card_2, score_cdm=card_2_score,
+            tactical_profile=tactical_profile,
+            slot_cm=slot_1, slot_cdm=slot_2,
+        )

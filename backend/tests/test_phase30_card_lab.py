@@ -71,6 +71,15 @@ def test_pareto_and_identity_semantics():
     assert identity_group(card("1","PROVISIONAL")) != identity_group(card("2","AMBIGUOUS"))
 
 
+def _with_client_addr(app, host: str = "127.0.0.1", port: int = 53002):
+    async def wrapped(scope, receive, send):
+        if scope.get("type") in ("http", "websocket"):
+            scope = {**scope, "client": (host, port)}
+        await app(scope, receive, send)
+
+    return wrapped
+
+
 @pytest.fixture
 def lab():
     if not db.query_one("select to_regclass('fc27_staging.card_squad') as table_name")["table_name"]:
@@ -80,7 +89,7 @@ def lab():
     from unittest.mock import patch
     cfg=get_settings().model_copy(update={"fc27_card_research_enabled":True,"environment":"test"})
     with patch("backend.api.routes.research_cards.get_settings",return_value=cfg), TestClient(
-        create_app(),base_url="http://127.0.0.1",client=("127.0.0.1",53002)) as client:
+        _with_client_addr(create_app(), "127.0.0.1", 53002), base_url="http://127.0.0.1") as client:
         yield client
 
 

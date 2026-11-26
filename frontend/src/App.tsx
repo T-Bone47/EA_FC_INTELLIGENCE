@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { ResearchControl, useRelease } from './components/Availability'
 import { Nav, Toasts } from './components/Nav'
@@ -18,6 +18,8 @@ const CardSquadLab = lazy(() => import('./pages/CardSquadLab'))
 const PerformanceEvidenceLab = lazy(() => import('./pages/PerformanceEvidenceLab'))
 const GameplayStudio = lazy(() => import('./pages/GameplayStudio'))
 const PersonalCoach = lazy(() => import('./pages/PersonalCoach'))
+const TacticalLab = lazy(() => import('./pages/TacticalLab'))
+const GamerDNAStudio = lazy(() => import('./pages/GamerDNAStudio'))
 const DecisionReplayLab = lazy(() => import('./pages/DecisionReplayLab'))
 const CardPage = lazy(() => import('./pages/CardPage'))
 const Compare = lazy(() => import('./pages/Compare'))
@@ -45,7 +47,15 @@ export default function App() {
   return (
     <CopilotProvider>
       <div className={account ? "app stadium-app auth-app" : "app stadium-app"}>
-      {account ? <header className="auth-header"><a className="skip-link" href="#main">Skip to content</a><span>EA FC Intelligence</span></header> : <Nav />}
+      {account ? (
+        <header className="auth-header">
+          <a className="skip-link" href="#main">Skip to content</a>
+          <Link to="/" className="brand" style={{ textDecoration: 'none' }}>
+            <span className="brand-mark">FC</span>
+            <span>EA FC Intelligence</span>
+          </Link>
+        </header>
+      ) : <Nav />}
       <main className="shell stadium-main" id="main" tabIndex={-1}>
         {ready && <Suspense fallback={<div className="p2"><Loading label="Loading module" /></div>}><Routes>
           <Route path="/" element={<Dashboard />} />
@@ -61,6 +71,8 @@ export default function App() {
           <Route path="/research/decision-lab" element={<DecisionReplayLab />} />
           <Route path="/gameplay-studio" element={<GameplayStudio />} />
           <Route path="/coach" element={<PersonalCoach />} />
+          <Route path="/tactical-lab" element={<TacticalLab />} />
+          <Route path="/gamer-dna" element={<GamerDNAStudio />} />
           <Route path="/cards/:id" element={<CardPage />} />
           <Route path="/intelligence" element={availabilityLoading ? <Loading label="Checking data releases" /> : <Intelligence key={`${gameVersion}:${release.active}:${release.canRecommend}:${position ?? ''}`}
             initialVersion={gameVersion} initialPosition={position} onVersionChange={setGameVersion}

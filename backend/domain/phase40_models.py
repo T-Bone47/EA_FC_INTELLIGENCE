@@ -262,16 +262,27 @@ class RecurringMistakePattern(BaseModel):
 class CoachContextEnvelope(BaseModel):
     """Typed cross-route co-pilot context payload validated independently on the server."""
     source_route: str = Field(default="/coach", max_length=120)
+    route_name: Optional[str] = Field(default=None, max_length=120)
     game_version: Optional[Literal["FC26", "FC27"]] = None
     game_patch: Optional[str] = Field(default=None, max_length=32)
-    selected_card_ids: List[str] = Field(default_factory=list, max_length=6)
+    selected_card_ids: List[str] = Field(default_factory=list, max_length=25)
+    selected_player_names: List[str] = Field(default_factory=list, max_length=25)
+    active_filters: Dict[str, Any] = Field(default_factory=dict)
+    active_formation: Optional[str] = Field(default=None, max_length=16)
+    active_tactical_profile: Optional[str] = Field(default=None, max_length=32)
     squad_id: Optional[str] = Field(default=None, max_length=64)
     match_id: Optional[str] = Field(default=None, max_length=80)
     decision_id: Optional[str] = Field(default=None, max_length=80)
     event_id: Optional[str] = Field(default=None, max_length=80)
+    tactical_snapshot_id: Optional[str] = Field(default=None, max_length=64)
+    experiment_id: Optional[str] = Field(default=None, max_length=64)
     video_timestamp_sec: Optional[float] = Field(default=None, ge=0.0)
+    visible_timestamp_sec: Optional[float] = Field(default=None, ge=0.0)
     evidence_refs: List[str] = Field(default_factory=list, max_length=8)
     squad_snapshot_hint: Optional[Dict[str, Any]] = None
+
+    def normalized_route(self) -> str:
+        return (self.route_name or self.source_route or "/coach").strip()
 
 
 class UserCoachPreferences(BaseModel):

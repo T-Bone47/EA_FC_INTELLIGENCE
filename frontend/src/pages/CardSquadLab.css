@@ -223,8 +223,9 @@
 }
 @media (max-width: 700px) {
   .squad-canvas, .squad-insights { grid-column: auto; grid-row: auto; }
-  .squad-workspace .stadium-pitch { min-height: 19rem; }
-  .pitch-player { min-width: 4.5rem; min-height: 3.5rem; padding: 0.3rem 0.4rem; }
+  .squad-workspace .stadium-pitch { min-height: 19rem; padding: 0.65rem 0.35rem; }
+  .pitch-row { gap: 0.25rem; }
+  .pitch-player { min-width: 3.6rem; min-height: 3.35rem; padding: 0.25rem 0.28rem; font-size: 0.72rem; }
 }
 
 /* Whole-XI Tactical Synergy & Cohesion Styles */
@@ -316,6 +317,12 @@
 
 /* Interactive Synergy Inspector Styles */
 .synergy-node.selectable {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
   user-select: none;
 }

@@ -40,6 +40,7 @@ class TaskIntent(str, Enum):
     GAMEPLAY_ANALYSIS = "GAMEPLAY_ANALYSIS"
     DECISION_ANALYSIS = "DECISION_ANALYSIS"
     GAMER_PERFORMANCE = "GAMER_PERFORMANCE"
+    GAMER_DNA = "GAMER_DNA"
     TRAINING = "TRAINING"
     GAME_MECHANICS = "GAME_MECHANICS"
     GENERAL_FOOTBALL = "GENERAL_FOOTBALL"
@@ -126,8 +127,11 @@ class FootballModelRouter:
         else:
             gem_candidates = [gem_default, "gemini-3.8-flash", "gemini-3.6-flash"]
         gem_candidates = list(dict.fromkeys(gem_candidates))
-        if pref == "AUTO":
-            # Include fast fallback alongside default so open circuit never leaves 0 Gemini options
+        if pref == "AUTO" and self.settings.has_openrouter_key():
+            # Cap Gemini candidates to at most 2 in AUTO mode so transient high-demand
+            # 503/timeouts fail over promptly to OpenRouter Free within turn deadline.
+            gem_candidates = gem_candidates[:2]
+        elif pref == "AUTO":
             gem_candidates = gem_candidates[:2] + (["gemini-3.6-flash"] if "gemini-3.6-flash" not in gem_candidates[:2] else [])
 
         or_default = self.settings.openrouter_model or "openrouter/free"
@@ -261,6 +265,19 @@ class FootballModelRouter:
                 if cancel_event and cancel_event.is_set():
                     raise ProviderError(ProviderErrorKind.CANCELLED, "Cancelled by caller.", provider=provider_name, model=model_id, failover_allowed=False)
 
+                if budget.is_deadline_exceeded():
+                    notes.append(
+                        f"Turn deadline ({budget.deadline_seconds:.1f}s) reached after {budget.elapsed_seconds():.1f}s; fell back cleanly."
+                    )
+                    return None, notes
+
+                rem_sec_budget = budget.remaining_seconds()
+                pref_norm = (preferred_provider or "AUTO").upper().strip()
+                has_later_openrouter = any(p == "openrouter" and (p, m) not in attempted for p, m in decision.candidates)
+                if provider_name == "gemini" and pref_norm == "AUTO" and has_later_openrouter and rem_sec_budget < 11.0:
+                    notes.append(f"Skipped {provider_name}/{model_id} to preserve {rem_sec_budget:.1f}s turn budget for OpenRouter failover.")
+                    continue
+
                 adapter = self.providers.get(provider_name)
                 if not adapter:
                     continue
@@ -294,7 +311,7 @@ class FootballModelRouter:
                     else messages
                 )
                 last_provider = provider_name
-                per_timeout = self.settings.effective_provider_timeout(provider_name)
+                per_timeout = min(self.settings.effective_provider_timeout(provider_name), max(3.0, budget.remaining_seconds()))
 
                 try:
                     if stream:

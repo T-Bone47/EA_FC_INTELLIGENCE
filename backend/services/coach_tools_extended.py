@@ -24,6 +24,16 @@ from backend.services.intent_parser import parse as parse_structured_intent
 from backend.services.llm.contracts import LLMToolSpec
 from backend.services.llm.router import TaskIntent
 from backend.services.recommendation_service_v3 import RecommendationServiceV3
+from backend.services.coach_tools_phase43 import (
+    PHASE43_TOOL_DESCRIPTIONS,
+    PHASE43_TOOL_INPUT_MODELS,
+    Phase43TacticalToolsMixin,
+)
+from backend.services.coach_tools_phase44 import (
+    PHASE44_TOOL_DESCRIPTIONS,
+    PHASE44_TOOL_INPUT_MODELS,
+    Phase44GamerDNAToolsMixin,
+)
 
 
 # ------------------------------------------------------------------ Strict Pydantic Input Contracts
@@ -214,6 +224,8 @@ TOOL_INPUT_MODELS: Dict[str, type[BaseModel]] = {
     "get_role_explanation": KnowledgeInput,
     "get_patch_information": KnowledgeInput,
     "get_formation_information": PreviewFormationChangeInput,
+    **PHASE43_TOOL_INPUT_MODELS,
+    **PHASE44_TOOL_INPUT_MODELS,
 }
 
 TOOL_DESCRIPTIONS: Dict[str, str] = {
@@ -269,6 +281,8 @@ TOOL_DESCRIPTIONS: Dict[str, str] = {
     "get_role_explanation": "Explain FC IQ Player Roles and Focuses from official EA documentation.",
     "get_patch_information": "Check patch-specific tuning and mode applicability notes.",
     "get_formation_information": "Return valid slots and tactical rest-defense characteristics for a formation.",
+    **PHASE43_TOOL_DESCRIPTIONS,
+    **PHASE44_TOOL_DESCRIPTIONS,
 }
 
 INTENT_TO_TOOLS: Dict[TaskIntent, List[str]] = {
@@ -296,17 +310,20 @@ INTENT_TO_TOOLS: Dict[TaskIntent, List[str]] = {
     TaskIntent.SQUAD_OPTIMIZATION: [
         "get_current_squad",
         "evaluate_squad",
-        "find_squad_weaknesses",
-        "preview_player_replacement",
+        "evaluate_player_replacement",
+        "compare_tactical_configurations",
+        "optimize_personal_squad",
         "optimize_squad",
         "recommend_players",
     ],
     TaskIntent.TACTICAL_RECOMMENDATION: [
-        "get_gamer_dna",
-        "evaluate_formation",
-        "evaluate_squad",
-        "find_recurring_mistakes",
-        "search_football_knowledge",
+        "get_tactical_fingerprint",
+        "get_formation_suitability",
+        "compare_formations",
+        "compare_tactical_configurations",
+        "suggest_tactical_experiment",
+        "get_experiment_results",
+        "get_personal_meta_profile",
     ],
     TaskIntent.GAMEPLAY_ANALYSIS: [
         "get_match_history",
@@ -327,6 +344,15 @@ INTENT_TO_TOOLS: Dict[TaskIntent, List[str]] = {
         "get_football_iq",
         "get_performance_trends",
         "get_match_history",
+    ],
+    TaskIntent.GAMER_DNA: [
+        "get_gamer_style_profile",
+        "get_style_archetypes",
+        "get_professional_style_matches",
+        "get_elite_skill_gap",
+        "get_style_evolution",
+        "recommend_style_compatible_players",
+        "recommend_elite_training_plan",
     ],
     TaskIntent.TRAINING: [
         "generate_training_plan",
@@ -370,8 +396,8 @@ def build_tool_specs(tool_names: List[str]) -> List[LLMToolSpec]:
     return specs
 
 
-class Phase415ExtendedToolsMixin:
-    """Mixin adding V3.2.1, Squad Lab preview/optimization, and RAG tools to CoachToolRegistry."""
+class Phase415ExtendedToolsMixin(Phase43TacticalToolsMixin, Phase44GamerDNAToolsMixin):
+    """Mixin adding V3.2.1, Squad Lab preview/optimization, RAG, Phase 43 Tactical & Phase 44 Gamer DNA tools."""
 
     _shared_v3_service: Optional[RecommendationServiceV3] = None
 

@@ -4,6 +4,7 @@ import { api, getToken } from '../api/client'
 import { useCopilot } from '../state/copilot'
 import { useSession } from '../state/session'
 import { ScreenshotRedactorModal, type RedactedScreenshotPayload } from './ScreenshotRedactorModal'
+import { StadiumSelect } from './StadiumControls'
 import { StadiumIcon } from './StadiumIcons'
 import './CoachCopilotDrawer.css'
 
@@ -25,6 +26,11 @@ const ROUTE_QUICK_PROMPTS: Record<string, string[]> = {
   SQUAD_LAB: [
     'Audit this squad for weak slots and rest-defense risk',
     'Propose an upgrade keeping chemistry and role fit high',
+  ],
+  TACTICAL_LAB: [
+    'Compare Arm A vs Arm B in my active tactical experiment',
+    'What is my nominal vs observed in/out-of-possession shape?',
+    'Should I change tactics or replace my CDM before spending coins?',
   ],
   GAMEPLAY_STUDIO: [
     'What caused my recent transition losses in this footage?',
@@ -115,8 +121,8 @@ export function CoachCopilotDrawer() {
       await api.put('/api/phase40/coach/preferences', {
         preferred_provider: providerPref,
         consent_external_llm: consentExternal,
-        favorite_formation: contextEnvelope.active_formation || '4-2-3-1',
-        playstyle_focus: contextEnvelope.active_tactical_profile || 'BALANCED',
+        preferred_formation: contextEnvelope.active_formation || '4-2-3-1',
+        preferred_tactical_profile: contextEnvelope.active_tactical_profile || 'BALANCED',
       })
       notify('ok', 'Co-Pilot preferences saved.')
     } catch {
@@ -151,8 +157,11 @@ export function CoachCopilotDrawer() {
       game_version: gameVersion === 'FC26' ? 'FC26' : 'FC27',
       squad_id: contextEnvelope.squad_id || null,
       active_match_id: contextEnvelope.match_id || null,
-      context_envelope: contextEnvelope,
-      consent_external_llm: consentExternal || (providerPref !== 'DETERMINISTIC' && providerPref !== 'AUTO'),
+      context_envelope: {
+        ...contextEnvelope,
+        source_route: contextEnvelope.route_name || 'GENERAL',
+      },
+      consent_external_llm: consentExternal,
       preferred_provider: providerPref,
       request_id: reqId,
     }
@@ -279,9 +288,14 @@ export function CoachCopilotDrawer() {
             <span className="badge sm cyan font-mono">{contextEnvelope.route_name}</span>
             {contextEnvelope.squad_id && <span className="badge sm outline font-mono">Squad linked</span>}
             {contextEnvelope.decision_id && <span className="badge sm outline font-mono">Decision linked</span>}
+            {contextEnvelope.tactical_snapshot_id && <span className="badge sm outline font-mono">Snapshot linked</span>}
+            {contextEnvelope.experiment_id && <span className="badge sm outline font-mono">Experiment linked</span>}
             {contextEnvelope.selected_card_ids?.length ? (
               <span className="badge sm outline font-mono">{contextEnvelope.selected_card_ids.length} player(s)</span>
             ) : null}
+            {contextEnvelope.active_filters && Object.entries(contextEnvelope.active_filters).some(([k, v]) => k !== 'selection_mode' && v) && (
+              <span className="badge sm outline font-mono">Filters active</span>
+            )}
             {typeof contextEnvelope.visible_timestamp_sec === 'number' && (
               <span className="badge sm outline font-mono">@{contextEnvelope.visible_timestamp_sec.toFixed(1)}s</span>
             )}
@@ -379,16 +393,18 @@ export function CoachCopilotDrawer() {
 
         <footer className="copilot-composer">
           <div className="row space-between align-center flex-wrap gap04 tiny">
-            <select
-              value={providerPref}
-              onChange={e => setProviderPref(e.target.value as ProviderPref)}
-              aria-label="Co-Pilot Provider"
-            >
-              <option value="AUTO">Auto (Gemini Free → OpenRouter → Det.)</option>
-              <option value="GEMINI">Gemini Free</option>
-              <option value="OPENROUTER_FREE">OpenRouter Free</option>
-              <option value="DETERMINISTIC">Deterministic Only</option>
-            </select>
+            <div style={{ minWidth: 185, flex: '1 1 185px' }}>
+              <StadiumSelect
+                aria-label="Co-Pilot Provider"
+                value={providerPref}
+                onChange={val => setProviderPref(val as ProviderPref)}
+              >
+                <option value="AUTO">Auto (Gemini → Det.)</option>
+                <option value="GEMINI">Gemini Free</option>
+                <option value="OPENROUTER_FREE">OpenRouter Free</option>
+                <option value="DETERMINISTIC">Deterministic Only</option>
+              </StadiumSelect>
+            </div>
             <label className="checkbox tiny">
               <input type="checkbox" checked={consentExternal} onChange={e => setConsentExternal(e.target.checked)} />
               <span>External AI opt-in</span>
@@ -397,6 +413,11 @@ export function CoachCopilotDrawer() {
               <button type="button" className="btn ghost sm" onClick={savePreferences}>Save Prefs</button>
             )}
           </div>
+          {providerPref !== 'DETERMINISTIC' && !consentExternal && (
+            <div className="tiny text-muted" role="note">
+              External AI opt-in is unchecked — provider {providerPref} will not be called and grounded Deterministic Coach will answer locally.
+            </div>
+          )}
 
           <div className="row gap04 align-center">
             <button

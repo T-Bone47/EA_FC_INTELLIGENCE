@@ -18,14 +18,13 @@ from backend.api.security import (
 from backend.core.config import get_settings
 from backend.repositories.user_repository import UserRepository
 
-router = APIRouter(prefix="/api/auth", tags=["auth"],
-                   dependencies=[Depends(rate_limit_auth)])
+router = APIRouter(prefix="/api/auth", tags=["auth"])
 users = UserRepository()
 
 GENERIC_CREDS_ERROR = "Invalid email or password."
 
 
-@router.post("/signup", status_code=201)
+@router.post("/signup", status_code=201, dependencies=[Depends(rate_limit_auth)])
 def signup(body: SignupRequest, request: Request) -> TokenResponse:
     if users.email_exists(body.email):
         # same generic error as login to avoid user enumeration
@@ -44,7 +43,7 @@ def signup(body: SignupRequest, request: Request) -> TokenResponse:
               "display_name": user["display_name"], "role": user["role"]})
 
 
-@router.post("/login")
+@router.post("/login", dependencies=[Depends(rate_limit_auth)])
 def login(body: LoginRequest, request: Request) -> TokenResponse:
     row = users.get_by_email(body.email)
     if row is None or not row["is_active"] or not verify_password(body.password,

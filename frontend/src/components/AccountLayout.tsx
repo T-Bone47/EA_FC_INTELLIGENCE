@@ -1,10 +1,9 @@
 import type { ReactNode } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { StadiumPitch } from './StadiumPitch'
 import { StadiumIcon } from './StadiumIcons'
 
 export function AccountLayout({ children }: { children: ReactNode }) {
-  const { state } = useLocation()
   return (
     <div className="account-layout">
       <section className="account-intro">
@@ -31,10 +30,6 @@ export function AccountLayout({ children }: { children: ReactNode }) {
       </section>
       
       <section className="card account-form">
-        <nav className="stadium-tabs" aria-label="Account actions">
-          <NavLink to="/login" state={state}>Sign in</NavLink>
-          <NavLink to="/signup" state={state}>Create account</NavLink>
-        </nav>
         {children}
         <div className="pt05 border-t">
           <Link className="btn ghost wide" to="/" style={{ textAlign: 'center' }}>

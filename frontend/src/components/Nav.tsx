@@ -37,9 +37,9 @@ interface NavDestination {
 
 const navGroups: { label: string; items: NavDestination[] }[] = [
   {
-    label: 'Overview',
+    label: 'Workspace',
     items: [
-      { to: '/', title: 'Overview', icon: 'dashboard', subtitle: 'Performance summary', paths: ['/dashboard'], group: 'Overview' },
+      { to: '/', title: 'Overview', icon: 'dashboard', subtitle: 'Performance summary', paths: ['/dashboard'], group: 'Workspace' },
     ],
   },
   {
@@ -55,6 +55,8 @@ const navGroups: { label: string; items: NavDestination[] }[] = [
     label: 'Play & Improve',
     items: [
       { to: '/coach', title: 'Personal Coach', icon: 'coach', subtitle: 'AI coach & Gamer DNA', paths: ['/coach'], group: 'Play & Improve' },
+      { to: '/gamer-dna', title: 'Gamer DNA', icon: 'dna', subtitle: 'Style identity & pro matching', paths: ['/gamer-dna'], group: 'Play & Improve' },
+      { to: '/tactical-lab', title: 'Tactical Lab', icon: 'sliders', subtitle: 'Experiments & Fingerprints', paths: ['/tactical-lab'], group: 'Play & Improve' },
       { to: '/research/gameplay-studio', title: 'Gameplay Studio', icon: 'video', subtitle: 'Match video & telemetry', paths: ['/research/gameplay-studio', '/gameplay-studio'], group: 'Play & Improve' },
       { to: '/research/decision-lab', title: 'Decision Lab', icon: 'decision', subtitle: 'Counterfactual & Football IQ', paths: ['/research/decision-lab'], group: 'Play & Improve' },
     ],
@@ -157,6 +159,13 @@ export function Nav() {
   return (
     <>
       <a className="skip-link" href="#main">Skip to content</a>
+      {open && (
+        <div
+          className="stadium-nav-scrim"
+          aria-hidden="true"
+          onClick={() => setOpen(false)}
+        />
+      )}
       <aside
         className={`stadium-sidebar${open ? ' menu-open' : ''}${compact ? ' compact' : ''}`}
         onKeyDown={e => {
@@ -166,13 +175,28 @@ export function Nav() {
           }
         }}
       >
-        <Link to="/" className="brand" title="EA FC Intelligence" onClick={() => setOpen(false)}>
-          <span className="brand-mark" aria-hidden="true">FC</span>
-          <span className="brand-label">
-            EA FC Intelligence
-            <small>Stadium 3.0</small>
-          </span>
-        </Link>
+        <div className="sidebar-brand-row">
+          <Link to="/" className="brand" title="EA FC Intelligence" onClick={() => setOpen(false)}>
+            <span className="brand-mark" aria-hidden="true">FC</span>
+            <span className="brand-label">
+              EA FC Intelligence
+              <small>Stadium 3.0</small>
+            </span>
+          </Link>
+          {open && (
+            <button
+              type="button"
+              className="btn ghost sm sidebar-close-btn"
+              aria-label="Close navigation menu"
+              onClick={() => {
+                setOpen(false)
+                menu.current?.focus()
+              }}
+            >
+              <StadiumIcon name="close" size={16} />
+            </button>
+          )}
+        </div>
 
         <nav className="stadium-nav" id="stadium-navigation" aria-label="Main" ref={navigation}>
           {navGroups.map(group => (
@@ -281,7 +305,6 @@ export function Nav() {
               onClick={() => setPaletteOpen(true)}
               aria-label="Open command palette (Ctrl+K)"
               title="Command palette (Ctrl+K)"
-              style={{ minHeight: 24, cursor: 'pointer', background: 'transparent', border: '1px solid var(--border-strong)', color: 'var(--text-secondary)', borderRadius: 4, padding: '0 0.35rem', fontSize: '0.72rem' }}
             >
               Ctrl+K
             </button>

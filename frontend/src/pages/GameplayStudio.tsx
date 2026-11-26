@@ -1190,7 +1190,7 @@ export default function GameplayStudio() {
                     className="btn-primary-action"
                     onClick={handleRunLocalCV}
                   >
-                    Run Local CV Pipeline (RTX 3050)
+                    Run Local Vision Pipeline
                   </button>
 
                   {cvTelemetry && (
@@ -1399,7 +1399,7 @@ export default function GameplayStudio() {
 
                 <div className="mt02">
                   <div className="inspector-field-label mb01">Cryptographic Seal:</div>
-                  <div className="hash-pill">{selectedEvent.integrity_hash || 'SHA-256 Verified'}</div>
+                  <div className="hash-pill" title={selectedEvent.integrity_hash || 'SHA-256 Verified'}>{selectedEvent.integrity_hash || 'SHA-256 Verified'}</div>
                 </div>
 
                 <div className="mt03 border-t pt03 stack gap03">
@@ -1461,7 +1461,7 @@ export default function GameplayStudio() {
               </p>
             </div>
             <div className="ingestion-status-pill-group">
-              <span className="badge sm lime">Phase 38 · Local Perception</span>
+              <span className="badge sm lime">Local Perception</span>
               <span className="badge sm outline font-mono">
                 {systemCaps ? `${systemCaps.compute_device?.backend} · ${systemCaps.decoder}` : 'Local PyAV / OpenCV / DLT'}
               </span>

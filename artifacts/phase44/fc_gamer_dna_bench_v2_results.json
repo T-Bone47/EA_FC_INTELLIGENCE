@@ -1,0 +1,55 @@
+{
+  "benchmark": "FC_GAMER_DNA_BENCH_V2",
+  "generated_at": "2026-11-26T10:52:33.014356+00:00",
+  "synthetic_bench_only": true,
+  "note": "Pro benchmark references in Section C are isolated memory-only synthetic vectors used exclusively to validate distance/ranking/revocation math; real pro registry remains empty & abstaining.",
+  "sections": {
+    "A_feature_correctness": {
+      "total_features": 60,
+      "style_features": 53,
+      "proficiency_features": 7,
+      "missing_stays_null": true,
+      "synthetic_excluded": true,
+      "group_g_isolated": true,
+      "passed": true
+    },
+    "B_style_identity_separability": {
+      "gamers_evaluated": 40,
+      "archetype_top1_accuracy": 1.0,
+      "mean_within_gamer_split_cosine": 0.9994,
+      "scaler_fit_split_tracked": "TRAIN_PROFILES_ONLY",
+      "passed": true
+    },
+    "C_similarity_and_governance": {
+      "real_registry_zero_auth_abstained": true,
+      "controlled_pro_top1_recall": 1.0,
+      "edition_firewall_fc26_vs_fc27_abstained": true,
+      "revocation_immediate_invalidation": true,
+      "passed": true
+    },
+    "D_unsupervised_clustering_gate": {
+      "small_n10_gate_status": "INSUFFICIENT_PROFILES_FOR_EMPIRICAL_CLUSTERING",
+      "full_n40_status": "VALIDATED_EMPIRICAL_CLUSTERING",
+      "best_algorithm": "KMeans",
+      "best_k": 5,
+      "silhouette_score": 0.8962,
+      "bootstrap_stability": 1.0,
+      "passed": true
+    },
+    "E_style_squad_constraint_parity": {
+      "frozen_v321_weights_altered": false,
+      "market_price_status": "MARKET_PRICE_UNAVAILABLE",
+      "sandbox_constraints_verified": {
+        "exact_11_players": true,
+        "single_gk": true,
+        "all_players_unique": true,
+        "position_slots_valid": true,
+        "edition_isolated": true,
+        "budget_verified_only": true
+      },
+      "sandbox_non_mutating": true,
+      "passed": true
+    }
+  },
+  "all_sections_passed": true
+}

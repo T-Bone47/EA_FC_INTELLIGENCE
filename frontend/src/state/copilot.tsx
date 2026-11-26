@@ -6,6 +6,7 @@ export type CopilotRouteName =
   | 'PLAYER_DETAIL'
   | 'PLAYER_COMPARE'
   | 'SQUAD_LAB'
+  | 'TACTICAL_LAB'
   | 'GAMEPLAY_STUDIO'
   | 'DECISION_LAB'
   | 'GAMER_DNA'
@@ -18,6 +19,8 @@ export interface CoachContextEnvelope {
   match_id?: string | null
   video_id?: string | null
   decision_id?: string | null
+  tactical_snapshot_id?: string | null
+  experiment_id?: string | null
   selected_card_ids?: string[]
   selected_player_names?: string[]
   active_formation?: string | null

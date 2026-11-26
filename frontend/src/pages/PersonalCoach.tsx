@@ -4,6 +4,7 @@ import { api, getToken } from '../api/client'
 import { useSession } from '../state/session'
 import { useCopilotRouteContext } from '../state/copilot'
 import { ScreenshotRedactorModal, type RedactedScreenshotPayload } from '../components/ScreenshotRedactorModal'
+import { StadiumSelect } from '../components/StadiumControls'
 import './PersonalCoach.css'
 
 type CoachTab = 'COACH' | 'DNA' | 'TRAINING' | 'KNOWLEDGE'
@@ -408,7 +409,7 @@ export default function PersonalCoach() {
         squad_id: selectedSquadId || null,
         match_id: selectedMatchId || null,
       },
-      consent_external_llm: consentExternal || (providerPref !== 'DETERMINISTIC' && providerPref !== 'AUTO'),
+      consent_external_llm: consentExternal,
       preferred_provider: providerPref,
       request_id: reqId,
     }
@@ -609,6 +610,7 @@ export default function PersonalCoach() {
           <div className="row align-center gap05 flex-wrap">
             <span className="badge sm cyan font-mono">Free-Only Guarded</span>
             <span className="badge sm outline lime font-mono">V3.2.1 Baseline Frozen</span>
+            <Link className="btn ghost sm" to="/tactical-lab">Tactical Lab →</Link>
             <Link className="btn ghost sm" to="/research/decision-lab">Decision Replay Lab →</Link>
           </div>
         </div>
@@ -714,7 +716,7 @@ export default function PersonalCoach() {
                   style={{ flex: 1, minWidth: 220 }}
                   value={question}
                   onChange={e => setQuestion(e.target.value)}
-                  placeholder="Ask about players to sign, squad upgrades, counter-attacks, Football IQ, or FC IQ…"
+                  placeholder="Ask about players, squad upgrades, counter-attacks, or FC IQ…"
                 />
                 {asking ? (
                   <button type="button" className="btn-secondary-action" onClick={stopGeneration}>Stop</button>
@@ -724,35 +726,47 @@ export default function PersonalCoach() {
               </div>
 
               <div className="coach-controls-strip tiny">
-                <label className="stack gap02">
+                <div className="stack gap02">
                   <span className="text-muted">Engine / AI Mode</span>
-                  <select value={providerPref} onChange={e => setProviderPref(e.target.value as ProviderPref)}>
-                    <option value="AUTO">Auto (Gemini Free → OpenRouter → Det.)</option>
+                  <StadiumSelect
+                    aria-label="Engine / AI Mode"
+                    value={providerPref}
+                    onChange={val => setProviderPref(val as ProviderPref)}
+                  >
+                    <option value="AUTO">Auto (Gemini → Det.)</option>
                     <option value="GEMINI">Gemini Free API</option>
                     <option value="OPENROUTER_FREE">OpenRouter Free Only</option>
                     <option value="DETERMINISTIC">Deterministic Offline Only</option>
-                  </select>
-                </label>
+                  </StadiumSelect>
+                </div>
 
-                <label className="stack gap02">
+                <div className="stack gap02">
                   <span className="text-muted">Active Squad Context</span>
-                  <select value={selectedSquadId} onChange={e => setSelectedSquadId(e.target.value)}>
+                  <StadiumSelect
+                    aria-label="Active Squad Context"
+                    value={selectedSquadId}
+                    onChange={val => setSelectedSquadId(val)}
+                  >
                     <option value="">All / Auto Saved Squad</option>
                     {savedSquads.map((s: any) => (
                       <option key={s.id} value={s.id}>{s.name} ({s.formation})</option>
                     ))}
-                  </select>
-                </label>
+                  </StadiumSelect>
+                </div>
 
-                <label className="stack gap02">
+                <div className="stack gap02">
                   <span className="text-muted">Active Match Focus</span>
-                  <select value={selectedMatchId} onChange={e => setSelectedMatchId(e.target.value)}>
+                  <StadiumSelect
+                    aria-label="Active Match Focus"
+                    value={selectedMatchId}
+                    onChange={val => setSelectedMatchId(val)}
+                  >
                     <option value="">All Verified Matches ({matches.length})</option>
                     {matches.map((m: any) => (
                       <option key={m.match_id} value={m.match_id}>{m.match_id} ({m.formation})</option>
                     ))}
-                  </select>
-                </label>
+                  </StadiumSelect>
+                </div>
               </div>
 
               <label className="row align-center gap05 tiny text-muted">
@@ -763,6 +777,11 @@ export default function PersonalCoach() {
                 />
                 Enable free-tier Gemini / OpenRouter external synthesis (sends minimized context only, never raw videos or credentials; unpaid APIs may retain de-identified prompts)
               </label>
+              {providerPref !== 'DETERMINISTIC' && !consentExternal && (
+                <div className="tiny text-muted" role="note">
+                  Consent separation active: external provider {providerPref} will not receive data until External AI opt-in is checked.
+                </div>
+              )}
 
               <div className="row gap05 align-center flex-wrap">
                 <button
@@ -1024,7 +1043,7 @@ export default function PersonalCoach() {
 
           {dna.pro_comparison && (
             <div className="callout info tiny">
-              <strong>Pro Gamer DNA Schema (Phase 40L):</strong> {dna.pro_comparison.status} — {dna.pro_comparison.policy}
+              <strong>Pro Gamer DNA Schema:</strong> {dna.pro_comparison.status} — {dna.pro_comparison.policy}
             </div>
           )}
 
